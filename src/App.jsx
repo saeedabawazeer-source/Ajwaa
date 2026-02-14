@@ -11,6 +11,7 @@ import Dashboard from './views/Dashboard';
 import Workouts from './views/Workouts';
 import Stats from './views/Stats';
 import Profile from './views/Profile';
+import Social from './views/Social';
 import Toast from './components/Toast';
 import XPPopup from './components/XPPopup';
 import Confetti from './components/Confetti';
@@ -140,6 +141,19 @@ export default function App() {
             onUpdate={store.updateProfile}
             onLogWeight={store.logBodyWeight}
             getWeightHistory={store.getWeightHistory}
+          />
+        );
+      case 'social':
+        return (
+          <Social
+            userName={state.user.name} xp={state.xp} streak={streak}
+            onCopyWorkout={(title, exercises) => {
+              store.startWorkout(title);
+              exercises.forEach(ex => {
+                store.addExerciseToActive(ex.name);
+              });
+              showToast(`Copied: ${title}`);
+            }}
           />
         );
       default:
