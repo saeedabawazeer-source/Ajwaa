@@ -1,8 +1,8 @@
 .ai-insight {
     background: var(--c-volt);
     border: var(--border);
-    padding: 8px 12px;
-    margin-bottom: 8px;
+    padding: 6px 10px;
+    margin-bottom: 6px;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
 }
@@ -12,23 +12,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .xp-level-left {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }
 
 .xp-level-label {
     font-weight: 900;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .xp-level-title {
     font-weight: 700;
-    font-size: 11px;
+    font-size: 10px;
     opacity: 0.4;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -41,28 +41,38 @@
 
 .xp-today-earned {
     font-weight: 800;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--c-gold);
 }
 
-/* Daily Quests */
+/* Daily Quests — compact horizontal scroll */
 .quests-section {
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
 
 .quests-grid {
     display: flex;
-    flex-direction: column;
     gap: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+}
+
+.quests-grid::-webkit-scrollbar {
+    display: none;
 }
 
 .quest-card {
     background: var(--c-paper);
     border: var(--border);
-    border-radius: 12px;
-    padding: 10px 12px;
+    border-radius: 10px;
+    padding: 8px 10px;
     box-shadow: var(--shadow);
     transition: all 0.2s;
+    min-width: 200px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
 }
 
 .quest-done {
@@ -78,30 +88,30 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 .quest-title {
     font-weight: 800;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .quest-xp {
     font-weight: 800;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--c-gold);
 }
 
 .quest-desc {
-    font-size: 11px;
+    font-size: 10px;
     opacity: 0.5;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .quest-bar {
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: rgba(0, 0, 0, 0.08);
     border-radius: 2px;
     overflow: hidden;
@@ -116,9 +126,9 @@
 
 .quest-progress {
     font-weight: 800;
-    font-size: 10px;
+    font-size: 9px;
     opacity: 0.4;
-    margin-top: 4px;
+    margin-top: 2px;
     text-align: right;
 }
 
@@ -126,33 +136,33 @@
 .stat-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 6px;
+    margin-bottom: 6px;
 }
 
 .mini-stat {
-    padding: 10px;
+    padding: 8px 10px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
 }
 
 .stat-row-top {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .stat-icon {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border: 2px solid var(--c-black);
     border-radius: 6px;
     display: grid;
     place-items: center;
     background: white;
     flex-shrink: 0;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .water-card {
@@ -168,30 +178,31 @@
 .water-fill-container {
     width: 100%;
     background: rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
+    border-radius: 3px;
     overflow: hidden;
-    height: 6px;
+    height: 5px;
+    margin-top: 2px;
 }
 
 .water-fill-bar {
     height: 100%;
     background: var(--c-blue);
     transition: width 0.5s ease;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 /* Meal Slots */
 .meal-slots {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
 }
 
 .meal-slot {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 12px;
+    padding: 8px 10px;
     cursor: pointer;
     transition: all 0.1s;
 }
@@ -204,12 +215,12 @@
 .meal-slot-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .meal-slot-icon-box {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: var(--c-sand);
     border: 2px solid var(--c-black);
     border-radius: 8px;
@@ -221,12 +232,12 @@
 .meal-slot-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .meal-slot-add {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     background: var(--c-volt);
     border: 2px solid var(--c-black);
     border-radius: 50%;

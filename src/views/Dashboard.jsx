@@ -52,7 +52,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     <span className="xp-today-earned">+{dayXP.total} XP today</span>
                 </div>
             </div>
-            <div className="xp-bar-container" style={{ marginBottom: 12 }}>
+            <div className="xp-bar-container" style={{ marginBottom: 6 }}>
                 <div className="xp-bar-fill" style={{ width: `${xpProgress.percentage}%` }} />
             </div>
 
@@ -66,7 +66,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
             {/* Daily Quests */}
             <div className="quests-section">
-                <div className="text-label" style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div className="text-label" style={{ marginBottom: 4, display: 'flex', alignItems: 'center', gap: 4 }}>
                     <Target size={12} /> DAILY QUESTS
                 </div>
                 <div className="quests-grid">
@@ -94,7 +94,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                         <div className="stat-icon"><Dumbbell size={14} /></div>
                         <div className="text-label">WORKOUTS</div>
                     </div>
-                    <div style={{ fontSize: 24, fontWeight: 900 }}>{today.workouts ? today.workouts.length : 0}</div>
+                    <div style={{ fontSize: 20, fontWeight: 900 }}>{today.workouts ? today.workouts.length : 0}</div>
                 </div>
                 <div className="card mini-stat water-card" onClick={onWaterClick}>
                     <div className="stat-row-top">
@@ -102,7 +102,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                         <div className="text-label">WATER</div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                        <div style={{ fontSize: 24, fontWeight: 900 }}>{today.water}L</div>
+                        <div style={{ fontSize: 20, fontWeight: 900 }}>{today.water}L</div>
                         <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.5 }}>/ {user.waterGoal}L</div>
                     </div>
                     <div className="water-fill-container">

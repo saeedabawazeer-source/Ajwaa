@@ -10,10 +10,10 @@
   --c-blue: #3B82F6;
   --c-white: #FFFFFF;
   --font: 'Plus Jakarta Sans', sans-serif;
-  --shadow: 4px 4px 0 var(--c-black);
+  --shadow: 3px 3px 0 var(--c-black);
   --shadow-active: 1px 1px 0 var(--c-black);
   --border: 2px solid var(--c-black);
-  --radius: 16px;
+  --radius: 14px;
 }
 
 body {
@@ -28,14 +28,14 @@ body {
   max-width: 480px;
   margin: 0 auto;
   min-height: 100vh;
-  padding-bottom: 100px;
+  padding-bottom: 88px;
   position: relative;
   background-color: var(--c-sand);
 }
 
 /* Global padding wrapper for views */
 .view-section {
-  padding: 16px 20px;
+  padding: 6px 14px 12px;
   animation: fadeIn 0.3s ease;
 }
 

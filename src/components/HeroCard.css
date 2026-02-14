@@ -1,15 +1,15 @@
 .hero-card {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 12px;
-    margin-bottom: 8px;
+    gap: 12px;
+    padding: 10px;
+    margin-bottom: 6px;
 }
 
 .hero-ring-section {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 68px;
+    height: 68px;
     flex-shrink: 0;
 }
 
@@ -31,36 +31,36 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .hero-remaining {
     display: flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 5px;
 }
 
 .hero-macros {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
 }
 
 .hero-macro {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }
 
 .hero-macro-label {
     font-weight: 900;
-    font-size: 12px;
-    width: 14px;
+    font-size: 11px;
+    width: 12px;
 }
 
 .hero-macro-bar {
     flex: 1;
-    height: 6px;
+    height: 5px;
     background: rgba(0, 0, 0, 0.06);
     border-radius: 3px;
     overflow: hidden;
@@ -74,8 +74,8 @@
 
 .hero-macro-val {
     font-weight: 700;
-    font-size: 10px;
+    font-size: 9px;
     opacity: 0.5;
-    min-width: 50px;
+    min-width: 44px;
     text-align: right;
 }

@@ -1,9 +1,9 @@
 .calendar-strip {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 24px;
-    padding: 0 4px;
-    gap: 6px;
+    margin-bottom: 8px;
+    padding: 0;
+    gap: 4px;
     width: 100%;
 }
 
@@ -12,55 +12,51 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 2px;
     flex: 1;
-    height: 64px;
-    border-radius: 12px;
+    height: 52px;
+    border-radius: 10px;
     background: transparent;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    opacity: 0.5;
-    /* Dim inactive days slightly */
+    opacity: 0.45;
 }
 
 .cal-day:active {
     transform: scale(0.95);
 }
 
-/* Today State - Clean & Distinct */
 .cal-day.cal-today {
     background: var(--c-black);
     color: var(--c-volt);
     opacity: 1;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
 }
 
 .cal-num {
     font-weight: 700;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1;
 }
 
 .cal-label {
     font-weight: 700;
-    font-size: 11px;
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* Dot indicator for today */
 .cal-dot {
     width: 4px;
     height: 4px;
     background: var(--c-volt);
     border-radius: 50%;
     position: absolute;
-    bottom: 8px;
+    bottom: 6px;
 }
 
-/* Ensure text colors flip for Today */
 .cal-today .cal-num,
 .cal-today .cal-label {
     color: var(--c-volt);

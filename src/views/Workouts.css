@@ -1,6 +1,6 @@
 .start-wo-card {
-    padding: 14px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
 }
 
 .start-wo-row {
@@ -11,18 +11,18 @@
 
 .wo-tabs {
     display: flex;
-    gap: 6px;
-    margin-bottom: 10px;
+    gap: 5px;
+    margin-bottom: 8px;
 }
 
 .wo-tab {
     flex: 1;
-    padding: 10px;
+    padding: 8px;
     border: 2px solid var(--c-black);
     border-radius: 999px;
     font-family: var(--font);
     font-weight: 800;
-    font-size: 12px;
+    font-size: 11px;
     background: var(--c-paper);
     text-align: center;
     cursor: pointer;
@@ -40,18 +40,15 @@
 .wo-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    flex: 1;
-    overflow-y: auto;
-    min-height: 0;
+    gap: 6px;
 }
 
 .session-card {
-    padding: 12px;
+    padding: 10px;
 }
 
 .session-top {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .session-ex-grid {
@@ -63,12 +60,12 @@
 .session-ex-chip {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: rgba(0, 0, 0, 0.04);
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 999px;
-    padding: 4px 10px;
-    font-size: 11px;
+    padding: 3px 8px;
+    font-size: 10px;
 }
 
 .ex-nums {
@@ -78,7 +75,7 @@
 
 /* Template Cards */
 .template-card {
-    padding: 12px;
+    padding: 10px;
     cursor: pointer;
     transition: all 0.1s;
 }
@@ -92,12 +89,12 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .template-icon {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: var(--c-volt);
     border: 2px solid var(--c-black);
     border-radius: 8px;
@@ -116,7 +113,7 @@
     background: rgba(0, 0, 0, 0.04);
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 999px;
-    padding: 3px 8px;
+    padding: 2px 7px;
     font-size: 10px;
     font-weight: 700;
     opacity: 0.6;
