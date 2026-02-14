@@ -1,0 +1,77 @@
+.start-wo-card {
+    padding: 14px;
+    margin-bottom: 10px;
+}
+
+.start-wo-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.wo-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.wo-tab {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid var(--c-black);
+    border-radius: 999px;
+    font-family: var(--font);
+    font-weight: 800;
+    font-size: 12px;
+    background: var(--c-paper);
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--c-black);
+    transition: all 0.1s;
+}
+
+.wo-tab.active {
+    background: var(--c-black);
+    color: var(--c-volt);
+    box-shadow: none;
+    transform: translate(2px, 2px);
+}
+
+.wo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.session-card {
+    padding: 12px;
+}
+
+.session-top {
+    margin-bottom: 8px;
+}
+
+.session-ex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.session-ex-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+}
+
+.ex-nums {
+    opacity: 0.5;
+    font-weight: 700;
+}

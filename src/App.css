@@ -1,0 +1,83 @@
+:root {
+  --c-sand: #F3F0E6;
+  --c-red: #D62828;
+  --c-red-light: #F8D7D7;
+  --c-volt: #E0FF00;
+  --c-black: #1A1A1A;
+  --c-paper: #FFFFFF;
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --shadow: 4px 4px 0 var(--c-black);
+  --shadow-active: 1px 1px 0 var(--c-black);
+  --border: 2px solid var(--c-black);
+  --radius: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background-color: var(--c-sand);
+  color: var(--c-black);
+  overscroll-behavior: none;
+  /* Prevent bounce */
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 100px;
+  /* Dock space */
+  position: relative;
+  background-color: var(--c-sand);
+}
+
+/* Global padding wrapper for views */
+.view-section {
+  padding: 16px 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Common Components */
+.card {
+  background: var(--c-paper);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  color: var(--c-black);
+}
+
+.text-h2 {
+  font-weight: 900;
+  fontSize: 20px;
+  line-height: 1.2;
+}
+
+.text-label {
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.5;
+  color: var(--c-black);
+}
+
+.btn {
+  border: var(--border);
+  font-family: var(--font);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}

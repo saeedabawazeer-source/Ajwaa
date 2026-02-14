@@ -1,0 +1,120 @@
+.ai-insight {
+    background: var(--c-volt);
+    border: var(--border);
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.mini-stat {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-row-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-icon {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--c-black);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    background: white;
+    flex-shrink: 0;
+    font-size: 14px;
+}
+
+.water-card {
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.water-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-active);
+}
+
+.water-fill-container {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 6px;
+}
+
+.water-fill-bar {
+    height: 100%;
+    background: var(--c-volt);
+    transition: width 0.5s ease;
+    border-radius: 4px;
+}
+
+.meal-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.meal-slot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.meal-slot:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-active);
+}
+
+.meal-slot-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* New Icon Box */
+.meal-slot-icon-box {
+    width: 36px;
+    height: 36px;
+    background: var(--c-sand);
+    border: 2px solid var(--c-black);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: var(--c-black);
+}
+
+.meal-slot-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.meal-slot-add {
+    width: 28px;
+    height: 28px;
+    background: var(--c-volt);
+    border: 2px solid var(--c-black);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--p-black);
+}

@@ -1,0 +1,95 @@
+.profile-header-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    margin-bottom: 8px;
+}
+
+.profile-avatar-lg {
+    width: 48px;
+    height: 48px;
+    background: var(--c-red);
+    border: 3px solid var(--c-black);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.profile-goal-badge {
+    display: inline-block;
+    background: var(--c-volt);
+    border: 2px solid var(--c-black);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.streak-big {
+    font-size: 18px;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.profile-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.p-stat {
+    text-align: center;
+    padding: 10px 6px;
+}
+
+.p-stat-num {
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.goals-card {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.goals-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-active);
+}
+
+.goal-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 13px;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.goal-row:last-child {
+    border-bottom: none;
+}
+
+.edit-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.edit-input {
+    width: 80px;
+    text-align: center;
+    margin: 0;
+    padding: 6px;
+    font-size: 13px;
+}

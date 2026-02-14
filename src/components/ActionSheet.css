@@ -1,0 +1,96 @@
+.sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.sheet-card {
+    background: var(--c-paper);
+    border-radius: 24px 24px 0 0;
+    width: 100%;
+    max-width: 480px;
+    padding: 20px 24px 40px;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    margin: 0 auto 20px;
+}
+
+.sheet-title {
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-align: center;
+    opacity: 0.4;
+}
+
+.sheet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.sheet-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    background: var(--c-sand);
+    /* slightly off-white */
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.sheet-btn:active {
+    transform: scale(0.98);
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.sheet-icon {
+    display: flex;
+    color: var(--c-black);
+    opacity: 0.8;
+}
+
+.sheet-label {
+    font-family: var(--font);
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: var(--c-black);
+}
+
+.btn-action-volt {
+    background: var(--c-volt);
+    border-color: var(--c-volt);
+}
+
+.btn-action-blue {
+    background: #E3F2FD;
+    border-color: #E3F2FD;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
