@@ -1,18 +1,9 @@
-.ai-insight {
-    background: var(--c-volt);
-    border: var(--border);
-    padding: 6px 10px;
-    margin-bottom: 6px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
-/* XP Level Strip */
+/* XP Strip */
 .xp-level-strip {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .xp-level-left {
@@ -23,20 +14,15 @@
 
 .xp-level-label {
     font-weight: 900;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .xp-level-title {
     font-weight: 700;
     font-size: 10px;
-    opacity: 0.4;
+    opacity: 0.35;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-}
-
-.xp-level-right {
-    display: flex;
-    align-items: center;
 }
 
 .xp-today-earned {
@@ -45,103 +31,39 @@
     color: var(--c-gold);
 }
 
-/* Daily Quests — compact horizontal scroll */
-.quests-section {
-    margin-bottom: 6px;
-}
-
-.quests-grid {
+/* AI Banner — single line */
+.ai-banner {
     display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 2px;
-}
-
-.quests-grid::-webkit-scrollbar {
-    display: none;
-}
-
-.quest-card {
-    background: var(--c-paper);
+    align-items: center;
+    gap: 5px;
+    background: var(--c-volt);
     border: var(--border);
     border-radius: 10px;
-    padding: 8px 10px;
+    padding: 5px 10px;
+    margin: 6px 0;
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 1.3;
     box-shadow: var(--shadow);
-    transition: all 0.2s;
-    min-width: 200px;
-    flex-shrink: 0;
-    scroll-snap-align: start;
-}
-
-.quest-done {
-    background: #F0FFF4;
-    border-color: var(--c-green);
-}
-
-.quest-done .quest-bar-fill {
-    background: var(--c-green) !important;
-}
-
-.quest-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1px;
-}
-
-.quest-title {
-    font-weight: 800;
-    font-size: 12px;
-}
-
-.quest-xp {
-    font-weight: 800;
-    font-size: 10px;
-    color: var(--c-gold);
-}
-
-.quest-desc {
-    font-size: 10px;
-    opacity: 0.5;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.quest-bar {
-    width: 100%;
-    height: 3px;
-    background: rgba(0, 0, 0, 0.08);
-    border-radius: 2px;
     overflow: hidden;
 }
 
-.quest-bar-fill {
-    height: 100%;
-    background: var(--c-volt);
-    border-radius: 2px;
-    transition: width 0.5s ease;
-}
-
-.quest-progress {
-    font-weight: 800;
-    font-size: 9px;
-    opacity: 0.4;
-    margin-top: 2px;
-    text-align: right;
+.ai-banner span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Stats */
 .stat-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 6px;
+    gap: 5px;
+    margin-bottom: 5px;
 }
 
 .mini-stat {
-    padding: 8px 10px;
+    padding: 7px 9px;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -153,16 +75,21 @@
     gap: 6px;
 }
 
+.stat-num {
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+}
+
 .stat-icon {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border: 2px solid var(--c-black);
-    border-radius: 6px;
+    border-radius: 5px;
     display: grid;
     place-items: center;
     background: white;
     flex-shrink: 0;
-    font-size: 12px;
 }
 
 .water-card {
@@ -180,7 +107,7 @@
     background: rgba(0, 0, 0, 0.08);
     border-radius: 3px;
     overflow: hidden;
-    height: 5px;
+    height: 4px;
     margin-top: 2px;
 }
 
@@ -191,57 +118,51 @@
     border-radius: 3px;
 }
 
-/* Meal Slots */
-.meal-slots {
-    display: flex;
-    flex-direction: column;
+/* Meal Grid — 2x2 */
+.meal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 5px;
 }
 
-.meal-slot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.meal-cell {
     padding: 8px 10px;
     cursor: pointer;
     transition: all 0.1s;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.meal-slot:active {
+.meal-cell:active {
     transform: translate(2px, 2px);
     box-shadow: var(--shadow-active);
 }
 
-.meal-slot-left {
+.meal-cell-top {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
 }
 
-.meal-slot-icon-box {
-    width: 32px;
-    height: 32px;
-    background: var(--c-sand);
-    border: 2px solid var(--c-black);
-    border-radius: 8px;
-    display: grid;
-    place-items: center;
-    color: var(--c-black);
+.meal-cell-name {
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: capitalize;
 }
 
-.meal-slot-right {
+.meal-cell-info {
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
-.meal-slot-add {
-    width: 24px;
-    height: 24px;
-    background: var(--c-volt);
-    border: 2px solid var(--c-black);
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    color: var(--c-black);
+.meal-cell-cals {
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.meal-cell-empty {
+    font-weight: 800;
+    font-size: 14px;
+    opacity: 0.25;
 }

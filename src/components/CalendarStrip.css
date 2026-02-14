@@ -1,9 +1,8 @@
 .calendar-strip {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
-    padding: 0;
-    gap: 4px;
+    margin-bottom: 6px;
+    gap: 3px;
     width: 100%;
 }
 
@@ -12,15 +11,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 1px;
     flex: 1;
-    height: 52px;
+    height: 44px;
     border-radius: 10px;
     background: transparent;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    opacity: 0.45;
+    opacity: 0.4;
 }
 
 .cal-day:active {
@@ -31,30 +30,29 @@
     background: var(--c-black);
     color: var(--c-volt);
     opacity: 1;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
-    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .cal-num {
     font-weight: 700;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1;
 }
 
 .cal-label {
     font-weight: 700;
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 .cal-dot {
-    width: 4px;
-    height: 4px;
+    width: 3px;
+    height: 3px;
     background: var(--c-volt);
     border-radius: 50%;
     position: absolute;
-    bottom: 6px;
+    bottom: 4px;
 }
 
 .cal-today .cal-num,
