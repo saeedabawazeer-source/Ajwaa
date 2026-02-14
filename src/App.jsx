@@ -3,7 +3,7 @@ import { useStore } from './store/useStore';
 import { getLevel } from './store/xpEngine';
 import Header from './components/Header';
 import Dock from './components/Dock';
-import ActionSheet from './components/ActionSheet';
+import AjwaChat from './components/AjwaChat';
 import LogMealModal from './components/LogMealModal';
 import LogWorkoutModal from './components/LogWorkoutModal';
 import ActiveWorkout from './views/ActiveWorkout';
@@ -22,7 +22,7 @@ export default function App() {
   const store = useStore();
   const { state } = store;
   const [activeView, setActiveView] = useState('dashboard');
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const [mealOpen, setMealOpen] = useState(false);
   const [mealSlot, setMealSlot] = useState('snacks');
   const [workoutOpen, setWorkoutOpen] = useState(false);
@@ -57,19 +57,16 @@ export default function App() {
   }
 
   function handleLogFood(slot) {
-    setSheetOpen(false);
     setMealSlot(slot || 'snacks');
     setMealOpen(true);
   }
 
   function handleLogWorkout() {
-    setSheetOpen(false);
     setWorkoutOpen(true);
   }
 
   function handleLogWater() {
     store.addWater(0.25);
-    setSheetOpen(false);
     showToast('+250ml water');
   }
 
@@ -167,8 +164,8 @@ export default function App() {
     <div className="app">
       <Header userName={state.user.name} streak={streak} />
       {renderView()}
-      <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setSheetOpen(true)} />
-      <ActionSheet open={sheetOpen} onClose={() => setSheetOpen(false)} onLogFood={handleLogFood} onLogWorkout={handleLogWorkout} onLogWater={handleLogWater} />
+      <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} />
+      <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} />
 
       <LogMealModal
         open={mealOpen}

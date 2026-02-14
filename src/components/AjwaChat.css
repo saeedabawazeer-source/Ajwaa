@@ -1,0 +1,279 @@
+/* ─── Ajwa Chat ─── */
+.ajwa-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeIn 0.15s ease;
+}
+
+.ajwa-panel {
+    width: 100%;
+    max-width: 480px;
+    height: 85vh;
+    max-height: 700px;
+    background: var(--c-sand);
+    border-radius: 20px 20px 0 0;
+    border: 3px solid var(--c-black);
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.25s ease;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Header */
+.ajwa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
+}
+
+.ajwa-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ajwa-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--c-volt);
+    border: 2px solid var(--c-black);
+    display: grid;
+    place-items: center;
+    box-shadow: 2px 2px 0 var(--c-black);
+}
+
+.ajwa-title {
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.ajwa-sub {
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0.4;
+}
+
+.ajwa-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--c-black);
+    background: var(--c-paper);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--c-black);
+}
+
+.ajwa-close:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+/* Messages */
+.ajwa-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+}
+
+.ajwa-bubble {
+    display: flex;
+    gap: 6px;
+    max-width: 85%;
+    animation: fadeIn 0.2s ease;
+}
+
+.ajwa-bubble.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.ajwa-bubble.ajwa {
+    align-self: flex-start;
+}
+
+.ajwa-bubble-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--c-volt);
+    border: 1.5px solid var(--c-black);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.ajwa-bubble-text {
+    padding: 8px 12px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+    white-space: pre-line;
+}
+
+.ajwa-bubble.ajwa .ajwa-bubble-text {
+    background: var(--c-paper);
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    border-top-left-radius: 4px;
+}
+
+.ajwa-bubble.user .ajwa-bubble-text {
+    background: var(--c-black);
+    color: var(--c-volt);
+    border-top-right-radius: 4px;
+}
+
+/* Typing indicator */
+.ajwa-typing {
+    display: flex;
+    gap: 4px;
+    padding: 10px 14px;
+    background: var(--c-paper);
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    border-top-left-radius: 4px;
+}
+
+.ajwa-typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--c-black);
+    opacity: 0.3;
+    animation: typingDot 1.2s infinite;
+}
+
+.ajwa-typing span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.ajwa-typing span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+
+    30% {
+        transform: translateY(-4px);
+        opacity: 0.8;
+    }
+}
+
+/* Quick chips */
+.ajwa-chips {
+    display: flex;
+    gap: 5px;
+    padding: 6px 14px;
+    overflow-x: auto;
+    flex-shrink: 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ajwa-chips::-webkit-scrollbar {
+    display: none;
+}
+
+.ajwa-chip {
+    padding: 6px 12px;
+    border: 2px solid var(--c-black);
+    border-radius: 999px;
+    font-family: var(--font);
+    font-weight: 800;
+    font-size: 11px;
+    background: var(--c-paper);
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--c-black);
+    transition: all 0.1s;
+}
+
+.ajwa-chip:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+    background: var(--c-volt);
+}
+
+/* Input */
+.ajwa-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 2px solid rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
+    background: var(--c-sand);
+}
+
+.ajwa-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 2px solid var(--c-black);
+    border-radius: 14px;
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 13px;
+    background: var(--c-paper);
+    outline: none;
+    box-shadow: 2px 2px 0 var(--c-black);
+}
+
+.ajwa-input:focus {
+    border-color: var(--c-volt);
+}
+
+.ajwa-send {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--c-volt);
+    border: 2px solid var(--c-black);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--c-black);
+    transition: all 0.1s;
+}
+
+.ajwa-send:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.ajwa-send:disabled {
+    opacity: 0.3;
+    cursor: default;
+}

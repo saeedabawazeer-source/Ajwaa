@@ -1,5 +1,5 @@
 import './Dock.css';
-import { Home, Dumbbell, Users, BarChart2, User, Plus } from 'lucide-react';
+import { Home, Dumbbell, Users, User, Sparkles } from 'lucide-react';
 
 export default function Dock({ activeView, onNavigate, onFab }) {
     const left = [
@@ -19,7 +19,7 @@ export default function Dock({ activeView, onNavigate, onFab }) {
                 </button>
             ))}
             <button className="nav-fab" onClick={onFab}>
-                <Plus size={28} color="var(--c-black)" strokeWidth={3} />
+                <Sparkles size={24} color="var(--c-black)" strokeWidth={2.5} />
             </button>
             {right.map(it => (
                 <button key={it.id} className={`nav-item ${activeView === it.id ? 'active' : ''}`} onClick={() => onNavigate(it.id)}>
