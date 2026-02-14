@@ -1,24 +1,20 @@
-/* ═══════════════════════════════════
-   Dashboard — viewport-fit, no scroll
-   dock: 64px + 20px bottom + ~20px safe = ~104px
-   header: 48px
-   ═══════════════════════════════════ */
-
+/* ═══════════════════════════════════════════
+   Dashboard — fills viewport, space-between
+   ═══════════════════════════════════════════ */
 .dash {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: calc(100dvh - 48px - 104px);
-    padding: 8px 16px 0;
+    padding: 8px 16px 6px;
     overflow: hidden;
-    gap: 6px;
 }
 
-/* ── Greeting ── */
-.d-greet-row {
+/* ── Top ── */
+.d-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-shrink: 0;
 }
 
 .d-greet {
@@ -35,19 +31,19 @@
     opacity: 0.4;
 }
 
-/* ── Hero card: ring + eaten + pills ── */
-.d-hero {
+/* ── Nutrition card ── */
+.d-nutrition {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 12px 14px;
-    flex-shrink: 0;
+    padding: 14px;
+    position: relative;
 }
 
-.d-ring-wrap {
+.d-ring-box {
     position: relative;
-    width: 72px;
-    height: 72px;
+    width: 80px;
+    height: 80px;
     flex-shrink: 0;
 }
 
@@ -56,169 +52,212 @@
     height: 100%;
 }
 
-.d-ring-inner {
+.d-ring-center {
     position: absolute;
     inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1px;
 }
 
 .d-ring-num {
-    font-weight: 900;
-    font-size: 18px;
-    line-height: 1;
-}
-
-.d-ring-lbl {
-    font-weight: 700;
-    font-size: 8px;
-    opacity: 0.35;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.d-hero-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.d-eaten {
     font-weight: 900;
     font-size: 20px;
     line-height: 1;
 }
 
-.d-eaten-dim {
+.d-ring-sub {
+    font-weight: 700;
+    font-size: 8px;
+    opacity: 0.3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+}
+
+.d-nutri-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.d-eaten-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.d-eaten-num {
+    font-weight: 900;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.d-eaten-of {
     font-weight: 700;
     font-size: 10px;
     opacity: 0.35;
 }
 
-/* Pills inside hero */
-.d-pills {
+/* PCF strip inside nutrition card */
+.d-pcf-strip {
     display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.d-pill {
+.d-pcf-item {
     display: flex;
     align-items: center;
     gap: 4px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.04);
-    border: 1.5px solid rgba(0, 0, 0, 0.06);
-    font-weight: 800;
-    font-size: 10px;
-    cursor: pointer;
 }
 
-.d-pill-plus {
-    opacity: 0.4;
-}
-
-/* ── PCF macro cards with mini rings ── */
-.d-pcf-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-    flex-shrink: 0;
-}
-
-.d-pcf-card {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-}
-
-.d-pcf-ring-wrap {
+.d-pcf-ring-box {
     position: relative;
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     flex-shrink: 0;
 }
 
-.mini-ring-svg {
+.d-pcf-ring-box svg {
     display: block;
 }
 
-.d-pcf-ring-letter {
+.d-pcf-letter {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 900;
+    font-size: 10px;
+}
+
+.d-pcf-num {
+    font-weight: 800;
     font-size: 11px;
+    line-height: 1;
 }
 
-.d-pcf-info {
-    min-width: 0;
-}
-
-.d-pcf-val {
-    font-weight: 900;
-    font-size: 13px;
-    line-height: 1.2;
-}
-
-.d-pcf-dim {
+.d-pcf-g {
     font-weight: 700;
-    font-size: 9px;
+    font-size: 8px;
     opacity: 0.3;
 }
 
-/* ── Meals: compact single row ── */
-.d-meals-row {
+/* ── Stats row ── */
+.d-stats-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-    flex-shrink: 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
 }
 
-.d-meal-slot {
+.d-stat {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 3px;
-    padding: 10px 4px;
+    gap: 8px;
+    padding: 10px;
     cursor: pointer;
     transition: all 0.12s;
-    text-align: center;
 }
 
-.d-meal-slot:active {
+.d-stat:active {
     transform: translate(2px, 2px);
     box-shadow: var(--shadow-active);
 }
 
-.d-meal-ic {
-    opacity: 0.5;
+.d-stat-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.d-stat-v {
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.2;
+}
+
+.d-stat-d {
+    font-weight: 700;
+    font-size: 9px;
+    opacity: 0.35;
+}
+
+.d-stat-lbl {
+    font-weight: 800;
+    font-size: 8px;
+    opacity: 0.4;
+    letter-spacing: 0.5px;
+}
+
+.d-stat-bar {
+    height: 3px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 3px;
+    width: 100%;
+}
+
+.d-stat-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.d-stat-add {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--c-blue);
+    color: white;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+/* ── Meals ── */
+.d-meals {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+
+.d-meal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.12s;
+}
+
+.d-meal:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-active);
 }
 
 .d-meal-name {
     font-weight: 800;
     font-size: 9px;
     text-transform: capitalize;
-    opacity: 0.5;
-    letter-spacing: 0.3px;
+    opacity: 0.45;
 }
 
 .d-meal-cal {
     font-weight: 900;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1;
 }
 
-.d-meal-add {
+.d-meal-plus {
     font-weight: 900;
-    font-size: 18px;
-    opacity: 0.1;
+    font-size: 16px;
+    opacity: 0.08;
 }
