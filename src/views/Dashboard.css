@@ -1,12 +1,10 @@
-/* ═══════════════════════════════════════════
-   Dashboard — Duolingo-level, widget-based
-   ═══════════════════════════════════════════ */
-
-/* Entry animations */
-@keyframes slideUp {
+/* ═══════════════════════════════════
+   Dashboard — Neo-Brutal, NO gradients
+   ═══════════════════════════════════ */
+@keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(12px);
+        transform: translateY(8px);
     }
 
     to {
@@ -15,40 +13,16 @@
     }
 }
 
-@keyframes pop {
+@keyframes popBounce {
     0% {
         transform: scale(1);
     }
 
-    50% {
-        transform: scale(1.08);
+    40% {
+        transform: scale(1.05);
     }
 
     100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.6;
-    }
-}
-
-@keyframes bubbleUp {
-    0% {
-        opacity: 0;
-        transform: scale(0);
-    }
-
-    100% {
-        opacity: 1;
         transform: scale(1);
     }
 }
@@ -62,47 +36,65 @@
     gap: 6px;
 }
 
-/* ── Top bar with streak badge ── */
-.d-topbar {
+/* ── Greeting ── */
+.d-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
-    animation: slideUp 0.3s ease;
+    animation: slideIn 0.2s ease;
 }
 
 .d-greet {
     font-weight: 900;
-    font-size: 17px;
-    line-height: 1.2;
+    font-size: 16px;
 }
 
-.d-sub {
+.d-xp {
     display: flex;
     align-items: center;
     gap: 3px;
-    font-weight: 700;
-    font-size: 10px;
+    font-weight: 800;
+    font-size: 9px;
     opacity: 0.4;
 }
 
-/* ── Generic ring component ── */
-.ring-wrap {
+/* ── Shared ── */
+.d-dim {
+    font-weight: 700;
+    font-size: 10px;
+    opacity: 0.3;
+}
+
+/* ═══ CALORIE CARD ═══ */
+.d-cal-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    flex-shrink: 0;
+    animation: slideIn 0.25s ease;
+}
+
+.d-ring-box {
     position: relative;
+    width: 72px;
+    height: 72px;
     flex-shrink: 0;
 }
 
-.ring-svg {
+.d-ring-svg {
     width: 100%;
     height: 100%;
     display: block;
+    overflow: visible;
 }
 
-.ring-progress {
-    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+.d-ring-anim {
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.ring-content {
+.d-ring-text {
     position: absolute;
     inset: 0;
     display: flex;
@@ -111,311 +103,201 @@
     justify-content: center;
 }
 
-/* ══════ NUTRITION WIDGET ══════ */
-.d-nutrition-widget {
-    background: var(--c-paper);
-    border: var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 14px;
-    flex-shrink: 0;
-    animation: slideUp 0.35s ease;
-}
-
-.d-nutri-top {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
 .d-ring-num {
     font-weight: 900;
-    font-size: 22px;
+    font-size: 18px;
     line-height: 1;
 }
 
-.d-ring-label {
+.d-ring-lbl {
     font-weight: 700;
-    font-size: 8px;
+    font-size: 7px;
     opacity: 0.3;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
     margin-top: 1px;
 }
 
-.d-nutri-info {
+.d-cal-right {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    min-width: 0;
 }
 
 .d-eaten {
+    font-weight: 900;
+    font-size: 22px;
     line-height: 1;
+    margin-bottom: 8px;
 }
 
-.d-eaten-big {
-    font-weight: 900;
-    font-size: 26px;
-}
-
-.d-eaten-dim {
-    font-weight: 700;
-    font-size: 12px;
-    opacity: 0.3;
-}
-
-.d-eaten-sub {
-    font-weight: 700;
-    font-size: 10px;
-    opacity: 0.35;
-}
-
-/* PCF chips inside nutrition card */
-.d-pcf-row {
-    display: flex;
-    gap: 6px;
-    margin-top: 2px;
-}
-
-.d-pcf-chip {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 8px 4px 4px;
-    border-radius: 20px;
-    border: 1.5px solid rgba(0, 0, 0, 0.05);
-}
-
-.d-pcf-letter {
-    font-weight: 900;
-    font-size: 8px;
-}
-
-.d-pcf-nums {
-    display: flex;
-    align-items: baseline;
-    gap: 1px;
-}
-
-.d-pcf-val {
-    font-weight: 900;
-    font-size: 12px;
-    line-height: 1;
-}
-
-.d-pcf-goal {
-    font-weight: 700;
-    font-size: 8px;
-    opacity: 0.3;
-}
-
-/* ══════ ACTIVITY WIDGETS ══════ */
-.d-activity-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 7px;
-    flex-shrink: 0;
-    animation: slideUp 0.4s ease;
-}
-
-/* Water widget */
-.d-water-widget {
-    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
-    border: var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 10px 12px;
-    cursor: pointer;
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.d-water-widget:active {
-    transform: translate(2px, 2px) scale(0.98);
-    box-shadow: var(--shadow-active);
-}
-
-.d-water-widget.bounce {
-    animation: pop 0.4s ease;
-}
-
-.d-water-top {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 4px;
-}
-
-.d-water-title {
-    font-weight: 800;
-    font-size: 11px;
-    flex: 1;
-    opacity: 0.6;
-}
-
-.d-water-add {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #3B82F6;
-    color: white;
-    display: grid;
-    place-items: center;
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-}
-
-.d-water-val {
-    font-weight: 900;
-    font-size: 20px;
-    line-height: 1;
-    color: #1565C0;
-}
-
-.d-water-unit {
-    font-weight: 700;
-    font-size: 10px;
-    opacity: 0.4;
-}
-
-.d-water-bar-track {
-    height: 6px;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 3px;
-    overflow: hidden;
-    margin-top: 6px;
-    position: relative;
-}
-
-.d-water-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #42A5F5, #1E88E5);
-    border-radius: 3px;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.d-water-bubbles {
-    display: flex;
-    gap: 2px;
-    position: absolute;
-    top: -6px;
-    left: 4px;
-}
-
-.d-water-dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(30, 136, 229, 0.3);
-    animation: bubbleUp 0.3s ease forwards;
-}
-
-/* Workout widget */
-.d-workout-widget {
-    background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
-    border: var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 10px 12px;
-    transition: all 0.15s;
-}
-
-.d-work-top {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 4px;
-}
-
-.d-work-title {
-    font-weight: 800;
-    font-size: 11px;
-    opacity: 0.6;
-}
-
-.d-work-val {
-    font-weight: 900;
-    font-size: 24px;
-    line-height: 1;
-    color: #BF360C;
-}
-
-.d-work-sub {
-    font-weight: 700;
-    font-size: 9px;
-    opacity: 0.45;
-    margin-top: 2px;
-}
-
-/* ══════ MEAL CARDS ══════ */
-.d-meals-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    flex-shrink: 0;
-    animation: slideUp 0.45s ease;
-}
-
-.d-meal-card {
-    border: var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 8px 10px;
-    cursor: pointer;
+/* PCF progress bars */
+.d-pcf-bars {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.d-meal-card:active {
-    transform: translate(2px, 2px) scale(0.97);
+.d-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.d-bar-label {
+    font-weight: 900;
+    font-size: 11px;
+    width: 10px;
+}
+
+.d-bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.d-bar-track.thick {
+    height: 8px;
+    border-radius: 4px;
+}
+
+.d-bar-fill {
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.d-bar-val {
+    font-weight: 800;
+    font-size: 10px;
+    min-width: 40px;
+    text-align: right;
+}
+
+/* ═══ STATS ROW ═══ */
+.d-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    flex-shrink: 0;
+    animation: slideIn 0.3s ease;
+}
+
+.d-stat-card {
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.d-stat-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-active);
+}
+
+.d-stat-card.pop {
+    animation: popBounce 0.3s ease;
+}
+
+.d-stat-top {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.d-stat-title {
+    font-weight: 800;
+    font-size: 10px;
+    opacity: 0.5;
+    flex: 1;
+}
+
+.d-add-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 2px solid var(--c-blue);
+    color: var(--c-blue);
+    display: grid;
+    place-items: center;
+}
+
+.d-stat-num {
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.d-stat-sub {
+    font-weight: 700;
+    font-size: 9px;
+    opacity: 0.35;
+}
+
+/* ═══ MEALS 2×2 — FILLS REMAINING ═══ */
+.d-meals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 6px;
+    flex: 1;
+    min-height: 0;
+    animation: slideIn 0.35s ease;
+}
+
+.d-meal {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.d-meal:active {
+    transform: translate(2px, 2px);
     box-shadow: var(--shadow-active);
 }
 
 .d-meal-head {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }
 
-.d-meal-icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
-    display: grid;
-    place-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+.d-meal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .d-meal-name {
     font-weight: 800;
     font-size: 11px;
     text-transform: capitalize;
-    opacity: 0.7;
+    opacity: 0.6;
 }
 
-.d-meal-kcal {
+.d-meal-val {
     font-weight: 900;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1;
-}
-
-.d-meal-items {
-    font-weight: 700;
-    font-size: 9px;
-    opacity: 0.35;
+    margin-top: auto;
 }
 
 .d-meal-empty {
-    display: flex;
-    align-items: center;
+    margin-top: auto;
+    opacity: 0.12;
 }
 
 .d-meal-arrow {
     position: absolute;
-    right: 6px;
-    bottom: 6px;
-    opacity: 0.15;
+    right: 8px;
+    bottom: 8px;
+    opacity: 0.12;
 }
