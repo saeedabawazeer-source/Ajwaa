@@ -1,13 +1,14 @@
 /* ═══════════════════════════════════════════
-   Dashboard — fills viewport, space-between
+   Dashboard — fills viewport, centered content
    ═══════════════════════════════════════════ */
 .dash {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     height: calc(100dvh - 48px - 104px);
-    padding: 8px 16px 6px;
+    padding: 0 16px;
     overflow: hidden;
+    gap: 8px;
 }
 
 /* ── Top ── */
