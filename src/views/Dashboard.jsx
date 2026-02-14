@@ -8,10 +8,10 @@ import './Dashboard.css';
 const SLOTS = ['breakfast', 'lunch', 'dinner', 'snacks'];
 
 function SlotIcon({ slot }) {
-    if (slot === 'breakfast') return <Coffee size={16} />;
-    if (slot === 'lunch') return <Sun size={16} />;
-    if (slot === 'dinner') return <Moon size={16} />;
-    return <Utensils size={16} />;
+    if (slot === 'breakfast') return <Coffee size={18} />;
+    if (slot === 'lunch') return <Sun size={18} />;
+    if (slot === 'dinner') return <Moon size={18} />;
+    return <Utensils size={18} />;
 }
 
 export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, onRemoveMeal, xp }) {
@@ -22,13 +22,13 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
     const dayXP = calcDayXP(today, user, streak);
 
     return (
-        <div className="view-section">
+        <div className="dash-layout">
             <CalendarStrip days={days} />
 
-            {/* XP Strip — single line */}
+            {/* XP Strip */}
             <div className="xp-level-strip">
                 <div className="xp-level-left">
-                    <Zap size={12} fill="var(--c-gold)" color="var(--c-gold)" />
+                    <Zap size={13} fill="var(--c-gold)" color="var(--c-gold)" />
                     <span className="xp-level-label">LVL {xpProgress.level}</span>
                     <span className="xp-level-title">{levelTitle}</span>
                 </div>
@@ -36,9 +36,9 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
             </div>
             <div className="xp-bar-container"><div className="xp-bar-fill" style={{ width: `${xpProgress.percentage}%` }} /></div>
 
-            {/* AI Coach — single line */}
+            {/* AI Coach */}
             <div className="ai-banner">
-                <Sparkles size={11} /> <span>{aiMsg}</span>
+                <Sparkles size={12} /> <span>{aiMsg}</span>
             </div>
 
             <HeroCard cals={totals.cals} goal={user.calorieTarget} macros={{ p: totals.p, c: totals.c, f: totals.f }} macroGoals={user.macros} />
@@ -47,17 +47,17 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
             <div className="stat-grid">
                 <div className="card mini-stat">
                     <div className="stat-row-top">
-                        <div className="stat-icon"><Dumbbell size={12} /></div>
+                        <div className="stat-icon"><Dumbbell size={13} /></div>
                         <div className="text-label">WORKOUTS</div>
                     </div>
                     <div className="stat-num">{today.workouts ? today.workouts.length : 0}</div>
                 </div>
                 <div className="card mini-stat water-card" onClick={onWaterClick}>
                     <div className="stat-row-top">
-                        <div className="stat-icon"><Droplets size={12} /></div>
+                        <div className="stat-icon"><Droplets size={13} /></div>
                         <div className="text-label">WATER</div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
                         <div className="stat-num">{today.water}L</div>
                         <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.4 }}>/ {user.waterGoal}L</div>
                     </div>
@@ -67,7 +67,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Meal Slots — 2x2 grid */}
+            {/* Meal Slots — 2×2 grid, grows to fill remaining space */}
             <div className="meal-grid">
                 {SLOTS.map(slot => {
                     const items = today.meals[slot] || [];
@@ -79,7 +79,13 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                                 <span className="meal-cell-name">{slot}</span>
                             </div>
                             <div className="meal-cell-info">
-                                {slotCals > 0 ? <span className="meal-cell-cals">{slotCals}</span> : <span className="meal-cell-empty">+</span>}
+                                {slotCals > 0
+                                    ? <>
+                                        <div className="meal-cell-cals">{slotCals}</div>
+                                        <div className="meal-cell-sub">{items.length} item{items.length > 1 ? 's' : ''}</div>
+                                    </>
+                                    : <div className="meal-cell-empty">+ add</div>
+                                }
                             </div>
                         </div>
                     );
