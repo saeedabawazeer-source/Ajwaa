@@ -141,6 +141,8 @@ export default function App() {
             onUpdate={store.updateProfile}
             onLogWeight={store.logBodyWeight}
             getWeightHistory={store.getWeightHistory}
+            getLast7Days={store.getLast7Days}
+            days={state.days}
           />
         );
       case 'social':

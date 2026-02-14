@@ -2,16 +2,32 @@ import CalendarStrip from '../components/CalendarStrip';
 import HeroCard from '../components/HeroCard';
 import { getSmartCoachMessage } from '../utils/aiCoach';
 import { getXPProgress, getLevelTitle, calcDayXP } from '../store/xpEngine';
-import { Plus, Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Sparkles, Zap } from 'lucide-react';
+import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Sparkles, Zap, Flame, ArrowRight } from 'lucide-react';
 import './Dashboard.css';
 
 const SLOTS = ['breakfast', 'lunch', 'dinner', 'snacks'];
 
 function SlotIcon({ slot }) {
-    if (slot === 'breakfast') return <Coffee size={18} />;
-    if (slot === 'lunch') return <Sun size={18} />;
-    if (slot === 'dinner') return <Moon size={18} />;
-    return <Utensils size={18} />;
+    if (slot === 'breakfast') return <Coffee size={16} />;
+    if (slot === 'lunch') return <Sun size={16} />;
+    if (slot === 'dinner') return <Moon size={16} />;
+    return <Utensils size={16} />;
+}
+
+function getGreeting() {
+    const h = new Date().getHours();
+    if (h < 12) return 'Good morning';
+    if (h < 17) return 'Good afternoon';
+    return 'Good evening';
+}
+
+function getNextAction(totals, today, user) {
+    const meals = Object.values(today.meals).flat();
+    if (meals.length === 0) return { label: 'Log your first meal', icon: <Coffee size={13} /> };
+    if (!today.workouts?.length) return { label: 'Start a workout', icon: <Dumbbell size={13} /> };
+    if (today.water < user.waterGoal * 0.5) return { label: 'Drink more water', icon: <Droplets size={13} /> };
+    if (totals.p < user.macros.p * 0.5) return { label: 'Hit your protein goal', icon: <Sparkles size={13} /> };
+    return { label: 'Looking great today!', icon: <Sparkles size={13} /> };
 }
 
 export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, onRemoveMeal, xp }) {
@@ -20,44 +36,64 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
     const xpProgress = getXPProgress(xp || 0);
     const levelTitle = getLevelTitle(xpProgress.level);
     const dayXP = calcDayXP(today, user, streak);
+    const nextAction = getNextAction(totals, today, user);
+
+    // Calculate completion percentage for daily ring
+    const mealsLogged = Object.values(today.meals).flat().length;
+    const workoutsLogged = today.workouts?.length || 0;
+    const waterPct = Math.min(today.water / user.waterGoal, 1);
+    const calPct = Math.min(totals.cals / user.calorieTarget, 1);
+    const completionPct = Math.round(((mealsLogged > 0 ? 0.3 : 0) + (workoutsLogged > 0 ? 0.3 : 0) + (waterPct * 0.2) + (calPct > 0.5 ? 0.2 : 0)) * 100);
 
     return (
         <div className="dash-layout">
-            <CalendarStrip days={days} />
-
-            {/* XP Strip */}
-            <div className="xp-level-strip">
-                <div className="xp-level-left">
-                    <Zap size={13} fill="var(--c-gold)" color="var(--c-gold)" />
-                    <span className="xp-level-label">LVL {xpProgress.level}</span>
-                    <span className="xp-level-title">{levelTitle}</span>
+            {/* Greeting + Streak */}
+            <div className="dash-greeting-row">
+                <div>
+                    <div className="dash-greeting">{getGreeting()}, {user.name.split(' ')[0]}</div>
+                    <div className="dash-subtitle">
+                        <Zap size={11} fill="var(--c-gold)" color="var(--c-gold)" />
+                        LVL {xpProgress.level} {levelTitle} · +{dayXP.total} XP today
+                    </div>
                 </div>
-                <span className="xp-today-earned">+{dayXP.total} XP</span>
+                <div className="dash-streak-pill">
+                    <Flame size={14} fill="var(--c-red)" color="var(--c-red)" /> {streak}
+                </div>
             </div>
+
+            {/* XP Progress */}
             <div className="xp-bar-container"><div className="xp-bar-fill" style={{ width: `${xpProgress.percentage}%` }} /></div>
 
-            {/* AI Coach */}
-            <div className="ai-banner">
-                <Sparkles size={12} /> <span>{aiMsg}</span>
+            <CalendarStrip days={days} />
+
+            {/* AI Coach + Next Action */}
+            <div className="dash-action-row">
+                <div className="ai-banner">
+                    <Sparkles size={11} /> <span>{aiMsg}</span>
+                </div>
+                <div className="next-action-pill">
+                    {nextAction.icon} {nextAction.label} <ArrowRight size={10} />
+                </div>
             </div>
 
+            {/* Hero Card */}
             <HeroCard cals={totals.cals} goal={user.calorieTarget} macros={{ p: totals.p, c: totals.c, f: totals.f }} macroGoals={user.macros} />
 
-            {/* Stats row */}
+            {/* Stats strip */}
             <div className="stat-grid">
                 <div className="card mini-stat">
                     <div className="stat-row-top">
-                        <div className="stat-icon"><Dumbbell size={13} /></div>
+                        <div className="stat-icon"><Dumbbell size={12} /></div>
                         <div className="text-label">WORKOUTS</div>
                     </div>
-                    <div className="stat-num">{today.workouts ? today.workouts.length : 0}</div>
+                    <div className="stat-num">{workoutsLogged}</div>
                 </div>
                 <div className="card mini-stat water-card" onClick={onWaterClick}>
                     <div className="stat-row-top">
-                        <div className="stat-icon"><Droplets size={13} /></div>
+                        <div className="stat-icon"><Droplets size={12} /></div>
                         <div className="text-label">WATER</div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
                         <div className="stat-num">{today.water}L</div>
                         <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.4 }}>/ {user.waterGoal}L</div>
                     </div>
@@ -67,7 +103,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Meal Slots — 2×2 grid, grows to fill remaining space */}
+            {/* Meal Slots — 2x2 */}
             <div className="meal-grid">
                 {SLOTS.map(slot => {
                     const items = today.meals[slot] || [];

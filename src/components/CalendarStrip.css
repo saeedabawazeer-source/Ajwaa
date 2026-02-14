@@ -1,7 +1,7 @@
 .calendar-strip {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     gap: 4px;
     width: 100%;
     flex-shrink: 0;
