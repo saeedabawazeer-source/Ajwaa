@@ -1,9 +1,9 @@
-/* Dashboard fills viewport between header and dock */
+/* Dashboard — no scroll, fills viewport */
 .dash-layout {
     display: flex;
     flex-direction: column;
     height: calc(100vh - 48px - 90px);
-    padding: 8px 16px 0;
+    padding: 6px 14px 0;
     overflow: hidden;
 }
 
@@ -18,7 +18,7 @@
 
 .dash-greeting {
     font-weight: 900;
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.2;
 }
 
@@ -27,43 +27,49 @@
     align-items: center;
     gap: 3px;
     font-weight: 800;
-    font-size: 10px;
-    opacity: 0.5;
+    font-size: 9px;
+    opacity: 0.45;
 }
 
 /* 3-column stats */
 .stat-grid-3 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 5px;
+    gap: 4px;
     flex-shrink: 0;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .mini-stat {
-    padding: 7px 8px;
+    padding: 6px 7px;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
 }
 
 .stat-row-top {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 
 .stat-num {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 900;
-    line-height: 1;
+    line-height: 1.2;
+}
+
+.stat-unit {
+    font-size: 9px;
+    font-weight: 700;
+    opacity: 0.35;
 }
 
 .stat-icon {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
     border: 1.5px solid var(--c-black);
-    border-radius: 5px;
+    border-radius: 4px;
     display: grid;
     place-items: center;
     background: white;
@@ -75,9 +81,9 @@
     color: var(--c-blue);
 }
 
-.remaining-icon {
-    border-color: var(--c-red);
-    color: var(--c-red);
+.prot-icon {
+    border-color: #FFD700;
+    color: #FFD700;
 }
 
 .water-card {
@@ -92,8 +98,8 @@
 
 .water-fill-container {
     width: 100%;
-    background: rgba(0, 0, 0, 0.08);
-    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 2px;
     overflow: hidden;
     height: 3px;
     margin-top: 1px;
@@ -103,21 +109,22 @@
     height: 100%;
     background: var(--c-blue);
     transition: width 0.5s ease;
-    border-radius: 3px;
+    border-radius: 2px;
 }
 
-/* Meal Grid — fills all remaining space */
+/* Meal Grid — fills remaining, won't scroll */
 .meal-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 5px;
+    gap: 4px;
     flex: 1;
     min-height: 0;
+    max-height: 200px;
 }
 
 .meal-cell {
-    padding: 10px;
+    padding: 8px;
     cursor: pointer;
     transition: all 0.1s;
     display: flex;
@@ -134,34 +141,29 @@
 .meal-cell-top {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }
 
 .meal-cell-name {
     font-weight: 800;
-    font-size: 12px;
+    font-size: 11px;
     text-transform: capitalize;
-}
-
-.meal-cell-bottom {
-    margin-top: auto;
 }
 
 .meal-cell-cals {
     font-weight: 900;
-    font-size: 20px;
+    font-size: 16px;
     line-height: 1;
+}
+
+.meal-cell-sub {
+    font-weight: 700;
+    font-size: 9px;
+    opacity: 0.35;
 }
 
 .meal-cell-empty {
     font-weight: 800;
-    font-size: 15px;
-    opacity: 0.12;
-}
-
-.meal-cell-sub {
-    font-size: 9px;
-    font-weight: 700;
-    opacity: 0.4;
-    margin-top: 2px;
+    font-size: 13px;
+    opacity: 0.1;
 }

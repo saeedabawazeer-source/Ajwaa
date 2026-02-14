@@ -3,14 +3,14 @@
     align-items: center;
     gap: 12px;
     padding: 10px;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     flex-shrink: 0;
 }
 
 .hero-ring-section {
     position: relative;
-    width: 66px;
-    height: 66px;
+    width: 64px;
+    height: 64px;
     flex-shrink: 0;
 }
 
@@ -26,57 +26,72 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 1px;
+}
+
+.hero-ring-cals {
+    font-weight: 900;
+    font-size: 17px;
+    line-height: 1;
+}
+
+.hero-ring-label {
+    font-weight: 700;
+    font-size: 8px;
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .hero-right {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
 }
 
-.hero-remaining {
+.hero-eaten {
     display: flex;
     align-items: baseline;
-    gap: 5px;
+    gap: 4px;
 }
 
-.hero-macros {
+.hero-eaten-num {
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.hero-eaten-label {
+    font-weight: 700;
+    font-size: 10px;
+    opacity: 0.4;
+}
+
+/* PCF chips — minimal inline */
+.hero-pcf-row {
     display: flex;
-    flex-direction: column;
-    gap: 3px;
+    gap: 6px;
 }
 
-.hero-macro {
+.pcf-chip {
     display: flex;
-    align-items: center;
-    gap: 5px;
+    align-items: baseline;
+    gap: 2px;
 }
 
-.hero-macro-label {
+.pcf-letter {
     font-weight: 900;
     font-size: 11px;
-    width: 12px;
 }
 
-.hero-macro-bar {
-    flex: 1;
-    height: 5px;
-    background: rgba(0, 0, 0, 0.06);
-    border-radius: 3px;
-    overflow: hidden;
+.pcf-val {
+    font-weight: 800;
+    font-size: 12px;
 }
 
-.hero-macro-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width 0.5s ease;
-}
-
-.hero-macro-val {
+.pcf-goal {
     font-weight: 700;
     font-size: 9px;
-    opacity: 0.5;
-    min-width: 44px;
-    text-align: right;
+    opacity: 0.35;
 }
