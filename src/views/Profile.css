@@ -31,6 +31,9 @@
     font-size: 18px;
     font-weight: 900;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .profile-stats-grid {
@@ -52,6 +55,86 @@
     margin-bottom: 2px;
 }
 
+/* Level Card */
+.level-card {
+    padding: 14px;
+    margin-bottom: 8px;
+}
+
+.level-card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.level-badge-circle {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #FFF8E1, #FFE082);
+    border: 2px solid var(--c-gold);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.level-xp-num {
+    margin-left: auto;
+    font-weight: 900;
+    font-size: 14px;
+    color: var(--c-gold);
+}
+
+/* Achievements */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.achievement-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.achievement-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--c-black);
+    transition: all 0.2s;
+}
+
+.unlocked .achievement-icon {
+    background: linear-gradient(135deg, #FFF8E1, #FFE082);
+    border-color: var(--c-gold);
+    color: var(--c-gold);
+    box-shadow: 0 2px 8px rgba(255, 184, 0, 0.2);
+}
+
+.locked .achievement-icon {
+    background: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.15);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.achievement-title {
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.2;
+    opacity: 0.7;
+}
+
+.locked .achievement-title {
+    opacity: 0.3;
+}
+
+/* Goals */
 .goals-card {
     padding: 10px 14px;
     margin-bottom: 8px;

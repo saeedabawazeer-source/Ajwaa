@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useStore } from './store/useStore';
+import { getLevel } from './store/xpEngine';
 import Header from './components/Header';
 import Dock from './components/Dock';
 import ActionSheet from './components/ActionSheet';
@@ -11,6 +12,9 @@ import Workouts from './views/Workouts';
 import Stats from './views/Stats';
 import Profile from './views/Profile';
 import Toast from './components/Toast';
+import XPPopup from './components/XPPopup';
+import Confetti from './components/Confetti';
+import LevelUpModal from './components/LevelUpModal';
 import './App.css';
 
 export default function App() {
@@ -22,6 +26,29 @@ export default function App() {
   const [mealSlot, setMealSlot] = useState('snacks');
   const [workoutOpen, setWorkoutOpen] = useState(false);
   const [toast, setToast] = useState(null);
+
+  // Celebration state
+  const [xpPopup, setXpPopup] = useState(null);
+  const [confettiActive, setConfettiActive] = useState(false);
+  const [levelUpLevel, setLevelUpLevel] = useState(null);
+  const prevLevelRef = useRef(getLevel(state.xp));
+  const prevXPRef = useRef(state.xp);
+
+  // Check for level up
+  useEffect(() => {
+    const currentLevel = getLevel(state.xp);
+    if (currentLevel > prevLevelRef.current && prevLevelRef.current >= 0) {
+      setLevelUpLevel(currentLevel);
+      setConfettiActive(true);
+    }
+    // Show XP gain popup
+    const xpGain = state.xp - prevXPRef.current;
+    if (xpGain > 0 && prevXPRef.current > 0) {
+      setXpPopup(xpGain);
+    }
+    prevLevelRef.current = currentLevel;
+    prevXPRef.current = state.xp;
+  }, [state.xp]);
 
   function showToast(msg, type = 'success') {
     setToast({ msg, type });
@@ -42,18 +69,18 @@ export default function App() {
   function handleLogWater() {
     store.addWater(0.25);
     setSheetOpen(false);
-    showToast('+250ml 💧');
+    showToast('+250ml water');
   }
 
   function handleSaveMeal(food, cals, p, c, f) {
     store.addMeal(mealSlot, food, Number(cals), Number(p), Number(c), Number(f));
-    showToast(`${food} logged ✅`);
+    showToast(`${food} logged`);
   }
 
   function handleSaveWorkout(title, exercises) {
     store.logWorkoutSession(title, exercises);
     setWorkoutOpen(false);
-    showToast(`${title} saved 🏋️`);
+    showToast(`${title} saved`);
   }
 
   if (state.activeWorkout) {
@@ -64,7 +91,7 @@ export default function App() {
         onUpdateSet={store.updateSet}
         onAddSet={store.addSet}
         onRemoveSet={store.removeSet}
-        onFinish={() => { store.finishWorkout(); showToast('Workout saved! 💪'); }}
+        onFinish={() => { store.finishWorkout(); showToast('Workout complete!'); }}
         onCancel={store.cancelWorkout}
       />
     );
@@ -80,9 +107,9 @@ export default function App() {
         return (
           <Dashboard
             today={today} totals={totals} user={state.user}
-            streak={streak}
+            streak={streak} xp={state.xp}
             getLast7Days={store.getLast7Days}
-            onWaterClick={() => { store.addWater(0.25); showToast('+250ml 💧'); }}
+            onWaterClick={() => { store.addWater(0.25); showToast('+250ml water'); }}
             onMealSlotClick={handleLogFood}
             onRemoveMeal={store.removeMeal}
           />
@@ -108,7 +135,8 @@ export default function App() {
         return (
           <Profile
             user={state.user} today={today} totals={totals}
-            streak={streak}
+            streak={streak} xp={state.xp}
+            unlockedAchievements={state.unlockedAchievements}
             onUpdate={store.updateProfile}
             onLogWeight={store.logBodyWeight}
             getWeightHistory={store.getWeightHistory}
@@ -136,6 +164,11 @@ export default function App() {
 
       <LogWorkoutModal open={workoutOpen} onClose={() => setWorkoutOpen(false)} onSave={handleSaveWorkout} />
       {toast && <Toast msg={toast.msg} type={toast.type} />}
+
+      {/* Celebrations */}
+      {xpPopup && <XPPopup xp={xpPopup} onDone={() => setXpPopup(null)} />}
+      <Confetti active={confettiActive} onDone={() => setConfettiActive(false)} />
+      {levelUpLevel !== null && <LevelUpModal level={levelUpLevel} xp={state.xp} onClose={() => setLevelUpLevel(null)} />}
     </div>
   );
 }

@@ -7,6 +7,122 @@
     box-shadow: var(--shadow);
 }
 
+/* XP Level Strip */
+.xp-level-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.xp-level-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.xp-level-label {
+    font-weight: 900;
+    font-size: 14px;
+}
+
+.xp-level-title {
+    font-weight: 700;
+    font-size: 11px;
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.xp-level-right {
+    display: flex;
+    align-items: center;
+}
+
+.xp-today-earned {
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--c-gold);
+}
+
+/* Daily Quests */
+.quests-section {
+    margin-bottom: 12px;
+}
+
+.quests-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.quest-card {
+    background: var(--c-paper);
+    border: var(--border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    box-shadow: var(--shadow);
+    transition: all 0.2s;
+}
+
+.quest-done {
+    background: #F0FFF4;
+    border-color: var(--c-green);
+}
+
+.quest-done .quest-bar-fill {
+    background: var(--c-green) !important;
+}
+
+.quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.quest-title {
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.quest-xp {
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--c-gold);
+}
+
+.quest-desc {
+    font-size: 11px;
+    opacity: 0.5;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.quest-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.quest-bar-fill {
+    height: 100%;
+    background: var(--c-volt);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.quest-progress {
+    font-weight: 800;
+    font-size: 10px;
+    opacity: 0.4;
+    margin-top: 4px;
+    text-align: right;
+}
+
+/* Stats */
 .stat-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -59,11 +175,12 @@
 
 .water-fill-bar {
     height: 100%;
-    background: var(--c-volt);
+    background: var(--c-blue);
     transition: width 0.5s ease;
     border-radius: 4px;
 }
 
+/* Meal Slots */
 .meal-slots {
     display: flex;
     flex-direction: column;
@@ -90,7 +207,6 @@
     gap: 12px;
 }
 
-/* New Icon Box */
 .meal-slot-icon-box {
     width: 36px;
     height: 36px;
@@ -116,5 +232,5 @@
     border-radius: 50%;
     display: grid;
     place-items: center;
-    color: var(--p-black);
+    color: var(--c-black);
 }

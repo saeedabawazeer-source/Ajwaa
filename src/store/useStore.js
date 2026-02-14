@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react';
+import { calcDayXP, getLevel } from './xpEngine';
+import { calcAchievementStats, getUnlockedAchievements } from '../data/achievements';
 
 // Helpers
 function todayKey() {
@@ -57,13 +59,6 @@ const INITIAL_STATE = {
                         { exerciseId: 'dips', name: 'Dips', sets: [{ reps: 12, weight: 0 }, { reps: 12, weight: 0 }, { reps: 10, weight: 0 }] },
                     ]
                 },
-                {
-                    id: 'w2', title: 'Morning Cardio', time: '07:30',
-                    exercises: [
-                        { exerciseId: 'treadmill', name: 'Treadmill Run', sets: [{ reps: 1, weight: 0, duration: 30 }] },
-                        { exerciseId: 'jump_rope', name: 'Jump Rope', sets: [{ reps: 100, weight: 0 }, { reps: 100, weight: 0 }, { reps: 100, weight: 0 }] },
-                    ]
-                }
             ],
             water: 1.75,
             bodyWeight: 72.5,
@@ -72,7 +67,12 @@ const INITIAL_STATE = {
         ...generatePastDays(),
     },
     streak: { current: 0, best: 0, lastLogDate: '' },
-    activeWorkout: null, // For full-screen workout mode
+    activeWorkout: null,
+    // Gamification
+    xp: 0,
+    unlockedAchievements: [],
+    streakFreezes: 0,
+    onboardingComplete: true, // set false for first-time users
 };
 
 function generatePastDays() {
@@ -123,9 +123,7 @@ function calcDayTotals(day) {
 }
 
 function calcStreak(days) {
-    const sorted = Object.keys(days).sort().reverse();
     let streak = 0;
-    const today = todayKey();
     const check = new Date();
     for (let i = 0; i < 60; i++) {
         const key = `${check.getFullYear()}-${String(check.getMonth() + 1).padStart(2, '0')}-${String(check.getDate()).padStart(2, '0')}`;
@@ -141,23 +139,64 @@ function calcStreak(days) {
     return streak;
 }
 
+// Calculate total XP across all days
+function calcTotalXP(days, user) {
+    let total = 0;
+    const sorted = Object.keys(days).sort();
+    let streak = 0;
+    for (const key of sorted) {
+        const d = days[key];
+        const allMeals = [...d.meals.breakfast, ...d.meals.lunch, ...d.meals.dinner, ...d.meals.snacks];
+        if (allMeals.length > 0 || (d.workouts || []).length > 0) {
+            streak++;
+        } else {
+            streak = 0;
+        }
+        const dayResult = calcDayXP(d, user, streak);
+        total += dayResult.total;
+    }
+    return total;
+}
+
 // ─── Load / Save ───
 function loadState() {
-    localStorage.removeItem('ajwaa_v3');
+    try {
+        const saved = localStorage.getItem('ajwaa_v4');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            // ensure new fields exist
+            if (parsed.xp === undefined) parsed.xp = 0;
+            if (!parsed.unlockedAchievements) parsed.unlockedAchievements = [];
+            if (parsed.streakFreezes === undefined) parsed.streakFreezes = 0;
+            if (parsed.onboardingComplete === undefined) parsed.onboardingComplete = true;
+            return parsed;
+        }
+    } catch (e) { }
     return INITIAL_STATE;
 }
 
 // ─── STORE HOOK ───
 export function useStore() {
-    const [state, setState] = useState(loadState);
+    const [state, setState] = useState(() => {
+        const loaded = loadState();
+        // Recalculate XP on load
+        loaded.xp = calcTotalXP(loaded.days, loaded.user);
+        return loaded;
+    });
 
     const save = useCallback((s) => {
-        localStorage.setItem('ajwaa_v3', JSON.stringify(s));
+        localStorage.setItem('ajwaa_v4', JSON.stringify(s));
     }, []);
 
     const update = useCallback((fn) => {
         setState(prev => {
             const next = fn(structuredClone(prev));
+            // Recalculate XP after every state change
+            next.xp = calcTotalXP(next.days, next.user);
+            // Check achievements
+            const level = getLevel(next.xp);
+            const stats = calcAchievementStats(next.days, next.user, level);
+            next.unlockedAchievements = getUnlockedAchievements(stats);
             save(next);
             return next;
         });
@@ -192,7 +231,7 @@ export function useStore() {
         update(s => {
             const key = ensureToday(s);
             s.days[key].water += amount;
-            if (s.days[key].water > 5) s.days[key].water = 0; // reset on overflow
+            if (s.days[key].water > 5) s.days[key].water = 0;
             return s;
         });
     }, [update, ensureToday]);
@@ -257,7 +296,6 @@ export function useStore() {
         update(s => { s.activeWorkout = null; return s; });
     }, [update]);
 
-    // Quick log workout (from modal, backward compat)
     const logWorkoutSession = useCallback((title, exercises) => {
         update(s => {
             const key = ensureToday(s);

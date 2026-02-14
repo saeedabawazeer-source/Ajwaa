@@ -1,12 +1,14 @@
 import CalendarStrip from '../components/CalendarStrip';
 import HeroCard from '../components/HeroCard';
-import { getAIMessage, getMealSlotEmoji } from '../utils/helpers';
-import { Plus, Coffee, Sun, Moon, Utensils, Droplets } from 'lucide-react'; // Icons
+import { getSmartCoachMessage } from '../utils/aiCoach';
+import { getDailyQuests, checkQuests } from '../store/questEngine';
+import { getXPProgress, getLevelTitle, calcDayXP } from '../store/xpEngine';
+import { Plus, Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Sparkles, Zap, Target } from 'lucide-react';
 import './Dashboard.css';
+
 
 const SLOTS = ['breakfast', 'lunch', 'dinner', 'snacks'];
 
-// Helper for slot icons
 function SlotIcon({ slot }) {
     if (slot === 'breakfast') return <Coffee size={20} />;
     if (slot === 'lunch') return <Sun size={20} />;
@@ -14,21 +16,74 @@ function SlotIcon({ slot }) {
     return <Utensils size={20} />;
 }
 
-export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, onRemoveMeal }) {
+function todayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, onRemoveMeal, xp }) {
     const days = getLast7Days();
     const calsLeft = Math.max(0, user.calorieTarget - totals.cals);
-    const aiMsg = getAIMessage(totals.cals, user.calorieTarget, (today.meals.breakfast || []).length);
+    const aiMsg = getSmartCoachMessage(totals, user, streak, today);
+
+    // XP progress
+    const xpProgress = getXPProgress(xp || 0);
+    const levelTitle = getLevelTitle(xpProgress.level);
+
+    // Today's XP
+    const dayXP = calcDayXP(today, user, streak);
+
+    // Daily Quests
+    const rawQuests = getDailyQuests(todayKey());
+    const quests = checkQuests(rawQuests, today, user);
 
     return (
         <div className="view-section">
             <CalendarStrip days={days} />
 
+            {/* XP Level Bar */}
+            <div className="xp-level-strip">
+                <div className="xp-level-left">
+                    <Zap size={14} fill="var(--c-gold)" color="var(--c-gold)" />
+                    <span className="xp-level-label">LVL {xpProgress.level}</span>
+                    <span className="xp-level-title">{levelTitle}</span>
+                </div>
+                <div className="xp-level-right">
+                    <span className="xp-today-earned">+{dayXP.total} XP today</span>
+                </div>
+            </div>
+            <div className="xp-bar-container" style={{ marginBottom: 12 }}>
+                <div className="xp-bar-fill" style={{ width: `${xpProgress.percentage}%` }} />
+            </div>
+
+            {/* AI Coach */}
             <div className="ai-insight">
-                <div style={{ fontWeight: 800, fontSize: 11, opacity: 0.6, marginBottom: 4 }}>
-                    <Sparkles size={12} style={{ display: 'inline', marginRight: 4 }} />
-                    AI COACH
+                <div style={{ fontWeight: 800, fontSize: 11, opacity: 0.6, marginBottom: 4, display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <Sparkles size={12} /> AI COACH
                 </div>
                 <div style={{ fontWeight: 700, fontSize: 13, lineHeight: 1.4 }}>{aiMsg}</div>
+            </div>
+
+            {/* Daily Quests */}
+            <div className="quests-section">
+                <div className="text-label" style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <Target size={12} /> DAILY QUESTS
+                </div>
+                <div className="quests-grid">
+                    {quests.map((q, i) => (
+                        <div key={i} className={`quest-card ${q.done ? 'quest-done' : ''}`}>
+                            <div className="quest-header">
+                                <span className="quest-title">{q.title}</span>
+                                <span className="quest-xp">+{q.xp} XP</span>
+                            </div>
+                            <div className="quest-desc">{q.desc}</div>
+                            <div className="quest-bar">
+                                <div className="quest-bar-fill" style={{ width: `${(q.current / q.target) * 100}%` }} />
+                            </div>
+                            <div className="quest-progress">{q.current}/{q.target}</div>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             <HeroCard cals={totals.cals} goal={user.calorieTarget} macros={{ p: totals.p, c: totals.c, f: totals.f }} macroGoals={user.macros} />

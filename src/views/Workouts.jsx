@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { calcVolume } from '../utils/helpers';
-import { Dumbbell, BarChart2, Play } from 'lucide-react';
+import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
+import { Dumbbell, BarChart2, Play, Clipboard } from 'lucide-react';
 import './Workouts.css';
 
 export default function Workouts({ today, user, onStartWorkout, onLogWorkout, getExerciseHistory }) {
@@ -13,6 +14,10 @@ export default function Workouts({ today, user, onStartWorkout, onLogWorkout, ge
         const name = workoutName.trim() || 'Workout Session';
         onStartWorkout(name);
         setWorkoutName('');
+    }
+
+    function handleStartTemplate(template) {
+        onStartWorkout(template.name);
     }
 
     return (
@@ -35,6 +40,9 @@ export default function Workouts({ today, user, onStartWorkout, onLogWorkout, ge
                 <button className={`wo-tab ${tab === 'sessions' ? 'active' : ''}`} onClick={() => setTab('sessions')}>
                     Today ({workouts.length})
                 </button>
+                <button className={`wo-tab ${tab === 'templates' ? 'active' : ''}`} onClick={() => setTab('templates')}>
+                    Templates
+                </button>
                 <button className={`wo-tab ${tab === 'history' ? 'active' : ''}`} onClick={() => setTab('history')}>
                     History
                 </button>
@@ -46,7 +54,7 @@ export default function Workouts({ today, user, onStartWorkout, onLogWorkout, ge
                         <div className="card" style={{ textAlign: 'center', padding: 20 }}>
                             <div style={{ marginBottom: 8, opacity: 0.3 }}><Dumbbell size={48} /></div>
                             <div className="text-label">NO SESSIONS TODAY</div>
-                            <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>Start a workout above or log one quickly</div>
+                            <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>Start a workout above or pick a template</div>
                         </div>
                     ) : (
                         workouts.map((w, i) => {
@@ -65,7 +73,7 @@ export default function Workouts({ today, user, onStartWorkout, onLogWorkout, ge
                                             return (
                                                 <div key={j} className="session-ex-chip">
                                                     <span style={{ fontWeight: 700 }}>{ex.name}</span>
-                                                    <span className="ex-nums">{ex.sets.length}×{best.reps} @ {best.weight}kg</span>
+                                                    <span className="ex-nums">{ex.sets.length}x{best.reps} @ {best.weight}kg</span>
                                                 </div>
                                             );
                                         })}
@@ -74,6 +82,27 @@ export default function Workouts({ today, user, onStartWorkout, onLogWorkout, ge
                             );
                         })
                     )}
+                </div>
+            )}
+
+            {tab === 'templates' && (
+                <div className="wo-list">
+                    {WORKOUT_TEMPLATES.map(t => (
+                        <div key={t.id} className="card template-card" onClick={() => handleStartTemplate(t)}>
+                            <div className="template-top">
+                                <div className="template-icon"><Clipboard size={18} /></div>
+                                <div>
+                                    <div style={{ fontWeight: 800, fontSize: 14 }}>{t.name}</div>
+                                    <div className="text-label">{t.desc}</div>
+                                </div>
+                            </div>
+                            <div className="template-exercises">
+                                {t.exercises.map((ex, i) => (
+                                    <span key={i} className="template-ex-chip">{ex.name} · {ex.defaultSets}s</span>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
 

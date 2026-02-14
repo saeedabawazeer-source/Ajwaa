@@ -1,0 +1,36 @@
+.xp-popup {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 900;
+    font-size: 28px;
+    color: #FFB800;
+    text-shadow: 0 2px 8px rgba(255, 184, 0, 0.4), 0 0 0 var(--c-black);
+    -webkit-text-stroke: 1px var(--c-black);
+    z-index: 3000;
+    pointer-events: none;
+    animation: xpFloat 1.5s ease-out forwards;
+}
+
+@keyframes xpFloat {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(0.5);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-10px) scale(1.2);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-30px) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-80px) scale(0.8);
+    }
+}
