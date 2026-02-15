@@ -28,6 +28,7 @@ export default function App() {
   const [mealSlot, setMealSlot] = useState('snacks');
   const [workoutOpen, setWorkoutOpen] = useState(false);
   const [toast, setToast] = useState(null);
+  const [viewDate, setViewDate] = useState(null); // null means today
 
 
   // Celebration state
