@@ -63,10 +63,36 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center' }) {
                     )}
                 </g>
 
-                {/* ─── Hands (Peeking over edge) ─── */}
-                {/* Visualizing hands holding the 'frame' bottom */}
-                <circle cx="40" cy="170" r="12" fill="#2c1e1a" stroke="black" strokeWidth="4" />
-                <circle cx="160" cy="170" r="12" fill="#2c1e1a" stroke="black" strokeWidth="4" />
+                {/* ─── Hands (Stick Figures, Lighter Brown) ─── */}
+
+                {/* Left Arm (Always leaning/planted for now) */}
+                <path
+                    d="M 50 140 Q 30 160 40 175"
+                    stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round"
+                />
+
+                {/* Right Arm (Dynamic) */}
+                {mood === 'happy' ? (
+                    // Waving Arm
+                    <path
+                        d="M 150 140 Q 170 120 180 90"
+                        stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round"
+                        className="ajwa-arm wave"
+                        style={{ transformOrigin: '150px 140px' }}
+                    />
+                ) : mood === 'thinking' ? (
+                    // Scratching head / Hand on chin
+                    <path
+                        d="M 150 150 Q 170 140 160 110"
+                        stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round"
+                    />
+                ) : (
+                    // Planted / Peeking
+                    <path
+                        d="M 150 140 Q 170 160 160 175"
+                        stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round"
+                    />
+                )}
 
             </svg>
         </div>
