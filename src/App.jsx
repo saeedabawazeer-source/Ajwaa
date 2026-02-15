@@ -38,7 +38,7 @@ export default function App() {
   const prevXPRef = useRef(state.xp);
 
   // Check for level up
-  // Check for level up
+
   useEffect(() => {
     const currentLevel = getLevel(state.xp);
     if (currentLevel > prevLevelRef.current && prevLevelRef.current >= 0) {
