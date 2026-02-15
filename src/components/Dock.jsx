@@ -21,7 +21,7 @@ export default function Dock({ activeView, onNavigate, onFab }) {
             ))}
             <button className="nav-fab" onClick={onFab}>
                 <div style={{ width: 35, height: 30, display: 'flex', justifyContent: 'center', marginTop: 4 }}>
-                    <AjwaMascot mood="happy" />
+                    <AjwaMascot mood="happy" showHands={false} />
                 </div>
             </button>
             {right.map(it => (
