@@ -1,4 +1,3 @@
-```javascript
 import React from 'react';
 import './AjwaMascot.css';
 
@@ -21,7 +20,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                 {/* ─── Body (Lighter Brown for visibility) ─── */}
                 <path
                     d="M50 60 C 50 20, 150 20, 150 60 C 160 90, 160 140, 150 180 L 50 180 C 40 140, 40 90, 50 60 Z"
-                    fill="#3E2723" 
+                    fill="#3E2723"
                     stroke="black"
                     strokeWidth="6"
                     className="ajwa-body"
@@ -96,4 +95,3 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
         </div>
     );
 }
-```
