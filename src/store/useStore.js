@@ -55,6 +55,8 @@ const INITIAL_STATE = {
     user: {
         name: 'Saeed',
         goal: 'muscle_gain',
+        age: null,
+        gender: null,
         weight: 72.5,
         height: 180,
         calorieTarget: 2000,
@@ -93,7 +95,7 @@ const INITIAL_STATE = {
     xp: 0,
     unlockedAchievements: [],
     streakFreezes: 0,
-    onboardingComplete: true, // set false for first-time users
+    onboardingComplete: false, // Start with onboarding
 };
 
 
@@ -386,6 +388,16 @@ export function useStore() {
         return entries;
     }, [state.days]);
 
+    // ─── ONBOARDING ───
+    const completeOnboarding = useCallback((userProfile) => {
+        update(s => {
+            Object.assign(s.user, userProfile);
+            s.onboardingComplete = true;
+            // Set initial calorie target based on goal/weight if needed, but for now just save
+            return s;
+        });
+    }, [update]);
+
     return {
         state, update,
         // Meals
@@ -395,7 +407,7 @@ export function useStore() {
         // Workouts
         startWorkout, addExerciseToActive, updateSet, addSet, removeSet, finishWorkout, cancelWorkout, logWorkoutSession,
         // Body
-        logBodyWeight, updateProfile,
+        logBodyWeight, updateProfile, completeOnboarding,
         // Derived
         getToday, getTodayTotals, getStreak, getLast7Days, getWeightHistory, getExerciseHistory,
     };

@@ -1,0 +1,187 @@
+.onboarding-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--c-sand);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.ob-progress {
+    height: 6px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.ob-bar {
+    height: 100%;
+    background: var(--c-green);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+.ob-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.ob-avatar-container {
+    width: 120px;
+    height: 120px;
+    background: var(--c-black);
+    border-radius: 50%;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ob-chat-bubble {
+    background: white;
+    padding: 16px 24px;
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+    border: 2px solid var(--c-black);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 32px;
+    position: relative;
+    max-width: 90%;
+    text-align: left;
+    animation: slideUp 0.4s ease 0.2s backwards;
+}
+
+.ob-chat-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-left: 2px solid var(--c-black);
+    border-bottom: 2px solid var(--c-black);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.ob-input-area {
+    width: 100%;
+    animation: fadeIn 0.5s ease 0.5s backwards;
+}
+
+.ob-input {
+    width: 100%;
+    background: white;
+    border: 2px solid var(--c-black);
+    border-radius: 16px;
+    padding: 16px;
+    font-family: var(--font);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.ob-input:focus {
+    outline: none;
+    border-color: var(--c-green);
+}
+
+.ob-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+.ob-card {
+    background: white;
+    border: 2px solid var(--c-black);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: 0.1s;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.ob-card:active {
+    transform: scale(0.98);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.ob-card.selected {
+    background: #DCFCE7;
+    border-color: var(--c-green);
+    box-shadow: 2px 2px 0 var(--c-green);
+}
+
+.ob-card-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--c-sand);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.ob-btn {
+    width: 100%;
+    background: var(--c-green);
+    color: var(--c-black);
+    border: 2px solid var(--c-black);
+    border-radius: 16px;
+    padding: 16px;
+    font-family: var(--font);
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 1);
+    margin-top: 20px;
+}
+
+.ob-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 1);
+}
+
+.ob-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

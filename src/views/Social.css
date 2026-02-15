@@ -166,7 +166,7 @@
     display: grid;
     place-items: center;
     background: white;
-    box-shadow: var(--shadow);
+    box-shadow: 3px 3px 0 var(--c-black);
 }
 
 .league-tier-name {
@@ -177,34 +177,42 @@
 .league-list {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 .league-row {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 10px;
-    border-radius: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
     background: var(--c-paper);
-    border: 1.5px solid rgba(0, 0, 0, 0.06);
+    border: 2px solid var(--c-black);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
     transition: all 0.1s;
 }
 
+.league-row:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
 .league-you {
-    background: var(--c-volt) !important;
-    border-color: var(--c-black) !important;
+    background: var(--c-black) !important;
+    border-color: var(--c-volt) !important;
+    /* Invert */
+    color: var(--c-volt);
     border-width: 2px;
-    box-shadow: var(--shadow);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .league-promo {
-    border-left: 3px solid var(--c-green);
+    border-left: 6px solid var(--c-green);
 }
 
 .league-demo {
-    border-left: 3px solid var(--c-red);
-    opacity: 0.7;
+    border-left: 6px solid var(--c-red);
+    opacity: 0.8;
 }
 
 .league-rank {

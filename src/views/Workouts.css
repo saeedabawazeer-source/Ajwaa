@@ -1,6 +1,11 @@
+/* ── Start Workout Hero ── */
 .start-wo-card {
-    padding: 12px;
-    margin-bottom: 8px;
+    background: var(--c-green);
+    color: var(--c-black);
+    border: 2px solid var(--c-black);
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 4px 4px 0 var(--c-black);
 }
 
 .start-wo-row {
@@ -9,112 +14,138 @@
     align-items: center;
 }
 
+/* ── Tabs ── */
 .wo-tabs {
     display: flex;
-    gap: 5px;
-    margin-bottom: 8px;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 2px;
 }
 
 .wo-tab {
     flex: 1;
-    padding: 8px;
+    padding: 10px;
     border: 2px solid var(--c-black);
-    border-radius: 999px;
-    font-family: var(--font);
-    font-weight: 800;
-    font-size: 11px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
     background: var(--c-paper);
+    color: var(--c-black);
     text-align: center;
     cursor: pointer;
-    box-shadow: 2px 2px 0 var(--c-black);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
     transition: all 0.1s;
+    text-transform: uppercase;
+}
+
+.wo-tab:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .wo-tab.active {
     background: var(--c-black);
     color: var(--c-volt);
-    box-shadow: none;
-    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    transform: translate(1px, 1px);
 }
 
+/* ── Sessions List ── */
 .wo-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 12px;
 }
 
 .session-card {
-    padding: 10px;
+    background: var(--c-paper);
+    border: 2px solid var(--c-black);
+    padding: 14px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.session-card:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .session-top {
-    margin-bottom: 6px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    padding-bottom: 8px;
 }
 
 .session-ex-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 6px;
 }
 
 .session-ex-chip {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 999px;
-    padding: 3px 8px;
-    font-size: 10px;
-}
-
-.ex-nums {
-    opacity: 0.5;
+    gap: 6px;
+    background: var(--c-sand);
+    border: 1px solid var(--c-black);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
     font-weight: 700;
 }
 
-/* Template Cards */
+.ex-nums {
+    opacity: 0.6;
+    font-weight: 500;
+    font-family: monospace;
+}
+
+/* ── Templates ── */
 .template-card {
-    padding: 10px;
+    background: var(--c-paper);
+    border: 2px solid var(--c-black);
+    padding: 14px;
     cursor: pointer;
     transition: all 0.1s;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .template-card:active {
     transform: translate(2px, 2px);
-    box-shadow: var(--shadow-active);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .template-top {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 6px;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .template-icon {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background: var(--c-volt);
     border: 2px solid var(--c-black);
-    border-radius: 8px;
+    border-radius: 10px;
     display: grid;
     place-items: center;
     flex-shrink: 0;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .template-exercises {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 6px;
 }
 
 .template-ex-chip {
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 999px;
-    padding: 2px 7px;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 2px 6px;
     font-size: 10px;
     font-weight: 700;
-    opacity: 0.6;
+    opacity: 0.7;
 }

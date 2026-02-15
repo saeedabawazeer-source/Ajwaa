@@ -16,6 +16,7 @@ import Toast from './components/Toast';
 import XPPopup from './components/XPPopup';
 import Confetti from './components/Confetti';
 import LevelUpModal from './components/LevelUpModal';
+import Onboarding from './views/Onboarding';
 import './App.css';
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
   const [workoutOpen, setWorkoutOpen] = useState(false);
   const [toast, setToast] = useState(null);
 
+
   // Celebration state
   const [xpPopup, setXpPopup] = useState(null);
   const [confettiActive, setConfettiActive] = useState(false);
@@ -35,6 +37,7 @@ export default function App() {
   const prevLevelRef = useRef(getLevel(state.xp));
   const prevXPRef = useRef(state.xp);
 
+  // Check for level up
   // Check for level up
   useEffect(() => {
     const currentLevel = getLevel(state.xp);
@@ -50,6 +53,10 @@ export default function App() {
     prevLevelRef.current = currentLevel;
     prevXPRef.current = state.xp;
   }, [state.xp]);
+
+  if (!state.onboardingComplete) {
+    return <Onboarding onComplete={store.completeOnboarding} />;
+  }
 
   function showToast(msg, type = 'success') {
     setToast({ msg, type });
@@ -81,27 +88,9 @@ export default function App() {
     showToast(`${title} saved`);
   }
 
-  if (state.activeWorkout) {
-    return (
-      <ActiveWorkout
-        workout={state.activeWorkout}
-        onAddExercise={store.addExerciseToActive}
-        onUpdateSet={store.updateSet}
-        onAddSet={store.addSet}
-        onRemoveSet={store.removeSet}
-        onFinish={() => { store.finishWorkout(); showToast('Workout complete!'); }}
-        onCancel={store.cancelWorkout}
-      />
-    );
-  }
 
-  const today = store.getToday();
-  const totals = store.getTodayTotals();
-  const streak = store.getStreak();
 
-  const [viewDate, setViewDate] = useState(null); // null means today
-
-  // ... existing code ...
+  // ... rest of component ...
 
   const todayKey = () => {
     const d = new Date();
@@ -121,11 +110,9 @@ export default function App() {
   const currentTotals = {
     cals: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.cals, 0),
     p: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.p, 0),
-    c: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.cals, 0), // Typo fix: Calculate Carbs correctly
+    c: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.c, 0),
     f: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.f, 0),
   };
-  // Fix carbs calc above:
-  currentTotals.c = Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.c, 0);
 
   const currentStreak = store.getStreak(); // Global streak doesn't change by viewing past
 

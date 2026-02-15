@@ -23,14 +23,14 @@ export default function Workouts({ today, user, onStartWorkout, onLogWorkout, ge
     return (
         <div className="view-section">
             {/* Start New Workout */}
+            {/* Start New Workout */}
             <div className="card start-wo-card">
-                <div style={{ fontWeight: 900, fontSize: 16, marginBottom: 8 }}>START WORKOUT</div>
+                <div style={{ fontWeight: 900, fontSize: 18, marginBottom: 12, textTransform: 'uppercase' }}>QUICK START</div>
                 <div className="start-wo-row">
-                    <input className="modal-input" style={{ margin: 0, flex: 1 }} placeholder="Session name..."
+                    <input className="modal-input" style={{ margin: 0, flex: 1, background: 'white', borderColor: 'black' }} placeholder="Session name..."
                         value={workoutName} onChange={e => setWorkoutName(e.target.value)} />
-                    <button className="btn btn-primary" style={{ flexShrink: 0, padding: '10px 16px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}
-                        onClick={handleStart}>
-                        <Play size={16} fill="currentColor" /> START
+                    <button className="start-wo-btn" onClick={handleStart}>
+                        <Dumbbell size={16} /> START
                     </button>
                 </div>
             </div>

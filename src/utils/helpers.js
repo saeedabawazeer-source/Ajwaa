@@ -22,3 +22,37 @@ export function calcVolume(sets) {
 export function getMealSlotLabel(slot) {
     return slot.charAt(0).toUpperCase() + slot.slice(1);
 }
+
+export function calculatePlan(gender, age, weight, height, activity, goal) {
+    // Mifflin-St Jeor Equation
+    let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+    if (gender === 'male') bmr += 5;
+    else bmr -= 161;
+
+    let multiplier = 1.2;
+    if (activity === 'light') multiplier = 1.375;
+    if (activity === 'active') multiplier = 1.55;
+    if (activity === 'athlete') multiplier = 1.725;
+
+    let tdee = Math.round(bmr * multiplier);
+    let targetCals = tdee;
+
+    if (goal === 'fat_loss') targetCals -= 500;
+    else if (goal === 'muscle_gain') targetCals += 300;
+
+    // Macros
+    // Protein: 2g per kg (High protein for both goals usually good)
+    let p = Math.round(weight * 2);
+    // Fats: 0.8g per kg
+    let f = Math.round(weight * 0.9);
+    // Carbs: Remainder
+    let c = Math.round((targetCals - (p * 4 + f * 9)) / 4);
+
+    if (c < 50) c = 50; // Minimum safety
+
+    return {
+        cals: targetCals,
+        macros: { p, c, f },
+        water: 3 // Default 3L roughly
+    };
+}
