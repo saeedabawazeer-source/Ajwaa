@@ -58,7 +58,10 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
     }
 
     // Check if any meals logged
-    const hasMeals = SLOTS.some(s => today.meals[s]?.length > 0);
+    const hasMeals = Object.values(today.meals).some(arr => arr.length > 0);
+
+    // Calculate XP Progress
+    const xpProgress = getXPProgress(xp);
 
     return (
         <div className="dash">
@@ -115,55 +118,44 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Main Content: Food Feed (Daily Log) */}
-            <div className="d-timeline">
-                <div className="d-feed-header">
-                    <span>Today's Log</span>
-                    <span onClick={() => onMealSlotClick(currentSlot)} style={{ color: 'var(--c-blue)', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>+ ADD</span>
-                </div>
+            {/* Actions Grid: Log Food & Start Workout */}
+            <div className="d-actions-grid">
+                <button className="d-action-card food" onClick={() => onMealSlotClick(currentSlot)}>
+                    <div className="d-ac-icon">
+                        <Plus size={24} strokeWidth={3} />
+                    </div>
+                    <div className="d-ac-label">Log Food</div>
+                    <div className="d-ac-sub">Track calories</div>
+                </button>
 
-                <div className="d-feed">
-                    {SLOTS.map(slot => {
-                        const items = today.meals[slot] || [];
-                        if (!items.length) return null;
-                        const m = SLOT_META[slot];
-                        const Icon = m.icon;
-
-                        return items.map((item, idx) => (
-                            <div key={`${slot}-${idx}`} className="d-feed-item">
-                                <div className="d-feed-icon" style={{ background: m.bg }}>
-                                    <Icon size={14} color={m.color} />
-                                </div>
-                                <div className="d-feed-info">
-                                    <div className="d-feed-name">{item.name || item.food}</div>
-                                    <div className="d-feed-meta">{m.label} • {item.cals} kcal</div>
-                                </div>
-                                <div className="d-feed-time">{item.time || 'now'}</div>
-                            </div>
-                        ));
-                    })}
-
-                    {!hasMeals && (
-                        <div className="d-empty-feed">
-                            <div style={{ marginBottom: 8 }}>No meals logged yet.</div>
-                            <button className="d-log-action-small" onClick={() => onMealSlotClick(currentSlot)}>
-                                Log First Meal
-                            </button>
-                        </div>
-                    )}
-                </div>
+                <button className="d-action-card workout" onClick={() => { /* TO DO: Link to Workout */ }}>
+                    <div className="d-ac-icon">
+                        <Dumbbell size={24} strokeWidth={3} />
+                    </div>
+                    <div className="d-ac-label">Start Workout</div>
+                    <div className="d-ac-sub">Day 3: Chest</div>
+                </button>
             </div>
 
-            {/* Compact Workout Widget */}
-            <div className="d-workout-smart" style={{ opacity: workoutsLogged > 0 ? 0.6 : 1, marginTop: 'auto' }}>
-                <Dumbbell size={18} color="var(--c-volt)" />
-                <div className="d-work-text">
-                    {workoutsLogged > 0
-                        ? <span>Workout complete! Great job.</span>
-                        : <span>Today: <strong>Chest & Triceps</strong> (45m)</span>
-                    }
+            {/* Level & XP Progress (Gamification Focus) */}
+            <div className="d-xp-card">
+                <div className="d-xp-header">
+                    <div className="d-xp-level">
+                        <span className="d-lvl-label">LEVEL</span>
+                        <span className="d-lvl-num">{xpProgress.level}</span>
+                    </div>
+                    <div className="d-xp-reward">
+                        <Zap size={14} fill="currentColor" />
+                        <span>Next: Gold Badge</span>
+                    </div>
                 </div>
-                {workoutsLogged === 0 && <div className="d-work-go">GO</div>}
+                <div className="d-xp-bar-bg">
+                    <div className="d-xp-bar-fill" style={{ width: `${xpProgress.progress}%` }} />
+                </div>
+                <div className="d-xp-vals">
+                    <span>{Math.round(xpProgress.currentLevelXP)} XP</span>
+                    <span>{Math.round(xpProgress.nextLevelXP)} XP</span>
+                </div>
             </div>
         </div>
     );
