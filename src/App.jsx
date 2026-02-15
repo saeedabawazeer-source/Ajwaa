@@ -116,6 +116,9 @@ export default function App() {
   };
 
   const currentStreak = store.getStreak(); // Global streak doesn't change by viewing past
+  const streak = currentStreak;
+  const today = store.getToday();
+  const totals = store.getTodayTotals();
 
   function renderView() {
     switch (activeView) {
