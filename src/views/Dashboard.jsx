@@ -44,60 +44,63 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
         <div className="dash">
             <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
 
-            {/* Ajwa Section (Context) */}
-            <div className="d-ajwa-section">
-                <div className="d-ajwa-avatar">
+            {/* Ajwa Context + Stats Card Wrapper */}
+            <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 60, marginBottom: 20 }}>
+                {/* Leaning Ajwa */}
+                <div className="d-leaning-ajwa">
                     <AjwaMascot mood={nudge.mood} lookingAt="user" />
                 </div>
-                <div className="d-ajwa-bubble">
+                {/* Speech Bubble */}
+                <div className="d-hero-bubble">
                     {nudge.text}
-                    <div className="d-bubble-arrow" />
-                </div>
-            </div>
-
-            {/* Big Stats Card (Calories + Macros) */}
-            <div className="d-stats-card">
-                {/* Left: Interactive Calorie Ring */}
-                <div className="d-sc-left" onClick={() => onMealSlotClick(currentSlot)}>
-                    <div className="d-sc-ring-wrap">
-                        <svg viewBox="0 0 84 84" className="d-sc-svg">
-                            <circle cx="42" cy="42" r="38" stroke="rgba(255,255,255,0.1)" strokeWidth="8" fill="none" />
-                            <circle cx="42" cy="42" r="38" stroke="var(--c-red)" strokeWidth="8" fill="none"
-                                strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
-                                transform="rotate(-90 42 42)" className="d-anim" />
-                        </svg>
-                        <div className="d-sc-ring-inner">
-                            <Plus size={24} className="d-add-icon-big" />
-                        </div>
-                    </div>
-                    <div className="d-sc-cal-text">
-                        <span className="d-sc-val">{totals.cals}</span>
-                        <span className="d-sc-label">KCAL</span>
-                    </div>
+                    <div className="d-hb-arrow" />
                 </div>
 
-                {/* Center: Macro Progress Bars */}
-                <div className="d-sc-center">
-                    <div className="d-macro-row">
-                        <div className="d-mr-labels">
-                            <span>Protein</span>
-                            <span>{totals.p} / {user.macros.p}g</span>
+                {/* Big Stats Card (Calories + Macros) */}
+                <div className="d-stats-card">
+                    {/* ... stats content ... */}
+                    {/* Left: Interactive Calorie Ring */}
+                    <div className="d-sc-left" onClick={() => onMealSlotClick(currentSlot)}>
+                        <div className="d-sc-ring-wrap">
+                            <svg viewBox="0 0 84 84" className="d-sc-svg">
+                                <circle cx="42" cy="42" r="38" stroke="rgba(255,255,255,0.1)" strokeWidth="8" fill="none" />
+                                <circle cx="42" cy="42" r="38" stroke="var(--c-red)" strokeWidth="8" fill="none"
+                                    strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
+                                    transform="rotate(-90 42 42)" className="d-anim" />
+                            </svg>
+                            <div className="d-sc-ring-inner">
+                                <Plus size={24} className="d-add-icon-big" />
+                            </div>
                         </div>
-                        <div className="d-mr-bar"><div className="d-mr-fill p" style={{ width: `${Math.min(totals.p / user.macros.p, 1) * 100}%` }} /></div>
+                        <div className="d-sc-cal-text">
+                            <span className="d-sc-val">{totals.cals}</span>
+                            <span className="d-sc-label">KCAL</span>
+                        </div>
                     </div>
-                    <div className="d-macro-row">
-                        <div className="d-mr-labels">
-                            <span>Carbs</span>
-                            <span>{totals.c} / {user.macros.c}g</span>
+
+                    {/* Center: Macro Progress Bars */}
+                    <div className="d-sc-center">
+                        <div className="d-macro-row">
+                            <div className="d-mr-labels">
+                                <span>Protein</span>
+                                <span>{totals.p} / {user.macros.p}g</span>
+                            </div>
+                            <div className="d-mr-bar"><div className="d-mr-fill p" style={{ width: `${Math.min(totals.p / user.macros.p, 1) * 100}%` }} /></div>
                         </div>
-                        <div className="d-mr-bar"><div className="d-mr-fill c" style={{ width: `${Math.min(totals.c / user.macros.c, 1) * 100}%` }} /></div>
-                    </div>
-                    <div className="d-macro-row">
-                        <div className="d-mr-labels">
-                            <span>Fats</span>
-                            <span>{totals.f} / {user.macros.f}g</span>
+                        <div className="d-macro-row">
+                            <div className="d-mr-labels">
+                                <span>Carbs</span>
+                                <span>{totals.c} / {user.macros.c}g</span>
+                            </div>
+                            <div className="d-mr-bar"><div className="d-mr-fill c" style={{ width: `${Math.min(totals.c / user.macros.c, 1) * 100}%` }} /></div>
                         </div>
-                        <div className="d-mr-bar"><div className="d-mr-fill f" style={{ width: `${Math.min(totals.f / user.macros.f, 1) * 100}%` }} /></div>
+                        <div className="d-macro-row">
+                            <div className="d-mr-labels">
+                                <span>Fats</span>
+                                <span>{totals.f} / {user.macros.f}g</span>
+                            </div>
+                            <div className="d-mr-bar"><div className="d-mr-fill f" style={{ width: `${Math.min(totals.f / user.macros.f, 1) * 100}%` }} /></div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -162,7 +162,7 @@ export default function Onboarding({ onComplete }) {
                             Let's crunch the numbers. I need your current stats to calculate your BMR.
                         </div>
                         <div className="ob-input-area">
-                            <div className="ob-input-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
+                            <div className="ob-stats-row">
                                 <div>
                                     <div className="text-label" style={{ marginBottom: 4, textAlign: 'center' }}>AGE</div>
                                     <input className="ob-input" placeholder="25" type="number" style={{ textAlign: 'center' }}

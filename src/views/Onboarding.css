@@ -100,7 +100,20 @@
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 16px;
+    margin-bottom: 16px;
     box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.ob-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+@media (max-width: 480px) {
+    .ob-stats-row {
+        grid-template-columns: 1fr;
+    }
 }
 
 .ob-input:focus {
