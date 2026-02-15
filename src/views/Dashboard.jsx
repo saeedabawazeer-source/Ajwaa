@@ -148,19 +148,6 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Full Width Action Hero: Start Workout */}
-            <button className="d-action-hero" onClick={() => { /* TO DO */ }}>
-                <div className="d-ah-content">
-                    <div className="d-ah-icon">
-                        <Dumbbell size={24} strokeWidth={3} />
-                    </div>
-                    <div className="d-ah-text">
-                        <div className="d-ah-title">Start Workout</div>
-                        <div className="d-ah-sub">Chest & Triceps • 45m</div>
-                    </div>
-                </div>
-                <div className="d-ah-arrow">GO</div>
-            </button>
             {/* Level & XP Progress (Gamification Focus) */}
             <div className="d-xp-card">
                 <div className="d-xp-header">
@@ -181,6 +168,20 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     <span>{Math.round(xpProgress.nextLevelXP)} XP</span>
                 </div>
             </div>
+
+            {/* Full Width Action Hero: Start Workout */}
+            <button className="d-action-hero" onClick={() => { /* TO DO */ }}>
+                <div className="d-ah-content">
+                    <div className="d-ah-icon">
+                        <Dumbbell size={24} strokeWidth={3} />
+                    </div>
+                    <div className="d-ah-text">
+                        <div className="d-ah-title">Start Workout</div>
+                        <div className="d-ah-sub">Chest & Triceps • 45m</div>
+                    </div>
+                </div>
+                <div className="d-ah-arrow">GO</div>
+            </button>
         </div>
     );
 }
