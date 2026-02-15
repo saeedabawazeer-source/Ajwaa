@@ -21,6 +21,7 @@ export default function LogMealModal({ open, onClose, onSave, slot, onSlotChange
     const [f, setF] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [pickingSlot, setPickingSlot] = useState(false);
 
     if (!open) return null;
 
@@ -96,18 +97,24 @@ export default function LogMealModal({ open, onClose, onSave, slot, onSlotChange
             <div className="modal-card" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
                     <SlotIcon slot={slot} size={24} />
-                    <span style={{ fontWeight: 900, fontSize: 16 }}>LOG FOOD</span>
+                    <span style={{ fontWeight: 900, fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
+                        onClick={() => setPickingSlot(!pickingSlot)}>
+                        LOG {getMealSlotLabel(slot).toUpperCase()}
+                        <span style={{ fontSize: 10, opacity: 0.5, textDecoration: 'underline' }}>CHANGE?</span>
+                    </span>
                     <button className="modal-close" onClick={onClose}><X size={16} /></button>
                 </div>
 
-                {/* Slot Picker */}
-                <div className="slot-picker">
-                    {SLOTS.map(s => (
-                        <button key={s} className={`slot-btn ${slot === s ? 'active' : ''}`} onClick={() => onSlotChange(s)}>
-                            {getMealSlotLabel(s)}
-                        </button>
-                    ))}
-                </div>
+                {/* Slot Picker (Collapsible) */}
+                {pickingSlot && (
+                    <div className="slot-picker">
+                        {SLOTS.map(s => (
+                            <button key={s} className={`slot-btn ${slot === s ? 'active' : ''}`} onClick={() => { onSlotChange(s); setPickingSlot(false); }}>
+                                {getMealSlotLabel(s)}
+                            </button>
+                        ))}
+                    </div>
+                )}
 
                 {/* Food Search */}
                 <div style={{ position: 'relative' }}>
