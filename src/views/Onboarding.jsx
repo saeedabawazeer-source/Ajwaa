@@ -19,6 +19,7 @@ export default function Onboarding({ onComplete }) {
     const [stepIndex, setStepIndex] = useState(0);
     const [mascotMood, setMascotMood] = useState('happy');
     const [isTalking, setIsTalking] = useState(false);
+    const [lookingAt, setLookingAt] = useState('center');
 
     const [data, setData] = useState({
         name: '',
@@ -39,6 +40,7 @@ export default function Onboarding({ onComplete }) {
         // Simulate talking when step changes
         setIsTalking(true);
         setMascotMood('neutral');
+        setLookingAt('center');
 
         const timer = setTimeout(() => {
             setIsTalking(false);
