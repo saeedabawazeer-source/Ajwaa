@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import CalendarStrip from '../components/CalendarStrip';
 import { getXPProgress, calcDayXP } from '../store/xpEngine';
 import { getDashboardNudge } from '../utils/ajwaChat';
-import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Flame, ChevronRight } from 'lucide-react';
+import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Flame, ChevronRight, Scale } from 'lucide-react';
 import './Dashboard.css';
 
 const SLOTS = ['breakfast', 'lunch', 'dinner', 'snacks'];
@@ -136,13 +136,13 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     <div className="d-vital-bg-bar" style={{ height: `${waterPct * 100}%` }} />
                 </div>
 
-                <div className="d-vital-card sleep">
+                <div className="d-vital-card weight">
                     <div className="d-vital-icon">
-                        <Moon size={20} fill="currentColor" />
+                        <Scale size={20} fill="currentColor" />
                     </div>
                     <div className="d-vital-info">
-                        <span className="d-vital-val">7h 30m</span>
-                        <span className="d-vital-lbl">Sleep</span>
+                        <span className="d-vital-val">74.5 kg</span>
+                        <span className="d-vital-lbl">Weight</span>
                     </div>
                     <div className="d-vital-add">+</div>
                 </div>

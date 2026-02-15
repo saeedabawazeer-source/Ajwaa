@@ -349,9 +349,9 @@
     color: var(--c-black);
 }
 
-/* Sleep Specific */
-.d-vital-card.sleep .d-vital-icon {
-    color: #8B5CF6;
+/* Weight Specific */
+.d-vital-card.weight .d-vital-icon {
+    color: #14B8A6;
 }
 
 /* ── Action Hero (Full Width Workout) ── */
