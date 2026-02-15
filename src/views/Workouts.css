@@ -6,6 +6,8 @@
     padding: 16px;
     margin-bottom: 16px;
     box-shadow: 4px 4px 0 var(--c-black);
+    margin: 4px;
+    /* Ensure shadow isn't cut off */
 }
 
 .start-wo-row {
@@ -125,13 +127,10 @@
 .template-icon {
     width: 40px;
     height: 40px;
-    background: var(--c-volt);
-    border: 2px solid var(--c-black);
-    border-radius: 10px;
     display: grid;
     place-items: center;
+    font-size: 24px;
     flex-shrink: 0;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .template-exercises {
