@@ -162,7 +162,7 @@ export default function App() {
 
   return (
     <div className="app">
-      {activeView !== 'dashboard' && <Header userName={state.user.name} streak={streak} />}
+      <Header userName={state.user.name} streak={streak} />
       {renderView()}
       <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} />
       <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} />

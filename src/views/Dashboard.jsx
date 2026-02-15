@@ -13,11 +13,12 @@ const SLOT_META = {
     snacks: { icon: Utensils, color: '#E91E63', bg: '#FCE4EC', label: 'Snacks' },
 };
 
-function getGreeting() {
+function getCurrentSlot() {
     const h = new Date().getHours();
-    if (h < 12) return 'Good Morning';
-    if (h < 17) return 'Good Afternoon';
-    return 'Good Evening';
+    if (h < 11) return 'breakfast';
+    if (h < 16) return 'lunch';
+    if (h < 22) return 'dinner';
+    return 'snacks';
 }
 
 function AjwaAvatar({ mood }) {
@@ -40,8 +41,6 @@ function AjwaAvatar({ mood }) {
 
 export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, xp }) {
     const days = getLast7Days();
-    const xpProgress = getXPProgress(xp || 0);
-    const dayXP = calcDayXP(today, user, streak);
     const remaining = Math.max(0, user.calorieTarget - totals.cals);
     const calPct = Math.min(totals.cals / user.calorieTarget, 1);
     const calCirc = 2 * Math.PI * 34;
@@ -51,30 +50,19 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
     // Nudge
     const nudge = getDashboardNudge(today, user, totals, streak);
-
-    // Find next empty slot
-    const nextSlot = SLOTS.find(s => !today.meals[s] || today.meals[s].length === 0);
+    const currentSlot = getCurrentSlot();
 
     function tapWater() {
         setTapped(true); onWaterClick();
         setTimeout(() => setTapped(false), 300);
     }
 
+    // Check if any meals logged
+    const hasMeals = SLOTS.some(s => today.meals[s]?.length > 0);
+
     return (
         <div className="dash">
-            {/* Top Bar */}
-            <div className="d-top">
-                <div className="d-greet-box">
-                    <div className="d-greet">{getGreeting()},</div>
-                    <div className="d-name">{user.name.split(' ')[0]}</div>
-                </div>
-                <div className={`d-streak ${streak > 6 ? 'fire' : ''}`}>
-                    <Flame size={18} fill={streak > 0 ? "currentColor" : "none"} />
-                    <span>{streak}</span>
-                </div>
-            </div>
-
-            {/* Ajwa */}
+            {/* Ajwa Section (Top Context) */}
             <div className="d-ajwa-section">
                 <div className="d-ajwa-avatar">
                     <AjwaAvatar mood={nudge.mood} />
@@ -89,7 +77,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
             {/* Stats */}
             <div className="d-stats-row">
-                <div className="d-cal-card" onClick={() => nextSlot ? onMealSlotClick(nextSlot) : onMealSlotClick('snacks')}>
+                <div className="d-cal-card" onClick={() => onMealSlotClick(currentSlot)}>
                     <div className="d-ring-wrapper">
                         <svg viewBox="0 0 76 76" className="d-ring-svg">
                             <circle cx="38" cy="38" r="34" stroke="rgba(255,255,255,0.1)" strokeWidth="6" fill="none" />
@@ -122,15 +110,28 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Timeline: Only FILLED slots + Next Slot Action */}
+            {/* Timeline: History Only + One Add Button */}
             <div className="d-timeline">
+                {/* Unified Log Button */}
+                <div className="d-log-action" onClick={() => onMealSlotClick(currentSlot)}>
+                    <div className="d-log-icon">
+                        <Plus size={18} color="white" strokeWidth={3} />
+                    </div>
+                    <div className="d-log-text">
+                        Log Food
+                    </div>
+                    <span style={{ marginLeft: 'auto', opacity: 0.5, fontSize: 12, fontWeight: 600 }}>
+                        {SLOT_META[currentSlot].label}
+                    </span>
+                </div>
+
                 {SLOTS.map(slot => {
                     const m = SLOT_META[slot];
                     const Icon = m.icon;
                     const items = today.meals[slot] || [];
                     const slotCals = items.reduce((s, i) => s + i.cals, 0);
 
-                    if (items.length === 0) return null; // Don't show empty slots!
+                    if (items.length === 0) return null; // Only show logged
 
                     return (
                         <div key={slot} className="d-time-row filled" onClick={() => onMealSlotClick(slot)}>
@@ -146,21 +147,9 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     );
                 })}
 
-                {/* Next Meal Action */}
-                {nextSlot && (
-                    <div className="d-log-action" onClick={() => onMealSlotClick(nextSlot)}>
-                        <div className="d-log-icon">
-                            <Plus size={18} color="white" strokeWidth={3} />
-                        </div>
-                        <div className="d-log-text">
-                            Log {SLOT_META[nextSlot].label}
-                        </div>
-                    </div>
-                )}
-
-                {!nextSlot && (
-                    <div className="d-log-action secondary" onClick={() => onMealSlotClick('snacks')}>
-                        <span style={{ opacity: 0.6, fontSize: 12 }}>All meals logged! Add Snack?</span>
+                {!hasMeals && (
+                    <div style={{ textAlign: 'center', marginTop: 20, opacity: 0.5, fontSize: 13, fontWeight: 500 }}>
+                        No meals logged yet today.
                     </div>
                 )}
             </div>
