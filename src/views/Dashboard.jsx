@@ -62,7 +62,9 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
     return (
         <div className="dash">
-            {/* Ajwa Section (Top Context) */}
+            <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
+
+            {/* Ajwa Section (Context) */}
             <div className="d-ajwa-section">
                 <div className="d-ajwa-avatar">
                     <AjwaAvatar mood={nudge.mood} />
@@ -72,8 +74,6 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     <div className="d-bubble-arrow" />
                 </div>
             </div>
-
-            <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
 
             {/* Big Stats Card (Merged Calories + Macros + Water) */}
             <div className="d-stats-card">
