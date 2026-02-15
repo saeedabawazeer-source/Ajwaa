@@ -21,14 +21,13 @@ function getGreeting() {
 }
 
 function AjwaAvatar({ mood }) {
-    // Simple SVG avatar that changes expression based on mood
-    const eyes = mood === 'concern' ? 'M 9 14 Q 11 12 13 14 M 19 14 Q 21 12 23 14' : // Sad eyes
-        mood === 'excited' ? 'M 9 14 Q 11 12 13 14 M 19 14 Q 21 12 23 14' : // Happy eyes (same for now)
-            'M 9 13 A 2 2 0 1 1 13 13 M 19 13 A 2 2 0 1 1 23 13'; // Normal eyes
+    const eyes = mood === 'concern' ? 'M 9 14 Q 11 12 13 14 M 19 14 Q 21 12 23 14' :
+        mood === 'excited' ? 'M 9 14 Q 11 12 13 14 M 19 14 Q 21 12 23 14' :
+            'M 9 13 A 2 2 0 1 1 13 13 M 19 13 A 2 2 0 1 1 23 13';
 
-    const mouth = mood === 'concern' ? 'M 10 22 Q 16 20 22 22' : // Wavy/sad mouth
-        mood === 'excited' ? 'M 10 20 Q 16 28 22 20' : // Open happy mouth
-            'M 11 21 Q 16 24 21 21'; // Small smile
+    const mouth = mood === 'concern' ? 'M 10 22 Q 16 20 22 22' :
+        mood === 'excited' ? 'M 10 20 Q 16 28 22 20' :
+            'M 11 21 Q 16 24 21 21';
 
     return (
         <svg viewBox="0 0 32 32" className="d-ajwa-svg">
@@ -50,8 +49,11 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
     const waterPct = Math.min(today.water / user.waterGoal, 1);
     const [tapped, setTapped] = useState(false);
 
-    // Get nudge from Ajwa based on current state
+    // Nudge
     const nudge = getDashboardNudge(today, user, totals, streak);
+
+    // Find next empty slot
+    const nextSlot = SLOTS.find(s => !today.meals[s] || today.meals[s].length === 0);
 
     function tapWater() {
         setTapped(true); onWaterClick();
@@ -60,7 +62,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
     return (
         <div className="dash">
-            {/* Top Bar: Greeting + Streak */}
+            {/* Top Bar */}
             <div className="d-top">
                 <div className="d-greet-box">
                     <div className="d-greet">{getGreeting()},</div>
@@ -72,7 +74,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Ajwa Contextual Nudge */}
+            {/* Ajwa */}
             <div className="d-ajwa-section">
                 <div className="d-ajwa-avatar">
                     <AjwaAvatar mood={nudge.mood} />
@@ -85,9 +87,9 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
             <CalendarStrip days={days} />
 
-            {/* Stats Row: Calories + Water */}
+            {/* Stats */}
             <div className="d-stats-row">
-                <div className="d-cal-card" onClick={() => onMealSlotClick('breakfast')}>
+                <div className="d-cal-card" onClick={() => nextSlot ? onMealSlotClick(nextSlot) : onMealSlotClick('snacks')}>
                     <div className="d-ring-wrapper">
                         <svg viewBox="0 0 76 76" className="d-ring-svg">
                             <circle cx="38" cy="38" r="34" stroke="rgba(255,255,255,0.1)" strokeWidth="6" fill="none" />
@@ -120,31 +122,50 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Timeline View for Meals */}
+            {/* Timeline: Only FILLED slots + Next Slot Action */}
             <div className="d-timeline">
                 {SLOTS.map(slot => {
                     const m = SLOT_META[slot];
                     const Icon = m.icon;
                     const items = today.meals[slot] || [];
                     const slotCals = items.reduce((s, i) => s + i.cals, 0);
-                    const filled = items.length > 0;
+
+                    if (items.length === 0) return null; // Don't show empty slots!
 
                     return (
-                        <div key={slot} className={`d-time-row ${filled ? 'filled' : ''}`} onClick={() => onMealSlotClick(slot)}>
-                            <div className="d-time-icon" style={{ background: filled ? m.color : 'var(--c-sand)' }}>
-                                <Icon size={14} color={filled ? 'white' : 'var(--c-black)'} style={{ opacity: filled ? 1 : 0.4 }} />
+                        <div key={slot} className="d-time-row filled" onClick={() => onMealSlotClick(slot)}>
+                            <div className="d-time-icon" style={{ background: m.color }}>
+                                <Icon size={14} color="white" />
                             </div>
                             <div className="d-time-info">
                                 <span className="d-time-name">{m.label}</span>
-                                {filled && <span className="d-time-cal">{slotCals} kcal</span>}
+                                <span className="d-time-cal">{slotCals} kcal</span>
                             </div>
-                            {filled ? <ChevronRight size={16} opacity={0.3} /> : <div className="d-time-add"><Plus size={16} /></div>}
+                            <ChevronRight size={16} opacity={0.3} />
                         </div>
                     );
                 })}
+
+                {/* Next Meal Action */}
+                {nextSlot && (
+                    <div className="d-log-action" onClick={() => onMealSlotClick(nextSlot)}>
+                        <div className="d-log-icon">
+                            <Plus size={18} color="white" strokeWidth={3} />
+                        </div>
+                        <div className="d-log-text">
+                            Log {SLOT_META[nextSlot].label}
+                        </div>
+                    </div>
+                )}
+
+                {!nextSlot && (
+                    <div className="d-log-action secondary" onClick={() => onMealSlotClick('snacks')}>
+                        <span style={{ opacity: 0.6, fontSize: 12 }}>All meals logged! Add Snack?</span>
+                    </div>
+                )}
             </div>
 
-            {/* Smart Workout Bar */}
+            {/* Workout */}
             <div className="d-workout-smart" style={{ opacity: workoutsLogged > 0 ? 0.6 : 1 }}>
                 <Dumbbell size={18} color="var(--c-volt)" />
                 <div className="d-work-text">

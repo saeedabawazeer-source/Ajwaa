@@ -49,7 +49,6 @@
     padding: 0 14px;
     overflow: hidden;
     gap: 10px;
-    /* Slightly looser to fill vertical space */
 }
 
 /* ── Top Bar ── */
@@ -292,7 +291,7 @@
     opacity: 0.5;
 }
 
-/* ── Timeline — TALLER ROWS to fill space ── */
+/* ── Timeline ── */
 .d-timeline {
     flex: 1;
     display: flex;
@@ -303,14 +302,11 @@
 }
 
 .d-time-row {
-    flex: 1;
-    /* Stretch to fill space! */
     display: flex;
     align-items: center;
     gap: 14px;
     padding: 0 16px;
     min-height: 64px;
-    /* Taller touch targets */
     background: white;
     border: 2px solid #E5E7EB;
     border-radius: 14px;
@@ -354,14 +350,46 @@
     opacity: 0.6;
 }
 
-.d-time-add {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--c-volt);
-    border: 2px solid var(--c-black);
+/* ── Log Action Button ── */
+.d-log-action {
     display: flex;
     align-items: center;
+    gap: 12px;
+    padding: 0 16px;
+    min-height: 64px;
+    background: var(--c-black);
+    color: white;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s;
+    margin-top: 4px;
+}
+
+.d-log-action:active {
+    transform: scale(0.98);
+}
+
+.d-log-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--c-volt);
+    display: grid;
+    place-items: center;
+}
+
+.d-log-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.d-log-action.secondary {
+    background: transparent;
+    border: 2px dashed #E5E7EB;
+    color: #9CA3AF;
+    box-shadow: none;
     justify-content: center;
 }
 
