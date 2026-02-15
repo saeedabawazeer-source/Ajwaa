@@ -14,9 +14,9 @@ const SLOT_META = {
 
 function getGreeting() {
     const h = new Date().getHours();
-    if (h < 12) return 'Good morning';
-    if (h < 17) return 'Good afternoon';
-    return 'Good evening';
+    if (h < 12) return 'Morning';
+    if (h < 17) return 'Afternoon';
+    return 'Evening';
 }
 
 export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, xp }) {
@@ -46,7 +46,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
             {/* Greeting */}
             <div className="d-top">
                 <div className="d-greet">{getGreeting()}, {user.name.split(' ')[0]}</div>
-                <div className="d-xp"><Zap size={10} fill="var(--c-gold)" color="var(--c-gold)" /> Lvl {xpProgress.level} · +{dayXP.total}xp</div>
+                <div className="d-xp"><Zap size={10} fill="var(--c-gold)" color="var(--c-gold)" />L{xpProgress.level} +{dayXP.total}xp</div>
             </div>
 
             <CalendarStrip days={days} />
@@ -66,7 +66,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     </div>
                 </div>
                 <div className="d-cal-right">
-                    <div className="d-eaten">{totals.cals}<span className="d-dim"> / {user.calorieTarget} kcal</span></div>
+                    <div className="d-eaten">{totals.cals}<span className="d-dim">/{user.calorieTarget}</span></div>
                     <div className="d-pcf-bars">
                         {pcf.map(m => (
                             <div key={m.l} className="d-bar-row">
@@ -89,7 +89,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                         <span className="d-stat-title">Water</span>
                         <div className="d-add-btn"><Plus size={11} /></div>
                     </div>
-                    <div className="d-stat-num" style={{ color: 'var(--c-blue)' }}>{today.water}<span className="d-dim">/{user.waterGoal}L</span></div>
+                    <div className="d-stat-num" style={{ color: 'var(--c-blue)' }}>{today.water}<span className="d-dim">/{user.waterGoal}</span></div>
                     <div className="d-bar-track thick">
                         <div className="d-bar-fill" style={{ width: `${waterPct * 100}%`, background: 'var(--c-blue)' }} />
                     </div>
@@ -100,7 +100,6 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                         <span className="d-stat-title">Workouts</span>
                     </div>
                     <div className="d-stat-num" style={{ color: 'var(--c-red)' }}>{workoutsLogged}</div>
-                    <div className="d-stat-sub">{workoutsLogged === 0 ? 'none yet' : workoutsLogged === 1 ? '1 session' : `${workoutsLogged} sessions`}</div>
                 </div>
             </div>
 
@@ -118,10 +117,9 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                                 <span className="d-meal-name">{slot}</span>
                             </div>
                             {slotCals > 0
-                                ? <div className="d-meal-val">{slotCals}<span className="d-dim"> kcal</span></div>
+                                ? <div className="d-meal-val">{slotCals}</div>
                                 : <div className="d-meal-empty"><Plus size={14} strokeWidth={2.5} /></div>
                             }
-                            <ChevronRight size={11} className="d-meal-arrow" />
                         </div>
                     );
                 })}
