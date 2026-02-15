@@ -136,14 +136,15 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     <div className="d-vital-bg-bar" style={{ height: `${waterPct * 100}%` }} />
                 </div>
 
-                <div className="d-vital-card steps">
+                <div className="d-vital-card sleep">
                     <div className="d-vital-icon">
-                        <Flame size={20} fill="currentColor" />
+                        <Moon size={20} fill="currentColor" />
                     </div>
                     <div className="d-vital-info">
-                        <span className="d-vital-val">4,285</span>
-                        <span className="d-vital-lbl">Steps</span>
+                        <span className="d-vital-val">7h 30m</span>
+                        <span className="d-vital-lbl">Sleep</span>
                     </div>
+                    <div className="d-vital-add">+</div>
                 </div>
             </div>
 
