@@ -266,8 +266,8 @@
 }
 
 .d-vital-card {
-    background: white;
-    border: 2px solid var(--c-black);
+    background: var(--c-black);
+    color: white;
     border-radius: var(--radius);
     padding: 14px;
     display: flex;
@@ -277,12 +277,12 @@
     overflow: hidden;
     height: 80px;
     cursor: pointer;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
 }
 
 .d-vital-card:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+    transform: scale(0.96);
+    transition: 0.1s;
 }
 
 .d-vital-icon {
@@ -314,12 +314,11 @@
 
 /* Water Specific */
 .d-vital-card.water {
-    color: #1E3A8A;
-    border-color: #3B82F6;
+    /* Keep black background, just add accents */
 }
 
 .d-vital-card.water .d-vital-icon {
-    color: #2563EB;
+    color: #60A5FA;
 }
 
 .d-vital-bg-bar {
@@ -327,8 +326,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #BFDBFE;
-    opacity: 0.6;
+    background: #1E3A8A;
+    opacity: 0.5;
     transition: height 0.4s ease;
     z-index: 1;
 }
@@ -341,38 +340,39 @@
     font-weight: 700;
     opacity: 0.4;
     z-index: 2;
+    color: white;
 }
 
 /* Steps Specific */
 .d-vital-card.steps {
-    color: #ea580c;
-    border-color: #f97316;
+    /* Keep black background */
 }
 
 .d-vital-card.steps .d-vital-icon {
-    color: #f97316;
+    color: #FB923C;
 }
 
 /* ── Action Hero (Full Width Workout) ── */
 .d-action-hero {
     width: 100%;
-    background: #DCFCE7;
-    /* Light Green */
-    border: 2px solid #16A34A;
-    color: #14532D;
+    background: var(--c-green);
+    /* Solid Green */
+    border: 2px solid var(--c-black);
+    color: var(--c-black);
     border-radius: var(--radius);
     padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 1);
+    /* Hard Shadow */
     transition: transform 0.1s;
 }
 
 .d-action-hero:active {
     transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 1);
 }
 
 .d-ah-content {
@@ -382,11 +382,11 @@
 }
 
 .d-ah-icon {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--c-black);
     padding: 12px;
     border-radius: 50%;
-    color: #15803D;
-    border: 2px solid #15803D;
+    color: var(--c-green);
+    border: 2px solid var(--c-black);
 }
 
 .d-ah-text {
@@ -396,25 +396,25 @@
 .d-ah-title {
     font-family: var(--font-display);
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 900;
     line-height: 1.1;
 }
 
 .d-ah-sub {
     font-size: 11px;
-    font-weight: 600;
-    opacity: 0.7;
+    font-weight: 700;
+    opacity: 0.8;
     margin-top: 2px;
     text-transform: uppercase;
 }
 
 .d-ah-arrow {
-    background: #16A34A;
-    color: white;
+    background: var(--c-black);
+    color: var(--c-green);
     padding: 6px 14px;
     border-radius: 99px;
     font-size: 12px;
-    font-weight: 800;
+    font-weight: 900;
     letter-spacing: 0.5px;
 }
 
