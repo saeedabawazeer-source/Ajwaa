@@ -99,14 +99,49 @@ export default function App() {
   const totals = store.getTodayTotals();
   const streak = store.getStreak();
 
+  const [viewDate, setViewDate] = useState(null); // null means today
+
+  // ... existing code ...
+
+  const todayKey = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+
+  const currentViewDate = viewDate || todayKey();
+
+  // Get data for selected date (or today)
+  const currentDayData = state.days[currentViewDate] || {
+    meals: { breakfast: [], lunch: [], dinner: [], snacks: [] },
+    workouts: [],
+    water: 0
+  };
+
+  // Calculate totals for selected date
+  const currentTotals = {
+    cals: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.cals, 0),
+    p: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.p, 0),
+    c: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.cals, 0), // Typo fix: Calculate Carbs correctly
+    f: Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.f, 0),
+  };
+  // Fix carbs calc above:
+  currentTotals.c = Object.values(currentDayData.meals).flat().reduce((a, b) => a + b.c, 0);
+
+  const currentStreak = store.getStreak(); // Global streak doesn't change by viewing past
+
   function renderView() {
     switch (activeView) {
       case 'dashboard':
         return (
           <Dashboard
-            today={today} totals={totals} user={state.user}
-            streak={streak} xp={state.xp}
+            today={currentDayData}
+            totals={currentTotals}
+            user={state.user}
+            streak={currentStreak}
+            xp={state.xp}
             getLast7Days={store.getLast7Days}
+            selectedDate={currentViewDate}
+            onSelectDate={setViewDate}
             onWaterClick={() => { store.addWater(0.25); showToast('+250ml water'); }}
             onMealSlotClick={handleLogFood}
             onRemoveMeal={store.removeMeal}

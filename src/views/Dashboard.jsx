@@ -39,11 +39,11 @@ function AjwaAvatar({ mood }) {
     );
 }
 
-export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, xp }) {
+export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, xp, selectedDate, onSelectDate }) {
     const days = getLast7Days();
     const remaining = Math.max(0, user.calorieTarget - totals.cals);
     const calPct = Math.min(totals.cals / user.calorieTarget, 1);
-    const calCirc = 2 * Math.PI * 34;
+    const calCirc = 2 * Math.PI * 38; // Slightly larger ring
     const workoutsLogged = today.workouts?.length || 0;
     const waterPct = Math.min(today.water / user.waterGoal, 1);
     const [tapped, setTapped] = useState(false);
@@ -56,9 +56,6 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
         setTapped(true); onWaterClick();
         setTimeout(() => setTapped(false), 300);
     }
-
-    // Check if any meals logged
-    const hasMeals = Object.values(today.meals).some(arr => arr.length > 0);
 
     // Calculate XP Progress
     const xpProgress = getXPProgress(xp);
@@ -76,45 +73,62 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            <CalendarStrip days={days} />
+            <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
 
-            {/* Stats: Calories + Water */}
-            <div className="d-stats-row">
-                {/* Enhanced Calorie Card with Log Button */}
-                <div className="d-cal-card">
-                    <div className="d-cal-left" onClick={() => onMealSlotClick(currentSlot)}>
-                        <div className="d-ring-wrapper">
-                            <svg viewBox="0 0 76 76" className="d-ring-svg">
-                                <circle cx="38" cy="38" r="34" stroke="rgba(255,255,255,0.1)" strokeWidth="6" fill="none" />
-                                <circle cx="38" cy="38" r="34" stroke="var(--c-red)" strokeWidth="6" fill="none"
-                                    strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
-                                    transform="rotate(-90 38 38)" className="d-anim" />
-                            </svg>
-                            <div className="d-ring-inner">
-                                <Plus size={20} className="d-add-icon" />
-                            </div>
+            {/* Big Stats Card (Merged Calories + Macros + Water) */}
+            <div className="d-stats-card">
+                {/* Left: Interactive Calorie Ring */}
+                <div className="d-sc-left" onClick={() => onMealSlotClick(currentSlot)}>
+                    <div className="d-sc-ring-wrap">
+                        <svg viewBox="0 0 84 84" className="d-sc-svg">
+                            <circle cx="42" cy="42" r="38" stroke="rgba(255,255,255,0.1)" strokeWidth="8" fill="none" />
+                            <circle cx="42" cy="42" r="38" stroke="var(--c-red)" strokeWidth="8" fill="none"
+                                strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
+                                transform="rotate(-90 42 42)" className="d-anim" />
+                        </svg>
+                        <div className="d-sc-ring-inner">
+                            <Plus size={24} className="d-add-icon-big" />
                         </div>
                     </div>
-
-                    <div className="d-cal-info">
-                        <div className="d-cal-lbl">Calories & Macros</div>
-                        <div className="d-cal-eaten">{totals.cals} / {user.calorieTarget} kcal</div>
-                        <div className="d-cal-macros">
-                            <div className="d-macro-pill"><div className="d-dot" style={{ background: '#FFD700' }} />P {totals.p}</div>
-                            <div className="d-macro-pill"><div className="d-dot" style={{ background: '#00BFFF' }} />C {totals.c}</div>
-                            <div className="d-macro-pill"><div className="d-dot" style={{ background: '#FF4500' }} />F {totals.f}</div>
-                        </div>
+                    <div className="d-sc-cal-text">
+                        <span className="d-sc-val">{totals.cals}</span>
+                        <span className="d-sc-label">KCAL</span>
                     </div>
                 </div>
 
-                {/* Water Card */}
-                <div className={`d-water-btn ${tapped ? 'pop' : ''}`} onClick={tapWater}>
-                    <div className="d-water-track">
-                        <div className="d-water-fill" style={{ height: `${waterPct * 100}%` }} />
+                {/* Center: Macro Progress Bars */}
+                <div className="d-sc-center">
+                    <div className="d-macro-row">
+                        <div className="d-mr-labels">
+                            <span>Protein</span>
+                            <span>{totals.p} / {user.macros.p}g</span>
+                        </div>
+                        <div className="d-mr-bar"><div className="d-mr-fill p" style={{ width: `${Math.min(totals.p / user.macros.p, 1) * 100}%` }} /></div>
                     </div>
-                    <Droplets size={18} className="d-water-icon" />
-                    <div className="d-water-val">{today.water}L</div>
-                    <div className="d-water-plus"><Plus size={12} /></div>
+                    <div className="d-macro-row">
+                        <div className="d-mr-labels">
+                            <span>Carbs</span>
+                            <span>{totals.c} / {user.macros.c}g</span>
+                        </div>
+                        <div className="d-mr-bar"><div className="d-mr-fill c" style={{ width: `${Math.min(totals.c / user.macros.c, 1) * 100}%` }} /></div>
+                    </div>
+                    <div className="d-macro-row">
+                        <div className="d-mr-labels">
+                            <span>Fats</span>
+                            <span>{totals.f} / {user.macros.f}g</span>
+                        </div>
+                        <div className="d-mr-bar"><div className="d-mr-fill f" style={{ width: `${Math.min(totals.f / user.macros.f, 1) * 100}%` }} /></div>
+                    </div>
+                </div>
+
+                {/* Right: Water Integrated */}
+                <div className={`d-sc-right ${tapped ? 'pop' : ''}`} onClick={tapWater}>
+                    <div className="d-sc-water-track">
+                        <div className="d-sc-water-fill" style={{ height: `${waterPct * 100}%` }} />
+                    </div>
+                    <div className="d-sc-water-icon">
+                        <Droplets size={16} fill="white" />
+                    </div>
                 </div>
             </div>
 

@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import './CalendarStrip.css';
 
-export default function CalendarStrip({ days }) {
+export default function CalendarStrip({ days, selectedDate, onSelect }) {
     return (
         <div className="calendar-strip">
             {days.map((d, i) => {
@@ -9,9 +9,13 @@ export default function CalendarStrip({ days }) {
                 // If activity > 0, show filled style. If 0 and past, show dot.
                 const hasData = d.activity > 0;
                 const isFuture = !d.isToday && new Date(d.key) > new Date();
+                const isSelected = d.key === selectedDate;
 
                 return (
-                    <div key={i} className={`cal-day ${d.isToday ? 'cal-today' : ''} ${isFuture ? 'cal-future' : ''} ${hasData ? 'cal-data' : ''}`}>
+                    <div key={i}
+                        className={`cal-day ${d.isToday ? 'cal-today' : ''} ${isSelected ? 'cal-selected' : ''} ${isFuture ? 'cal-future' : ''} ${hasData ? 'cal-data' : ''}`}
+                        onClick={() => !isFuture && onSelect && onSelect(d.key)}
+                    >
                         <span className="cal-label">{d.day}</span>
                         <div className="cal-indicator">
                             <span className="cal-num">{d.fullDate}</span>

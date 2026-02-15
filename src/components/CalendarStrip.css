@@ -13,17 +13,36 @@
     align-items: center;
     gap: 4px;
     opacity: 0.5;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
 }
 
 .cal-day.cal-today {
     opacity: 1;
-    transform: scale(1.1);
+    font-weight: 800;
+}
+
+.cal-day.cal-selected {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.cal-day.cal-selected .cal-num {
+    color: var(--c-black);
+    text-shadow: 0 0 10px rgba(224, 255, 0, 0.5);
+    /* Volt glow */
+}
+
+.cal-day.cal-selected .cal-label {
+    color: var(--c-red);
 }
 
 .cal-day.cal-data {
     opacity: 0.8;
+}
+
+.cal-day.cal-data.cal-selected {
+    opacity: 1;
 }
 
 .cal-label {
@@ -46,6 +65,7 @@
     font-weight: 700;
     font-size: 14px;
     z-index: 2;
+    transition: color 0.2s;
 }
 
 .cal-ring {
@@ -65,5 +85,6 @@
 }
 
 .cal-future {
-    opacity: 0.3;
+    opacity: 0.2;
+    pointer-events: none;
 }
