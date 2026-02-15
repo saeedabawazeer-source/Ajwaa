@@ -6,10 +6,10 @@ import './Dashboard.css';
 
 const SLOTS = ['breakfast', 'lunch', 'dinner', 'snacks'];
 const SLOT_META = {
-    breakfast: { icon: Coffee, color: '#FF9800' },
-    lunch: { icon: Sun, color: '#4CAF50' },
-    dinner: { icon: Moon, color: '#5C6BC0' },
-    snacks: { icon: Utensils, color: '#E91E63' },
+    breakfast: { icon: Coffee, color: '#FF9800', bg: '#FFF3E0' },
+    lunch: { icon: Sun, color: '#4CAF50', bg: '#E8F5E9' },
+    dinner: { icon: Moon, color: '#5C6BC0', bg: '#E8EAF6' },
+    snacks: { icon: Utensils, color: '#E91E63', bg: '#FCE4EC' },
 };
 
 function getGreeting() {
@@ -25,16 +25,10 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
     const dayXP = calcDayXP(today, user, streak);
     const remaining = Math.max(0, user.calorieTarget - totals.cals);
     const calPct = Math.min(totals.cals / user.calorieTarget, 1);
-    const calCirc = 2 * Math.PI * 36;
+    const calCirc = 2 * Math.PI * 34;
     const workoutsLogged = today.workouts?.length || 0;
     const waterPct = Math.min(today.water / user.waterGoal, 1);
     const [tapped, setTapped] = useState(false);
-
-    const pcf = [
-        { l: 'P', v: totals.p, g: user.macros.p, color: '#FFD700' },
-        { l: 'C', v: totals.c, g: user.macros.c, color: '#00BFFF' },
-        { l: 'F', v: totals.f, g: user.macros.f, color: '#FF4500' },
-    ];
 
     function tapWater() {
         setTapped(true); onWaterClick();
@@ -43,7 +37,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
     return (
         <div className="dash">
-            {/* Top row */}
+            {/* Greeting */}
             <div className="d-top">
                 <div className="d-greet">{getGreeting()}, {user.name.split(' ')[0]}</div>
                 <div className="d-xp"><Zap size={10} fill="var(--c-gold)" color="var(--c-gold)" />L{xpProgress.level} +{dayXP.total}xp</div>
@@ -51,95 +45,76 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
             <CalendarStrip days={days} />
 
-            {/* ═══ HERO: Calorie card + PCF ═══ */}
-            <div className="card d-hero">
-                <div className="d-ring-box">
-                    <svg viewBox="0 0 80 80" className="d-ring-svg">
-                        <circle cx="40" cy="40" r="36" stroke="rgba(0,0,0,0.06)" strokeWidth="6" fill="none" />
-                        <circle cx="40" cy="40" r="36" stroke="var(--c-red)" strokeWidth="6" fill="none"
-                            strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
-                            transform="rotate(-90 40 40)" className="d-ring-anim" />
-                    </svg>
-                    <div className="d-ring-text">
-                        <span className="d-ring-num">{remaining}</span>
-                        <span className="d-ring-lbl">left</span>
+            {/* ═══ HERO ROW: Calories (big) + Water (small) ═══ */}
+            <div className="d-hero-row">
+                {/* Calorie card — dark bg like inspo */}
+                <div className="d-cal-card" onClick={() => onMealSlotClick('breakfast')}>
+                    <div className="d-cal-ring-area">
+                        <svg viewBox="0 0 76 76" className="d-cal-svg">
+                            <circle cx="38" cy="38" r="34" stroke="rgba(255,255,255,0.1)" strokeWidth="5" fill="none" />
+                            <circle cx="38" cy="38" r="34" stroke="var(--c-red)" strokeWidth="5" fill="none"
+                                strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
+                                transform="rotate(-90 38 38)" className="d-anim" />
+                        </svg>
+                        <div className="d-cal-inner">
+                            <span className="d-cal-num">{remaining}</span>
+                            <span className="d-cal-lbl">left</span>
+                        </div>
+                    </div>
+                    <div className="d-cal-info">
+                        <div className="d-cal-eaten">{totals.cals}<span className="d-cal-dim">/{user.calorieTarget}</span></div>
+                        <div className="d-cal-pcf">
+                            {[
+                                { l: 'P', v: totals.p, g: user.macros.p, c: '#FFD700' },
+                                { l: 'C', v: totals.c, g: user.macros.c, c: '#00BFFF' },
+                                { l: 'F', v: totals.f, g: user.macros.f, c: '#FF6B35' },
+                            ].map(m => (
+                                <div key={m.l} className="d-pcf-pill">
+                                    <span className="d-pcf-dot" style={{ background: m.c }} />
+                                    <span>{m.l} {m.v}/{m.g}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-                <div className="d-hero-right">
-                    <div className="d-eaten">{totals.cals}<span className="d-dim">/{user.calorieTarget}</span></div>
-                    <div className="d-pcf-bars">
-                        {pcf.map(m => (
-                            <div key={m.l} className="d-bar-row">
-                                <span className="d-bar-label" style={{ color: m.color }}>{m.l}</span>
-                                <div className="d-bar-track"><div className="d-bar-fill" style={{ width: `${Math.min(m.v / m.g * 100, 100)}%`, background: m.color }} /></div>
-                                <span className="d-bar-val">{m.v}<span className="d-dim">/{m.g}</span></span>
-                            </div>
-                        ))}
+
+                {/* Water card — blue bg */}
+                <div className={`d-water-card ${tapped ? 'pop' : ''}`} onClick={tapWater}>
+                    <Droplets size={20} color="white" style={{ opacity: 0.6 }} />
+                    <div className="d-water-num">{today.water}</div>
+                    <div className="d-water-goal">/{user.waterGoal}L</div>
+                    <div className="d-water-bar">
+                        <div className="d-water-fill" style={{ height: `${waterPct * 100}%` }} />
                     </div>
+                    <div className="d-water-plus"><Plus size={14} /></div>
                 </div>
             </div>
 
-            {/* ═══ BOTTOM GRID: 3×2 = meals + water + workouts ═══ */}
-            <div className="d-grid">
-                {/* Row 1: Breakfast, Lunch, Water */}
-                {['breakfast', 'lunch'].map(slot => {
-                    const { icon: Icon, color } = SLOT_META[slot];
+            {/* ═══ MEALS 2×2 ═══ */}
+            <div className="d-meals">
+                {SLOTS.map(slot => {
+                    const m = SLOT_META[slot];
+                    const Icon = m.icon;
                     const items = today.meals[slot] || [];
                     const slotCals = items.reduce((s, i) => s + i.cals, 0);
                     return (
-                        <div key={slot} className="card d-cell" onClick={() => onMealSlotClick(slot)}>
-                            <div className="d-cell-head">
-                                <div className="d-dot" style={{ background: color }} />
-                                <Icon size={12} style={{ opacity: 0.4 }} />
-                                <span className="d-cell-title">{slot}</span>
-                            </div>
+                        <div key={slot} className="d-meal" style={{ background: m.bg }} onClick={() => onMealSlotClick(slot)}>
+                            <div className="d-meal-icon" style={{ background: m.color }}><Icon size={13} color="white" /></div>
+                            <div className="d-meal-name">{slot}</div>
                             {slotCals > 0
-                                ? <div className="d-cell-big">{slotCals}</div>
-                                : <div className="d-cell-add"><Plus size={14} strokeWidth={2.5} /></div>
+                                ? <div className="d-meal-kcal">{slotCals}</div>
+                                : <div className="d-meal-add"><Plus size={16} /></div>
                             }
                         </div>
                     );
                 })}
+            </div>
 
-                {/* Water */}
-                <div className={`card d-cell ${tapped ? 'pop' : ''}`} onClick={tapWater}>
-                    <div className="d-cell-head">
-                        <Droplets size={12} color="var(--c-blue)" />
-                        <span className="d-cell-title">Water</span>
-                        <div className="d-add-btn"><Plus size={9} /></div>
-                    </div>
-                    <div className="d-cell-big" style={{ color: 'var(--c-blue)' }}>{today.water}<span className="d-dim">/{user.waterGoal}</span></div>
-                    <div className="d-bar-track"><div className="d-bar-fill" style={{ width: `${waterPct * 100}%`, background: 'var(--c-blue)' }} /></div>
-                </div>
-
-                {/* Row 2: Dinner, Snacks, Workouts */}
-                {['dinner', 'snacks'].map(slot => {
-                    const { icon: Icon, color } = SLOT_META[slot];
-                    const items = today.meals[slot] || [];
-                    const slotCals = items.reduce((s, i) => s + i.cals, 0);
-                    return (
-                        <div key={slot} className="card d-cell" onClick={() => onMealSlotClick(slot)}>
-                            <div className="d-cell-head">
-                                <div className="d-dot" style={{ background: color }} />
-                                <Icon size={12} style={{ opacity: 0.4 }} />
-                                <span className="d-cell-title">{slot}</span>
-                            </div>
-                            {slotCals > 0
-                                ? <div className="d-cell-big">{slotCals}</div>
-                                : <div className="d-cell-add"><Plus size={14} strokeWidth={2.5} /></div>
-                            }
-                        </div>
-                    );
-                })}
-
-                {/* Workouts */}
-                <div className="card d-cell">
-                    <div className="d-cell-head">
-                        <Dumbbell size={12} color="var(--c-red)" />
-                        <span className="d-cell-title">Workout</span>
-                    </div>
-                    <div className="d-cell-big" style={{ color: 'var(--c-red)' }}>{workoutsLogged}</div>
-                </div>
+            {/* ═══ WORKOUT BAR — full width, dark ═══ */}
+            <div className="d-workout-bar">
+                <Dumbbell size={16} color="var(--c-volt)" />
+                <span className="d-workout-label">Workouts</span>
+                <span className="d-workout-num">{workoutsLogged}</span>
             </div>
         </div>
     );

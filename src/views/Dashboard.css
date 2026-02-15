@@ -1,8 +1,8 @@
-/* Dashboard — Neo-Brutal, FULL viewport */
+/* Dashboard — Inspo-based, bento, bold colors */
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(10px);
     }
 
     to {
@@ -17,7 +17,7 @@
     }
 
     40% {
-        transform: scale(1.05);
+        transform: scale(1.06);
     }
 
     100% {
@@ -31,7 +31,7 @@
     height: calc(100dvh - 48px - 104px);
     padding: 4px 14px 0;
     overflow: hidden;
-    gap: 5px;
+    gap: 6px;
 }
 
 /* Top */
@@ -56,40 +56,52 @@
     opacity: 0.4;
 }
 
-.d-dim {
-    font-weight: 700;
-    font-size: 10px;
-    opacity: 0.3;
+/* ═══ HERO ROW: Calories + Water side by side ═══ */
+.d-hero-row {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    animation: slideIn 0.25s ease;
 }
 
-/* Hero calorie card */
-.d-hero {
+/* Calorie card — DARK background */
+.d-cal-card {
+    flex: 1;
+    background: var(--c-black);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    flex-shrink: 0;
-    animation: slideIn 0.2s ease;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
 }
 
-.d-ring-box {
+.d-cal-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-active);
+}
+
+.d-cal-ring-area {
     position: relative;
     width: 68px;
     height: 68px;
     flex-shrink: 0;
 }
 
-.d-ring-svg {
+.d-cal-svg {
     width: 100%;
     height: 100%;
     display: block;
 }
 
-.d-ring-anim {
+.d-anim {
     transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.d-ring-text {
+.d-cal-inner {
     position: absolute;
     inset: 0;
     display: flex;
@@ -98,144 +110,209 @@
     justify-content: center;
 }
 
-.d-ring-num {
+.d-cal-num {
     font-weight: 900;
-    font-size: 17px;
+    font-size: 18px;
+    color: white;
     line-height: 1;
 }
 
-.d-ring-lbl {
+.d-cal-lbl {
     font-weight: 700;
     font-size: 7px;
-    opacity: 0.3;
+    color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    margin-top: 1px;
 }
 
-.d-hero-right {
+.d-cal-info {
     flex: 1;
-    min-width: 0;
 }
 
-.d-eaten {
+.d-cal-eaten {
     font-weight: 900;
-    font-size: 20px;
+    font-size: 18px;
+    color: white;
     line-height: 1;
-    margin-bottom: 6px;
 }
 
-/* PCF bars */
-.d-pcf-bars {
+.d-cal-dim {
+    font-weight: 700;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.d-cal-pcf {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
+    margin-top: 6px;
 }
 
-.d-bar-row {
+.d-pcf-pill {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
+    font-weight: 800;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
 }
 
-.d-bar-label {
-    font-weight: 900;
-    font-size: 10px;
-    width: 10px;
-}
-
-.d-bar-track {
-    flex: 1;
+.d-pcf-dot {
+    width: 5px;
     height: 5px;
-    background: rgba(0, 0, 0, 0.06);
+    border-radius: 50%;
+}
+
+/* Water card — BLUE background */
+.d-water-card {
+    width: 80px;
+    flex-shrink: 0;
+    background: var(--c-blue);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
+    position: relative;
+}
+
+.d-water-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-active);
+}
+
+.d-water-card.pop {
+    animation: popBounce 0.3s ease;
+}
+
+.d-water-num {
+    font-weight: 900;
+    font-size: 22px;
+    color: white;
+    line-height: 1;
+}
+
+.d-water-goal {
+    font-weight: 700;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.d-water-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
     overflow: hidden;
+    margin-top: auto;
+    position: relative;
 }
 
-.d-bar-fill {
-    height: 100%;
+.d-water-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
     border-radius: 3px;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: height 0.5s ease;
 }
 
-.d-bar-val {
-    font-weight: 800;
-    font-size: 10px;
-    min-width: 38px;
-    text-align: right;
-}
-
-/* ═══ 3×2 GRID — fills remaining viewport ═══ */
-.d-grid {
+.d-water-plus {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    margin-top: 2px;
+}
+
+/* ═══ MEALS 2×2 — fills remaining space ═══ */
+.d-meals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 5px;
+    gap: 6px;
     flex: 1;
     min-height: 0;
     animation: slideIn 0.3s ease;
 }
 
-/* Each cell in the grid */
-.d-cell {
-    padding: 8px 10px;
+.d-meal {
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 10px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    overflow: hidden;
     transition: transform 0.12s, box-shadow 0.12s;
 }
 
-.d-cell:active {
+.d-meal:active {
     transform: translate(2px, 2px);
     box-shadow: var(--shadow-active);
 }
 
-.d-cell.pop {
-    animation: popBounce 0.3s ease;
+.d-meal-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
 }
 
-.d-cell-head {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-}
-
-.d-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.d-cell-title {
+.d-meal-name {
     font-weight: 800;
-    font-size: 9px;
+    font-size: 11px;
     text-transform: capitalize;
-    opacity: 0.5;
+    opacity: 0.6;
+    margin-top: 4px;
 }
 
-.d-cell-big {
+.d-meal-kcal {
     font-weight: 900;
-    font-size: 18px;
+    font-size: 22px;
     line-height: 1;
     margin-top: auto;
 }
 
-.d-cell-add {
+.d-meal-add {
     margin-top: auto;
-    opacity: 0.1;
+    opacity: 0.15;
 }
 
-/* Water add button */
-.d-add-btn {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-    margin-left: auto;
-    border: 1.5px solid var(--c-blue);
-    color: var(--c-blue);
-    display: grid;
-    place-items: center;
+/* ═══ WORKOUT BAR — full width, dark ═══ */
+.d-workout-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--c-black);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 10px 14px;
+    flex-shrink: 0;
+    animation: slideIn 0.35s ease;
+}
+
+.d-workout-label {
+    font-weight: 800;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    flex: 1;
+}
+
+.d-workout-num {
+    font-weight: 900;
+    font-size: 20px;
+    color: var(--c-volt);
 }
