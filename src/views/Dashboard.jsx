@@ -63,7 +63,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
             {/* Top Bar: Greeting + Streak */}
             <div className="d-top">
                 <div className="d-greet-box">
-                    <div className="d-greet">{getGreeting()}</div>
+                    <div className="d-greet">{getGreeting()},</div>
                     <div className="d-name">{user.name.split(' ')[0]}</div>
                 </div>
                 <div className={`d-streak ${streak > 6 ? 'fire' : ''}`}>
@@ -102,6 +102,11 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     <div className="d-cal-info">
                         <div className="d-cal-lbl">Calories Left</div>
                         <div className="d-cal-eaten">{totals.cals} / {user.calorieTarget}</div>
+                        <div className="d-cal-macros">
+                            <div className="d-macro-pill"><div className="d-dot" style={{ background: '#FFD700' }} />P {totals.p}</div>
+                            <div className="d-macro-pill"><div className="d-dot" style={{ background: '#00BFFF' }} />C {totals.c}</div>
+                            <div className="d-macro-pill"><div className="d-dot" style={{ background: '#FF4500' }} />F {totals.f}</div>
+                        </div>
                     </div>
                 </div>
 
