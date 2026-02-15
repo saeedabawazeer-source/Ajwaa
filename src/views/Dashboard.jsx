@@ -110,9 +110,9 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Timeline: History Only + One Add Button */}
+            {/* Timeline: Food Feed + Log Button */}
             <div className="d-timeline">
-                {/* Unified Log Button */}
+                {/* Generic Log Button */}
                 <div className="d-log-action" onClick={() => onMealSlotClick(currentSlot)}>
                     <div className="d-log-icon">
                         <Plus size={18} color="white" strokeWidth={3} />
@@ -120,38 +120,35 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     <div className="d-log-text">
                         Log Food
                     </div>
-                    <span style={{ marginLeft: 'auto', opacity: 0.5, fontSize: 12, fontWeight: 600 }}>
-                        {SLOT_META[currentSlot].label}
-                    </span>
                 </div>
 
-                {SLOTS.map(slot => {
-                    const m = SLOT_META[slot];
-                    const Icon = m.icon;
-                    const items = today.meals[slot] || [];
-                    const slotCals = items.reduce((s, i) => s + i.cals, 0);
+                {/* Food Feed */}
+                <div className="d-feed">
+                    {SLOTS.map(slot => {
+                        const items = today.meals[slot] || [];
+                        if (!items.length) return null;
+                        const m = SLOT_META[slot];
+                        const Icon = m.icon;
 
-                    if (items.length === 0) return null; // Only show logged
+                        return items.map((item, idx) => (
+                            <div key={`${slot}-${idx}`} className="d-feed-item">
+                                <div className="d-feed-icon" style={{ background: m.bg }}>
+                                    <Icon size={14} color={m.color} />
+                                </div>
+                                <div className="d-feed-info">
+                                    <div className="d-feed-name">{item.name}</div>
+                                    <div className="d-feed-meta">{m.label} • {item.cals} kcal</div>
+                                </div>
+                            </div>
+                        ));
+                    })}
 
-                    return (
-                        <div key={slot} className="d-time-row filled" onClick={() => onMealSlotClick(slot)}>
-                            <div className="d-time-icon" style={{ background: m.color }}>
-                                <Icon size={14} color="white" />
-                            </div>
-                            <div className="d-time-info">
-                                <span className="d-time-name">{m.label}</span>
-                                <span className="d-time-cal">{slotCals} kcal</span>
-                            </div>
-                            <ChevronRight size={16} opacity={0.3} />
+                    {!hasMeals && (
+                        <div className="d-empty-feed">
+                            <span style={{ opacity: 0.5 }}>No meals logged yet.</span>
                         </div>
-                    );
-                })}
-
-                {!hasMeals && (
-                    <div style={{ textAlign: 'center', marginTop: 20, opacity: 0.5, fontSize: 13, fontWeight: 500 }}>
-                        No meals logged yet today.
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
 
             {/* Workout */}
