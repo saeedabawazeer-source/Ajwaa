@@ -19,10 +19,12 @@ export default function Dock({ activeView, onNavigate, onFab }) {
                     {it.icon}
                 </button>
             ))}
-            <button className="nav-fab" onClick={onFab}>
-                <div style={{ width: 35, height: 30, display: 'flex', justifyContent: 'center', marginTop: 4 }}>
-                    <AjwaMascot mood="happy" showHands={false} />
-                </div>
+            <button className="nav-mascot" onClick={onFab} style={{
+                background: 'none', border: 'none', padding: 0, marginTop: -40,
+                width: 70, height: 60, display: 'flex', justifyContent: 'center', alignItems: 'center',
+                filter: 'drop-shadow(0px 4px 0px rgba(0,0,0,0.2))', cursor: 'pointer', zIndex: 10
+            }}>
+                <AjwaMascot mood="happy" showHands={false} />
             </button>
             {right.map(it => (
                 <button key={it.id} className={`nav-item ${activeView === it.id ? 'active' : ''}`} onClick={() => onNavigate(it.id)}>
