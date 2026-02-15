@@ -115,44 +115,55 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Main Content: Big Workout Card (Interactive) */}
-            <div className="d-workout-big">
-                <div className="d-wb-header">
-                    <div className="d-wb-title">
-                        <span className="d-wb-day">DAY 3</span>
-                        <span className="d-wb-name">Chest & Triceps</span>
-                    </div>
-                    {workoutsLogged > 0 ? (
-                        <div className="d-wb-status done">COMPLETE</div>
-                    ) : (
-                        <div className="d-wb-status">45 MIN</div>
+            {/* Main Content: Food Feed (Daily Log) */}
+            <div className="d-timeline">
+                <div className="d-feed-header">
+                    <span>Today's Log</span>
+                    <span onClick={() => onMealSlotClick(currentSlot)} style={{ color: 'var(--c-blue)', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>+ ADD</span>
+                </div>
+
+                <div className="d-feed">
+                    {SLOTS.map(slot => {
+                        const items = today.meals[slot] || [];
+                        if (!items.length) return null;
+                        const m = SLOT_META[slot];
+                        const Icon = m.icon;
+
+                        return items.map((item, idx) => (
+                            <div key={`${slot}-${idx}`} className="d-feed-item">
+                                <div className="d-feed-icon" style={{ background: m.bg }}>
+                                    <Icon size={14} color={m.color} />
+                                </div>
+                                <div className="d-feed-info">
+                                    <div className="d-feed-name">{item.name || item.food}</div>
+                                    <div className="d-feed-meta">{m.label} • {item.cals} kcal</div>
+                                </div>
+                                <div className="d-feed-time">{item.time || 'now'}</div>
+                            </div>
+                        ));
+                    })}
+
+                    {!hasMeals && (
+                        <div className="d-empty-feed">
+                            <div style={{ marginBottom: 8 }}>No meals logged yet.</div>
+                            <button className="d-log-action-small" onClick={() => onMealSlotClick(currentSlot)}>
+                                Log First Meal
+                            </button>
+                        </div>
                     )}
                 </div>
+            </div>
 
-                <div className="d-wb-list">
-                    <div className="d-wb-item">
-                        <div className="d-wb-check"></div>
-                        <span>Barbell Bench Press</span>
-                        <span className="d-wb-meta">3 x 10</span>
-                    </div>
-                    <div className="d-wb-item">
-                        <div className="d-wb-check"></div>
-                        <span>Incline Dumbbell Press</span>
-                        <span className="d-wb-meta">3 x 12</span>
-                    </div>
-                    <div className="d-wb-item">
-                        <div className="d-wb-check"></div>
-                        <span>Tricep Rope Pushdown</span>
-                        <span className="d-wb-meta">3 x 15</span>
-                    </div>
-                    <div className="d-wb-more">+ 2 more exercises</div>
+            {/* Compact Workout Widget */}
+            <div className="d-workout-smart" style={{ opacity: workoutsLogged > 0 ? 0.6 : 1, marginTop: 'auto' }}>
+                <Dumbbell size={18} color="var(--c-volt)" />
+                <div className="d-work-text">
+                    {workoutsLogged > 0
+                        ? <span>Workout complete! Great job.</span>
+                        : <span>Today: <strong>Chest & Triceps</strong> (45m)</span>
+                    }
                 </div>
-
-                {workoutsLogged === 0 && (
-                    <button className="d-wb-btn">
-                        START WORKOUT <Dumbbell size={16} />
-                    </button>
-                )}
+                {workoutsLogged === 0 && <div className="d-work-go">GO</div>}
             </div>
         </div>
     );
