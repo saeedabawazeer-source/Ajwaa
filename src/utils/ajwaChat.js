@@ -28,125 +28,75 @@ export function generateAjwaResponse(message, { totals, user, streak, today, xp 
     const remaining = Math.max(0, user.calorieTarget - totals.cals);
     const protPct = totals.p / user.macros.p;
     const waterPct = today.water / user.waterGoal;
-    const workouts = today.workouts?.length || 0;
-    const firstName = user.name.split(' ')[0];
 
     switch (intent) {
-        case 'greeting': {
-            const timeGreet = hour < 12 ? 'Morning' : hour < 17 ? 'Afternoon' : 'Evening';
+        case 'greeting':
             return pick([
-                `${timeGreet}, ${firstName}! Ready to make today count? You've eaten ${totals.cals} kcal so far.`,
-                `Hey ${firstName}! Your streak is at ${streak} days. Let's keep it alive today.`,
-                `What's up ${firstName}! You're level ${Math.floor(xp / 100) + 1}. How can I help?`,
+                `Hey ${user.name.split(' ')[0]}! Ready to crush today?`,
+                `Salam! Let's make today count.`,
+                `Hi there! I'm ready to help you hit those goals.`,
+                `Yo! What's the plan for today?`,
             ]);
-        }
-
-        case 'progress': {
-            const status = calPct > 0.9 ? 'almost at your calorie target' :
-                calPct > 0.5 ? 'on track' : 'still early';
-            return `You're ${status} today.\n\n` +
-                `Calories: ${totals.cals} / ${user.calorieTarget} kcal (${Math.round(calPct * 100)}%)\n` +
-                `Protein: ${totals.p}g / ${user.macros.p}g\n` +
-                `Water: ${today.water}L / ${user.waterGoal}L\n` +
-                `Workouts: ${workouts}\n\n` +
-                (protPct < 0.5 && hour > 12 ? 'Your protein is looking low — prioritize it in your next meal.' : 'Keep it up!');
-        }
-
-        case 'meal_suggestion': {
-            const meals = {
-                muscle_gain: [
-                    'Try grilled chicken breast (165g) with rice and broccoli — ~500 kcal, 45g protein.',
-                    'A protein shake with oats and banana — ~400 kcal, 35g protein. Quick and effective.',
-                    'Salmon with sweet potato and asparagus — ~550 kcal, 40g protein, great omega-3s.',
-                    'Greek yogurt with nuts and honey — ~350 kcal, 25g protein. Perfect as a snack.',
-                ],
-                cutting: [
-                    'Egg white omelette with spinach and tomato — ~200 kcal, 25g protein. Low cal, high protein.',
-                    'Tuna salad with lemon dressing — ~250 kcal, 35g protein. Keep it lean.',
-                    'Grilled chicken salad with olive oil — ~350 kcal, 40g protein.',
-                    'Cottage cheese with berries — ~180 kcal, 20g protein. Light but filling.',
-                ],
-                maintain: [
-                    'Balanced plate: palm of protein, fist of carbs, thumb of fats — ~450 kcal.',
-                    'Chicken stir-fry with mixed veggies and rice — ~500 kcal, 35g protein.',
-                    'Turkey wrap with avocado and greens — ~400 kcal, 30g protein.',
-                ],
-            };
-            const goalMeals = meals[user.goal] || meals.maintain;
-            const suggestion = pick(goalMeals);
-            return `Based on your ${user.goal.replace('_', ' ')} goal:\n\n${suggestion}\n\nYou have ${remaining} kcal left today.`;
-        }
-
-        case 'workout_suggestion': {
-            const suggestions = [
-                'Push Day: Bench Press 4×8, Overhead Press 3×10, Incline DB Press 3×12, Lateral Raises 3×15.',
-                'Pull Day: Barbell Rows 4×8, Pull-ups 3×max, Lat Pulldown 3×12, Bicep Curls 3×12.',
-                'Leg Day: Squats 4×8, Romanian Deadlifts 3×10, Leg Press 3×12, Calf Raises 4×15.',
-                'Full Body: Deadlift 3×5, Bench Press 3×8, Rows 3×10, Squats 3×8.',
-                'Upper Body: Bench 4×8, Rows 4×8, Overhead Press 3×10, Dips 3×max.',
-            ];
-            return `Here's one for you:\n\n${pick(suggestions)}\n\nGo to the Workouts tab to start it, or pick from the templates!`;
-        }
-
+        case 'progress':
+            if (calPct > 1.1) return `You're a bit over on calories (${totals.cals}), but that's okay! focus on protein tomorrow.`;
+            if (calPct > 0.8) return `You're crushing it! ${Math.round(calPct * 100)}% of calories eaten. Finish strong!`;
+            if (calPct < 0.3 && hour > 14) return `Slow day? You've only eaten ${totals.cals} kcal. Fuel up!`;
+            return `You're at ${totals.cals} kcal. ${remaining} left to go. Keep it up!`;
+        case 'meal_suggestion':
+            if (hour < 11) return pick([
+                "How about Oatmeal with protein powder and berries?",
+                "Eggs and toast is a classic winner.",
+                "Greek yogurt bowl with nuts and honey!"
+            ]);
+            if (hour < 16) return pick([
+                "Chicken breast with rice and broccoli? Classic bodybuilder fuel.",
+                "Maybe a tuna salad wrap?",
+                "Leftovers? If not, maybe a turkey sandwich."
+            ]);
+            return pick([
+                "Salmon and asparagus would be great.",
+                "Lean beef stir-fry?",
+                "Casein protein shake or cottage cheese before bed."
+            ]);
+        case 'workout_suggestion':
+            return pick([
+                "Push day? Bench press, overhead press, and triceps.",
+                "Pull day! Deadlifts, rows, and curls.",
+                "Leg day... don't skip it! Squats and lunges.",
+                "Maybe just a 30min run to clear your head?"
+            ]);
         case 'macros':
-            return `Your macros today:\n\n` +
-                `Protein: ${totals.p}g / ${user.macros.p}g (${Math.round(protPct * 100)}%)\n` +
-                `Carbs: ${totals.c}g / ${user.macros.c}g (${Math.round(totals.c / user.macros.c * 100)}%)\n` +
-                `Fats: ${totals.f}g / ${user.macros.f}g (${Math.round(totals.f / user.macros.f * 100)}%)\n\n` +
-                (protPct < 0.5 ? 'Protein needs attention! Try chicken, eggs, or a shake.' : 'Macros looking solid!');
-
+            if (protPct < 0.5 && hour > 15) return `Protein is low (${totals.p}g). Try to get a shake or some chicken in!`;
+            if (protPct >= 1) return `Protein goals hit! (${totals.p}g) Great job optimizing for muscle.`;
+            return `You're at ${totals.p}g Protein, ${totals.c}g Carbs, ${totals.f}g Fat.`;
         case 'water':
-            return `You've had ${today.water}L out of ${user.waterGoal}L (${Math.round(waterPct * 100)}%).\n\n` +
-                (waterPct >= 1 ? 'You hit your water goal! Great hydration.' :
-                    waterPct > 0.5 ? `${(user.waterGoal - today.water).toFixed(1)}L more to go. Keep sipping!` :
-                        'You need to drink more water! Tap the water card on the dashboard to log cups.');
-
+            if (waterPct < 0.5) return `Hydrate! You're only at ${today.water}L. aim for ${user.waterGoal}L.`;
+            return `Water intake is looking good: ${today.water}L. Keep sipping!`;
         case 'calories':
-            return `Eaten: ${totals.cals} kcal\nTarget: ${user.calorieTarget} kcal\nRemaining: ${remaining} kcal\n\n` +
-                (calPct > 1.1 ? 'You\'re over your target. No stress — just be mindful for the rest of the day.' :
-                    calPct > 0.8 ? 'Almost there! One more meal should do it.' :
-                        'Still have room — make sure to fuel properly.');
-
+            return `You have ${remaining} calories left today (eaten ${totals.cals}).`;
         case 'streak':
-            return `Your streak: ${streak} day${streak !== 1 ? 's' : ''}!\n\n` +
-                (streak === 0 ? 'No streak yet — log something today to start one!' :
-                    streak < 7 ? 'Building momentum. Get to 7 days for that first milestone!' :
-                        streak < 30 ? `${streak} days strong! You're building a real habit.` :
-                            `${streak} days is LEGENDARY. You're a machine.`);
-
+            if (streak > 3) return `You're on fire! ${streak} day streak. Don't break the chain! 🔥`;
+            return `Current streak: ${streak} days. Consistency is key!`;
         case 'xp':
-            return `Total XP: ${xp || 0}\nLevel: ${Math.floor((xp || 0) / 100) + 1}\n\n` +
-                'You earn XP by logging meals (+10), workouts (+25), hitting targets (+15), and maintaining streaks (+5/day).';
-
+            return `Level ${xp.level || 1} • ${xp.current || 0} XP. Keep logging to level up!`;
         case 'weight':
-            return `Current weight: ${user.weight}kg\nHeight: ${user.height}cm\nBMI: ${(user.weight / ((user.height / 100) ** 2)).toFixed(1)}\n\n` +
-                'Track your weight in Profile → Overview → Log Weight to see trends over time.';
-
+            return `Tracking weight helps see trends. Log it in your profile!`;
         case 'motivation':
             return pick([
-                `${firstName}, the only bad workout is the one you didn't do. You've got ${streak} days of proof that you can show up.`,
-                'Motivation is temporary. Discipline is permanent. You\'re already here — that\'s half the battle.',
-                `Remember why you started. Your ${user.goal.replace('_', ' ')} goal isn't going to achieve itself. But YOU can.`,
-                'Even 10 minutes of effort is better than zero. Start small, build momentum.',
-                `You're level ${Math.floor((xp || 0) / 100) + 1} now. Future you will thank present you for not quitting.`,
+                "Discipline beats motivation. Just show up.",
+                "You don't have to be great to start, but you have to start to be great.",
+                "One bad meal doesn't ruin progress. One good meal doesn't make it. Consistency!",
+                "Do it for the 'after' photo."
             ]);
-
         case 'tips':
             return pick([
-                'Tip: Eat protein first in every meal. It keeps you fuller longer and supports muscle recovery.',
-                'Tip: Drink a glass of water before each meal. You\'ll eat less and stay hydrated.',
-                'Tip: Track everything, even on bad days. Data beats feelings.',
-                'Tip: Sleep 7-9 hours. It\'s the #1 recovery tool that most people ignore.',
-                'Tip: Meal prep on Sundays. It removes decision fatigue for the whole week.',
-                'Tip: Progressive overload — add 1-2kg to your lifts every 1-2 weeks.',
+                "Drink water before meals to feel fuller.",
+                "Sleep is when muscles grow. Get 8 hours!",
+                "Prioritize protein in every meal.",
+                "Walk more. It adds up fast."
             ]);
-
         case 'log_help':
-            return 'To log things:\n\n' +
-                '• Meals: Tap any meal slot on the dashboard (breakfast, lunch, dinner, snacks)\n' +
-                '• Water: Tap the water card on the dashboard\n' +
-                '• Workout: Go to the Workouts tab and hit START\n' +
-                '• Weight: Go to Profile → Overview → Log Weight';
+            return "Tap the '+' icons on the dashboard to log meals, or use the chat to tell me what you ate!";
 
         default:
             return pick([
@@ -163,4 +113,44 @@ export function getWelcomeMessage(user, totals, streak) {
     const timeGreet = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
     const firstName = user.name.split(' ')[0];
     return `Good ${timeGreet}, ${firstName}! I'm Ajwa, your personal fitness coach. You've logged ${totals.cals} kcal today. How can I help?`;
+}
+
+// Proactive dashboard nudge
+export function getDashboardNudge(today, user, totals, streak) {
+    const hour = new Date().getHours();
+    const firstName = user.name.split(' ')[0];
+    const logCount = today.meals.breakfast.length + today.meals.lunch.length + today.meals.dinner.length + today.meals.snacks.length;
+
+    // Morning check
+    if (hour >= 6 && hour < 11 && today.meals.breakfast.length === 0) {
+        return { text: `Don't forget breakfast, ${firstName}!`, mood: 'concern' };
+    }
+
+    // Mid-day check
+    if (hour >= 12 && hour < 15 && today.meals.lunch.length === 0) {
+        return { text: `Fuel up for the afternoon! Log lunch?`, mood: 'neutral' };
+    }
+
+    // Evening check
+    if (hour >= 18 && hour < 22 && today.meals.dinner.length === 0) {
+        return { text: `Time for dinner? What's on the menu?`, mood: 'happy' };
+    }
+
+    // Hydration check
+    if (hour > 14 && (today.water / user.waterGoal) < 0.4) {
+        return { text: `You look thirsty! Drink some water 💧`, mood: 'concern' };
+    }
+
+    // Workout check
+    if (hour > 17 && (!today.workouts || today.workouts.length === 0)) {
+        return { text: `Still time to crush a workout today! 💪`, mood: 'excited' };
+    }
+
+    // Default success
+    if (logCount > 2) {
+        return { text: `Crushing it today! Keep it up 🔥`, mood: 'excited' };
+    }
+
+    // Default fallback
+    return { text: `Waiting for your next move...`, mood: 'neutral' };
 }
