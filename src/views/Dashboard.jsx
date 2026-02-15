@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import AjwaMascot from '../components/AjwaMascot';
 import CalendarStrip from '../components/CalendarStrip';
-import { getXPProgress, calcDayXP } from '../store/xpEngine';
+import { getXPProgress } from '../store/xpEngine';
 import { getDashboardNudge } from '../utils/ajwaChat';
-import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Flame, ChevronRight, Scale } from 'lucide-react';
+import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Scale } from 'lucide-react';
 import './Dashboard.css';
 
-const SLOTS = ['breakfast', 'lunch', 'dinner', 'snacks'];
 const SLOT_META = {
     breakfast: { icon: Coffee, color: '#FF9800', bg: '#FFF3E0', label: 'Breakfast' },
     lunch: { icon: Sun, color: '#4CAF50', bg: '#E8F5E9', label: 'Lunch' },
@@ -21,30 +21,10 @@ function getCurrentSlot() {
     return 'snacks';
 }
 
-function AjwaAvatar({ mood }) {
-    const eyes = mood === 'concern' ? 'M 9 14 Q 11 12 13 14 M 19 14 Q 21 12 23 14' :
-        mood === 'excited' ? 'M 9 14 Q 11 12 13 14 M 19 14 Q 21 12 23 14' :
-            'M 9 13 A 2 2 0 1 1 13 13 M 19 13 A 2 2 0 1 1 23 13';
-
-    const mouth = mood === 'concern' ? 'M 10 22 Q 16 20 22 22' :
-        mood === 'excited' ? 'M 10 20 Q 16 28 22 20' :
-            'M 11 21 Q 16 24 21 21';
-
-    return (
-        <svg viewBox="0 0 32 32" className="d-ajwa-svg">
-            <circle cx="16" cy="16" r="15" fill="#1A1A1A" />
-            <path d={eyes} stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-            <path d={mouth} stroke="white" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-        </svg>
-    );
-}
-
 export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, xp, selectedDate, onSelectDate }) {
     const days = getLast7Days();
-    const remaining = Math.max(0, user.calorieTarget - totals.cals);
     const calPct = Math.min(totals.cals / user.calorieTarget, 1);
     const calCirc = 2 * Math.PI * 38; // Slightly larger ring
-    const workoutsLogged = today.workouts?.length || 0;
     const waterPct = Math.min(today.water / user.waterGoal, 1);
     const [tapped, setTapped] = useState(false);
 
@@ -67,7 +47,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
             {/* Ajwa Section (Context) */}
             <div className="d-ajwa-section">
                 <div className="d-ajwa-avatar">
-                    <AjwaAvatar mood={nudge.mood} />
+                    <AjwaMascot mood={nudge.mood} lookingAt="user" />
                 </div>
                 <div className="d-ajwa-bubble">
                     {nudge.text}

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles } from 'lucide-react';
+import AjwaMascot from '../components/AjwaMascot';
 import { generateAjwaResponse, getWelcomeMessage } from '../utils/ajwaChat';
 import './AjwaChat.css';
 
@@ -59,7 +60,7 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                 {/* Header */}
                 <div className="ajwa-header">
                     <div className="ajwa-header-left">
-                        <div className="ajwa-logo"><Sparkles size={16} /></div>
+                        <div className="ajwa-logo"><AjwaMascot mood="happy" /></div>
                         <div>
                             <div className="ajwa-title">Ajwa</div>
                             <div className="ajwa-sub">Your fitness AI</div>
@@ -72,13 +73,19 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                 <div className="ajwa-messages" ref={scrollRef}>
                     {messages.map((msg, i) => (
                         <div key={i} className={`ajwa-bubble ${msg.role}`}>
-                            {msg.role === 'ajwa' && <div className="ajwa-bubble-icon"><Sparkles size={10} /></div>}
+                            {msg.role === 'ajwa' && (
+                                <div className="ajwa-bubble-icon">
+                                    <AjwaMascot mood="happy" lookingAt="user" />
+                                </div>
+                            )}
                             <div className="ajwa-bubble-text">{msg.text}</div>
                         </div>
                     ))}
                     {typing && (
                         <div className="ajwa-bubble ajwa">
-                            <div className="ajwa-bubble-icon"><Sparkles size={10} /></div>
+                            <div className="ajwa-bubble-icon">
+                                <AjwaMascot mood="thinking" lookingAt="up" />
+                            </div>
                             <div className="ajwa-typing"><span /><span /><span /></div>
                         </div>
                     )}

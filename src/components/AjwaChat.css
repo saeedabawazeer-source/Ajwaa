@@ -53,14 +53,12 @@
 }
 
 .ajwa-logo {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--c-volt);
-    border: 2px solid var(--c-black);
+    width: 50px;
+    height: 40px;
     display: grid;
     place-items: center;
-    box-shadow: 2px 2px 0 var(--c-black);
+    margin-right: -10px;
+    /* Overlap slightly */
 }
 
 .ajwa-title {
