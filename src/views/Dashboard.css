@@ -1,4 +1,4 @@
-/* Dashboard — Neo-Brutal, compact */
+/* Dashboard — Neo-Brutal, FULL viewport */
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -28,20 +28,18 @@
 .dash {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     height: calc(100dvh - 48px - 104px);
-    padding: 0 14px;
+    padding: 4px 14px 0;
     overflow: hidden;
     gap: 5px;
 }
 
-/* Greeting */
+/* Top */
 .d-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
-    animation: slideIn 0.2s ease;
 }
 
 .d-greet {
@@ -64,14 +62,14 @@
     opacity: 0.3;
 }
 
-/* Calorie card */
-.d-cal-card {
+/* Hero calorie card */
+.d-hero {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 10px 12px;
     flex-shrink: 0;
-    animation: slideIn 0.25s ease;
+    animation: slideIn 0.2s ease;
 }
 
 .d-ring-box {
@@ -115,7 +113,7 @@
     margin-top: 1px;
 }
 
-.d-cal-right {
+.d-hero-right {
     flex: 1;
     min-width: 0;
 }
@@ -154,10 +152,6 @@
     overflow: hidden;
 }
 
-.d-bar-track.thick {
-    height: 6px;
-}
-
 .d-bar-fill {
     height: 100%;
     border-radius: 3px;
@@ -171,111 +165,77 @@
     text-align: right;
 }
 
-/* Stats */
-.d-stats {
+/* ═══ 3×2 GRID — fills remaining viewport ═══ */
+.d-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 5px;
-    flex-shrink: 0;
+    flex: 1;
+    min-height: 0;
     animation: slideIn 0.3s ease;
 }
 
-.d-stat-card {
-    padding: 7px 10px;
-    cursor: pointer;
-    transition: transform 0.12s, box-shadow 0.12s;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.d-stat-card:active {
-    transform: translate(2px, 2px);
-    box-shadow: var(--shadow-active);
-}
-
-.d-stat-card.pop {
-    animation: popBounce 0.3s ease;
-}
-
-.d-stat-top {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.d-stat-title {
-    font-weight: 800;
-    font-size: 10px;
-    opacity: 0.5;
-    flex: 1;
-}
-
-.d-add-btn {
-    width: 18px;
-    height: 18px;
-    border-radius: 5px;
-    border: 2px solid var(--c-blue);
-    color: var(--c-blue);
-    display: grid;
-    place-items: center;
-}
-
-.d-stat-num {
-    font-weight: 900;
-    font-size: 16px;
-    line-height: 1;
-}
-
-/* Meals — auto height, NOT flex:1 */
-.d-meals {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
-    flex-shrink: 0;
-    animation: slideIn 0.35s ease;
-}
-
-.d-meal {
+/* Each cell in the grid */
+.d-cell {
     padding: 8px 10px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
+    overflow: hidden;
     transition: transform 0.12s, box-shadow 0.12s;
 }
 
-.d-meal:active {
+.d-cell:active {
     transform: translate(2px, 2px);
     box-shadow: var(--shadow-active);
 }
 
-.d-meal-head {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+.d-cell.pop {
+    animation: popBounce 0.3s ease;
 }
 
-.d-meal-dot {
+.d-cell-head {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.d-dot {
     width: 5px;
     height: 5px;
     border-radius: 50%;
     flex-shrink: 0;
 }
 
-.d-meal-name {
+.d-cell-title {
     font-weight: 800;
-    font-size: 10px;
+    font-size: 9px;
     text-transform: capitalize;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
-.d-meal-val {
+.d-cell-big {
     font-weight: 900;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1;
+    margin-top: auto;
 }
 
-.d-meal-empty {
-    opacity: 0.12;
+.d-cell-add {
+    margin-top: auto;
+    opacity: 0.1;
+}
+
+/* Water add button */
+.d-add-btn {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    margin-left: auto;
+    border: 1.5px solid var(--c-blue);
+    color: var(--c-blue);
+    display: grid;
+    place-items: center;
 }
