@@ -75,7 +75,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Big Stats Card (Merged Calories + Macros + Water) */}
+            {/* Big Stats Card (Calories + Macros) */}
             <div className="d-stats-card">
                 {/* Left: Interactive Calorie Ring */}
                 <div className="d-sc-left" onClick={() => onMealSlotClick(currentSlot)}>
@@ -120,37 +120,46 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                         <div className="d-mr-bar"><div className="d-mr-fill f" style={{ width: `${Math.min(totals.f / user.macros.f, 1) * 100}%` }} /></div>
                     </div>
                 </div>
+            </div>
 
-                {/* Right: Water Integrated */}
-                <div className={`d-sc-right ${tapped ? 'pop' : ''}`} onClick={tapWater}>
-                    <div className="d-sc-water-track">
-                        <div className="d-sc-water-fill" style={{ height: `${waterPct * 100}%` }} />
+            {/* Vitals Row: Water + Steps (New Fuller Widget) */}
+            <div className="d-vitals-row">
+                <div className={`d-vital-card water ${tapped ? 'pop' : ''}`} onClick={tapWater}>
+                    <div className="d-vital-icon">
+                        <Droplets size={20} fill="currentColor" />
                     </div>
-                    <div className="d-sc-water-icon">
-                        <Droplets size={16} fill="white" />
+                    <div className="d-vital-info">
+                        <span className="d-vital-val">{today.water}L</span>
+                        <span className="d-vital-lbl">Water</span>
+                    </div>
+                    <div className="d-vital-add">+</div>
+                    <div className="d-vital-bg-bar" style={{ height: `${waterPct * 100}%` }} />
+                </div>
+
+                <div className="d-vital-card steps">
+                    <div className="d-vital-icon">
+                        <Flame size={20} fill="currentColor" />
+                    </div>
+                    <div className="d-vital-info">
+                        <span className="d-vital-val">4,285</span>
+                        <span className="d-vital-lbl">Steps</span>
                     </div>
                 </div>
             </div>
 
-            {/* Actions Grid: Log Food & Start Workout */}
-            <div className="d-actions-grid">
-                <button className="d-action-card food" onClick={() => onMealSlotClick(currentSlot)}>
-                    <div className="d-ac-icon">
-                        <Plus size={24} strokeWidth={3} />
-                    </div>
-                    <div className="d-ac-label">Log Food</div>
-                    <div className="d-ac-sub">Track calories</div>
-                </button>
-
-                <button className="d-action-card workout" onClick={() => { /* TO DO: Link to Workout */ }}>
-                    <div className="d-ac-icon">
+            {/* Full Width Action Hero: Start Workout */}
+            <button className="d-action-hero" onClick={() => { /* TO DO */ }}>
+                <div className="d-ah-content">
+                    <div className="d-ah-icon">
                         <Dumbbell size={24} strokeWidth={3} />
                     </div>
-                    <div className="d-ac-label">Start Workout</div>
-                    <div className="d-ac-sub">Day 3: Chest</div>
-                </button>
-            </div>
-
+                    <div className="d-ah-text">
+                        <div className="d-ah-title">Start Workout</div>
+                        <div className="d-ah-sub">Chest & Triceps • 45m</div>
+                    </div>
+                </div>
+                <div className="d-ah-arrow">GO</div>
+            </button>
             {/* Level & XP Progress (Gamification Focus) */}
             <div className="d-xp-card">
                 <div className="d-xp-header">

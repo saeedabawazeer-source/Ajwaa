@@ -258,66 +258,164 @@
     border-right: 6px solid var(--c-black);
 }
 
-/* ── Actions Grid (Replaces Feed) ── */
-.d-actions-grid {
+/* ── Vitals Row (Water + Steps) ── */
+.d-vitals-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    flex: 1;
-    align-content: start;
 }
 
-.d-action-card {
+.d-vital-card {
     background: white;
     border: 2px solid var(--c-black);
     border-radius: var(--radius);
-    padding: 16px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    height: 80px;
     cursor: pointer;
-    transition: transform 0.1s;
     box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-    align-items: flex-start;
-    text-align: left;
 }
 
-.d-action-card:active {
+.d-vital-card:active {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
-.d-action-card.food {
-    background: #FFF3E0;
-    border-color: #FF9800;
-    color: #E65100;
-}
-
-.d-action-card.workout {
-    background: #E8F5E9;
-    border-color: #4CAF50;
-    color: #1B5E20;
-}
-
-.d-ac-icon {
-    background: rgba(255, 255, 255, 0.6);
-    padding: 10px;
-    border-radius: 12px;
+.d-vital-icon {
     margin-bottom: 4px;
+    z-index: 2;
+    position: relative;
 }
 
-.d-ac-label {
+.d-vital-info {
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.d-vital-val {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.d-vital-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0.6;
+    text-transform: uppercase;
+}
+
+/* Water Specific */
+.d-vital-card.water {
+    color: #1E3A8A;
+    border-color: #3B82F6;
+}
+
+.d-vital-card.water .d-vital-icon {
+    color: #2563EB;
+}
+
+.d-vital-bg-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #BFDBFE;
+    opacity: 0.6;
+    transition: height 0.4s ease;
+    z-index: 1;
+}
+
+.d-vital-add {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    opacity: 0.4;
+    z-index: 2;
+}
+
+/* Steps Specific */
+.d-vital-card.steps {
+    color: #ea580c;
+    border-color: #f97316;
+}
+
+.d-vital-card.steps .d-vital-icon {
+    color: #f97316;
+}
+
+/* ── Action Hero (Full Width Workout) ── */
+.d-action-hero {
+    width: 100%;
+    background: #DCFCE7;
+    /* Light Green */
+    border: 2px solid #16A34A;
+    color: #14532D;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s;
+}
+
+.d-action-hero:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.d-ah-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.d-ah-icon {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px;
+    border-radius: 50%;
+    color: #15803D;
+    border: 2px solid #15803D;
+}
+
+.d-ah-text {
+    text-align: left;
+}
+
+.d-ah-title {
     font-family: var(--font-display);
     font-size: 18px;
     font-weight: 700;
     line-height: 1.1;
 }
 
-.d-ac-sub {
+.d-ah-sub {
     font-size: 11px;
     font-weight: 600;
     opacity: 0.7;
+    margin-top: 2px;
     text-transform: uppercase;
+}
+
+.d-ah-arrow {
+    background: #16A34A;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
 }
 
 /* ── XP Card (Gamification) ── */
