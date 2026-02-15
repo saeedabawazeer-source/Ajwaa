@@ -75,23 +75,27 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
 
             <CalendarStrip days={days} />
 
-            {/* Stats */}
+            {/* Stats: Calories + Water */}
             <div className="d-stats-row">
-                <div className="d-cal-card" onClick={() => onMealSlotClick(currentSlot)}>
-                    <div className="d-ring-wrapper">
-                        <svg viewBox="0 0 76 76" className="d-ring-svg">
-                            <circle cx="38" cy="38" r="34" stroke="rgba(255,255,255,0.1)" strokeWidth="6" fill="none" />
-                            <circle cx="38" cy="38" r="34" stroke="var(--c-red)" strokeWidth="6" fill="none"
-                                strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
-                                transform="rotate(-90 38 38)" className="d-anim" />
-                        </svg>
-                        <div className="d-ring-inner">
-                            <span className="d-ring-num">{remaining}</span>
+                {/* Enhanced Calorie Card with Log Button */}
+                <div className="d-cal-card">
+                    <div className="d-cal-left" onClick={() => onMealSlotClick(currentSlot)}>
+                        <div className="d-ring-wrapper">
+                            <svg viewBox="0 0 76 76" className="d-ring-svg">
+                                <circle cx="38" cy="38" r="34" stroke="rgba(255,255,255,0.1)" strokeWidth="6" fill="none" />
+                                <circle cx="38" cy="38" r="34" stroke="var(--c-red)" strokeWidth="6" fill="none"
+                                    strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
+                                    transform="rotate(-90 38 38)" className="d-anim" />
+                            </svg>
+                            <div className="d-ring-inner">
+                                <Plus size={20} className="d-add-icon" />
+                            </div>
                         </div>
                     </div>
+
                     <div className="d-cal-info">
-                        <div className="d-cal-lbl">Calories Left</div>
-                        <div className="d-cal-eaten">{totals.cals} / {user.calorieTarget}</div>
+                        <div className="d-cal-lbl">Calories & Macros</div>
+                        <div className="d-cal-eaten">{totals.cals} / {user.calorieTarget} kcal</div>
                         <div className="d-cal-macros">
                             <div className="d-macro-pill"><div className="d-dot" style={{ background: '#FFD700' }} />P {totals.p}</div>
                             <div className="d-macro-pill"><div className="d-dot" style={{ background: '#00BFFF' }} />C {totals.c}</div>
@@ -100,6 +104,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                     </div>
                 </div>
 
+                {/* Water Card */}
                 <div className={`d-water-btn ${tapped ? 'pop' : ''}`} onClick={tapWater}>
                     <div className="d-water-track">
                         <div className="d-water-fill" style={{ height: `${waterPct * 100}%` }} />
@@ -110,57 +115,44 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
-            {/* Timeline: Food Feed + Log Button */}
-            <div className="d-timeline">
-                {/* Generic Log Button */}
-                <div className="d-log-action" onClick={() => onMealSlotClick(currentSlot)}>
-                    <div className="d-log-icon">
-                        <Plus size={18} color="white" strokeWidth={3} />
+            {/* Main Content: Big Workout Card (Interactive) */}
+            <div className="d-workout-big">
+                <div className="d-wb-header">
+                    <div className="d-wb-title">
+                        <span className="d-wb-day">DAY 3</span>
+                        <span className="d-wb-name">Chest & Triceps</span>
                     </div>
-                    <div className="d-log-text">
-                        Log Food
-                    </div>
-                </div>
-
-                {/* Food Feed */}
-                <div className="d-feed">
-                    {SLOTS.map(slot => {
-                        const items = today.meals[slot] || [];
-                        if (!items.length) return null;
-                        const m = SLOT_META[slot];
-                        const Icon = m.icon;
-
-                        return items.map((item, idx) => (
-                            <div key={`${slot}-${idx}`} className="d-feed-item">
-                                <div className="d-feed-icon" style={{ background: m.bg }}>
-                                    <Icon size={14} color={m.color} />
-                                </div>
-                                <div className="d-feed-info">
-                                    <div className="d-feed-name">{item.name}</div>
-                                    <div className="d-feed-meta">{m.label} • {item.cals} kcal</div>
-                                </div>
-                            </div>
-                        ));
-                    })}
-
-                    {!hasMeals && (
-                        <div className="d-empty-feed">
-                            <span style={{ opacity: 0.5 }}>No meals logged yet.</span>
-                        </div>
+                    {workoutsLogged > 0 ? (
+                        <div className="d-wb-status done">COMPLETE</div>
+                    ) : (
+                        <div className="d-wb-status">45 MIN</div>
                     )}
                 </div>
-            </div>
 
-            {/* Workout */}
-            <div className="d-workout-smart" style={{ opacity: workoutsLogged > 0 ? 0.6 : 1 }}>
-                <Dumbbell size={18} color="var(--c-volt)" />
-                <div className="d-work-text">
-                    {workoutsLogged > 0
-                        ? <span>Workout complete! Great job.</span>
-                        : <span>Day 3: <strong>Chest & Triceps</strong></span>
-                    }
+                <div className="d-wb-list">
+                    <div className="d-wb-item">
+                        <div className="d-wb-check"></div>
+                        <span>Barbell Bench Press</span>
+                        <span className="d-wb-meta">3 x 10</span>
+                    </div>
+                    <div className="d-wb-item">
+                        <div className="d-wb-check"></div>
+                        <span>Incline Dumbbell Press</span>
+                        <span className="d-wb-meta">3 x 12</span>
+                    </div>
+                    <div className="d-wb-item">
+                        <div className="d-wb-check"></div>
+                        <span>Tricep Rope Pushdown</span>
+                        <span className="d-wb-meta">3 x 15</span>
+                    </div>
+                    <div className="d-wb-more">+ 2 more exercises</div>
                 </div>
-                {workoutsLogged === 0 && <div className="d-work-go">GO</div>}
+
+                {workoutsLogged === 0 && (
+                    <button className="d-wb-btn">
+                        START WORKOUT <Dumbbell size={16} />
+                    </button>
+                )}
             </div>
         </div>
     );

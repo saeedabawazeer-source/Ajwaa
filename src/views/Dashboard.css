@@ -1,4 +1,4 @@
-/* Dashboard — Timeline, Ajwa, Fredoka */
+/* Dashboard — Workout Focus, Calorie Hub */
 @keyframes slideUp {
     from {
         opacity: 0;
@@ -48,7 +48,7 @@
     height: calc(100dvh - 48px - 104px);
     padding: 0 14px;
     overflow: hidden;
-    gap: 10px;
+    gap: 12px;
 }
 
 /* ── Top Bar Removed (Global Header used) ── */
@@ -122,6 +122,16 @@
     box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
 }
 
+.d-cal-left {
+    position: relative;
+    cursor: pointer;
+}
+
+.d-cal-left:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
 .d-ring-wrapper {
     width: 64px;
     height: 64px;
@@ -146,10 +156,9 @@
     justify-content: center;
 }
 
-.d-ring-num {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 18px;
+.d-add-icon {
+    color: white;
+    animation: popBounce 2s infinite;
 }
 
 .d-cal-info {
@@ -255,128 +264,120 @@
     opacity: 0.5;
 }
 
-/* ── Timeline Container ── */
-.d-timeline {
+/* ── Workout Big Card ── */
+.d-workout-big {
     flex: 1;
+    background: white;
+    border: 2px solid var(--c-black);
+    border-radius: var(--radius);
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
     overflow-y: auto;
-    padding-bottom: 4px;
 }
 
-/* ── Log Action Button (Generic) ── */
-.d-log-action {
+.d-wb-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #F3F4F6;
+    padding-bottom: 12px;
+}
+
+.d-wb-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.d-wb-day {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--c-blue);
+    letter-spacing: 1px;
+}
+
+.d-wb-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--c-black);
+}
+
+.d-wb-status {
+    background: var(--c-black);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 11px;
+}
+
+.d-wb-status.done {
+    background: var(--c-green);
+    color: white;
+}
+
+.d-wb-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.d-wb-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 0 16px;
-    min-height: 56px;
-    background: var(--c-black);
-    color: white;
-    border-radius: 14px;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
-    transition: transform 0.1s;
-    flex-shrink: 0;
+    font-weight: 600;
+    font-size: 14px;
 }
 
-.d-log-action:active {
-    transform: scale(0.98);
+.d-wb-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #D1D5DB;
+    border-radius: 6px;
 }
 
-.d-log-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+.d-wb-meta {
+    margin-left: auto;
+    font-size: 12px;
+    opacity: 0.5;
+    font-weight: 700;
+}
+
+.d-wb-more {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--c-blue);
+    margin-top: 4px;
+    padding-left: 32px;
+}
+
+.d-wb-btn {
+    margin-top: auto;
+    width: 100%;
     background: var(--c-volt);
-    display: grid;
-    place-items: center;
-}
-
-.d-log-text {
+    color: var(--c-black);
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid var(--c-black);
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 16px;
-}
-
-/* ── Feed Items ── */
-.d-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.d-feed-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
-    background: white;
-    border: 2px solid #E5E7EB;
-    border-radius: 12px;
-    animation: slideUp 0.3s ease;
-}
-
-.d-feed-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    box-shadow: 3px 3px 0 var(--c-black);
+    cursor: pointer;
+    transition: transform 0.1s;
 }
 
-.d-feed-info {
-    flex: 1;
-}
-
-.d-feed-name {
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--c-black);
-}
-
-.d-feed-meta {
-    font-size: 11px;
-    opacity: 0.6;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.d-empty-feed {
-    text-align: center;
-    padding: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #9CA3AF;
-}
-
-/* ── Workout Smart Bar ── */
-.d-workout-smart {
-    background: var(--c-black);
-    color: white;
-    padding: 14px 18px;
-    border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
-    margin-top: auto;
-    flex-shrink: 0;
-}
-
-.d-work-text {
-    flex: 1;
-    font-size: 14px;
-    opacity: 0.9;
-}
-
-.d-work-go {
-    background: var(--c-volt);
-    color: var(--c-black);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 13px;
+.d-wb-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--c-black);
 }

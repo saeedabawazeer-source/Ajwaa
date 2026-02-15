@@ -22,6 +22,34 @@ function emptyDay() {
     };
 }
 
+// Helper to generate last 7 days mock data
+function generateMockHistory() {
+    const history = {};
+    const today = new Date();
+
+    // Generate for last 6 days (excluding today)
+    for (let i = 1; i < 7; i++) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const dateKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+        const isWorkoutDay = i % 2 !== 0; // Alternate days
+
+        history[dateKey] = {
+            meals: {
+                breakfast: [{ name: 'Oatmeal & Berries', cals: 350, p: 12, c: 60, f: 6 }],
+                lunch: [{ name: 'Chicken Salad', cals: 450, p: 40, c: 20, f: 15 }],
+                dinner: [{ name: 'Salmon & Rice', cals: 600, p: 35, c: 50, f: 20 }],
+                snacks: [{ name: 'Greek Yogurt', cals: 120, p: 15, c: 8, f: 0 }]
+            },
+            workouts: isWorkoutDay ? [{ name: 'Upper Body', duration: 45 }] : [],
+            water: isWorkoutDay ? 3 : 2,
+            bodyWeight: 72 + (Math.random() * 0.5 - 0.25)
+        };
+    }
+    return history;
+}
+
 // ─── INITIAL STATE ───
 const INITIAL_STATE = {
     user: {
@@ -33,21 +61,15 @@ const INITIAL_STATE = {
         waterGoal: 2.5,
         macros: { p: 150, c: 200, f: 70 },
     },
-    // Day-indexed history
+    // Day-indexed history (Today + Mock Past)
     days: {
+        ...generateMockHistory(),
         [todayKey()]: {
             meals: {
-                breakfast: [
-                    { food: 'Oatmeal & Eggs', cals: 450, p: 28, c: 52, f: 14, time: '07:00' },
-                    { food: 'Black Coffee', cals: 5, p: 0, c: 1, f: 0, time: '06:45' },
-                ],
-                lunch: [
-                    { food: 'Grilled Chicken & Rice', cals: 520, p: 42, c: 55, f: 10, time: '13:20' },
-                ],
+                breakfast: [], // Start empty today for the 'Log' flow
+                lunch: [],
                 dinner: [],
-                snacks: [
-                    { food: 'Protein Shake + Banana', cals: 380, p: 32, c: 40, f: 8, time: '10:15' },
-                ],
+                snacks: [],
             },
             workouts: [
                 {
@@ -64,7 +86,6 @@ const INITIAL_STATE = {
             bodyWeight: 72.5,
         },
         // Past days for trend data
-        ...generatePastDays(),
     },
     streak: { current: 0, best: 0, lastLogDate: '' },
     activeWorkout: null,
@@ -75,35 +96,8 @@ const INITIAL_STATE = {
     onboardingComplete: true, // set false for first-time users
 };
 
-function generatePastDays() {
-    const days = {};
-    const base = new Date();
-    for (let i = 1; i <= 7; i++) {
-        const d = new Date(base);
-        d.setDate(d.getDate() - i);
-        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        const logged = i <= 5; // 5-day streak
-        if (logged) {
-            days[key] = {
-                meals: {
-                    breakfast: [{ food: 'Eggs & Toast', cals: 350, p: 22, c: 30, f: 12, time: '07:30' }],
-                    lunch: [{ food: 'Rice & Chicken', cals: 500, p: 40, c: 50, f: 10, time: '13:00' }],
-                    dinner: [{ food: 'Steak & Salad', cals: 600, p: 45, c: 15, f: 25, time: '19:30' }],
-                    snacks: [{ food: 'Protein Bar', cals: 200, p: 20, c: 22, f: 8, time: '16:00' }],
-                },
-                workouts: [{
-                    id: `w-past-${i}`, title: 'Workout', time: '10:00', exercises: [
-                        { exerciseId: 'bench_press', name: 'Bench Press', sets: [{ reps: 10, weight: 75 + i }, { reps: 10, weight: 75 + i }, { reps: 8, weight: 80 + i }] },
-                        { exerciseId: 'squat', name: 'Squat', sets: [{ reps: 8, weight: 90 + i * 2 }, { reps: 8, weight: 90 + i * 2 }] },
-                    ]
-                }],
-                water: 2.0 + (i % 3) * 0.25,
-                bodyWeight: 72.5 - (i * 0.1),
-            };
-        }
-    }
-    return days;
-}
+
+
 
 // ─── Calculate derived values ───
 function calcDayTotals(day) {
