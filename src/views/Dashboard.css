@@ -265,9 +265,19 @@
     gap: 12px;
 }
 
+/* ── Vitals Row (Water + Steps) ── */
+.d-vitals-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
 .d-vital-card {
-    background: var(--c-black);
-    color: white;
+    background: var(--c-paper);
+    /* White (60%) */
+    color: var(--c-black);
+    border: 2px solid var(--c-black);
+    /* Branding */
     border-radius: var(--radius);
     padding: 14px;
     display: flex;
@@ -277,7 +287,7 @@
     overflow: hidden;
     height: 80px;
     cursor: pointer;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .d-vital-card:active {
@@ -313,12 +323,8 @@
 }
 
 /* Water Specific */
-.d-vital-card.water {
-    /* Keep black background, just add accents */
-}
-
 .d-vital-card.water .d-vital-icon {
-    color: #60A5FA;
+    color: #3B82F6;
 }
 
 .d-vital-bg-bar {
@@ -326,7 +332,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #1E3A8A;
+    background: #BFDBFE;
     opacity: 0.5;
     transition: height 0.4s ease;
     z-index: 1;
@@ -338,18 +344,14 @@
     right: 10px;
     font-size: 18px;
     font-weight: 700;
-    opacity: 0.4;
+    opacity: 0.2;
     z-index: 2;
-    color: white;
+    color: var(--c-black);
 }
 
 /* Steps Specific */
-.d-vital-card.steps {
-    /* Keep black background */
-}
-
 .d-vital-card.steps .d-vital-icon {
-    color: #FB923C;
+    color: #F97316;
 }
 
 /* ── Action Hero (Full Width Workout) ── */
