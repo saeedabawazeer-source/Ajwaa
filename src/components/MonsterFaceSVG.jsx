@@ -61,12 +61,13 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     />
                 </g>
 
-                {/* 3. Mouth Border (Yellow) - Drawn on top */}
-                <rect
+                {/* 3. Mouth Border (Removed for DWtD Style - Clean Look) 
+                <rect 
                     className="monster-mouth-border"
                     x="20" y="55" width="60" height="40" rx="20" ry="20"
                     fill="none" stroke="#ff8818" strokeWidth="4"
                 />
+                */}
             </g>
         </g>
     );

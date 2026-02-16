@@ -31,16 +31,76 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     </clipPath>
                 </defs>
 
+                {/* ─── Hands (Moved Behind Body for "Flush" Pivot) ─── */}
+                {showHands && (
+                    <>
+                        {/* Left Hand */}
+                        <g>
+                            {mood === 'beast' ? (
+                                /* Power Pose Left */
+                                <path d="M 55 110 Q 30 110 25 80" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            ) : (
+                                <path d="M 55 110 Q 30 140 40 175" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            )}
+                            <circle cx={mood === 'beast' ? 25 : 40} cy={mood === 'beast' ? 80 : 175} r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                        </g>
+
+                        {/* Right Hand */}
+                        {mood === 'happy' || mood === 'laugh' ? (
+                            <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
+                                <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                                <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            </g>
+                        ) : mood === 'beast' ? (
+                            <g>
+                                /* Power Pose Right */
+                                <path d="M 145 110 Q 170 110 175 80" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                                <circle cx="175" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            </g>
+                        ) : mood === 'amazed' ? (
+                            <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
+                                {/* Both hands up/out for amazed? Just reuse wave for now or mirror left */}
+                                <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                                <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            </g>
+                        ) : mood === 'thinking' ? (
+                            <g>
+                                <path d="M 145 120 Q 170 140 160 110" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                                <circle cx="160" cy="110" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            </g>
+                        ) : (
+                            <g>
+                                <path d="M 145 110 Q 170 140 160 175" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                                <circle cx="160" cy="175" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            </g>
+                        )}
+                    </>
+                )}
+
                 {showBody && (
                     <>
                         {/* ─── Body Base ─── */}
-                        <path
-                            d={BODY_PATH}
-                            fill="#3E2723"
-                            stroke="black"
-                            strokeWidth="6"
-                            className="ajwa-body"
-                        />
+                        <g>
+                            <path
+                                d={BODY_PATH}
+                                fill="#3E2723" /* Base Brown */
+                                stroke="black"
+                                strokeWidth="6"
+                                className="ajwa-body"
+                            />
+
+                            {/* ─── DWtD Style Shadow (Cel Shading) ─── */}
+                            {/* Darker brown crescent on bottom-right */}
+                            <path
+                                d="M 50 180 C 40 140, 40 85, 50 65 L 150 65 L 150 180 Z"
+                                clipPath="url(#ajwa-body-clip)"
+                                fill="none" // Ensure no fill for helper, actual shadow below
+                            />
+                            {/* Actual Shadow Path: Offset copy of body, clipped */}
+                            <g clipPath="url(#ajwa-body-clip)">
+                                <circle cx="130" cy="150" r="70" fill="#261613" opacity="0.4" filter="blur(5px)" />
+                            </g>
+                        </g>
 
                         {/* ─── Sweatband (Clipped to Body) ─── */}
                         {/* 1. Yellow Fill (No Stroke, clipped to body shape) */}
@@ -77,52 +137,6 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                                 <MonsterFaceSVG mood={mood} />
                             </svg>
                         </g>
-                    </>
-                )}
-
-                {/* ─── Hands ─── */}
-                {showHands && (
-                    <>
-                        {/* Left Hand */}
-                        <g>
-                            {mood === 'beast' ? (
-                                /* Power Pose Left */
-                                <path d="M 55 110 Q 30 110 25 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                            ) : (
-                                <path d="M 55 110 Q 30 140 40 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                            )}
-                            <circle cx={mood === 'beast' ? 25 : 40} cy={mood === 'beast' ? 80 : 175} r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                        </g>
-
-                        {/* Right Hand */}
-                        {mood === 'happy' || mood === 'laugh' ? (
-                            <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
-                                <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                                <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
-                        ) : mood === 'beast' ? (
-                            <g>
-                                /* Power Pose Right */
-                                <path d="M 145 110 Q 170 110 175 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                                <circle cx="175" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
-                        ) : mood === 'amazed' ? (
-                            <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
-                                {/* Both hands up/out for amazed? Just reuse wave for now or mirror left */}
-                                <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                                <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
-                        ) : mood === 'thinking' ? (
-                            <g>
-                                <path d="M 145 120 Q 170 140 160 110" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                                <circle cx="160" cy="110" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
-                        ) : (
-                            <g>
-                                <path d="M 145 110 Q 170 140 160 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                                <circle cx="160" cy="175" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
-                        )}
                     </>
                 )}
             </svg>
