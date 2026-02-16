@@ -37,7 +37,7 @@ export default function Dock({ activeView, onNavigate, onFab }) {
                 </button>
             ))}
             <button className="nav-fab" onClick={onFab} style={{ overflow: 'hidden', padding: 0 }}>
-                <div style={{ width: '100%', height: '100%', transform: 'scale(1.9) translateY(5px)' }}>
+                <div style={{ width: '100%', height: '100%', transform: 'scale(1.75) translateY(-2px)' }}>
                     <AjwaMascot mood={mascotState.mood} lookingAt={mascotState.lookingAt} showHands={false} />
                 </div>
             </button>
