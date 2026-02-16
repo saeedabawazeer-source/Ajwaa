@@ -1,9 +1,7 @@
-/* Monster Face Animations - Ported from User Snippet */
+/* Monster Face Animations - Ported from User Snippet - Natively Scaled for Mascot */
 :root {
     --mon-bg: transparent;
-    /* Was Black/Blue, now transparent for Ajwa */
     --mon-blue: #fdd10e;
-    /* Unused if transparent */
     --mon-blue-s: #be4a14;
     --mon-black: #000000;
     --mon-yellow: #ff8818;
@@ -16,30 +14,32 @@
 .monster__face {
     display: flex;
     justify-content: center;
+    /* Center horizontally */
     align-items: center;
+    /* Center vertically */
     flex-direction: column;
     position: relative;
     width: 100%;
     height: 100%;
-    /* Scaling handled by parent transform */
 }
 
 /* ─── EYES ─── */
 .monster__eyes {
     display: flex;
     justify-content: space-around;
-    /* Changed to around for better spread */
-    width: 60%;
-    /* Adjusted width for mascot ratio */
+    width: 50px;
+    /* Scaled down from larger size */
     height: auto;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
+    /* Reduced margin */
 }
 
 .monster__eye {
-    width: 25px;
-    /* Scaled up slightly */
-    height: 40px;
-    border-radius: 20px;
+    width: 12px;
+    /* 25px -> 12px */
+    height: 20px;
+    /* 40px -> 20px */
+    border-radius: 10px;
     background: var(--mon-black);
 }
 

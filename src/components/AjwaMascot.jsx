@@ -74,7 +74,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                                  Scale 0.5 makes it 50px wide, perfect centering.
                              */}
                             <foreignObject x="50" y="65" width="100" height="100">
-                                <div style={{ width: '100%', height: '100%', transform: 'scale(0.5)', transformOrigin: 'center top' }}>
+                                <div style={{ width: '100%', height: '100%' }}>
                                     <MonsterFace mood={mood} />
                                 </div>
                             </foreignObject>
