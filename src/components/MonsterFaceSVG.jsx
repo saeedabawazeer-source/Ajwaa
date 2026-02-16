@@ -51,16 +51,24 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
 
                 {/* 3. Excited / Amazed (Stars) */}
                 <FeatureGroup visible={['excited', 'amazed'].includes(mood)}>
-                    <Star cx="30" cy="30" />
-                    <Star cx="70" cy="30" />
+                    <g className="monster-eyes-idle">
+                        <Star cx="30" cy="30" />
+                        <Glint cx="30" cy="30" /> {/* Added Center Glint */}
+                        <Star cx="70" cy="30" />
+                        <Glint cx="70" cy="30" />
+                    </g>
                 </FeatureGroup>
 
-                {/* 4. Mad / Beast (Slanted) */}
+                {/* 4. Mad / Beast (Slanted + Glints + Movement) */}
                 <FeatureGroup visible={['beast', 'mad'].includes(mood)}>
                     <path d="M 20 20 L 40 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
                     <path d="M 80 20 L 60 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
-                    <ellipse cx="30" cy="32" rx="6" ry="9" fill="black" />
-                    <ellipse cx="70" cy="32" rx="6" ry="9" fill="black" />
+                    <g className="monster-eyes-idle">
+                        <ellipse cx="30" cy="32" rx="6" ry="9" fill="black" />
+                        <Glint cx="32" cy="27" /> {/* Added Glint */}
+                        <ellipse cx="70" cy="32" rx="6" ry="9" fill="black" />
+                        <Glint cx="72" cy="27" />
+                    </g>
                 </FeatureGroup>
 
                 {/* 5. Crying / Sad (Arched Down) */}
@@ -71,37 +79,50 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     <path className="monster-tear-r" d="M 70 35 Q 75 45 70 55" stroke="#4FC3F7" strokeWidth="3" fill="none" />
                 </FeatureGroup>
 
-                {/* 6. Shocked (Small Pupils) */}
+                {/* 6. Shocked (Small Pupils + Glints + Movement) */}
                 <FeatureGroup visible={mood === 'shocked'}>
-                    <circle cx="30" cy="30" r="4" fill="black" />
-                    <circle cx="70" cy="30" r="4" fill="black" />
+                    <g className="monster-eyes-idle">
+                        <circle cx="30" cy="30" r="5" fill="black" />
+                        <Glint cx="31" cy="29" />
+                        <circle cx="70" cy="30" r="5" fill="black" />
+                        <Glint cx="71" cy="29" />
+                    </g>
                 </FeatureGroup>
 
-                {/* 7. Confused (Uneven) */}
+                {/* 7. Confused (Uneven + Glints + Movement) */}
                 <FeatureGroup visible={mood === 'confused'}>
-                    <circle cx="30" cy="30" r="8" fill="black" />
-                    <circle cx="70" cy="30" r="4" fill="black" />
                     <path d="M 20 18 L 40 22" stroke="black" strokeWidth="2" /> {/* Raised Brow */}
+                    <g className="monster-eyes-idle">
+                        <circle cx="30" cy="30" r="8" fill="black" />
+                        <Glint cx="32" cy="26" />
+                        <circle cx="70" cy="30" r="4" fill="black" />
+                        <Glint cx="71" cy="29" />
+                    </g>
                 </FeatureGroup>
 
-                {/* 8. Love (Hearts) */}
+                {/* 8. Love (Hearts + Shine) */}
                 <FeatureGroup visible={mood === 'love'}>
                     <Heart cx="30" cy="30" />
+                    <circle cx="35" cy="25" r="2" fill="white" opacity="0.8" /> {/* Heart Shine */}
                     <Heart cx="70" cy="30" />
+                    <circle cx="75" cy="25" r="2" fill="white" opacity="0.8" />
                 </FeatureGroup>
 
                 {/* 9. Sleepy (Closed flat) */}
                 <FeatureGroup visible={mood === 'sleepy'}>
                     <path d="M 25 35 L 35 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
                     <path d="M 65 35 L 75 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
-                    <text x="80" y="20" fontSize="12" fill="black">Z</text>
+                    <text x="80" y="20" fontSize="12" fill="black" style={{ animation: 'sparkle-spin 3s infinite' }}>Z</text>
                 </FeatureGroup>
 
-                {/* 10. Cool (Sunglasses) */}
+                {/* 10. Cool (Sunglasses + White Reflection) */}
                 <FeatureGroup visible={mood === 'cool'}>
                     <path d="M 15 25 H 45 Q 45 40 30 40 Q 15 40 15 25 Z" fill="black" />
                     <path d="M 55 25 H 85 Q 85 40 70 40 Q 55 40 55 25 Z" fill="black" />
                     <line x1="45" y1="28" x2="55" y2="28" stroke="black" strokeWidth="3" />
+                    {/* Reflections */}
+                    <path d="M 20 28 L 35 28" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+                    <path d="M 60 28 L 75 28" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
                 </FeatureGroup>
 
                 {/* 11. Dead (X Eyes) */}

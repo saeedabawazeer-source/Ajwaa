@@ -8,13 +8,10 @@ export default function Dock({ activeView, onNavigate, onFab, reaction }) {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            // Mostly neutral, but show off new expressions
+            // IDLE CYCLE: Only safe/logical moods. No negativity without reason.
             const moods = [
                 'neutral', 'neutral', 'neutral',
-                'happy', 'excited', 'thinking',
-                'shocked', 'confused', 'sleepy',
-                'love', 'cool', 'dead',
-                'crying', 'beast', 'amazed'
+                'happy', 'thinking', 'cool', 'love', 'excited'
             ];
             const looks = ['center', 'center', 'left', 'right', 'up'];
 
