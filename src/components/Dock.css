@@ -24,7 +24,8 @@
 }
 
 .nav-item {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 1.0);
+    /* Solid white, no faint grey */
     display: flex;
     align-items: center;
     justify-content: center;

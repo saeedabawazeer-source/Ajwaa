@@ -423,67 +423,78 @@
 /* ── Action Hero (Full Width Workout) ── */
 .d-action-hero {
     width: 100%;
-    background: var(--c-green);
-    /* Solid Green */
-    border: 2px solid var(--c-black);
+    min-height: 80px;
+    background: #A3E635;
+    /* Vibrant Lime Green (Big Green Button) */
+    border: 3px solid var(--c-black);
     color: var(--c-black);
     border-radius: var(--radius);
-    padding: 16px 20px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 1);
+    box-shadow: 4px 4px 0 var(--c-black);
     /* Hard Shadow */
     transition: transform 0.1s;
+    overflow: hidden;
+    position: relative;
 }
 
 .d-action-hero:active {
     transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 1);
+    box-shadow: 2px 2px 0 var(--c-black);
 }
 
 .d-ah-content {
     display: flex;
     align-items: center;
     gap: 16px;
+    z-index: 2;
 }
 
 .d-ah-icon {
+    width: 48px;
+    height: 48px;
     background: var(--c-black);
-    padding: 12px;
-    border-radius: 50%;
-    color: var(--c-green);
-    border: 2px solid var(--c-black);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #A3E635;
+    /* Green Icon */
+    border: none;
 }
 
 .d-ah-text {
     text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 
 .d-ah-title {
-    font-family: var(--font-display);
     font-size: 18px;
     font-weight: 900;
-    line-height: 1.1;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 2px;
 }
 
 .d-ah-sub {
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
     opacity: 0.8;
-    margin-top: 2px;
-    text-transform: uppercase;
 }
 
 .d-ah-arrow {
-    background: var(--c-black);
-    color: var(--c-green);
-    padding: 6px 14px;
-    border-radius: 99px;
-    font-size: 12px;
+    font-size: 20px;
     font-weight: 900;
-    letter-spacing: 0.5px;
+    font-style: italic;
+    background: var(--c-black);
+    color: #A3E635;
+    padding: 8px 16px;
+    border-radius: 99px;
+    letter-spacing: normal;
 }
 
 /* ── XP Card (Gamification) ── */
