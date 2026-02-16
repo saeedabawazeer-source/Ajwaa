@@ -30,7 +30,8 @@
     flex-direction: column;
     height: calc(100dvh - 48px - 104px);
     padding: 0 14px;
-    overflow: hidden;
+    overflow: visible;
+    /* Allow shadows to pop out */
     gap: 8px;
 }
 
