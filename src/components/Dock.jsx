@@ -8,9 +8,15 @@ export default function Dock({ activeView, onNavigate, onFab, reaction }) {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            // Mostly neutral, sometimes look around or think. Rarely happy without interaction.
-            const moods = ['neutral', 'neutral', 'neutral', 'neutral', 'thinking', 'happy'];
-            const looks = ['center', 'center', 'center', 'left', 'right', 'up'];
+            // Mostly neutral, but show off new expressions
+            const moods = [
+                'neutral', 'neutral', 'neutral',
+                'happy', 'excited', 'thinking',
+                'shocked', 'confused', 'sleepy',
+                'love', 'cool', 'dead',
+                'crying', 'beast', 'amazed'
+            ];
+            const looks = ['center', 'center', 'left', 'right', 'up'];
 
             setMascotState({
                 mood: moods[Math.floor(Math.random() * moods.length)],
