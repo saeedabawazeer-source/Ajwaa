@@ -48,8 +48,8 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                             style={{
                                 transformOrigin: '60px 100px',
                                 transform: `rotate(${mood === 'beast' ? 130 :
-                                        mood === 'thinking' ? 120 :
-                                            mood === 'wave' ? 150 :
+                                        ['thinking', 'confused'].includes(mood) ? 120 :
+                                            ['wave', 'shocked'].includes(mood) ? 150 :
                                                 20 // Neutral resting angle
                                     }deg)`,
                                 transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' // Bouncy pivot
@@ -65,9 +65,9 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                             className="ajwa-arm-container"
                             style={{
                                 transformOrigin: '140px 100px',
-                                transform: `rotate(${mood === 'happy' || mood === 'laugh' || mood === 'wave' || mood === 'excited' ? -150 :
+                                transform: `rotate(${['happy', 'laugh', 'wave', 'excited', 'love', 'shocked'].includes(mood) ? -150 :
                                         mood === 'beast' ? -130 :
-                                            mood === 'thinking' ? -40 :
+                                            ['thinking', 'confused', 'cool'].includes(mood) ? -40 :
                                                 -20 // Neutral resting angle
                                     }deg)`,
                                 transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
