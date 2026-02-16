@@ -104,6 +104,8 @@
     align-items: center;
     gap: 6px;
     cursor: pointer;
+    position: relative;
+    /* Anchor for absolute text */
 }
 
 .d-sc-left:active {
@@ -138,13 +140,14 @@
 
 .d-sc-cal-text {
     position: absolute;
-    top: 38%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     display: flex;
     flex-direction: column;
-    /* Move up significantly */
+    pointer-events: none;
+    /* Let clicks pass to ring */
 }
 
 .d-sc-val {
