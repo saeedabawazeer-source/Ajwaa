@@ -63,42 +63,72 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
         }
     };
 
+    // ─── Mouth Shapes based on Mood ───
+    const renderMouth = () => {
+        // Shared Tongue (Clipped)
+        const Tongue = () => (
+            <path d="M 30 90 Q 50 65 70 90" fill="#DC1B50" />
+        );
+
+        switch (mood) {
+            case 'happy':
+            case 'laugh':
+            case 'wave':
+                // Big Bean Smile (D Shape)
+                return (
+                    <g>
+                        <defs>
+                            <clipPath id="happy-clip">
+                                <path d="M 20 60 Q 50 90 80 60 Q 80 50 50 50 Q 20 50 20 60 Z" />
+                            </clipPath>
+                        </defs>
+                        {/* Mouth Bg */}
+                        <path
+                            d="M 20 60 Q 50 90 80 60 Q 80 50 50 50 Q 20 50 20 60 Z"
+                            fill="black"
+                        />
+                        {/* Tongue inside */}
+                        <g clipPath="url(#happy-clip)">
+                            <path d="M 35 85 Q 50 65 65 85" fill="#DC1B50" />
+                        </g>
+                    </g>
+                );
+            case 'beast':
+                // Roar / Angry Open
+                return (
+                    <g>
+                        {/* Rough/Jagged Mouth? Or just large oval? DWtD usually smooth shapes. */}
+                        <ellipse cx="50" cy="70" rx="20" ry="15" fill="black" />
+                        {/* Sharp Teeth? */}
+                        <path d="M 35 60 L 40 70 L 45 60" fill="white" />
+                        <path d="M 55 60 L 60 70 L 65 60" fill="white" />
+                    </g>
+                );
+            case 'amazed':
+                // Small 'O'
+                return (
+                    <circle cx="50" cy="70" r="10" fill="black" />
+                );
+            case 'thinking':
+                // Small flat line or circle
+                return (
+                    <path d="M 40 70 Q 50 75 60 70" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                );
+            default: // Neutral
+                // Simple Smile Line
+                return (
+                    <path d="M 35 65 Q 50 75 65 65" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                );
+        }
+    };
+
     return (
         <g className={`monster-face-svg ${isAnimating ? 'animating' : ''}`}>
-            {/* ─── Defs for Clipping Tongue ─── */}
-            <defs>
-                <clipPath id="dwtd-mouth-clip">
-                    <rect x="20" y="55" width="60" height="35" rx="15" ry="15" />
-                </clipPath>
-            </defs>
-
             {/* ─── Eyes ─── */}
             {renderEyes()}
 
             {/* ─── Mouth Group ─── */}
-            <g>
-                {/* Mouth Shape (Black Background) */}
-                <rect
-                    className="monster-mouth-bg"
-                    x="20" y="55" width="60" height="35" rx="15" ry="15"
-                    fill="black"
-                />
-
-                {/* Tooth Removed per user request */}
-
-                {/* Tongue (Clipped inside mouth) */}
-                <g clipPath="url(#dwtd-mouth-clip)">
-                    {/* Flip: Drawn from bottom up as a mound? 
-                         Old: M 35 80 A 15 15 0 0 0 65 80 (Arc Down?)
-                         New: M 35 90 Q 50 70 65 90 (Mound from bottom edge)
-                     */}
-                    <path
-                        className="monster-tongue"
-                        d="M 30 90 Q 50 65 70 90"
-                        fill="#DC1B50"
-                    />
-                </g>
-            </g>
+            {renderMouth()}
 
             {/* 3. Mouth Border (Removed for DWtD Style - Clean Look)
                 <rect

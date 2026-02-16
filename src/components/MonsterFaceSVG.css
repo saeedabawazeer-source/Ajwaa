@@ -19,9 +19,9 @@
 
 /* Animating State (Happy/Talking) */
 .monster-face-svg.animating .monster-mouth-bg {
-    /* Pop open to "D" shape */
+    /* No generic bounce. Shape matches mood via SVG path. */
     transform: scale(1, 1);
-    animation: mouth-talk 0.4s infinite alternate;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .monster-face-svg.animating .monster-teeth {
@@ -30,20 +30,11 @@
 
 .monster-face-svg.animating .monster-tongue {
     opacity: 1;
-    animation: tongue-wiggle 0.4s infinite alternate;
+    /* Optional: Small wiggle only for big laughs? */
 }
 
 /* ─── ANIMATIONS ─── */
-
-@keyframes mouth-talk {
-    from {
-        transform: scale(1, 0.8);
-    }
-
-    to {
-        transform: scale(1, 1);
-    }
-}
+/* Removed generic mouth-talk bounce */
 
 @keyframes tongue-wiggle {
     from {
@@ -51,7 +42,7 @@
     }
 
     to {
-        transform: translateY(-3px);
+        transform: translateY(-2px);
     }
 }
 
