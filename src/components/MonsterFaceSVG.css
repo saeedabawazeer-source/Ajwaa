@@ -34,6 +34,64 @@
 }
 
 /* ─── ANIMATIONS ─── */
+
+@keyframes look-around {
+
+    0%,
+    40% {
+        transform: translateX(0);
+    }
+
+    45%,
+    55% {
+        transform: translateX(-4px);
+    }
+
+    /* Look Left */
+    60%,
+    85% {
+        transform: translateX(0);
+    }
+
+    90%,
+    95% {
+        transform: translateX(4px);
+    }
+
+    /* Look Right */
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes sparkle-spin {
+    0% {
+        transform: translate(var(--cx), var(--cy)) scale(0.8) rotate(0deg);
+    }
+
+    50% {
+        transform: translate(var(--cx), var(--cy)) scale(1.1) rotate(180deg);
+    }
+
+    100% {
+        transform: translate(var(--cx), var(--cy)) scale(0.8) rotate(360deg);
+    }
+}
+
+/* Idle Eye Movement (Only when Neutral/Thinking) */
+.monster-eyes-idle {
+    animation: look-around 5s infinite;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+/* Sparkle Animation */
+.monster-star {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: sparkle-spin 2s infinite linear;
+}
+
 /* Removed generic mouth-talk bounce */
 
 @keyframes tongue-wiggle {
@@ -46,7 +104,7 @@
     }
 }
 
-/* Add Blinking Randomly */
+/* Blink */
 .monster-eye-l,
 .monster-eye-r {
     transform-origin: center;

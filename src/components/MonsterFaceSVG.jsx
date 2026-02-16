@@ -23,17 +23,24 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
     const Eyes = () => {
         const Glint = ({ cx, cy }) => <circle cx={cx} cy={cy} r="3.5" fill="white" />;
         const Star = ({ cx, cy }) => (
-            <path transform={`translate(${cx}, ${cy}) scale(0.8)`} fill="#FFD700" d="M 0,-10 L 2,-2 L 10,0 L 2,2 L 0,10 L -2,2 L -10,0 L -2,-2 Z" />
+            <path
+                className="monster-star"
+                style={{ '--cx': cx + 'px', '--cy': cy + 'px' }} // Pass center vars to CSS
+                transform={`translate(${cx}, ${cy}) scale(0.8)`} fill="#FFD700"
+                d="M 0,-10 L 2,-2 L 10,0 L 2,2 L 0,10 L -2,2 L -10,0 L -2,-2 Z"
+            />
         );
 
         return (
             <g>
-                {/* Neutral / Default */}
+                {/* Neutral / Default (With Idle Animation) */}
                 <FeatureGroup visible={mood === 'neutral' || !mood}>
-                    <ellipse className="monster-eye-l" cx="30" cy="30" rx="6" ry="10" fill="black" />
-                    <Glint cx="32" cy="27" />
-                    <ellipse className="monster-eye-r" cx="70" cy="30" rx="6" ry="10" fill="black" />
-                    <Glint cx="72" cy="27" />
+                    <g className="monster-eyes-idle">
+                        <ellipse className="monster-eye-l" cx="30" cy="30" rx="6" ry="10" fill="black" />
+                        <Glint cx="32" cy="27" />
+                        <ellipse className="monster-eye-r" cx="70" cy="30" rx="6" ry="10" fill="black" />
+                        <Glint cx="72" cy="27" />
+                    </g>
                 </FeatureGroup>
 
                 {/* Happy / Laugh (Arcs) */}
@@ -44,8 +51,9 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     </g>
                 </FeatureGroup>
 
-                {/* Excited (Stars) */}
-                <FeatureGroup visible={mood === 'excited'}>
+                {/* Excited / Amazed (Stars) */}
+                {/* User requested "Sparkles when amazed", so merging logic */}
+                <FeatureGroup visible={['excited', 'amazed'].includes(mood)}>
                     <Star cx="30" cy="30" />
                     <Star cx="70" cy="30" />
                 </FeatureGroup>
@@ -65,14 +73,6 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     {/* Tears */}
                     <path className="monster-tear" d="M 30 35 Q 25 45 30 55" stroke="#4FC3F7" strokeWidth="3" fill="none" />
                     <path className="monster-tear-r" d="M 70 35 Q 75 45 70 55" stroke="#4FC3F7" strokeWidth="3" fill="none" />
-                </FeatureGroup>
-
-                {/* Amazed (Circles) */}
-                <FeatureGroup visible={mood === 'amazed'}>
-                    <circle cx="30" cy="30" r="8" fill="black" />
-                    <Glint cx="32" cy="28" />
-                    <circle cx="70" cy="30" r="8" fill="black" />
-                    <Glint cx="72" cy="28" />
                 </FeatureGroup>
 
                 {/* Thinking (Looking Up/Side) */}
