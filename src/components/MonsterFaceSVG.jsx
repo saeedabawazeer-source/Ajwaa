@@ -10,65 +10,47 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
 
     return (
         <g className={`monster-face-svg ${isAnimating ? 'animating' : ''}`}>
-            {/* ─── Defs for Clipping ─── */}
-            <defs>
-                <clipPath id="monster-mouth-clip">
-                    {/* This rect tracks the mouth shape animation to clip teeth/tongue */}
-                    <rect
-                        className="monster-mouth-clip-rect"
-                        x="20" y="55" width="60" height="40" rx="20" ry="20"
-                    />
-                </clipPath>
-            </defs>
+            {/* ─── Eyes (Vertical Ovals + White Glint) ─── */}
+            <g>
+                <ellipse className="monster-eye-l" cx="30" cy="30" rx="6" ry="10" fill="black" />
+                <circle cx="32" cy="27" r="2.5" fill="white" /> {/* Glint */}
 
-            {/* ─── Eyes ─── */}
-            <rect x="25" y="25" width="12" height="20" rx="6" fill="black" />
-            <rect x="63" y="25" width="12" height="20" rx="6" fill="black" />
+                <ellipse className="monster-eye-r" cx="70" cy="30" rx="6" ry="10" fill="black" />
+                <circle cx="72" cy="27" r="2.5" fill="white" /> {/* Glint */}
+            </g>
 
             {/* ─── Mouth Group ─── */}
             <g>
-                {/* 1. Mouth Background (Red) */}
+                {/* Mouth Shape (Black/Dark, no border) */}
                 <rect
                     className="monster-mouth-bg"
-                    x="20" y="55" width="60" height="40" rx="20" ry="20"
-                    fill="#810332"
+                    x="20" y="55" width="60" height="35" rx="15" ry="15"
+                    fill="black"
                 />
 
-                {/* 2. Tongue & Teeth (Clipped by Mouth Shape) */}
-                <g clipPath="url(#monster-mouth-clip)">
-                    {/* Background darkening? */}
-                    <rect x="25" y="55" width="50" height="20" rx="10" fill="#400018" opacity="0.5" />
+                {/* Teeth (One big white block, characteristic of style) */}
+                <path
+                    className="monster-teeth"
+                    d="M 35 55 L 45 55 L 45 65 Q 40 68 35 65 Z"
+                    fill="white"
+                    transform="translate(10, 2)" // Position it top-left of mouth
+                />
 
-                    {/* Tongue */}
-                    <circle
-                        className="monster-tongue"
-                        cx="50" cy="50" r="20"
-                        fill="#DC1B50"
-                    />
+                {/* Tongue (Simple pink curve at bottom) */}
+                <path
+                    className="monster-tongue"
+                    d="M 40 80 Q 50 85 60 80 V 90 H 40 Z"
+                    fill="#DC1B50"
+                />
+            </g>
 
-                    {/* Top Teeth */}
-                    <rect
-                        className="monster-top-teeth"
-                        x="25" y="15" width="50" height="15" rx="4"
-                        fill="white"
-                    />
-
-                    {/* Bottom Teeth */}
-                    <rect
-                        className="monster-bottom-teeth"
-                        x="35" y="45" width="30" height="15" rx="4"
-                        fill="white"
-                    />
-                </g>
-
-                {/* 3. Mouth Border (Removed for DWtD Style - Clean Look) 
+            {/* 3. Mouth Border (Removed for DWtD Style - Clean Look) 
                 <rect 
                     className="monster-mouth-border"
                     x="20" y="55" width="60" height="40" rx="20" ry="20"
-                    fill="none" stroke="#ff8818" strokeWidth="4"
                 />
                 */}
-            </g>
         </g>
+        </g >
     );
 }

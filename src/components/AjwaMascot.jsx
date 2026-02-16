@@ -31,48 +31,35 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     </clipPath>
                 </defs>
 
-                {/* ─── Hands (Moved Behind Body for "Flush" Pivot) ─── */}
+                {/* ─── Arms (DWtD Style: Simple Noodles with Round Caps) ─── */}
+                {/* Note: Pivot points must be well inside the body (Body width ~50-150) */}
+
                 {showHands && (
                     <>
-                        {/* Left Hand */}
-                        <g>
-                            {mood === 'beast' ? (
-                                /* Power Pose Left */
-                                <path d="M 55 110 Q 30 110 25 80" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                            ) : (
-                                <path d="M 55 110 Q 30 140 40 175" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                            )}
-                            <circle cx={mood === 'beast' ? 25 : 40} cy={mood === 'beast' ? 80 : 175} r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                        </g>
+                        {/* Left Arm */}
+                        {mood === 'beast' ? (
+                            /* Flexed Up */
+                            <path d="M 60 100 Q 30 100 30 70" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                        ) : mood === 'thinking' ? (
+                            /* Hand on chin */
+                            <path d="M 60 110 Q 40 140 80 160" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                        ) : (
+                            /* Neutral / Down */
+                            <path d="M 60 110 Q 50 140 40 160" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                        )}
 
-                        {/* Right Hand */}
-                        {mood === 'happy' || mood === 'laugh' ? (
-                            <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
-                                <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                                <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                        {/* Right Arm */}
+                        {mood === 'happy' || mood === 'laugh' || mood === 'wave' ? (
+                            /* Waving High */
+                            <g className="ajwa-arm wave" style={{ transformOrigin: '140px 110px' }}>
+                                <path d="M 140 110 Q 170 110 180 70" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
                             </g>
                         ) : mood === 'beast' ? (
-                            <g>
-                                /* Power Pose Right */
-                                <path d="M 145 110 Q 170 110 175 80" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                                <circle cx="175" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
-                        ) : mood === 'amazed' ? (
-                            <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
-                                {/* Both hands up/out for amazed? Just reuse wave for now or mirror left */}
-                                <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                                <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
-                        ) : mood === 'thinking' ? (
-                            <g>
-                                <path d="M 145 120 Q 170 140 160 110" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                                <circle cx="160" cy="110" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
+                            /* Flexed Up */
+                            <path d="M 140 110 Q 170 110 170 70" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
                         ) : (
-                            <g>
-                                <path d="M 145 110 Q 170 140 160 175" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                                <circle cx="160" cy="175" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
-                            </g>
+                            /* Neutral / Down */
+                            <path d="M 140 110 Q 150 140 160 160" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
                         )}
                     </>
                 )}

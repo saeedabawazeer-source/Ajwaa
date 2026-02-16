@@ -1,53 +1,85 @@
-/* Monster Face SVG Animations */
+/* Monster Face SVG Animations - DWtD Style */
 
-/* Default State (Neutral/Closed) */
-.monster-mouth-bg,
-.monster-mouth-border,
-.monster-mouth-clip-rect {
-    transform: scale(1, 0.2);
-    /* Closed smile */
+/* Default State (Neutral) */
+.monster-mouth-bg {
+    /* Neutral: A simple line or small semi-circle */
+    transform: scale(0.6, 0.1);
+    ry: 20px;
+    /* Rounded/Happy smile shape */
     transform-origin: center;
     transform-box: fill-box;
-    transition: transform 0.3s ease;
-    /* Smooth transition to animation */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.monster-top-teeth {
-    y: -5px;
-    /* Retracted */
-    transition: y 0.3s ease;
-}
-
-.monster-bottom-teeth {
-    y: 45px;
-    /* Retracted */
-    transition: y 0.3s ease;
-}
-
+.monster-teeth,
 .monster-tongue {
-    y: 50px;
-    /* Hidden */
-    transition: y 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.2s;
 }
 
-
-/* Only animate if the container has the 'animating' class */
-.monster-face-svg.animating .monster-top-teeth {
-    animation: t-svg 2.5s infinite;
+/* Animating State (Happy/Talking) */
+.monster-face-svg.animating .monster-mouth-bg {
+    /* Pop open to "D" shape */
+    transform: scale(1, 1);
+    animation: mouth-talk 0.4s infinite alternate;
 }
 
-.monster-face-svg.animating .monster-bottom-teeth {
-    animation: b-svg 2.5s infinite;
-}
-
-.monster-face-svg.animating .monster-mouth-bg,
-.monster-face-svg.animating .monster-mouth-border,
-.monster-face-svg.animating .monster-mouth-clip-rect {
-    animation: mouth-svg 2.5s infinite;
+.monster-face-svg.animating .monster-teeth {
+    opacity: 1;
 }
 
 .monster-face-svg.animating .monster-tongue {
-    animation: tongue-svg 2.5s infinite;
+    opacity: 1;
+    animation: tongue-wiggle 0.4s infinite alternate;
+}
+
+/* ─── ANIMATIONS ─── */
+
+@keyframes mouth-talk {
+    from {
+        transform: scale(1, 0.8);
+    }
+
+    to {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes tongue-wiggle {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-3px);
+    }
+}
+
+/* Add Blinking Randomly */
+.monster-eye-l,
+.monster-eye-r {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: blink 4s infinite;
+}
+
+.monster-eye-r {
+    animation-delay: 0.2s;
+    /* Slight offset for natural feel */
+}
+
+@keyframes blink {
+
+    0%,
+    48%,
+    52%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        transform: scaleY(0.1);
+    }
 }
 
 /* ─── ANIMATIONS ─── */
