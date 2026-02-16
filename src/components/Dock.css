@@ -52,8 +52,8 @@
     margin-top: -36px;
     display: grid;
     place-items: center;
-    box-shadow: 0 0 0 4px #FFFFFF, 0 6px 0 rgba(0, 0, 0, 0.2);
-    /* White stroke + Shadow */
+    box-shadow: inset 0 0 0 3px #000000;
+    /* Neobrutal inner stroke */
     transition: transform 0.1s;
     cursor: pointer;
     flex-shrink: 0;
