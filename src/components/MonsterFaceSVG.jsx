@@ -23,10 +23,20 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
     const Eyes = () => {
         const Glint = ({ cx, cy }) => <circle cx={cx} cy={cy} r="3.5" fill="white" />;
         const Star = ({ cx, cy }) => (
-            <path transform={`translate(${cx}, ${cy}) scale(0.8)`} fill="#FFD700" d="M 0,-10 L 2,-2 L 10,0 L 2,2 L 0,10 L -2,2 L -10,0 L -2,-2 Z" />
+            <path
+                className="monster-star"
+                style={{ '--cx': cx + 'px', '--cy': cy + 'px' }}
+                transform={`translate(${cx}, ${cy}) scale(0.8)`}
+                fill="#FFF" stroke="black" strokeWidth="2"
+                d="M 0,-10 L 2,-2 L 10,0 L 2,2 L 0,10 L -2,2 L -10,0 L -2,-2 Z"
+            />
         );
         const Heart = ({ cx, cy }) => (
-            <path transform={`translate(${cx}, ${cy}) scale(0.8)`} fill="#FF4081" d="M 0,5 L -5,0 Q -7,-2 -5,-4 Q -3,-6 0,-2 Q 3,-6 5,-4 Q 7,-2 5,0 Z" />
+            <path
+                transform={`translate(${cx}, ${cy}) scale(0.8)`}
+                fill="#FFF" stroke="black" strokeWidth="2"
+                d="M 0,5 L -5,0 Q -7,-2 -5,-4 Q -3,-6 0,-2 Q 3,-6 5,-4 Q 7,-2 5,0 Z"
+            />
         );
 
         return (
@@ -49,13 +59,11 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     </g>
                 </FeatureGroup>
 
-                {/* 3. Excited / Amazed (Stars) */}
+                {/* 3. Excited / Amazed (White Stars) */}
                 <FeatureGroup visible={['excited', 'amazed'].includes(mood)}>
                     <g className="monster-eyes-idle">
                         <Star cx="30" cy="30" />
-                        <Glint cx="30" cy="30" />
                         <Star cx="70" cy="30" />
-                        <Glint cx="70" cy="30" />
                     </g>
                 </FeatureGroup>
 
@@ -95,12 +103,10 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     <circle className="monster-eyes-idle" cx="70" cy="30" r="2" fill="black" />
                 </FeatureGroup>
 
-                {/* 8. Love (Hearts + Shine) */}
+                {/* 8. Love (White Hearts) */}
                 <FeatureGroup visible={mood === 'love'}>
                     <Heart cx="30" cy="30" />
-                    <circle cx="35" cy="25" r="2" fill="white" opacity="0.8" />
                     <Heart cx="70" cy="30" />
-                    <circle cx="75" cy="25" r="2" fill="white" opacity="0.8" />
                 </FeatureGroup>
 
                 {/* 9. Sleepy (Closed flat) */}
@@ -142,17 +148,17 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
         return (
             <g>
                 {/* Neutral Smile */}
-                <FeatureGroup visible={mood === 'neutral' || !mood || mood === 'love' || mood === 'cool'}>
+                <FeatureGroup visible={mood === 'neutral' || !mood || mood === 'cool'}>
                     <path d="M 35 65 Q 50 75 65 65" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" />
                 </FeatureGroup>
 
-                {/* Thinking/Skeptical Line */}
+                {/* Thinking Line */}
                 <FeatureGroup visible={['thinking', 'skeptical'].includes(mood)}>
                     <path d="M 40 70 Q 50 75 60 70" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" />
                 </FeatureGroup>
 
-                {/* Happy / Laugh / Excited (Bean) */}
-                <FeatureGroup visible={['happy', 'laugh', 'wave', 'excited'].includes(mood)}>
+                {/* Happy / Laugh (Bean) */}
+                <FeatureGroup visible={['happy', 'laugh', 'wave'].includes(mood)}>
                     <g>
                         <defs>
                             <clipPath id="happy-clip">

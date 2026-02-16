@@ -19,7 +19,7 @@ export default function Dock({ activeView, onNavigate, onFab, reaction }) {
                 mood: moods[Math.floor(Math.random() * moods.length)],
                 lookingAt: looks[Math.floor(Math.random() * looks.length)]
             });
-        }, 3000); // Change expression every 3s
+        }, 6000); // Change expression every 6s (Slower)
 
         return () => clearInterval(interval);
     }, []);
