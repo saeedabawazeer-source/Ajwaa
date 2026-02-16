@@ -19,15 +19,12 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
 
     return (
         <div className="ajwa-mascot-container">
-            <svg viewBox="0 0 200 180" className="ajwa-svg">
+            <svg viewBox="0 0 200 200" className="ajwa-svg">
                 <defs>
                     <clipPath id="ajwa-body-clip">
                         <path d={BODY_PATH} />
                     </clipPath>
-                    {/* Headband Clipping to remove side strokes */}
-                    <clipPath id="hb-clip">
-                        <rect x="0" y="65" width="200" height="15" />
-                    </clipPath>
+                    {/* Headband Clipping: Intersection of Band + Body */}
                 </defs>
 
                 {/* Body/Head Groups */}
@@ -35,30 +32,14 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     <>
                         <g className="ajwa-body">
                             {/* Main Body Shape (Ajwa Date Brown) */}
-                            {/* Restoring the complex bulgy shape */}
                             <path
-                                d="M 50 15 C 50 15, 150 15, 150 15 L 150 120 Q 150 170 100 170 Q 50 170 50 120 Z"
+                                d={BODY_PATH}
                                 fill="#3E2723" stroke="black" strokeWidth="6"
                             />
 
-                            {/* Old Simple Headband was:
-                            <g clipPath="url(#head-clip-ajwa)"> ... </g>
-                            
-                            We verify if the user meant the "Sweatband" style with the bulge.
-                            For now, restoring the one that matches the body path d above.
-                            Wait, the d above IS the one from 7ad1c68.
-                            But user said "headband so large and orange".
-                            The one I just restored accepts #FFC107 (Amber/Yellow).
-                            Let's check if there was an even OLDER shape.
-                            
-                            Actually, the user said "headband so large and orange".
-                            Maybe they want the THINNER headband?
-                            The current one is 35px high (v 35).
-                            Let's try to match the "sweatband" logic from the EmotingEyes version if that was better?
-                            No, user said "revert to og before eyes".
-                            
+
                             Let's stick to the path I have, but ensure the CLIP PATH matches the body.
-                            The body path above is: M 50 15 ... 
+                            The body path above is: M 50 15 ...
                             The clip path in defs (head-clip-ajwa) matches.
                              */}
 
