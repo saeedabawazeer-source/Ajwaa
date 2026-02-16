@@ -1,6 +1,4 @@
-import React from 'react';
 import { useMemo } from 'react';
-import EmotingEyes from './EmotingEyes';
 import './AjwaMascot.css';
 
 export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', showHands = true, showBody = true, ...props }) {
@@ -54,10 +52,35 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
 
                             {/* ─── Face ─── */}
                             <g className="ajwa-face">
-                                {/* Eyes REMOVED from SVG -> Rendered via Overlay */}
-
-                                {/* Mouth */}
+                                {/* Eyes */}
                                 <g transform="translate(0, 5)">
+                                    {mood === 'beast' ? (
+                                        /* Beast Mode: Angry Eyes */
+                                        <>
+                                            <circle cx="75" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
+                                            <circle cx="125" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
+
+                                            {/* Angry Brows */}
+                                            <path d="M 60 90 L 90 105" stroke="black" strokeWidth="5" strokeLinecap="round" />
+                                            <path d="M 140 90 L 110 105" stroke="black" strokeWidth="5" strokeLinecap="round" />
+
+                                            {/* Pupils (Small & Focused) */}
+                                            <circle cx={75 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="4" fill="black" />
+                                            <circle cx={125 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="4" fill="black" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <circle cx="75" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
+                                            <circle cx="125" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
+
+                                            {/* Pupils */}
+                                            <circle cx={75 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="6" fill="black" className="eye-pupil" style={{ transition: 'all 0.2s' }} />
+                                            <circle cx={125 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="6" fill="black" className="eye-pupil" style={{ transition: 'all 0.2s' }} />
+                                        </>
+                                    )}
+                                </g>
+
+                                {/* Mouth */}           <g transform="translate(0, 5)">
                                     {mood === 'happy' ? (
                                         <path d="M85 135 Q 100 145 115 135" stroke="black" strokeWidth="5" fill="none" strokeLinecap="round" />
                                     ) : mood === 'laugh' ? (
@@ -129,22 +152,6 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     </>
                 )}
             </svg>
-
-            {/* 2. Emoting Eyes Overlay (HTML/CSS) */}
-            {showBody && (
-                <div style={{
-                    position: 'absolute',
-                    top: '100px', // Eyes vary around cy=100 in SVG
-                    left: '100px', // Center x=100
-                    width: '100px',
-                    height: '40px',
-                    transform: 'translate(-50%, -50%)',
-                    zIndex: 10,
-                    pointerEvents: 'none' // Click through to whatever
-                }}>
-                    <EmotingEyes mood={mood} lookingAt={lookingAt} />
-                </div>
-            )}
         </div>
     );
 }
