@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import EmotingEyes from './EmotingEyes';
 import './AjwaMascot.css';
 
-export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', showHands = true, showBody = true }) {
+export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', showHands = true, showBody = true, ...props }) {
     // lookingAt: 'center' | 'input' | 'user'
 
     const getPupilPos = () => {

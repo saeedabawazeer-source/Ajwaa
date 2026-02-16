@@ -9,11 +9,12 @@
 .face-container {
     width: 100%;
     height: 100%;
-    display: grid;
-    place-items: center;
+    display: flex;
+    /* Changed to flex for better centering */
+    justify-content: center;
+    align-items: center;
     /* Transformation handled by parent usually, but here specifically for the stack */
-    /* CRITICAL: Perspective needed for 3D rotation of lids */
-    perspective: 400px;
+    /* Removed perspective here to avoid z-space disappearing acts on small scales */
 }
 
 /* Float animation removed or optional? Source had it. Let's keep it minimal for mascot. */
@@ -37,9 +38,9 @@
     grid-template-rows: var(--ee-eye-size);
     grid-template-areas: "left . right";
 
-    /* THE GOOEY EFFECT - Tuned for White-on-White */
-    /* Blur softens edges, High Contrast sharpens them back */
-    filter: blur(3px) contrast(15);
+    /* THE GOOEY EFFECT - SCALED DOWN */
+    /* 3px blur was too much for 40px eyes. Reducing to 0.5px */
+    filter: blur(0.5px) contrast(3);
 
     transform-style: preserve-3d;
     transform: rotateX(var(--face-rotation-x)) rotateY(var(--face-rotation-y)) rotateZ(var(--face-rotation-z));
