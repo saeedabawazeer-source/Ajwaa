@@ -1,9 +1,8 @@
-import React from 'react';
-import './MonsterFace.css';
+export default function MonsterFace({ mood = 'neutral' }) {
+    const isAnimating = mood !== 'neutral';
 
-export default function MonsterFace() {
     return (
-        <div className="monster__face">
+        <div className={`monster__face ${isAnimating ? 'animating' : ''}`}>
             <div className="monster__eyes">
                 <div className="monster__eye"></div>
                 <div className="monster__eye"></div>

@@ -105,10 +105,27 @@
     border-top-right-radius: 8px;
     background-color: var(--mon-white);
     z-index: 10;
-    animation: b 2.5s infinite;
 }
 
 /* ─── ANIMATIONS ─── */
+/* Only animate if the face has the 'animating' class */
+
+.monster__face.animating .monster__top {
+    animation: t 2.5s infinite;
+}
+
+.monster__face.animating .monster__bottom {
+    animation: b 2.5s infinite;
+}
+
+.monster__face.animating .monster__mouth {
+    animation: mouth 2.5s infinite;
+}
+
+.monster__face.animating .monster__mouth::after {
+    animation: tongue 2.5s infinite;
+}
+
 @keyframes t {
 
     0%,
