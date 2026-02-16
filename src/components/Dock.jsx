@@ -3,7 +3,7 @@ import './Dock.css';
 import { Home, Dumbbell, Users, User, Sparkles } from 'lucide-react';
 import AjwaMascot from './AjwaMascot';
 
-export default function Dock({ activeView, onNavigate, onFab }) {
+export default function Dock({ activeView, onNavigate, onFab, reaction }) {
     const [mascotState, setMascotState] = useState({ mood: 'happy', lookingAt: 'center' });
 
     useEffect(() => {
@@ -38,7 +38,11 @@ export default function Dock({ activeView, onNavigate, onFab }) {
             ))}
             <button className="nav-fab" onClick={onFab} style={{ overflow: 'hidden', padding: 0 }}>
                 <div style={{ width: '100%', height: '100%', transform: 'scale(1.8) translateY(-6px)' }}>
-                    <AjwaMascot mood={mascotState.mood} lookingAt={mascotState.lookingAt} showHands={false} />
+                    <AjwaMascot
+                        mood={reaction || mascotState.mood}
+                        lookingAt={reaction ? 'user' : mascotState.lookingAt}
+                        showHands={false}
+                    />
                 </div>
             </button>
             {right.map(it => (

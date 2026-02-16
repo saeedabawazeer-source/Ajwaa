@@ -82,6 +82,12 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                             <g transform="translate(0, 5)">
                                 {mood === 'happy' ? (
                                     <path d="M85 135 Q 100 145 115 135" stroke="black" strokeWidth="5" fill="none" strokeLinecap="round" />
+                                ) : mood === 'laugh' ? (
+                                    /* Laughing: Wide open mouth */
+                                    <path d="M85 135 Q 100 155 115 135 Z" fill="black" stroke="black" strokeWidth="2" />
+                                ) : mood === 'amazed' ? (
+                                    /* Amazed: O face */
+                                    <ellipse cx="100" cy="140" rx="8" ry="10" fill="black" stroke="none" />
                                 ) : mood === 'thinking' ? (
                                     <path d="M90 140 H 110" stroke="black" strokeWidth="5" fill="none" strokeLinecap="round" />
                                 ) : (
@@ -95,15 +101,21 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                 {/* ─── Hands ─── */}
                 {showHands && (
                     <>
-                        {/* Left Hand - Raised Shoulder */}
+                        {/* Left Hand */}
                         <g>
                             <path d="M 55 110 Q 30 140 40 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
                             <circle cx="40" cy="175" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
                         </g>
 
-                        {/* Right Hand - Raised Shoulder */}
-                        {mood === 'happy' ? (
+                        {/* Right Hand - Gestures */}
+                        {mood === 'happy' || mood === 'laugh' ? (
                             <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
+                                <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
+                                <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            </g>
+                        ) : mood === 'amazed' ? (
+                            <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
+                                {/* Both hands up/out for amazed? Just reuse wave for now or mirror left */}
                                 <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
                                 <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
                             </g>

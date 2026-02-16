@@ -73,23 +73,32 @@ export default function App() {
     setWorkoutOpen(true);
   }
 
+  // Mascot Reaction State
+  const [mascotReaction, setMascotReaction] = useState(null);
+
+  function triggerMascot(mood) {
+    setMascotReaction(mood);
+    setTimeout(() => setMascotReaction(null), 2500);
+  }
+
   function handleLogWater() {
     store.addWater(0.25);
     showToast('+250ml water');
+    triggerMascot('laugh'); // Laugh/Happy for water
   }
 
   function handleSaveMeal(food, cals, p, c, f) {
     store.addMeal(mealSlot, food, Number(cals), Number(p), Number(c), Number(f));
     showToast(`${food} logged`);
+    triggerMascot('amazed'); // Open mouth for food
   }
 
   function handleSaveWorkout(title, exercises) {
     store.logWorkoutSession(title, exercises);
     setWorkoutOpen(false);
     showToast(`${title} saved`);
+    triggerMascot('happy');
   }
-
-
 
   // ... rest of component ...
 
@@ -133,7 +142,7 @@ export default function App() {
             getLast7Days={store.getLast7Days}
             selectedDate={currentViewDate}
             onSelectDate={setViewDate}
-            onWaterClick={() => { store.addWater(0.25); showToast('+250ml water'); }}
+            onWaterClick={handleLogWater}
             onMealSlotClick={handleLogFood}
             onRemoveMeal={store.removeMeal}
           />
@@ -142,7 +151,10 @@ export default function App() {
         return (
           <Workouts
             today={today} user={state.user}
-            onStartWorkout={(title) => store.startWorkout(title || 'Workout Session')}
+            onStartWorkout={(title) => {
+              store.startWorkout(title || 'Workout Session');
+              triggerMascot('happy');
+            }}
             onLogWorkout={() => setWorkoutOpen(true)}
             getExerciseHistory={store.getExerciseHistory}
           />
@@ -178,6 +190,7 @@ export default function App() {
                 store.addExerciseToActive(ex.name);
               });
               showToast(`Copied: ${title}`);
+              triggerMascot('happy');
             }}
           />
         );
@@ -190,7 +203,7 @@ export default function App() {
     <div className="app">
       <Header userName={state.user.name} streak={streak} />
       {renderView()}
-      <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} />
+      <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} reaction={mascotReaction} />
       <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} />
 
       <LogMealModal
