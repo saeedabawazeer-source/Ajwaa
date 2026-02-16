@@ -2,7 +2,7 @@ import React from 'react';
 import './MonsterFaceSVG.css';
 
 export default function MonsterFaceSVG({ mood = 'neutral' }) {
-    const isAnimating = mood !== 'neutral';
+    const isAnimating = mood && mood !== 'neutral';
 
     // SVG Coordinate System: Viewed in 100x100 space provided by parent
     // Eyes: ~10x20

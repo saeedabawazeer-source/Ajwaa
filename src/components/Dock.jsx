@@ -4,12 +4,13 @@ import { Home, Dumbbell, Users, User, Sparkles } from 'lucide-react';
 import AjwaMascot from './AjwaMascot';
 
 export default function Dock({ activeView, onNavigate, onFab, reaction }) {
-    const [mascotState, setMascotState] = useState({ mood: 'happy', lookingAt: 'center' });
+    const [mascotState, setMascotState] = useState({ mood: 'neutral', lookingAt: 'center' });
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const moods = ['happy', 'happy', 'neutral', 'thinking'];
-            const looks = ['center', 'center', 'left', 'right', 'up'];
+            // Mostly neutral, sometimes look around or think. Rarely happy without interaction.
+            const moods = ['neutral', 'neutral', 'neutral', 'neutral', 'thinking', 'happy'];
+            const looks = ['center', 'center', 'center', 'left', 'right', 'up'];
 
             setMascotState({
                 mood: moods[Math.floor(Math.random() * moods.length)],
