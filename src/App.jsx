@@ -145,6 +145,10 @@ export default function App() {
             onWaterClick={handleLogWater}
             onMealSlotClick={handleLogFood}
             onRemoveMeal={store.removeMeal}
+            onStartWorkout={() => {
+              triggerMascot('beast'); // Go Crazy Mode
+              setActiveView('workouts'); // Go to Workouts/Split Screen
+            }}
           />
         );
       case 'workouts':

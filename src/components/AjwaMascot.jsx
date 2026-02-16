@@ -70,12 +70,30 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                         <g className="ajwa-face">
                             {/* Eyes */}
                             <g transform="translate(0, 5)">
-                                <circle cx="75" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
-                                <circle cx="125" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
+                                {mood === 'beast' ? (
+                                    /* Beast Mode: Angry Eyes */
+                                    <>
+                                        <circle cx="75" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
+                                        <circle cx="125" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
 
-                                {/* Pupils */}
-                                <circle cx={75 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="6" fill="black" className="eye-pupil" style={{ transition: 'all 0.2s' }} />
-                                <circle cx={125 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="6" fill="black" className="eye-pupil" style={{ transition: 'all 0.2s' }} />
+                                        {/* Angry Brows */}
+                                        <path d="M 60 90 L 90 105" stroke="black" strokeWidth="5" strokeLinecap="round" />
+                                        <path d="M 140 90 L 110 105" stroke="black" strokeWidth="5" strokeLinecap="round" />
+
+                                        {/* Pupils (Small & Focused) */}
+                                        <circle cx={75 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="4" fill="black" />
+                                        <circle cx={125 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="4" fill="black" />
+                                    </>
+                                ) : (
+                                    <>
+                                        <circle cx="75" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
+                                        <circle cx="125" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
+
+                                        {/* Pupils */}
+                                        <circle cx={75 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="6" fill="black" className="eye-pupil" style={{ transition: 'all 0.2s' }} />
+                                        <circle cx={125 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="6" fill="black" className="eye-pupil" style={{ transition: 'all 0.2s' }} />
+                                    </>
+                                )}
                             </g>
 
                             {/* Mouth */}
@@ -83,11 +101,17 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                                 {mood === 'happy' ? (
                                     <path d="M85 135 Q 100 145 115 135" stroke="black" strokeWidth="5" fill="none" strokeLinecap="round" />
                                 ) : mood === 'laugh' ? (
-                                    /* Laughing: Wide open mouth */
                                     <path d="M85 135 Q 100 155 115 135 Z" fill="black" stroke="black" strokeWidth="2" />
                                 ) : mood === 'amazed' ? (
-                                    /* Amazed: O face */
                                     <ellipse cx="100" cy="140" rx="8" ry="10" fill="black" stroke="none" />
+                                ) : mood === 'beast' ? (
+                                    /* Beast: Roaring Mouth with Teeth */
+                                    <g>
+                                        <path d="M 85 135 Q 100 155 115 135 Z" fill="black" stroke="black" strokeWidth="2" />
+                                        {/* Teeth */}
+                                        <path d="M 88 135 L 92 140 L 96 135" fill="white" />
+                                        <path d="M 104 135 L 108 140 L 112 135" fill="white" />
+                                    </g>
                                 ) : mood === 'thinking' ? (
                                     <path d="M90 140 H 110" stroke="black" strokeWidth="5" fill="none" strokeLinecap="round" />
                                 ) : (
@@ -103,15 +127,26 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     <>
                         {/* Left Hand */}
                         <g>
-                            <path d="M 55 110 Q 30 140 40 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                            <circle cx="40" cy="175" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            {mood === 'beast' ? (
+                                /* Power Pose Left */
+                                <path d="M 55 110 Q 30 110 25 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
+                            ) : (
+                                <path d="M 55 110 Q 30 140 40 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
+                            )}
+                            <circle cx={mood === 'beast' ? 25 : 40} cy={mood === 'beast' ? 80 : 175} r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
                         </g>
 
-                        {/* Right Hand - Gestures */}
+                        {/* Right Hand */}
                         {mood === 'happy' || mood === 'laugh' ? (
                             <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
                                 <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
                                 <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            </g>
+                        ) : mood === 'beast' ? (
+                            <g>
+                                /* Power Pose Right */
+                                <path d="M 145 110 Q 170 110 175 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
+                                <circle cx="175" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
                             </g>
                         ) : mood === 'amazed' ? (
                             <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>

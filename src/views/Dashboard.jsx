@@ -167,7 +167,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
             </div>
 
             {/* Full Width Action Hero: Start Workout */}
-            <button className="d-action-hero" onClick={() => { /* TO DO */ }}>
+            <button className="d-action-hero" onClick={onStartWorkout}>
                 <div className="d-ah-content">
                     <div className="d-ah-icon">
                         <Dumbbell size={24} strokeWidth={3} />
