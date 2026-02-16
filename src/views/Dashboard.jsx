@@ -75,7 +75,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                                     transform="rotate(-90 42 42)" className="d-anim" />
                             </svg>
                             <div className="d-sc-ring-inner">
-                                <Plus size={24} className="d-add-icon-big" />
+                                {/* Plus removed - redundant with right button */}
                             </div>
                         </div>
                         <div className="d-sc-cal-text">
