@@ -29,7 +29,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                         />
 
                         {/* ─── Sweatband (Raised slightly) ─── */}
-                        <rect x="50" y="50" width="100" height="15" rx="4" fill="#E0FF00" stroke="black" strokeWidth="4" />
+                        <rect x="55" y="50" width="90" height="15" rx="8" fill="#E0FF00" stroke="black" strokeWidth="4" />
 
                         {/* ─── Face ─── */}
                         <g className="ajwa-face">
