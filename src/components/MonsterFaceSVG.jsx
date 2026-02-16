@@ -11,7 +11,7 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
         <g
             style={{
                 opacity: visible ? 1 : 0,
-                transition: 'opacity 0.3s ease-in-out',
+                transition: 'opacity 0.5s ease-in-out',
                 pointerEvents: visible ? 'auto' : 'none' // Prevent interaction with hidden layers
             }}
         >
