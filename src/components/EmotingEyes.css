@@ -1,15 +1,13 @@
-/* Converted from style.scss */
-.face-container {
-    --eye-size: 20vmin;
-    /* Will override inline for mascot scaling */
-    --eye-gap: 14vmin;
-    --eye-color: white;
-    --background: #EC87C0;
-    --user-button-main: #D770AD;
+/* Exact Code Port from User Snippet */
+/* Scaled: 1vmin approx 2px for the mascot size */
 
-    /* Mascot Override Defaults */
-    --eye-size: 35px;
-    --eye-gap: 10px;
+:root {
+    --ee-eye-size: 40px;
+    /* 20vmin -> 40px */
+    --ee-eye-gap: 28px;
+    /* 14vmin -> 28px */
+    --ee-eye-color: white;
+    /* --background: #EC87C0; Ignored for mascot */
 }
 
 .face-container {
@@ -17,7 +15,7 @@
     height: 100%;
     display: grid;
     place-items: center;
-    /* background: var(--background); Remove background for mascot */
+    /* Transformation handled by parent usually, but here specifically for the stack */
 }
 
 /* Float animation removed or optional? Source had it. Let's keep it minimal for mascot. */
@@ -37,17 +35,27 @@
     --face-rotation-z: 0deg;
 
     display: grid;
-    grid-template-columns: var(--eye-size) var(--eye-gap) var(--eye-size);
-    grid-template-rows: var(--eye-size);
+    grid-template-columns: var(--ee-eye-size) var(--ee-eye-gap) var(--ee-eye-size);
+    grid-template-rows: var(--ee-eye-size);
     grid-template-areas: "left . right";
 
-    /* The core trick: blur + contrast for rounded gooey effect */
+    /* THE GOOEY EFFECT */
     filter: blur(2px) contrast(8);
+    /* 1vmin -> 2px */
 
-    transform: translateZ(0) rotateX(var(--face-rotation-x)) rotateY(var(--face-rotation-y)) rotateZ(var(--face-rotation-z));
+    transform: translateZ(16px) rotateX(var(--face-rotation-x)) rotateY(var(--face-rotation-y)) rotateZ(var(--face-rotation-z));
     transition: 0.75s cubic-bezier(.25, .5, .5, 1);
+
+    /* 
+       Mix-blend-mode: lighten was used to hide the black shadow on pink.
+       On white/transparent, 'lighten' against white makes black disappear?
+       No, lighten(black, white) = white. So black shadows disappear on white bg.
+       However, we want the eyelids (black) to be visible.
+       If we use 'normal', the blur might look fuzzy without the contrast.
+       Contrast(8) fixes the fuzz.
+       Let's stick to normal for the mascot context unless it looks wrong.
+    */
     mix-blend-mode: normal;
-    /* usage context differs (mascot face isn't pink bg), need normal */
 }
 
 /* 
@@ -59,22 +67,25 @@
    Let's try standard overflow:hidden first as it's cleaner for this context.
 */
 
-.eye {
+.face .eye {
     position: relative;
     background: white;
     border-radius: 100%;
     overflow: hidden;
-    /* box-shadow: 0 0 0 2vmin black;  <-- This was part of the goo effect */
-    border: 3px solid black;
-    /* Replacement for definition */
+
+    /* box-shadow: 0 0 0 2vmin black; replaced with px */
+    box-shadow: 0 0 0 4px black;
+
+    /* Border is not in original? properties say: box-shadow... */
+    /* The original relies on box-shadow for the edge. */
 }
 
-.eye,
-.eye * {
+.face .eye,
+.face .eye * {
     transition: 0.5s cubic-bezier(0.75, 0.25, 0.25, 0.75);
 }
 
-.eye>div {
+.face .eye>div {
     --rotation: 0deg;
     --position: 0%;
     position: absolute;
@@ -85,67 +96,66 @@
     transform: rotate(var(--rotation));
 }
 
-.eye .lid {
+.face .eye .lid {
     position: absolute;
     width: 100%;
     height: 100%;
     background: black;
 }
 
-.eye .lower .lid {
+.face .eye .lower .lid {
     top: calc(100% - var(--position));
 }
 
-.eye .upper .lid {
+.face .eye .upper .lid {
     bottom: calc(100% - var(--position));
 }
 
-.eye.left {
+.face .eye.left {
     grid-area: left;
 }
 
-.eye.left .lower {
+.face .eye.left .lower {
     --rotation: var(--left-lower-rotation);
     --position: var(--left-lower-position);
 }
 
-.eye.left .upper {
+.face .eye.left .upper {
     --rotation: var(--left-upper-rotation);
     --position: var(--left-upper-position);
 }
 
-.eye.right {
+.face .eye.right {
     grid-area: right;
 }
 
-.eye.right .lower {
+.face .eye.right .lower {
     --rotation: var(--right-lower-rotation);
     --position: var(--right-lower-position);
 }
 
-.eye.right .upper {
+.face .eye.right .upper {
     --rotation: var(--right-upper-rotation);
     --position: var(--right-upper-position);
 }
 
-
-/* Pupil Addition */
+/* Pupil Integration */
 .pupil {
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     background: black;
     border-radius: 50%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* Plus dynamic offset */
-    z-index: 1;
+    z-index: 10;
+    /* Ensure it's above the white bg but below lids */
     pointer-events: none;
 }
 
-.lid {
-    z-index: 2;
+/* Lids need to be above pupil */
+.face .eye .lower,
+.face .eye .upper {
+    z-index: 20;
 }
-
-/* Lids over pupils */

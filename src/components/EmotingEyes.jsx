@@ -17,15 +17,15 @@ const EYE_STATES = {
         left: { lower: { rotation: 0, position: 0 }, upper: { rotation: -20, position: 40 } },
         right: { lower: { rotation: 0, position: 0 }, upper: { rotation: 20, position: 40 } }
     },
+    close: {
+        face: { rotationX: -20, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 45 }, upper: { rotation: 0, position: 45 } },
+        right: { lower: { rotation: 0, position: 45 }, upper: { rotation: 0, position: 45 } }
+    },
     angry: {
         face: { rotationX: -10, rotationY: 0, rotationZ: 0 },
         left: { lower: { rotation: 0, position: 0 }, upper: { rotation: 20, position: 40 } },
         right: { lower: { rotation: 0, position: 0 }, upper: { rotation: -20, position: 40 } }
-    },
-    beast: { // Custom: Intense Angry
-        face: { rotationX: -15, rotationY: 0, rotationZ: 0 },
-        left: { lower: { rotation: 0, position: 10 }, upper: { rotation: 25, position: 55 } },
-        right: { lower: { rotation: 0, position: 10 }, upper: { rotation: -25, position: 55 } }
     },
     confused: {
         face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
@@ -42,15 +42,31 @@ const EYE_STATES = {
         left: { lower: { rotation: 10, position: 20 }, upper: { rotation: -10, position: 20 } },
         right: { lower: { rotation: -10, position: 20 }, upper: { rotation: 10, position: 20 } }
     },
+    unamused: {
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 40 } },
+        right: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 40 } }
+    },
+    unsure: {
+        face: { rotationX: 0, rotationY: 0, rotationZ: 7 },
+        left: { lower: { rotation: 10, position: 20 }, upper: { rotation: -10, position: 20 } },
+        right: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 0 } }
+    },
+    // Keep bespoke ones mapped to closest equivalents or custom
+    beast: {
+        face: { rotationX: -15, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 10 }, upper: { rotation: 25, position: 55 } },
+        right: { lower: { rotation: 0, position: 10 }, upper: { rotation: -25, position: 55 } }
+    },
     amazed: {
         face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
         left: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 0 } },
         right: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 0 } }
     },
-    laugh: {
+    laugh: { // Same as happy
         face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
-        left: { lower: { rotation: 20, position: 45 }, upper: { rotation: 0, position: 0 } },
-        right: { lower: { rotation: -20, position: 45 }, upper: { rotation: 0, position: 0 } }
+        left: { lower: { rotation: 20, position: 40 }, upper: { rotation: 0, position: 0 } },
+        right: { lower: { rotation: -20, position: 40 }, upper: { rotation: 0, position: 0 } }
     }
 };
 
