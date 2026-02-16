@@ -51,6 +51,5 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                 />
                 */}
         </g>
-        </g >
     );
 }
