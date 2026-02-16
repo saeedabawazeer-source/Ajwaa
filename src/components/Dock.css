@@ -52,11 +52,11 @@
     margin-top: -36px;
     display: grid;
     place-items: center;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 4px #FFFFFF, 0 6px 0 rgba(0, 0, 0, 0.2);
+    /* White stroke + Shadow */
     transition: transform 0.1s;
     cursor: pointer;
     flex-shrink: 0;
-    /* Prevent shrinking */
 }
 
 .nav-fab:active {
