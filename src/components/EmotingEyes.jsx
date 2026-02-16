@@ -3,48 +3,54 @@ import './EmotingEyes.css';
 
 const EYE_STATES = {
     neutral: {
-        left: { lower: { r: 0, p: 0 }, upper: { r: 0, p: 0 } },
-        right: { lower: { r: 0, p: 0 }, upper: { r: 0, p: 0 } }
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 0 } },
+        right: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 0 } }
     },
     happy: {
-        left: { lower: { r: 20, p: 40 }, upper: { r: 0, p: 0 } },
-        right: { lower: { r: -20, p: 40 }, upper: { r: 0, p: 0 } }
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 20, position: 40 }, upper: { rotation: 0, position: 0 } },
+        right: { lower: { rotation: -20, position: 40 }, upper: { rotation: 0, position: 0 } }
     },
     sad: {
-        left: { lower: { r: 0, p: 0 }, upper: { r: -20, p: 35 } },
-        right: { lower: { r: 0, p: 0 }, upper: { r: 20, p: 35 } }
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 0 }, upper: { rotation: -20, position: 40 } },
+        right: { lower: { rotation: 0, position: 0 }, upper: { rotation: 20, position: 40 } }
     },
-    angry: { // Beast mode base?
-        left: { lower: { r: 0, p: 0 }, upper: { r: 20, p: 45 } },
-        right: { lower: { r: 0, p: 0 }, upper: { r: -20, p: 45 } }
+    angry: {
+        face: { rotationX: -10, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 0 }, upper: { rotation: 20, position: 40 } },
+        right: { lower: { rotation: 0, position: 0 }, upper: { rotation: -20, position: 40 } }
     },
-    beast: { // More intense angry
-        left: { lower: { r: 0, p: 10 }, upper: { r: 25, p: 55 } },
-        right: { lower: { r: 0, p: 10 }, upper: { r: -25, p: 55 } }
+    beast: { // Custom: Intense Angry
+        face: { rotationX: -15, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 10 }, upper: { rotation: 25, position: 55 } },
+        right: { lower: { rotation: 0, position: 10 }, upper: { rotation: -25, position: 55 } }
     },
     confused: {
-        left: { lower: { r: 0, p: 0 }, upper: { r: 0, p: 40 } },
-        right: { lower: { r: 0, p: 0 }, upper: { r: 0, p: 0 } }
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 40 } },
+        right: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 0 } }
     },
-    suspicious: { // Thinking
-        left: { lower: { r: -4, p: 20 }, upper: { r: 4, p: 20 } },
-        right: { lower: { r: 4, p: 20 }, upper: { r: -4, p: 20 } }
+    suspicious: {
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: -4, position: 20 }, upper: { rotation: 4, position: 20 } },
+        right: { lower: { rotation: 4, position: 20 }, upper: { rotation: -4, position: 20 } }
     },
     pain: {
-        left: { lower: { r: 10, p: 20 }, upper: { r: -10, p: 20 } },
-        right: { lower: { r: -10, p: 20 }, upper: { r: 10, p: 20 } }
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 10, position: 20 }, upper: { rotation: -10, position: 20 } },
+        right: { lower: { rotation: -10, position: 20 }, upper: { rotation: 10, position: 20 } }
     },
-    tired: { // Unamused
-        left: { lower: { r: 0, p: 0 }, upper: { r: 0, p: 40 } },
-        right: { lower: { r: 0, p: 0 }, upper: { r: 0, p: 40 } }
+    amazed: {
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 0 } },
+        right: { lower: { rotation: 0, position: 0 }, upper: { rotation: 0, position: 0 } }
     },
-    amazed: { // Wide open
-        left: { lower: { r: 0, p: 0 }, upper: { r: 0, p: 0 } },
-        right: { lower: { r: 0, p: 0 }, upper: { r: 0, p: 0 } }
-    },
-    laugh: { // Happy squint
-        left: { lower: { r: 20, p: 45 }, upper: { r: 0, p: 0 } },
-        right: { lower: { r: -20, p: 45 }, upper: { r: 0, p: 0 } }
+    laugh: {
+        face: { rotationX: 0, rotationY: 0, rotationZ: 0 },
+        left: { lower: { rotation: 20, position: 45 }, upper: { rotation: 0, position: 0 } },
+        right: { lower: { rotation: -20, position: 45 }, upper: { rotation: 0, position: 0 } }
     }
 };
 
@@ -65,15 +71,15 @@ export default function EmotingEyes({ mood = 'neutral', lookingAt = 'center' }) 
 
     // 3. Apply variables to the face container (mimicking the script.js setState)
     const faceStyle = {
-        '--left-lower-rotation': `${s.left.lower.r}deg`,
-        '--left-lower-position': `${s.left.lower.p}%`,
-        '--left-upper-rotation': `${s.left.upper.r}deg`,
-        '--left-upper-position': `${s.left.upper.p}%`,
-        '--right-lower-rotation': `${s.right.lower.r}deg`,
-        '--right-lower-position': `${s.right.lower.p}%`,
-        '--right-upper-rotation': `${s.right.upper.r}deg`,
-        '--right-upper-position': `${s.right.upper.p}%`,
-        '--face-rotation-x': s.face ? `${s.face.rotationX}deg` : '0deg',
+        '--left-lower-rotation': `${s.left.lower.rotation}deg`,
+        '--left-lower-position': `${s.left.lower.position}%`,
+        '--left-upper-rotation': `${s.left.upper.rotation}deg`,
+        '--left-upper-position': `${s.left.upper.position}%`,
+        '--right-lower-rotation': `${s.right.lower.rotation}deg`,
+        '--right-lower-position': `${s.right.lower.position}%`,
+        '--right-upper-rotation': `${s.right.upper.rotation}deg`,
+        '--right-upper-position': `${s.right.upper.position}%`,
+        '--face-rotation-x': s.face ? `${s.face.rotationX}deg` : '0deg', // Default 0
         '--face-rotation-y': s.face ? `${s.face.rotationY}deg` : '0deg',
         '--face-rotation-z': s.face ? `${s.face.rotationZ}deg` : '0deg',
     };
