@@ -39,7 +39,8 @@
 /* Hero Wrapper for Leaning Mascot */
 .d-leaning-ajwa {
     position: absolute;
-    top: -55px;
+    top: -85px;
+    /* Raised significantly */
     left: 20px;
     width: 90px;
     height: 80px;

@@ -61,7 +61,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 <div className="d-stats-card" style={{ position: 'relative', zIndex: 5 }}>
 
                     {/* 2. Hands ON TOP of Card */}
-                    <div className="d-leaning-ajwa" style={{ zIndex: 20, pointerEvents: 'none', top: -55 }}> {/* Same position, just different layer */}
+                    <div className="d-leaning-ajwa" style={{ zIndex: 20, pointerEvents: 'none', top: -85 }}> {/* Sync with CSS */}
                         <AjwaMascot mood={nudge.mood} lookingAt="user" showBody={false} />
                     </div>
 

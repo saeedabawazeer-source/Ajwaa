@@ -19,17 +19,17 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
             <svg viewBox="0 0 200 180" className="ajwa-svg">
                 {showBody && (
                     <>
-                        {/* ─── Body (Lighter Brown) ─── */}
+                        {/* ─── Body (Lighter Brown) - Flatter Top ─── */}
                         <path
-                            d="M50 65 C 50 15, 150 15, 150 65 C 160 90, 160 140, 150 180 L 50 180 C 40 140, 40 90, 50 65 Z"
+                            d="M60 60 C 60 30, 140 30, 140 60 C 155 80, 160 140, 150 180 L 50 180 C 40 140, 45 80, 60 60 Z"
                             fill="#3E2723"
                             stroke="black"
                             strokeWidth="6"
                             className="ajwa-body"
                         />
 
-                        {/* ─── Sweatband (Lowered slightly to sit on forehead) ─── */}
-                        <rect x="45" y="45" width="110" height="15" rx="4" fill="#E0FF00" stroke="black" strokeWidth="4" />
+                        {/* ─── Sweatband (Raised slightly) ─── */}
+                        <rect x="50" y="50" width="100" height="15" rx="4" fill="#E0FF00" stroke="black" strokeWidth="4" />
 
                         {/* ─── Face ─── */}
                         <g className="ajwa-face">
@@ -60,26 +60,26 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                 {/* ─── Hands ─── */}
                 {showHands && (
                     <>
-                        {/* Left Hand */}
+                        {/* Left Hand - Raised Shoulder */}
                         <g>
-                            <path d="M 50 140 Q 30 160 40 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
+                            <path d="M 55 110 Q 30 140 40 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
                             <circle cx="40" cy="175" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
                         </g>
 
-                        {/* Right Hand */}
+                        {/* Right Hand - Raised Shoulder */}
                         {mood === 'happy' ? (
-                            <g className="ajwa-arm wave" style={{ transformOrigin: '150px 140px' }}>
-                                <path d="M 150 140 Q 170 120 180 90" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
-                                <circle cx="180" cy="90" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
+                            <g className="ajwa-arm wave" style={{ transformOrigin: '145px 110px' }}>
+                                <path d="M 145 110 Q 170 110 180 80" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
+                                <circle cx="180" cy="80" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
                             </g>
                         ) : mood === 'thinking' ? (
                             <g>
-                                <path d="M 150 150 Q 170 140 160 110" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
+                                <path d="M 145 120 Q 170 140 160 110" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
                                 <circle cx="160" cy="110" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
                             </g>
                         ) : (
                             <g>
-                                <path d="M 150 140 Q 170 160 160 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
+                                <path d="M 145 110 Q 170 140 160 175" stroke="#8D6E63" strokeWidth="5" fill="none" strokeLinecap="round" />
                                 <circle cx="160" cy="175" r="7" fill="#8D6E63" stroke="black" strokeWidth="2" />
                             </g>
                         )}
