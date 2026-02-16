@@ -1,4 +1,6 @@
 import React from 'react';
+import { useMemo } from 'react';
+import EmotingEyes from './EmotingEyes';
 import './AjwaMascot.css';
 
 export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', showHands = true, showBody = true }) {
@@ -68,33 +70,12 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
 
                         {/* ─── Face ─── */}
                         <g className="ajwa-face">
-                            {/* Eyes */}
-                            <g transform="translate(0, 5)">
-                                {mood === 'beast' ? (
-                                    /* Beast Mode: Angry Eyes */
-                                    <>
-                                        <circle cx="75" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
-                                        <circle cx="125" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
-
-                                        {/* Angry Brows */}
-                                        <path d="M 60 90 L 90 105" stroke="black" strokeWidth="5" strokeLinecap="round" />
-                                        <path d="M 140 90 L 110 105" stroke="black" strokeWidth="5" strokeLinecap="round" />
-
-                                        {/* Pupils (Small & Focused) */}
-                                        <circle cx={75 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="4" fill="black" />
-                                        <circle cx={125 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="4" fill="black" />
-                                    </>
-                                ) : (
-                                    <>
-                                        <circle cx="75" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
-                                        <circle cx="125" cy="100" r="16" fill="white" stroke="black" strokeWidth="3" />
-
-                                        {/* Pupils */}
-                                        <circle cx={75 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="6" fill="black" className="eye-pupil" style={{ transition: 'all 0.2s' }} />
-                                        <circle cx={125 + pupilOffset.cx} cy={100 + pupilOffset.cy} r="6" fill="black" className="eye-pupil" style={{ transition: 'all 0.2s' }} />
-                                    </>
-                                )}
-                            </g>
+                            {/* Eyes (Replaced with CSS Emoting Eyes) */}
+                            <foreignObject x="50" y="80" width="100" height="45">
+                                <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <EmotingEyes mood={mood} lookingAt={lookingAt} />
+                                </div>
+                            </foreignObject>
 
                             {/* Mouth */}
                             <g transform="translate(0, 5)">

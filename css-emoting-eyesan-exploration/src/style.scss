@@ -1,0 +1,102 @@
+:root {
+    --eye-size:20vmin;
+    --eye-gap:14vmin;
+    --eye-color:white;
+    --background:#EC87C0;
+    --user-button-main:#D770AD;
+}
+body {
+    min-height: 100vh;
+    perspective: 25rem;
+    overflow: hidden;
+    .face-container {
+        width:100vw;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: var(--background);
+        @keyframes float {
+            0%, 100% {
+                transform:translateY(-5%);
+            }
+            50% {
+                transform:translateY(5%);
+            }
+        }
+    }
+    .face {
+        --left-lower-rotation:0deg;
+        --left-lower-position:0%;
+        --left-upper-rotation:0deg;
+        --left-upper-position:0%;
+        --right-lower-rotation:0deg;
+        --right-lower-position:0%;
+        --right-upper-rotation:0deg;
+        --right-upper-position:0%;
+        --face-rotation-x:0deg;
+        --face-rotation-y:0deg;
+        --face-rotation-z:0deg;
+        display:grid;
+        grid-template-columns: var(--eye-size) var(--eye-gap) var(--eye-size);
+        grid-template-rows: var(--eye-size);
+        grid-template-areas: "left . right";
+        filter: blur(1vmin) contrast(8); //Make corners rounded, this requires a black shadow to add definition to the eye edges and then hide the black using the lighten mix-blend-mode (as pink is lighter than black the black will vanish)
+        transform: translateZ(8vmin) rotateX(var(--face-rotation-x)) rotateY(var(--face-rotation-y)) rotateZ(var(--face-rotation-z));// rotateX(var(--face-rotation));
+        transition: .75s cubic-bezier(.25, .5, .5, 1);
+        mix-blend-mode: lighten; //Replace black with pink
+        .eye {
+            position: relative;
+            background: white;
+            border-radius:100%;
+            overflow: hidden;
+            box-shadow: 0 0 0 2vmin black;
+            &, * {
+                transition: .5s cubic-bezier(0.75, 0.25, 0.25, 0.75);
+            }
+            >div {
+                --rotation:0deg;
+                --position:0%;
+                position: absolute;
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                transform: rotate(var(--rotation));
+                .lid {
+                    position: absolute;
+                    width:100%;
+                    height:100%;
+                    background:  black;
+                }
+                &.lower .lid {
+                    top:calc(100% - var(--position));
+                }
+                &.upper .lid {
+                    bottom:calc(100% - var(--position));
+                }
+            }
+            &.left {
+                grid-area: left;
+                .lower {
+                    --rotation:var(--left-lower-rotation);
+                    --position:var(--left-lower-position);
+                }
+                .upper {
+                    --rotation:var(--left-upper-rotation);
+                    --position:var(--left-upper-position);
+                }
+            }
+            &.right {
+                grid-area: right;
+                .lower {
+                    --rotation:var(--right-lower-rotation);
+                    --position:var(--right-lower-position);
+                }
+                .upper {
+                    --rotation:var(--right-upper-rotation);
+                    --position:var(--right-upper-position);
+                }
+            }
+        }
+    }
+}
