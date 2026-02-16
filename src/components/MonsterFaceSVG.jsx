@@ -137,8 +137,11 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
 
     return (
         <g className={`monster-face-svg ${isAnimating ? 'animating' : ''}`}>
+            {/* ─── Eyes ─── */}
+            <Eyes />
+
             {/* ─── Mouth Group ─── */}
-            {renderMouth()}
+            <Mouths />
 
             {/* 3. Mouth Border (Removed for DWtD Style - Clean Look)
                 <rect
