@@ -20,7 +20,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                 {showBody && (
                     <>
                         <path
-                            d="M60 60 C 60 20, 140 20, 140 60 C 155 80, 160 140, 150 180 L 50 180 C 40 140, 45 80, 60 60 Z"
+                            d="M50 65 C 50 20, 150 20, 150 65 C 160 85, 160 140, 150 180 L 50 180 C 40 140, 40 85, 50 65 Z"
                             fill="#3E2723"
                             stroke="black"
                             strokeWidth="6"
@@ -28,7 +28,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                         />
 
                         {/* ─── Sweatband (Raised slightly) ─── */}
-                        <rect x="55" y="50" width="90" height="15" rx="8" fill="#E0FF00" stroke="black" strokeWidth="4" />
+                        <rect x="45" y="65" width="110" height="15" rx="8" fill="#E0FF00" stroke="black" strokeWidth="4" />
 
                         {/* ─── Face ─── */}
                         <g className="ajwa-face">
