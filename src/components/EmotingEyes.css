@@ -1,13 +1,9 @@
-/* Exact Code Port from User Snippet */
-/* Scaled: 1vmin approx 2px for the mascot size */
+/* Exact Code Port from User Snippet - Adapted for React/Mascot Context */
 
 :root {
     --ee-eye-size: 40px;
-    /* 20vmin -> 40px */
     --ee-eye-gap: 28px;
-    /* 14vmin -> 28px */
     --ee-eye-color: white;
-    /* --background: #EC87C0; Ignored for mascot */
 }
 
 .face-container {
@@ -16,6 +12,8 @@
     display: grid;
     place-items: center;
     /* Transformation handled by parent usually, but here specifically for the stack */
+    /* CRITICAL: Perspective needed for 3D rotation of lids */
+    perspective: 400px;
 }
 
 /* Float animation removed or optional? Source had it. Let's keep it minimal for mascot. */
@@ -39,14 +37,15 @@
     grid-template-rows: var(--ee-eye-size);
     grid-template-areas: "left . right";
 
-    /* THE GOOEY EFFECT */
-    filter: blur(2px) contrast(8);
-    /* 1vmin -> 2px */
+    /* THE GOOEY EFFECT - Tuned for White-on-White */
+    /* Blur softens edges, High Contrast sharpens them back */
+    filter: blur(3px) contrast(15);
 
-    transform: translateZ(16px) rotateX(var(--face-rotation-x)) rotateY(var(--face-rotation-y)) rotateZ(var(--face-rotation-z));
+    transform-style: preserve-3d;
+    transform: rotateX(var(--face-rotation-x)) rotateY(var(--face-rotation-y)) rotateZ(var(--face-rotation-z));
     transition: 0.75s cubic-bezier(.25, .5, .5, 1);
 
-    /* 
+    /*
        Mix-blend-mode: lighten was used to hide the black shadow on pink.
        On white/transparent, 'lighten' against white makes black disappear?
        No, lighten(black, white) = white. So black shadows disappear on white bg.
@@ -58,12 +57,12 @@
     mix-blend-mode: normal;
 }
 
-/* 
+/*
    ORIGINAL SOURCE uses mix-blend-mode: lighten to hide the black shadow on a pink background.
    For the mascot (white face/transparent), we can't easily do that.
    We will use 'overflow: hidden' on the eye instead of the shadow trick if possible,
    OR stick to the shadow trick if we can match the bg.
-   
+
    Let's try standard overflow:hidden first as it's cleaner for this context.
 */
 
@@ -149,7 +148,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
     /* Ensure it's above the white bg but below lids */
     pointer-events: none;
 }
