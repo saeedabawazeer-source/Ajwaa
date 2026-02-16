@@ -51,14 +51,12 @@
     position: relative;
     width: 100px;
     /* Specific base width */
-    height: 0%;
-    overflow: hidden;
-    border: 8px solid var(--mon-yellow);
-    /* Reduced border for scale */
+    /* Default Resting State (Neutral) */
+    height: 15px;
+    border: 6px solid var(--mon-yellow);
     border-radius: 50px;
     background-color: var(--mon-red-1);
-    animation: mouth 2.5s infinite;
-    /* Slowed down slightly */
+    /* Animation applied conditionally via class */
 }
 
 .monster__mouth::before {
@@ -71,6 +69,8 @@
     background-color: var(--mon-red-2);
 }
 
+/* Hide tongue/teeth in neutral state if preferred, or keep them?
+   Let's hide the tongue in neutral to keep it simple. */
 .monster__mouth::after {
     content: '';
     position: absolute;
@@ -80,7 +80,7 @@
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     background-color: var(--mon-pink);
-    animation: tongue 2.5s infinite;
+    /* Animation applied conditionally */
 }
 
 /* ─── TEETH / LIPS ─── */

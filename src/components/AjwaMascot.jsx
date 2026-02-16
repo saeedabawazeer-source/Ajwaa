@@ -70,14 +70,11 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                         {/* ─── Face (New Monster Style) ─── */}
                         <g className="ajwa-face">
                             {/* Scaled down to fit: 
-                                 Body width is approx 100 (50 to 150). 
-                                 Face width 80 is safe. 
-                                 Centered at x=100 -> x=60.
-                                 Y=80 looks okay, maybe slightly lower? 
-                                 Let's try x=60 y=70 width=80 height=80.
+                                 Original CSS is ~100px wide. Mascot face area is ~80px.
+                                 Scale 0.5 makes it 50px wide, perfect centering.
                              */}
-                            <foreignObject x="60" y="70" width="80" height="80">
-                                <div style={{ width: '100%', height: '100%' }}>
+                            <foreignObject x="50" y="65" width="100" height="100">
+                                <div style={{ width: '100%', height: '100%', transform: 'scale(0.5)', transformOrigin: 'center top' }}>
                                     <MonsterFace mood={mood} />
                                 </div>
                             </foreignObject>
