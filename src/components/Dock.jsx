@@ -21,12 +21,12 @@ export default function Dock({ activeView, onNavigate, onFab }) {
     }, []);
 
     const left = [
-        { id: 'dashboard', icon: <Home size={22} strokeWidth={2.5} /> },
-        { id: 'workouts', icon: <Dumbbell size={22} strokeWidth={2.5} /> },
+        { id: 'dashboard', icon: <Home size={24} strokeWidth={3.5} /> },
+        { id: 'workouts', icon: <Dumbbell size={24} strokeWidth={3.5} /> },
     ];
     const right = [
-        { id: 'social', icon: <Users size={22} strokeWidth={2.5} /> },
-        { id: 'profile', icon: <User size={22} strokeWidth={2.5} /> },
+        { id: 'social', icon: <Users size={24} strokeWidth={3.5} /> },
+        { id: 'profile', icon: <User size={24} strokeWidth={3.5} /> },
     ];
 
     return (
