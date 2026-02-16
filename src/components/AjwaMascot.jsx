@@ -20,7 +20,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                 {showBody && (
                     <>
                         <path
-                            d="M60 60 C 60 48, 140 48, 140 60 C 155 80, 160 140, 150 180 L 50 180 C 40 140, 45 80, 60 60 Z"
+                            d="M60 60 C 60 35, 140 35, 140 60 C 155 80, 160 140, 150 180 L 50 180 C 40 140, 45 80, 60 60 Z"
                             fill="#3E2723"
                             stroke="black"
                             strokeWidth="6"
