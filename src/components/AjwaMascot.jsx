@@ -1,6 +1,6 @@
 import React from 'react';
 import './AjwaMascot.css';
-import MonsterFace from './MonsterFace';
+import MonsterFaceSVG from './MonsterFaceSVG';
 
 export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', showHands = true, showBody = true, ...props }) {
     // lookingAt: 'center' | 'input' | 'user'
@@ -69,15 +69,13 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
 
                         {/* ─── Face (New Monster Style) ─── */}
                         <g className="ajwa-face">
-                            {/* Scaled down to fit: 
-                                 Original CSS is ~100px wide. Mascot face area is ~80px.
-                                 Scale 0.5 makes it 50px wide, perfect centering.
+                            {/* Scaled and positioned using SVG coordinates. 
+                                 Mascot face center is approx 100, 100.
+                                 We position a 100x100 SVG view at x=50, y=65.
                              */}
-                            <foreignObject x="50" y="65" width="100" height="100">
-                                <div style={{ width: '100%', height: '100%' }}>
-                                    <MonsterFace mood={mood} />
-                                </div>
-                            </foreignObject>
+                            <svg x="50" y="65" width="100" height="100" viewBox="0 0 100 100">
+                                <MonsterFaceSVG mood={mood} />
+                            </svg>
                         </g>
                     </>
                 )}
