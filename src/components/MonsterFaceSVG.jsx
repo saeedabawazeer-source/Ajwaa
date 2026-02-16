@@ -31,14 +31,14 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
 
         return (
             <g>
-                {/* 1. Neutral / Default (With Idle Animation) */}
+                {/* 1. Neutral / Default (Sclera + Pupil) */}
                 <FeatureGroup visible={mood === 'neutral' || !mood}>
-                    <g className="monster-eyes-idle">
-                        <ellipse className="monster-eye-l" cx="30" cy="30" rx="6" ry="10" fill="black" />
-                        <Glint cx="32" cy="27" />
-                        <ellipse className="monster-eye-r" cx="70" cy="30" rx="6" ry="10" fill="black" />
-                        <Glint cx="72" cy="27" />
-                    </g>
+                    {/* Left Eye */}
+                    <ellipse cx="30" cy="30" rx="6" ry="10" fill="white" stroke="black" strokeWidth="2" />
+                    <circle className="monster-eyes-idle" cx="30" cy="30" r="3.5" fill="black" />
+                    {/* Right Eye */}
+                    <ellipse cx="70" cy="30" rx="6" ry="10" fill="white" stroke="black" strokeWidth="2" />
+                    <circle className="monster-eyes-idle" cx="70" cy="30" r="3.5" fill="black" />
                 </FeatureGroup>
 
                 {/* 2. Happy / Laugh / Wave (Arcs) */}
@@ -53,22 +53,21 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                 <FeatureGroup visible={['excited', 'amazed'].includes(mood)}>
                     <g className="monster-eyes-idle">
                         <Star cx="30" cy="30" />
-                        <Glint cx="30" cy="30" /> {/* Added Center Glint */}
+                        <Glint cx="30" cy="30" />
                         <Star cx="70" cy="30" />
                         <Glint cx="70" cy="30" />
                     </g>
                 </FeatureGroup>
 
-                {/* 4. Mad / Beast (Slanted + Glints + Movement) */}
+                {/* 4. Mad / Beast (Slanted Sclera + Pupil) */}
                 <FeatureGroup visible={['beast', 'mad'].includes(mood)}>
                     <path d="M 20 20 L 40 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
                     <path d="M 80 20 L 60 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
-                    <g className="monster-eyes-idle">
-                        <ellipse cx="30" cy="32" rx="6" ry="9" fill="black" />
-                        <Glint cx="32" cy="27" /> {/* Added Glint */}
-                        <ellipse cx="70" cy="32" rx="6" ry="9" fill="black" />
-                        <Glint cx="72" cy="27" />
-                    </g>
+                    {/* Eyes */}
+                    <ellipse cx="30" cy="32" rx="6" ry="9" fill="white" stroke="black" strokeWidth="1" />
+                    <circle className="monster-eyes-idle" cx="30" cy="32" r="3" fill="black" />
+                    <ellipse cx="70" cy="32" rx="6" ry="9" fill="white" stroke="black" strokeWidth="1" />
+                    <circle className="monster-eyes-idle" cx="70" cy="32" r="3" fill="black" />
                 </FeatureGroup>
 
                 {/* 5. Crying / Sad (Arched Down) */}
@@ -79,31 +78,27 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     <path className="monster-tear-r" d="M 70 35 Q 75 45 70 55" stroke="#4FC3F7" strokeWidth="3" fill="none" />
                 </FeatureGroup>
 
-                {/* 6. Shocked (Small Pupils + Glints + Movement) */}
+                {/* 6. Shocked (White Circles + Small Pupils) */}
                 <FeatureGroup visible={mood === 'shocked'}>
-                    <g className="monster-eyes-idle">
-                        <circle cx="30" cy="30" r="5" fill="black" />
-                        <Glint cx="31" cy="29" />
-                        <circle cx="70" cy="30" r="5" fill="black" />
-                        <Glint cx="71" cy="29" />
-                    </g>
+                    <circle cx="30" cy="30" r="6" fill="white" stroke="black" strokeWidth="2" />
+                    <circle className="monster-eyes-idle" cx="30" cy="30" r="2" fill="black" />
+                    <circle cx="70" cy="30" r="6" fill="white" stroke="black" strokeWidth="2" />
+                    <circle className="monster-eyes-idle" cx="70" cy="30" r="2" fill="black" />
                 </FeatureGroup>
 
-                {/* 7. Confused (Uneven + Glints + Movement) */}
+                {/* 7. Confused (Uneven Sclera + Pupil) */}
                 <FeatureGroup visible={mood === 'confused'}>
                     <path d="M 20 18 L 40 22" stroke="black" strokeWidth="2" /> {/* Raised Brow */}
-                    <g className="monster-eyes-idle">
-                        <circle cx="30" cy="30" r="8" fill="black" />
-                        <Glint cx="32" cy="26" />
-                        <circle cx="70" cy="30" r="4" fill="black" />
-                        <Glint cx="71" cy="29" />
-                    </g>
+                    <circle cx="30" cy="30" r="8" fill="white" stroke="black" strokeWidth="2" />
+                    <circle className="monster-eyes-idle" cx="30" cy="30" r="3" fill="black" />
+                    <circle cx="70" cy="30" r="5" fill="white" stroke="black" strokeWidth="2" />
+                    <circle className="monster-eyes-idle" cx="70" cy="30" r="2" fill="black" />
                 </FeatureGroup>
 
                 {/* 8. Love (Hearts + Shine) */}
                 <FeatureGroup visible={mood === 'love'}>
                     <Heart cx="30" cy="30" />
-                    <circle cx="35" cy="25" r="2" fill="white" opacity="0.8" /> {/* Heart Shine */}
+                    <circle cx="35" cy="25" r="2" fill="white" opacity="0.8" />
                     <Heart cx="70" cy="30" />
                     <circle cx="75" cy="25" r="2" fill="white" opacity="0.8" />
                 </FeatureGroup>
@@ -131,12 +126,12 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     <path d="M 65 25 L 75 35 M 75 25 L 65 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
                 </FeatureGroup>
 
-                {/* Thinking (Looking Up/Side) */}
+                {/* Thinking (Looking Up/Side Sclera + Pupil) */}
                 <FeatureGroup visible={['thinking', 'skeptical'].includes(mood)}>
-                    <ellipse cx="30" cy="25" rx="6" ry="10" fill="black" />
-                    <Glint cx="32" cy="22" />
-                    <ellipse cx="70" cy="25" rx="6" ry="10" fill="black" />
-                    <Glint cx="72" cy="22" />
+                    <ellipse cx="30" cy="25" rx="6" ry="10" fill="white" stroke="black" strokeWidth="2" />
+                    <circle className="monster-eyes-idle" cx="30" cy="25" r="3.5" fill="black" />
+                    <ellipse cx="70" cy="25" rx="6" ry="10" fill="white" stroke="black" strokeWidth="2" />
+                    <circle className="monster-eyes-idle" cx="70" cy="25" r="3.5" fill="black" />
                 </FeatureGroup>
             </g>
         );

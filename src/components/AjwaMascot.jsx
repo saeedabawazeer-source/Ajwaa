@@ -38,8 +38,8 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     <>
                         {/* Define Standard Arm Shape (Hanging Down) */}
                         <defs>
-                            <path id="arm-shape-l" d="M 0 0 Q -10 30 -5 60" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                            <path id="arm-shape-r" d="M 0 0 Q 10 30 5 60" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            <path id="arm-shape-l" d="M 0 0 Q -10 30 -5 60" stroke="#BCAAA4" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            <path id="arm-shape-r" d="M 0 0 Q 10 30 5 60" stroke="#BCAAA4" strokeWidth="6" fill="none" strokeLinecap="round" />
                         </defs>
 
                         {/* LEFT ARM */}
@@ -48,9 +48,9 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                             style={{
                                 transformOrigin: '60px 100px',
                                 transform: `rotate(${mood === 'beast' ? 130 :
-                                        ['thinking', 'confused'].includes(mood) ? 120 :
-                                            ['wave', 'shocked'].includes(mood) ? 150 :
-                                                20 // Neutral resting angle
+                                    ['thinking', 'confused'].includes(mood) ? 120 :
+                                        ['wave', 'shocked'].includes(mood) ? 150 :
+                                            20 // Neutral resting angle
                                     }deg)`,
                                 transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' // Bouncy pivot
                             }}
@@ -66,9 +66,9 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                             style={{
                                 transformOrigin: '140px 100px',
                                 transform: `rotate(${['happy', 'laugh', 'wave', 'excited', 'love', 'shocked'].includes(mood) ? -150 :
-                                        mood === 'beast' ? -130 :
-                                            ['thinking', 'confused', 'cool'].includes(mood) ? -40 :
-                                                -20 // Neutral resting angle
+                                    mood === 'beast' ? -130 :
+                                        ['thinking', 'confused', 'cool'].includes(mood) ? -40 :
+                                            -20 // Neutral resting angle
                                     }deg)`,
                                 transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
                             }}
@@ -86,7 +86,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                         <g>
                             <path
                                 d={BODY_PATH}
-                                fill="#3E2723" /* Base Brown */
+                                fill="#A1887F" /* Light Brown / Latte */
                                 stroke="black"
                                 strokeWidth="6"
                                 className="ajwa-body"
@@ -101,7 +101,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                             />
                             {/* Actual Shadow Path: Offset copy of body, clipped */}
                             <g clipPath="url(#ajwa-body-clip)">
-                                <circle cx="130" cy="150" r="70" fill="#261613" opacity="0.4" filter="blur(5px)" />
+                                <circle cx="130" cy="150" r="70" fill="#5D4037" opacity="0.4" filter="blur(5px)" />
                             </g>
                         </g>
 
