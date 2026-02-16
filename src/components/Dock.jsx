@@ -1,8 +1,25 @@
+import { useState, useEffect } from 'react';
 import './Dock.css';
 import { Home, Dumbbell, Users, User, Sparkles } from 'lucide-react';
 import AjwaMascot from './AjwaMascot';
 
 export default function Dock({ activeView, onNavigate, onFab }) {
+    const [mascotState, setMascotState] = useState({ mood: 'happy', lookingAt: 'center' });
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const moods = ['happy', 'happy', 'neutral', 'thinking'];
+            const looks = ['center', 'center', 'left', 'right', 'up'];
+
+            setMascotState({
+                mood: moods[Math.floor(Math.random() * moods.length)],
+                lookingAt: looks[Math.floor(Math.random() * looks.length)]
+            });
+        }, 3000); // Change expression every 3s
+
+        return () => clearInterval(interval);
+    }, []);
+
     const left = [
         { id: 'dashboard', icon: <Home size={22} strokeWidth={2.5} /> },
         { id: 'workouts', icon: <Dumbbell size={22} strokeWidth={2.5} /> },
@@ -19,12 +36,10 @@ export default function Dock({ activeView, onNavigate, onFab }) {
                     {it.icon}
                 </button>
             ))}
-            <button className="nav-mascot" onClick={onFab} style={{
-                background: 'none', border: 'none', padding: 0, marginTop: -40,
-                width: 70, height: 60, display: 'flex', justifyContent: 'center', alignItems: 'center',
-                filter: 'drop-shadow(0px 4px 0px rgba(0,0,0,0.2))', cursor: 'pointer', zIndex: 10
-            }}>
-                <AjwaMascot mood="happy" showHands={false} />
+            <button className="nav-fab" onClick={onFab} style={{ overflow: 'hidden', padding: 0 }}>
+                <div style={{ width: '100%', height: '100%', transform: 'scale(1.8) translateY(5px)' }}>
+                    <AjwaMascot mood={mascotState.mood} lookingAt={mascotState.lookingAt} showHands={false} />
+                </div>
             </button>
             {right.map(it => (
                 <button key={it.id} className={`nav-item ${activeView === it.id ? 'active' : ''}`} onClick={() => onNavigate(it.id)}>
