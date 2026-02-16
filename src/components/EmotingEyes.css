@@ -1,79 +1,151 @@
-.ee-eye-container {
-    --eye-size: 40px;
-    /* Scaled for mascot */
-    --eye-bg: white;
-    --lid-color: black;
-    --pupil-color: black;
-    --pupil-size: 12px;
+/* Converted from style.scss */
+.face-container {
+    --eye-size: 20vmin;
+    /* Will override inline for mascot scaling */
+    --eye-gap: 14vmin;
+    --eye-color: white;
+    --background: #EC87C0;
+    --user-button-main: #D770AD;
 
-    display: flex;
-    gap: 12px;
-    /* Space between eyes */
-    width: 100px;
-    /* Fits on mascot face */
-    justify-content: center;
-    /* Scale vars from logic */
-    --left-lower-rot: 0deg;
-    --left-lower-pos: 0%;
-    --left-upper-rot: 0deg;
-    --left-upper-pos: 0%;
-    --right-lower-rot: 0deg;
-    --right-lower-pos: 0%;
-    --right-upper-rot: 0deg;
-    --right-upper-pos: 0%;
+    /* Mascot Override Defaults */
+    --eye-size: 35px;
+    --eye-gap: 10px;
 }
 
-.ee-eye {
+.face-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    /* background: var(--background); Remove background for mascot */
+}
+
+/* Float animation removed or optional? Source had it. Let's keep it minimal for mascot. */
+
+.face {
+    /* Default Vars */
+    --left-lower-rotation: 0deg;
+    --left-lower-position: 0%;
+    --left-upper-rotation: 0deg;
+    --left-upper-position: 0%;
+    --right-lower-rotation: 0deg;
+    --right-lower-position: 0%;
+    --right-upper-rotation: 0deg;
+    --right-upper-position: 0%;
+    --face-rotation-x: 0deg;
+    --face-rotation-y: 0deg;
+    --face-rotation-z: 0deg;
+
+    display: grid;
+    grid-template-columns: var(--eye-size) var(--eye-gap) var(--eye-size);
+    grid-template-rows: var(--eye-size);
+    grid-template-areas: "left . right";
+
+    /* The core trick: blur + contrast for rounded gooey effect */
+    filter: blur(2px) contrast(8);
+
+    transform: translateZ(0) rotateX(var(--face-rotation-x)) rotateY(var(--face-rotation-y)) rotateZ(var(--face-rotation-z));
+    transition: 0.75s cubic-bezier(.25, .5, .5, 1);
+    mix-blend-mode: normal;
+    /* usage context differs (mascot face isn't pink bg), need normal */
+}
+
+/* 
+   ORIGINAL SOURCE uses mix-blend-mode: lighten to hide the black shadow on a pink background.
+   For the mascot (white face/transparent), we can't easily do that.
+   We will use 'overflow: hidden' on the eye instead of the shadow trick if possible,
+   OR stick to the shadow trick if we can match the bg.
+   
+   Let's try standard overflow:hidden first as it's cleaner for this context.
+*/
+
+.eye {
     position: relative;
-    width: var(--eye-size);
-    height: var(--eye-size);
-    background: var(--eye-bg);
-    border-radius: 50%;
+    background: white;
+    border-radius: 100%;
     overflow: hidden;
-    /* Simple border matching mascot style */
+    /* box-shadow: 0 0 0 2vmin black;  <-- This was part of the goo effect */
     border: 3px solid black;
-    /* Remove box-shadow from original if we want clean strokes, or keep it */
-    transform: translateZ(0);
-    /* Optimize */
+    /* Replacement for definition */
 }
 
-/* Pupils - NEW */
-.ee-pupil {
-    position: absolute;
-    width: var(--pupil-size);
-    height: var(--pupil-size);
-    background: var(--pupil-color);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: transform 0.2s ease-out;
-    z-index: 1;
-    /* Below lids? No, lids are absolute on top. */
+.eye,
+.eye * {
+    transition: 0.5s cubic-bezier(0.75, 0.25, 0.25, 0.75);
 }
 
-/* Lids */
-.ee-lid-wrapper {
+.eye>div {
+    --rotation: 0deg;
+    --position: 0%;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
-    /* Above pupil */
+    transform: rotate(var(--rotation));
 }
 
-.ee-lid {
+.eye .lid {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: var(--lid-color);
+    background: black;
 }
 
-.ee-lid-wrapper.lower .ee-lid {
-    top: calc(100% - var(--pos));
+.eye .lower .lid {
+    top: calc(100% - var(--position));
 }
 
-.ee-lid-wrapper.upper .ee-lid {
-    bottom: calc(100% - var(--pos));
+.eye .upper .lid {
+    bottom: calc(100% - var(--position));
 }
+
+.eye.left {
+    grid-area: left;
+}
+
+.eye.left .lower {
+    --rotation: var(--left-lower-rotation);
+    --position: var(--left-lower-position);
+}
+
+.eye.left .upper {
+    --rotation: var(--left-upper-rotation);
+    --position: var(--left-upper-position);
+}
+
+.eye.right {
+    grid-area: right;
+}
+
+.eye.right .lower {
+    --rotation: var(--right-lower-rotation);
+    --position: var(--right-lower-position);
+}
+
+.eye.right .upper {
+    --rotation: var(--right-upper-rotation);
+    --position: var(--right-upper-position);
+}
+
+
+/* Pupil Addition */
+.pupil {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: black;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Plus dynamic offset */
+    z-index: 1;
+    pointer-events: none;
+}
+
+.lid {
+    z-index: 2;
+}
+
+/* Lids over pupils */

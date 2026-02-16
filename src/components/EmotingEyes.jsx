@@ -50,7 +50,7 @@ const EYE_STATES = {
 
 export default function EmotingEyes({ mood = 'neutral', lookingAt = 'center' }) {
     // 1. Get State
-    const state = EYE_STATES[mood] || EYE_STATES.neutral;
+    const s = EYE_STATES[mood] || EYE_STATES.neutral;
 
     // 2. Pupil Logic
     const pupilStyle = useMemo(() => {
@@ -60,42 +60,36 @@ export default function EmotingEyes({ mood = 'neutral', lookingAt = 'center' }) 
         if (lookingAt === 'down') { y = 6; }
         if (lookingAt === 'left') { x = -6; }
         if (lookingAt === 'right') { x = 6; }
-        // Random fidget could go here if managed by parent
         return { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))` };
     }, [lookingAt]);
 
-    // 3. Helper to generate styles for an eye
-    const getEyeStyle = (side) => {
-        const s = state[side];
-        return {
-            '--lower-rot': `${s.lower.r}deg`,
-            '--lower-pos': `${s.lower.p}%`,
-            '--upper-rot': `${s.upper.r}deg`,
-            '--upper-pos': `${s.upper.p}%`,
-        };
+    // 3. Apply variables to the face container (mimicking the script.js setState)
+    const faceStyle = {
+        '--left-lower-rotation': `${s.left.lower.r}deg`,
+        '--left-lower-position': `${s.left.lower.p}%`,
+        '--left-upper-rotation': `${s.left.upper.r}deg`,
+        '--left-upper-position': `${s.left.upper.p}%`,
+        '--right-lower-rotation': `${s.right.lower.r}deg`,
+        '--right-lower-position': `${s.right.lower.p}%`,
+        '--right-upper-rotation': `${s.right.upper.r}deg`,
+        '--right-upper-position': `${s.right.upper.p}%`,
+        '--face-rotation-x': s.face ? `${s.face.rotationX}deg` : '0deg',
+        '--face-rotation-y': s.face ? `${s.face.rotationY}deg` : '0deg',
+        '--face-rotation-z': s.face ? `${s.face.rotationZ}deg` : '0deg',
     };
 
     return (
-        <div className="ee-eye-container">
-            {/* Left Eye */}
-            <div className="ee-eye" style={getEyeStyle('left')}>
-                <div className="ee-pupil" style={pupilStyle} />
-                <div className="ee-lid-wrapper lower" style={{ transform: 'rotate(var(--lower-rot))', '--pos': 'var(--lower-pos)' }}>
-                    <div className="ee-lid" />
+        <div className="face-container">
+            <div className="face" style={faceStyle}>
+                <div className="eye left">
+                    <div className="pupil" style={pupilStyle} />
+                    <div className="lower"><div className="lid"></div></div>
+                    <div className="upper"><div className="lid"></div></div>
                 </div>
-                <div className="ee-lid-wrapper upper" style={{ transform: 'rotate(var(--upper-rot))', '--pos': 'var(--upper-pos)' }}>
-                    <div className="ee-lid" />
-                </div>
-            </div>
-
-            {/* Right Eye */}
-            <div className="ee-eye" style={getEyeStyle('right')}>
-                <div className="ee-pupil" style={pupilStyle} />
-                <div className="ee-lid-wrapper lower" style={{ transform: 'rotate(var(--lower-rot))', '--pos': 'var(--lower-pos)' }}>
-                    <div className="ee-lid" />
-                </div>
-                <div className="ee-lid-wrapper upper" style={{ transform: 'rotate(var(--upper-rot))', '--pos': 'var(--upper-pos)' }}>
-                    <div className="ee-lid" />
+                <div className="eye right">
+                    <div className="pupil" style={pupilStyle} />
+                    <div className="lower"><div className="lid"></div></div>
+                    <div className="upper"><div className="lid"></div></div>
                 </div>
             </div>
         </div>
