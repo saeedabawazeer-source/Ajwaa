@@ -38,6 +38,9 @@ export default function App() {
   const prevLevelRef = useRef(getLevel(state.xp));
   const prevXPRef = useRef(state.xp);
 
+  // Mascot Reaction State (Moved up to fix Hook Order Violation)
+  const [mascotReaction, setMascotReaction] = useState(null);
+
   // Check for level up
 
   useEffect(() => {
@@ -73,8 +76,7 @@ export default function App() {
     setWorkoutOpen(true);
   }
 
-  // Mascot Reaction State
-  const [mascotReaction, setMascotReaction] = useState(null);
+
 
   function triggerMascot(mood) {
     setMascotReaction(mood);
