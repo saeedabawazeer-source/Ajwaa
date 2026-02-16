@@ -21,7 +21,7 @@ function getCurrentSlot() {
     return 'snacks';
 }
 
-export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, xp, selectedDate, onSelectDate }) {
+export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, onRemoveMeal, onStartWorkout, xp, selectedDate, onSelectDate }) {
     const days = getLast7Days();
     const calPct = Math.min(totals.cals / user.calorieTarget, 1);
     const calCirc = 2 * Math.PI * 38; // Slightly larger ring
