@@ -45,7 +45,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
             <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
 
             {/* Ajwa Context + Stats Card Wrapper */}
-            <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 80, marginBottom: 20 }}>
+            <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 50, marginBottom: 20 }}>
                 {/* 1. Body BEHIND Card (Raised High) */}
                 <div className="d-leaning-ajwa" style={{ zIndex: 1, top: -90 }}>
                     <AjwaMascot mood={nudge.mood} lookingAt="user" showHands={false} />
