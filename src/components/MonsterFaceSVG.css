@@ -1,5 +1,36 @@
 /* Monster Face SVG Animations */
 
+/* Default State (Neutral/Closed) */
+.monster-mouth-bg,
+.monster-mouth-border,
+.monster-mouth-clip-rect {
+    transform: scale(1, 0.2);
+    /* Closed smile */
+    transform-origin: center;
+    transform-box: fill-box;
+    transition: transform 0.3s ease;
+    /* Smooth transition to animation */
+}
+
+.monster-top-teeth {
+    y: -5px;
+    /* Retracted */
+    transition: y 0.3s ease;
+}
+
+.monster-bottom-teeth {
+    y: 45px;
+    /* Retracted */
+    transition: y 0.3s ease;
+}
+
+.monster-tongue {
+    y: 50px;
+    /* Hidden */
+    transition: y 0.3s ease;
+}
+
+
 /* Only animate if the container has the 'animating' class */
 .monster-face-svg.animating .monster-top-teeth {
     animation: t-svg 2.5s infinite;
@@ -13,8 +44,6 @@
 .monster-face-svg.animating .monster-mouth-border,
 .monster-face-svg.animating .monster-mouth-clip-rect {
     animation: mouth-svg 2.5s infinite;
-    transform-origin: center;
-    transform-box: fill-box;
 }
 
 .monster-face-svg.animating .monster-tongue {
