@@ -108,69 +108,75 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                             <div className="d-mr-bar"><div className="d-mr-fill f" style={{ width: `${Math.min(totals.f / user.macros.f, 1) * 100}%` }} /></div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            {/* Vitals Row: Water + Steps (New Fuller Widget) */}
-            <div className="d-vitals-row">
-                <div className={`d-vital-card water ${tapped ? 'pop' : ''}`} onClick={tapWater}>
-                    <div className="d-vital-icon">
-                        <Droplets size={20} fill="currentColor" />
+                    {/* Right: Log Meal Action */}
+                    <div className="d-sc-right" onClick={() => onMealSlotClick(currentSlot)}>
+                        <div className="d-sc-log-icon">
+                            <Plus size={20} strokeWidth={3} />
+                        </div>
+                        <span className="d-sc-log-lbl">Log Meal</span>
                     </div>
-                    <div className="d-vital-info">
-                        <span className="d-vital-val">{today.water}L</span>
-                        <span className="d-vital-lbl">Water</span>
-                    </div>
-                    <div className="d-vital-add">+</div>
-                    <div className="d-vital-bg-bar" style={{ height: `${waterPct * 100}%` }} />
-                </div>
 
-                <div className="d-vital-card weight">
-                    <div className="d-vital-icon">
-                        <Scale size={20} fill="currentColor" />
-                    </div>
-                    <div className="d-vital-info">
-                        <span className="d-vital-val">74.5 kg</span>
-                        <span className="d-vital-lbl">Weight</span>
-                    </div>
-                    <div className="d-vital-add">+</div>
-                </div>
-            </div>
+                    {/* Vitals Row: Water + Steps (New Fuller Widget) */}
+                    <div className="d-vitals-row">
+                        <div className={`d-vital-card water ${tapped ? 'pop' : ''}`} onClick={tapWater}>
+                            <div className="d-vital-icon">
+                                <Droplets size={20} fill="currentColor" />
+                            </div>
+                            <div className="d-vital-info">
+                                <span className="d-vital-val">{today.water}L</span>
+                                <span className="d-vital-lbl">Water</span>
+                            </div>
+                            <div className="d-vital-add">+</div>
+                            <div className="d-vital-bg-bar" style={{ height: `${waterPct * 100}%` }} />
+                        </div>
 
-            {/* Level & XP Progress (Gamification Focus) */}
-            <div className="d-xp-card">
-                <div className="d-xp-header">
-                    <div className="d-xp-level">
-                        <span className="d-lvl-label">LEVEL</span>
-                        <span className="d-lvl-num">{xpProgress.level}</span>
+                        <div className="d-vital-card weight">
+                            <div className="d-vital-icon">
+                                <Scale size={20} fill="currentColor" />
+                            </div>
+                            <div className="d-vital-info">
+                                <span className="d-vital-val">74.5 kg</span>
+                                <span className="d-vital-lbl">Weight</span>
+                            </div>
+                            <div className="d-vital-add">+</div>
+                        </div>
                     </div>
-                    <div className="d-xp-reward">
-                        <Zap size={14} fill="currentColor" />
-                        <span>Next: Gold Badge</span>
-                    </div>
-                </div>
-                <div className="d-xp-bar-bg">
-                    <div className="d-xp-bar-fill" style={{ width: `${xpProgress.progress}%` }} />
-                </div>
-                <div className="d-xp-vals">
-                    <span>{Math.round(xpProgress.currentLevelXP)} XP</span>
-                    <span>{Math.round(xpProgress.nextLevelXP)} XP</span>
-                </div>
-            </div>
 
-            {/* Full Width Action Hero: Start Workout */}
-            <button className="d-action-hero" onClick={() => { /* TO DO */ }}>
-                <div className="d-ah-content">
-                    <div className="d-ah-icon">
-                        <Dumbbell size={24} strokeWidth={3} />
+                    {/* Level & XP Progress (Gamification Focus) */}
+                    <div className="d-xp-card">
+                        <div className="d-xp-header">
+                            <div className="d-xp-level">
+                                <span className="d-lvl-label">LEVEL</span>
+                                <span className="d-lvl-num">{xpProgress.level}</span>
+                            </div>
+                            <div className="d-xp-reward">
+                                <Zap size={14} fill="currentColor" />
+                                <span>Next: Gold Badge</span>
+                            </div>
+                        </div>
+                        <div className="d-xp-bar-bg">
+                            <div className="d-xp-bar-fill" style={{ width: `${xpProgress.progress}%` }} />
+                        </div>
+                        <div className="d-xp-vals">
+                            <span>{Math.round(xpProgress.currentLevelXP)} XP</span>
+                            <span>{Math.round(xpProgress.nextLevelXP)} XP</span>
+                        </div>
                     </div>
-                    <div className="d-ah-text">
-                        <div className="d-ah-title">Start Workout</div>
-                        <div className="d-ah-sub">Chest & Triceps • 45m</div>
-                    </div>
+
+                    {/* Full Width Action Hero: Start Workout */}
+                    <button className="d-action-hero" onClick={() => { /* TO DO */ }}>
+                        <div className="d-ah-content">
+                            <div className="d-ah-icon">
+                                <Dumbbell size={24} strokeWidth={3} />
+                            </div>
+                            <div className="d-ah-text">
+                                <div className="d-ah-title">Start Workout</div>
+                                <div className="d-ah-sub">Chest & Triceps • 45m</div>
+                            </div>
+                        </div>
+                        <div className="d-ah-arrow">GO</div>
+                    </button>
                 </div>
-                <div className="d-ah-arrow">GO</div>
-            </button>
-        </div>
-    );
+                );
 }

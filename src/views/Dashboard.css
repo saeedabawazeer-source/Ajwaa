@@ -165,7 +165,8 @@
 
 /* Center: Macros */
 .d-sc-center {
-    flex: 1;
+    flex: 1.5;
+    /* Give it space, but allow sharing with right col */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -215,47 +216,56 @@
 
 /* Fat Red */
 
-/* Right: Water Integrated */
+/* Right: Log Meal Button */
 .d-sc-right {
-    width: 28px;
+    flex: 1;
+    /* Shorter than macros */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
-    position: relative;
-    overflow: hidden;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
 }
 
 .d-sc-right:active {
-    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.96);
 }
 
-.d-sc-water-track {
-    position: absolute;
-    inset: 0;
+.d-sc-log-icon {
+    width: 32px;
+    height: 32px;
+    background: white;
+    color: var(--c-black);
+    border-radius: 50%;
     display: flex;
-    align-items: flex-end;
-}
-
-.d-sc-water-fill {
-    width: 100%;
-    background: #60A5FA;
-    transition: height 0.4s ease;
-}
-
-.d-sc-water-icon {
-    position: absolute;
-    bottom: 6px;
-    left: 0;
-    right: 0;
-    display: flex;
+    align-items: center;
     justify-content: center;
-    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.d-sc-right.pop {
-    animation: popBounce 0.3s;
+.d-sc-log-lbl {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    text-align: center;
+    line-height: 1.1;
 }
+
+/* Water Integrated - OLD, Removed or Moved? The user didn't ask to remove water, but standard conflict. 
+   Checking Dashboard.jsx, Water is in d-vitals-row now. 
+   So I can overwrite the old .d-sc-right if it existed for water previously in the card.
+   Wait, looking at file content lines 224-263... 
+   Ah, previous css had .d-sc-right for 'Water Integrated'. 
+   But Dashboard.jsx NO LONGER uses .d-sc-right for water inside the main card (it has d-vital-card water separate).
+   So it is safe to overwrite/purpose .d-sc-right for this new Log Meal button.
+*/
 
 /* ── Ajwa Section ── */
 .d-ajwa-section {
