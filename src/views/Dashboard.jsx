@@ -45,20 +45,26 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
             <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
 
             {/* Ajwa Context + Stats Card Wrapper */}
-            <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 60, marginBottom: 20 }}>
-                {/* Leaning Ajwa */}
-                <div className="d-leaning-ajwa">
-                    <AjwaMascot mood={nudge.mood} lookingAt="user" />
+            <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 70, marginBottom: 20 }}>
+                {/* 1. Body BEHIND Card */}
+                <div className="d-leaning-ajwa" style={{ zIndex: 1 }}>
+                    <AjwaMascot mood={nudge.mood} lookingAt="user" showHands={false} />
                 </div>
+
                 {/* Speech Bubble */}
-                <div className="d-hero-bubble">
+                <div className="d-hero-bubble" style={{ zIndex: 10 }}>
                     {nudge.text}
                     <div className="d-hb-arrow" />
                 </div>
 
-                {/* Big Stats Card (Calories + Macros) */}
-                <div className="d-stats-card">
-                    {/* ... stats content ... */}
+                {/* Big Stats Card (z-index 5) */}
+                <div className="d-stats-card" style={{ position: 'relative', zIndex: 5 }}>
+
+                    {/* 2. Hands ON TOP of Card */}
+                    <div className="d-leaning-ajwa" style={{ zIndex: 20, pointerEvents: 'none', top: -55 }}> {/* Same position, just different layer */}
+                        <AjwaMascot mood={nudge.mood} lookingAt="user" showBody={false} />
+                    </div>
+
                     {/* Left: Interactive Calorie Ring */}
                     <div className="d-sc-left" onClick={() => onMealSlotClick(currentSlot)}>
                         <div className="d-sc-ring-wrap">
