@@ -31,36 +31,52 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     </clipPath>
                 </defs>
 
-                {/* ─── Arms (DWtD Style: Simple Noodles with Round Caps) ─── */}
-                {/* Note: Pivot points must be well inside the body (Body width ~50-150) */}
+                {/* ─── Arms (DWtD Style: Rigid Rotation from Shoulder) ─── */}
+                {/* Pivot Points: Left (60, 100) | Right (140, 100) */}
 
                 {showHands && (
                     <>
-                        {/* Left Arm */}
-                        {mood === 'beast' ? (
-                            /* Flexed Up */
-                            <path d="M 60 100 Q 30 100 30 70" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                        ) : mood === 'thinking' ? (
-                            /* Hand on chin */
-                            <path d="M 60 110 Q 40 140 80 160" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                        ) : (
-                            /* Neutral / Down */
-                            <path d="M 60 110 Q 50 140 40 160" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                        )}
+                        {/* Define Standard Arm Shape (Hanging Down) */}
+                        <defs>
+                            <path id="arm-shape-l" d="M 0 0 Q -10 30 -5 60" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            <path id="arm-shape-r" d="M 0 0 Q 10 30 5 60" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                        </defs>
 
-                        {/* Right Arm */}
-                        {mood === 'happy' || mood === 'laugh' || mood === 'wave' ? (
-                            /* Waving High */
-                            <g className="ajwa-arm wave" style={{ transformOrigin: '140px 110px' }}>
-                                <path d="M 140 110 Q 170 110 180 70" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                        {/* LEFT ARM */}
+                        <g
+                            className="ajwa-arm-container"
+                            style={{
+                                transformOrigin: '60px 100px',
+                                transform: `rotate(${mood === 'beast' ? 130 :
+                                        mood === 'thinking' ? 120 :
+                                            mood === 'wave' ? 150 :
+                                                20 // Neutral resting angle
+                                    }deg)`,
+                                transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' // Bouncy pivot
+                            }}
+                        >
+                            <g transform="translate(60, 100)"> {/* Move to Shoulder */}
+                                <use href="#arm-shape-l" />
                             </g>
-                        ) : mood === 'beast' ? (
-                            /* Flexed Up */
-                            <path d="M 140 110 Q 170 110 170 70" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                        ) : (
-                            /* Neutral / Down */
-                            <path d="M 140 110 Q 150 140 160 160" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                        )}
+                        </g>
+
+                        {/* RIGHT ARM */}
+                        <g
+                            className="ajwa-arm-container"
+                            style={{
+                                transformOrigin: '140px 100px',
+                                transform: `rotate(${mood === 'happy' || mood === 'laugh' || mood === 'wave' || mood === 'excited' ? -150 :
+                                        mood === 'beast' ? -130 :
+                                            mood === 'thinking' ? -40 :
+                                                -20 // Neutral resting angle
+                                    }deg)`,
+                                transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                            }}
+                        >
+                            <g transform="translate(140, 100)"> {/* Move to Shoulder */}
+                                <use href="#arm-shape-r" />
+                            </g>
+                        </g>
                     </>
                 )}
 

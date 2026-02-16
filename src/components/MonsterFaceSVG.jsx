@@ -11,7 +11,24 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
         // Common glint
         const Glint = ({ cx, cy }) => <circle cx={cx} cy={cy} r="3.5" fill="white" />;
 
+        // Star for Excited
+        const Star = ({ cx, cy }) => (
+            <path
+                transform={`translate(${cx}, ${cy}) scale(0.8)`}
+                fill="#FFD700" /* Gold Sparkle */
+                d="M 0,-10 L 2,-2 L 10,0 L 2,2 L 0,10 L -2,2 L -10,0 L -2,-2 Z"
+            />
+        );
+
         switch (mood) {
+            case 'excited':
+                // Sparkle Eyes
+                return (
+                    <g>
+                        <Star cx="30" cy="30" />
+                        <Star cx="70" cy="30" />
+                    </g>
+                );
             case 'happy':
             case 'laugh':
             case 'wave':
@@ -23,11 +40,28 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     </g>
                 );
             case 'beast':
+            case 'mad':
                 // Angry Eyes: Slanted Inwards
                 return (
                     <g>
-                        <ellipse cx="30" cy="32" rx="6" ry="9" fill="black" transform="rotate(20 30 32)" />
-                        <ellipse cx="70" cy="32" rx="6" ry="9" fill="black" transform="rotate(-20 70 32)" />
+                        {/* Brows? */}
+                        <path d="M 20 20 L 40 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
+                        <path d="M 80 20 L 60 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
+                        {/* Eyes */}
+                        <ellipse cx="30" cy="32" rx="6" ry="9" fill="black" />
+                        <ellipse cx="70" cy="32" rx="6" ry="9" fill="black" />
+                    </g>
+                );
+            case 'crying':
+            case 'sad':
+                // Sad Eyes (Arched Down) + Tears
+                return (
+                    <g>
+                        <path d="M 22 30 Q 30 20 38 30" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                        <path d="M 62 30 Q 70 20 78 30" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                        {/* Tears */}
+                        <path className="monster-tear" d="M 30 35 Q 25 45 30 55" stroke="#4FC3F7" strokeWidth="3" fill="none" />
+                        <path className="monster-tear-r" d="M 70 35 Q 75 45 70 55" stroke="#4FC3F7" strokeWidth="3" fill="none" />
                     </g>
                 );
             case 'amazed':
@@ -71,6 +105,7 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
         );
 
         switch (mood) {
+            case 'excited':
             case 'happy':
             case 'laugh':
             case 'wave':
@@ -94,15 +129,20 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     </g>
                 );
             case 'beast':
-                // Roar / Angry Open
+            case 'mad':
+                // Frown / Gritted
                 return (
                     <g>
-                        {/* Rough/Jagged Mouth? Or just large oval? DWtD usually smooth shapes. */}
-                        <ellipse cx="50" cy="70" rx="20" ry="15" fill="black" />
-                        {/* Sharp Teeth? */}
-                        <path d="M 35 60 L 40 70 L 45 60" fill="white" />
-                        <path d="M 55 60 L 60 70 L 65 60" fill="white" />
+                        <path d="M 30 75 Q 50 60 70 75" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                        {/* Teeth protruding? */}
+                        <path d="M 35 75 L 35 80" stroke="white" strokeWidth="3" />
+                        <path d="M 65 75 L 65 80" stroke="white" strokeWidth="3" />
                     </g>
+                );
+            case 'crying':
+                // Wobbly Open
+                return (
+                    <ellipse cx="50" cy="75" rx="15" ry="10" fill="black" />
                 );
             case 'amazed':
                 // Small 'O'
