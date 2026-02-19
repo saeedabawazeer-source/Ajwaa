@@ -8,10 +8,10 @@ export default function Dock({ activeView, onNavigate, onFab, reaction }) {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            // IDLE CYCLE: Only safe/logical moods. No negativity without reason.
+            // IDLE CYCLE: Show ALL moods for verification
             const moods = [
-                'neutral', 'neutral', 'neutral',
-                'happy', 'thinking', 'cool', 'love', 'excited'
+                'neutral', 'happy', 'excited', 'love', 'cool', 'thinking',
+                'shocked', 'beast', 'confused', 'sleepy', 'amazed', 'mad', 'dead'
             ];
             const looks = ['center', 'center', 'left', 'right', 'up'];
 
@@ -19,7 +19,7 @@ export default function Dock({ activeView, onNavigate, onFab, reaction }) {
                 mood: moods[Math.floor(Math.random() * moods.length)],
                 lookingAt: looks[Math.floor(Math.random() * looks.length)]
             });
-        }, 6000); // Change expression every 6s (Slower)
+        }, 2500); // Change expression every 2.5s (Faster for visibility)
 
         return () => clearInterval(interval);
     }, []);
