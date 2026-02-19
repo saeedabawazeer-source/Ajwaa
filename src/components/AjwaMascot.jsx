@@ -38,8 +38,8 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     <>
                         {/* Define Standard Arm Shape (Hanging Down) */}
                         <defs>
-                            <path id="arm-shape-l" d="M 0 0 Q -10 30 -5 60" stroke="#D7CCC8" strokeWidth="6" fill="none" strokeLinecap="round" />
-                            <path id="arm-shape-r" d="M 0 0 Q 10 30 5 60" stroke="#D7CCC8" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            <path id="arm-shape-l" d="M 0 0 Q -10 30 -5 60" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            <path id="arm-shape-r" d="M 0 0 Q 10 30 5 60" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
                         </defs>
 
                         {/* LEFT ARM */}
@@ -48,9 +48,9 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                             style={{
                                 transformOrigin: '60px 100px',
                                 transform: `rotate(${mood === 'beast' ? 130 :
-                                        ['thinking', 'confused'].includes(mood) ? 120 :
-                                            ['wave', 'shocked'].includes(mood) ? 150 :
-                                                20 // Neutral resting angle
+                                    ['thinking', 'confused'].includes(mood) ? 120 :
+                                        ['wave', 'shocked'].includes(mood) ? 150 :
+                                            20 // Neutral resting angle
                                     }deg)`,
                                 transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' // Bouncy pivot
                             }}
@@ -66,9 +66,9 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                             style={{
                                 transformOrigin: '140px 100px',
                                 transform: `rotate(${['happy', 'laugh', 'wave', 'excited', 'love', 'shocked'].includes(mood) ? -150 :
-                                        mood === 'beast' ? -130 :
-                                            ['thinking', 'confused', 'cool'].includes(mood) ? -40 :
-                                                -20 // Neutral resting angle
+                                    mood === 'beast' ? -130 :
+                                        ['thinking', 'confused', 'cool'].includes(mood) ? -40 :
+                                            -20 // Neutral resting angle
                                     }deg)`,
                                 transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
                             }}
@@ -86,23 +86,12 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                         <g>
                             <path
                                 d={BODY_PATH}
-                                fill="#D7CCC8" /* Very Light Beige */
+                                fill="#8D6E63" /* Medium Brown */
                                 stroke="black"
                                 strokeWidth="6"
                                 className="ajwa-body"
                             />
-
-                            {/* ─── DWtD Style Shadow (Cel Shading) ─── */}
-                            {/* Darker brown crescent on bottom-right */}
-                            <path
-                                d="M 50 180 C 40 140, 40 85, 50 65 L 150 65 L 150 180 Z"
-                                clipPath="url(#ajwa-body-clip)"
-                                fill="none" // Ensure no fill for helper, actual shadow below
-                            />
-                            {/* Actual Shadow Path: Offset copy of body, clipped */}
-                            <g clipPath="url(#ajwa-body-clip)">
-                                <circle cx="130" cy="150" r="70" fill="#8D6E63" opacity="0.4" filter="blur(5px)" />
-                            </g>
+                            {/* Removed Shadow to fix '2 shade' issue */}
                         </g>
 
                         {/* ─── Sweatband (Clipped to Body) ─── */}
