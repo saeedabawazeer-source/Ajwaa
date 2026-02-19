@@ -26,14 +26,14 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
             <path
                 className="monster-star"
                 style={{ '--cx': cx + 'px', '--cy': cy + 'px' }}
-                transform={`translate(${cx}, ${cy}) scale(0.8)`}
+                transform={`translate(${cx}, ${cy}) scale(0.9)`}
                 fill="#FFF" stroke="black" strokeWidth="2"
                 d="M 0,-10 L 2,-2 L 10,0 L 2,2 L 0,10 L -2,2 L -10,0 L -2,-2 Z"
             />
         );
         const Heart = ({ cx, cy }) => (
             <path
-                transform={`translate(${cx}, ${cy}) scale(0.8)`}
+                transform={`translate(${cx}, ${cy}) scale(0.9)`}
                 fill="#FFF" stroke="black" strokeWidth="2"
                 d="M 0,5 L -5,0 Q -7,-2 -5,-4 Q -3,-6 0,-2 Q 3,-6 5,-4 Q 7,-2 5,0 Z"
             />
@@ -41,21 +41,21 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
 
         return (
             <g>
-                {/* 1. Neutral / Default (Sclera + Pupil) */}
+                {/* 1. Neutral / Default (Round Sclera + Pupil) */}
                 <FeatureGroup visible={mood === 'neutral' || !mood}>
                     {/* Left Eye */}
-                    <ellipse cx="30" cy="30" rx="6" ry="10" fill="white" stroke="black" strokeWidth="2" />
+                    <circle cx="30" cy="30" r="10" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="30" cy="30" r="3.5" fill="black" />
                     {/* Right Eye */}
-                    <ellipse cx="70" cy="30" rx="6" ry="10" fill="white" stroke="black" strokeWidth="2" />
+                    <circle cx="70" cy="30" r="10" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="70" cy="30" r="3.5" fill="black" />
                 </FeatureGroup>
 
-                {/* 2. Happy / Laugh / Wave (Arcs) */}
+                {/* 2. Happy / Laugh / Wave (Arcs) - KEEP ARCS FOR HAPPY */}
                 <FeatureGroup visible={['happy', 'laugh', 'wave'].includes(mood)}>
                     <g fill="none" stroke="black" strokeWidth="4" strokeLinecap="round">
-                        <path d="M 25 35 Q 30 25 35 35" />
-                        <path d="M 65 35 Q 70 25 75 35" />
+                        <path d="M 20 35 Q 30 20 40 35" /> {/* Wider Arc */}
+                        <path d="M 60 35 Q 70 20 80 35" />
                     </g>
                 </FeatureGroup>
 
@@ -63,18 +63,20 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                 <FeatureGroup visible={['excited', 'amazed'].includes(mood)}>
                     <g className="monster-eyes-idle">
                         <Star cx="30" cy="30" />
+                        <Glint cx="30" cy="30" />
                         <Star cx="70" cy="30" />
+                        <Glint cx="70" cy="30" />
                     </g>
                 </FeatureGroup>
 
                 {/* 4. Mad / Beast (Slanted Sclera + Pupil) */}
                 <FeatureGroup visible={['beast', 'mad'].includes(mood)}>
-                    <path d="M 20 20 L 40 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
-                    <path d="M 80 20 L 60 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M 18 18 L 42 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M 82 18 L 58 28" stroke="black" strokeWidth="3" strokeLinecap="round" />
                     {/* Eyes */}
-                    <ellipse cx="30" cy="32" rx="6" ry="9" fill="white" stroke="black" strokeWidth="1" />
+                    <circle cx="30" cy="32" r="9" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="30" cy="32" r="3" fill="black" />
-                    <ellipse cx="70" cy="32" rx="6" ry="9" fill="white" stroke="black" strokeWidth="1" />
+                    <circle cx="70" cy="32" r="9" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="70" cy="32" r="3" fill="black" />
                 </FeatureGroup>
 
@@ -86,20 +88,20 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     <path className="monster-tear-r" d="M 70 35 Q 75 45 70 55" stroke="#4FC3F7" strokeWidth="3" fill="none" />
                 </FeatureGroup>
 
-                {/* 6. Shocked (White Circles + Small Pupils) */}
+                {/* 6. Shocked (Round Eyes + Small Pupils) */}
                 <FeatureGroup visible={mood === 'shocked'}>
-                    <circle cx="30" cy="30" r="6" fill="white" stroke="black" strokeWidth="2" />
+                    <circle cx="30" cy="30" r="10" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="30" cy="30" r="2" fill="black" />
-                    <circle cx="70" cy="30" r="6" fill="white" stroke="black" strokeWidth="2" />
+                    <circle cx="70" cy="30" r="10" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="70" cy="30" r="2" fill="black" />
                 </FeatureGroup>
 
-                {/* 7. Confused (Uneven Sclera + Pupil) */}
+                {/* 7. Confused (Uneven Round Sclera + Pupil) */}
                 <FeatureGroup visible={mood === 'confused'}>
                     <path d="M 20 18 L 40 22" stroke="black" strokeWidth="2" /> {/* Raised Brow */}
-                    <circle cx="30" cy="30" r="8" fill="white" stroke="black" strokeWidth="2" />
+                    <circle cx="30" cy="30" r="12" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="30" cy="30" r="3" fill="black" />
-                    <circle cx="70" cy="30" r="5" fill="white" stroke="black" strokeWidth="2" />
+                    <circle cx="70" cy="30" r="8" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="70" cy="30" r="2" fill="black" />
                 </FeatureGroup>
 
@@ -111,8 +113,8 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
 
                 {/* 9. Sleepy (Closed flat) */}
                 <FeatureGroup visible={mood === 'sleepy'}>
-                    <path d="M 25 35 L 35 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
-                    <path d="M 65 35 L 75 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                    <path d="M 20 35 L 40 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                    <path d="M 60 35 L 80 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
                     <text x="80" y="20" fontSize="12" fill="black" style={{ animation: 'sparkle-spin 3s infinite' }}>Z</text>
                 </FeatureGroup>
 
@@ -128,20 +130,20 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
 
                 {/* 11. Dead (X Eyes) */}
                 <FeatureGroup visible={mood === 'dead'}>
-                    <path d="M 25 25 L 35 35 M 35 25 L 25 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
-                    <path d="M 65 25 L 75 35 M 75 25 L 65 35" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                    <path d="M 20 20 L 40 40 M 40 20 L 20 40" stroke="black" strokeWidth="4" strokeLinecap="round" />
+                    <path d="M 60 20 L 80 40 M 80 20 L 60 40" stroke="black" strokeWidth="4" strokeLinecap="round" />
                 </FeatureGroup>
 
-                {/* Thinking (Looking Up/Side Sclera + Pupil) */}
+                {/* Thinking (Looking Up/Side Round Sclera + Pupil) */}
                 <FeatureGroup visible={['thinking', 'skeptical'].includes(mood)}>
-                    <ellipse cx="30" cy="25" rx="6" ry="10" fill="white" stroke="black" strokeWidth="2" />
+                    <circle cx="30" cy="25" r="10" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="30" cy="25" r="3.5" fill="black" />
-                    <ellipse cx="70" cy="25" rx="6" ry="10" fill="white" stroke="black" strokeWidth="2" />
+                    <circle cx="70" cy="25" r="10" fill="white" stroke="black" strokeWidth="2" />
                     <circle className="monster-eyes-idle" cx="70" cy="25" r="3.5" fill="black" />
                 </FeatureGroup>
             </g>
         );
-    }
+    } // End Eyes
 
     // ─── Mouth Variants ───
     const Mouths = () => {
@@ -172,9 +174,9 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     </g>
                 </FeatureGroup>
 
-                {/* Shocked (Open O/Bean) - Blue Blob */}
+                {/* Shocked (Open O) - Rounded */}
                 <FeatureGroup visible={['shocked', 'dead'].includes(mood)}>
-                    <path d="M 35 60 Q 65 60 65 80 Q 50 90 35 80 Q 35 70 35 60 Z" fill="black" />
+                    <circle cx="50" cy="70" r="12" fill="black" />
                 </FeatureGroup>
 
                 {/* Confused (Wavy) */}
