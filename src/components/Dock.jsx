@@ -3,23 +3,27 @@ import './Dock.css';
 import { Home, Dumbbell, Users, User, Sparkles } from 'lucide-react';
 import AjwaMascot from './AjwaMascot';
 
+// Ordered moods for smooth sequential cycling
+const MOOD_SEQUENCE = [
+    'neutral', 'happy', 'thinking', 'cool', 'love', 'excited',
+    'amazed', 'shocked', 'confused', 'sleepy', 'beast', 'dead'
+];
+
 export default function Dock({ activeView, onNavigate, onFab, reaction }) {
     const [mascotState, setMascotState] = useState({ mood: 'neutral', lookingAt: 'center' });
+    const [moodIndex, setMoodIndex] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            // IDLE CYCLE: Show ALL moods for verification
-            const moods = [
-                'neutral', 'happy', 'excited', 'love', 'cool', 'thinking',
-                'shocked', 'beast', 'confused', 'sleepy', 'amazed', 'mad', 'dead'
-            ];
-            const looks = ['center', 'center', 'left', 'right', 'up'];
-
-            setMascotState({
-                mood: moods[Math.floor(Math.random() * moods.length)],
-                lookingAt: looks[Math.floor(Math.random() * looks.length)]
+            setMoodIndex(prev => {
+                const next = (prev + 1) % MOOD_SEQUENCE.length;
+                setMascotState({
+                    mood: MOOD_SEQUENCE[next],
+                    lookingAt: ['center', 'left', 'right', 'up'][Math.floor(Math.random() * 4)]
+                });
+                return next;
             });
-        }, 2500); // Change expression every 2.5s (Faster for visibility)
+        }, 4000); // Smooth 4s transitions
 
         return () => clearInterval(interval);
     }, []);

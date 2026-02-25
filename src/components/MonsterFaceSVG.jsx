@@ -23,13 +23,16 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
     const Eyes = () => {
         const Glint = ({ cx, cy }) => <circle cx={cx} cy={cy} r="2.5" fill="white" opacity="0.9" />;
         const Star = ({ cx, cy }) => (
-            <path
-                className="monster-star"
-                style={{ '--cx': cx + 'px', '--cy': cy + 'px' }}
-                transform={`translate(${cx}, ${cy}) scale(0.9)`}
-                fill="#FFF" stroke="black" strokeWidth="2"
-                d="M 0,-10 L 2,-2 L 10,0 L 2,2 L 0,10 L -2,2 L -10,0 L -2,-2 Z"
-            />
+            <g transform={`translate(${cx}, ${cy}) scale(0.9)`}>
+                <path
+                    className="monster-star"
+                    style={{ '--cx': cx + 'px', '--cy': cy + 'px' }}
+                    fill="black"
+                    d="M 0,-10 L 2,-2 L 10,0 L 2,2 L 0,10 L -2,2 L -10,0 L -2,-2 Z"
+                />
+                {/* White sparkle glint */}
+                <circle cx="2" cy="-3" r="2" fill="white" opacity="0.9" />
+            </g>
         );
         const Heart = ({ cx, cy }) => (
             <path
@@ -61,13 +64,11 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     </g>
                 </FeatureGroup>
 
-                {/* 3. Excited / Amazed (White Stars) */}
+                {/* 3. Excited / Amazed (Black Stars + White Glint) */}
                 <FeatureGroup visible={['excited', 'amazed'].includes(mood)}>
                     <g className="monster-eyes-idle">
                         <Star cx="30" cy="30" />
-                        <Glint cx="30" cy="30" />
                         <Star cx="70" cy="30" />
-                        <Glint cx="70" cy="30" />
                     </g>
                 </FeatureGroup>
 
@@ -125,14 +126,20 @@ export default function MonsterFaceSVG({ mood = 'neutral' }) {
                     <text x="80" y="20" fontSize="12" fill="black" style={{ animation: 'sparkle-spin 3s infinite' }}>Z</text>
                 </FeatureGroup>
 
-                {/* 10. Cool (Sunglasses) */}
+                {/* 10. Cool (Sunglasses - Rounded) */}
                 <FeatureGroup visible={mood === 'cool'}>
-                    <path d="M 15 25 H 45 Q 45 40 30 40 Q 15 40 15 25 Z" fill="black" />
-                    <path d="M 55 25 H 85 Q 85 40 70 40 Q 55 40 55 25 Z" fill="black" />
-                    <line x1="45" y1="28" x2="55" y2="28" stroke="black" strokeWidth="3" />
-                    {/* Reflections */}
-                    <path d="M 20 28 L 35 28" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
-                    <path d="M 60 28 L 75 28" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+                    {/* Left Lens */}
+                    <ellipse cx="30" cy="30" rx="14" ry="10" fill="black" stroke="#333" strokeWidth="2" />
+                    {/* Right Lens */}
+                    <ellipse cx="70" cy="30" rx="14" ry="10" fill="black" stroke="#333" strokeWidth="2" />
+                    {/* Bridge */}
+                    <path d="M 44 28 Q 50 24 56 28" fill="none" stroke="#333" strokeWidth="2.5" strokeLinecap="round" />
+                    {/* Temple Arms (going to ears) */}
+                    <line x1="16" y1="28" x2="8" y2="26" stroke="#333" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="84" y1="28" x2="92" y2="26" stroke="#333" strokeWidth="2" strokeLinecap="round" />
+                    {/* Lens Shine */}
+                    <ellipse cx="25" cy="27" rx="5" ry="2" fill="white" opacity="0.35" />
+                    <ellipse cx="65" cy="27" rx="5" ry="2" fill="white" opacity="0.35" />
                 </FeatureGroup>
 
                 {/* 11. Dead (X Eyes) */}
