@@ -38,8 +38,8 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                     <>
                         {/* Define Standard Arm Shape (Hanging Down) */}
                         <defs>
-                            <path id="arm-shape-l" d="M 0 0 Q -10 30 -5 60" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
-                            <path id="arm-shape-r" d="M 0 0 Q 10 30 5 60" stroke="#8D6E63" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            <path id="arm-shape-l" d="M 0 0 Q -10 30 -5 60" stroke="#A8D86E" strokeWidth="6" fill="none" strokeLinecap="round" />
+                            <path id="arm-shape-r" d="M 0 0 Q 10 30 5 60" stroke="#A8D86E" strokeWidth="6" fill="none" strokeLinecap="round" />
                         </defs>
 
                         {/* LEFT ARM */}
@@ -86,7 +86,7 @@ export default function AjwaMascot({ mood = 'neutral', lookingAt = 'center', sho
                         <g>
                             <path
                                 d={BODY_PATH}
-                                fill="#8D6E63" /* Medium Brown */
+                                fill="#A8D86E" /* Yellow-Green */
                                 stroke="black"
                                 strokeWidth="6"
                                 className="ajwa-body"
