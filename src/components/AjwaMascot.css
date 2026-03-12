@@ -1,9 +1,14 @@
+/* ═══════════════════════════════════════════════════
+   AJWA MASCOT — MOBILE GAME QUALITY ANIMATIONS
+   All based on CSS keyframes + transform for 60fps
+═══════════════════════════════════════════════════ */
+
 .ajwa-mascot-container {
     width: 100%;
     height: 100%;
     margin: 0 auto;
     position: relative;
-    /* No overflow hidden, let hands peek out if needed */
+    will-change: transform;
 }
 
 .ajwa-svg {
@@ -12,47 +17,267 @@
     overflow: visible;
 }
 
-/* ─── Animations ─── */
+/* ── IDLE BOB: gentle up/down float like a game character ──────────── */
+.ajwa-mascot-container {
+    animation: idle-bob 2.2s ease-in-out infinite;
+}
 
-/* Subtle Breathing (No jumping) */
+@keyframes idle-bob {
+    0%, 100% { transform: translateY(0px) scaleX(1) scaleY(1); }
+    40%       { transform: translateY(-6px) scaleX(0.97) scaleY(1.04); }
+    60%       { transform: translateY(-5px) scaleX(0.97) scaleY(1.04); }
+    80%       { transform: translateY(-1px) scaleX(1.01) scaleY(0.99); }
+}
+
+/* ── SQUASH & STRETCH body path ───────────────────────────────────── */
 .ajwa-body {
-    animation: breathe 4s ease-in-out infinite;
-    transform-origin: center center;
-}
-
-@keyframes breathe {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.02);
-    }
-}
-
-/* Hands stay planted */
-
-.ajwa-arm {
+    transform-origin: center bottom;
     transform-box: fill-box;
-    transform-origin: bottom center;
 }
 
-.ajwa-arm.wave {
-    animation: wave 1s ease-in-out infinite;
-    transform-origin: 100% 100%;
-    /* Pivot at shoulder/attachment */
+/* ── MOOD-SPECIFIC CONTAINER ANIMATIONS ───────────────────────────── */
+.ajwa-mood-happy .ajwa-mascot-container,
+.ajwa-mood-wave .ajwa-mascot-container {
+    animation: bounce-happy 0.6s ease-in-out infinite alternate;
 }
 
-@keyframes wave {
+@keyframes bounce-happy {
+    0%   { transform: translateY(0) scaleX(1) scaleY(1); }
+    100% { transform: translateY(-10px) scaleX(0.95) scaleY(1.06); }
+}
 
-    0%,
-    100% {
-        transform: rotate(0deg);
-    }
+.ajwa-mood-excited .ajwa-mascot-container {
+    animation: bounce-excited 0.35s ease-in-out infinite alternate;
+}
 
-    50% {
-        transform: rotate(-20deg);
-    }
+@keyframes bounce-excited {
+    0%   { transform: translateY(0) rotate(-2deg) scaleX(1) scaleY(1); }
+    100% { transform: translateY(-12px) rotate(2deg) scaleX(0.94) scaleY(1.07); }
+}
+
+.ajwa-mood-shocked .ajwa-mascot-container {
+    animation: shake-shocked 0.12s ease-in-out infinite, pop-in 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake-shocked {
+    0%, 100% { transform: translateX(0); }
+    25%       { transform: translateX(-3px) rotate(-1deg); }
+    75%       { transform: translateX(3px) rotate(1deg); }
+}
+
+.ajwa-mood-beast .ajwa-mascot-container,
+.ajwa-mood-mad .ajwa-mascot-container {
+    animation: rage-pulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes rage-pulse {
+    0%   { transform: scale(1) rotate(-1deg); }
+    100% { transform: scale(1.04) rotate(1deg); }
+}
+
+.ajwa-mood-sleepy .ajwa-mascot-container {
+    animation: sleepy-drift 3s ease-in-out infinite;
+}
+
+@keyframes sleepy-drift {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    30%       { transform: translateY(3px) rotate(-3deg); }
+    70%       { transform: translateY(4px) rotate(3deg); }
+}
+
+.ajwa-mood-dead .ajwa-mascot-container {
+    animation: dead-fall 0.4s ease-out forwards;
+}
+
+@keyframes dead-fall {
+    0%   { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(4px) rotate(-8deg); }
+}
+
+.ajwa-mood-love .ajwa-mascot-container {
+    animation: love-float 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes love-float {
+    0%   { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-8px) scale(1.03); }
+}
+
+.ajwa-mood-confused .ajwa-mascot-container {
+    animation: confused-tilt 1s ease-in-out infinite alternate;
+}
+
+@keyframes confused-tilt {
+    0%   { transform: rotate(-6deg) translateY(0); }
+    100% { transform: rotate(6deg) translateY(-2px); }
+}
+
+/* ── ARMS ─────────────────────────────────────────────────────────── */
+.ajwa-arm-l,
+.ajwa-arm-r {
+    transform-box: fill-box;
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Arms swing with body bob */
+.ajwa-mood-happy .ajwa-arm-l {
+    animation: arm-swing-l 0.6s ease-in-out infinite alternate;
+}
+
+.ajwa-mood-happy .ajwa-arm-r {
+    animation: arm-swing-r 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes arm-swing-l {
+    0%   { transform: rotate(20deg); }
+    100% { transform: rotate(40deg); }
+}
+
+@keyframes arm-swing-r {
+    0%   { transform: rotate(-20deg); }
+    100% { transform: rotate(-40deg); }
+}
+
+.ajwa-mood-excited .ajwa-arm-l {
+    animation: arm-cheer-l 0.35s ease-in-out infinite alternate;
+}
+
+.ajwa-mood-excited .ajwa-arm-r {
+    animation: arm-cheer-r 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes arm-cheer-l {
+    0%   { transform: rotate(100deg); }
+    100% { transform: rotate(130deg); }
+}
+
+@keyframes arm-cheer-r {
+    0%   { transform: rotate(-100deg); }
+    100% { transform: rotate(-130deg); }
+}
+
+/* Wave */
+.ajwa-mood-wave .ajwa-arm-r {
+    animation: arm-wave 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes arm-wave {
+    0%   { transform: rotate(-140deg); }
+    100% { transform: rotate(-100deg); }
+}
+
+/* ── FACE POP: face pops in with scale when mood changes ──────────── */
+.ajwa-face {
+    transform-box: fill-box;
+    transform-origin: center center;
+    animation: face-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes face-pop {
+    0%   { transform: scale(0.7); }
+    100% { transform: scale(1); }
+}
+
+/* ── GLOSS HIGHLIGHT on body ──────────────────────────────────────── */
+.ajwa-body-highlight {
+    pointer-events: none;
+}
+
+/* ── FLOATING HEARTS (love mood) ─────────────────────────────────── */
+.ajwa-heart-float-1 {
+    animation: float-up 1.8s ease-out infinite;
+}
+
+.ajwa-heart-float-2 {
+    animation: float-up 1.8s ease-out 0.6s infinite;
+}
+
+.ajwa-heart-float-3 {
+    animation: float-up 1.8s ease-out 1.2s infinite;
+}
+
+@keyframes float-up {
+    0%   { transform: translateY(0) scale(0.6); opacity: 1; }
+    70%  { opacity: 1; }
+    100% { transform: translateY(-40px) scale(1.1); opacity: 0; }
+}
+
+/* ── STARS: rotate on excited ─────────────────────────────────────── */
+.monster-star {
+    animation: star-spin 1s linear infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+@keyframes star-spin {
+    0%   { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* ── TEARS dripping ───────────────────────────────────────────────── */
+.monster-tear {
+    animation: tear-drip 0.8s ease-in infinite;
+    transform-box: fill-box;
+    transform-origin: top;
+}
+
+.monster-tear-r {
+    animation: tear-drip 0.8s ease-in 0.4s infinite;
+    transform-box: fill-box;
+    transform-origin: top;
+}
+
+@keyframes tear-drip {
+    0%   { transform: scaleY(0); opacity: 1; }
+    60%  { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1) translateY(8px); opacity: 0; }
+}
+
+/* ── EYES idle look-around ────────────────────────────────────────── */
+.monster-eyes-idle {
+    animation: eyes-look 5s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+@keyframes eyes-look {
+    0%, 20%  { transform: translate(0, 0); }
+    30%      { transform: translate(-2px, 1px); }
+    50%      { transform: translate(3px, 0); }
+    65%      { transform: translate(0, -2px); }
+    80%      { transform: translate(-1px, 2px); }
+    100%     { transform: translate(0, 0); }
+}
+
+/* ── Z's floating up from sleepy mascot ──────────────────────────── */
+.sleepy-z {
+    animation: z-float 2s ease-out infinite;
+    transform-origin: center;
+}
+
+.sleepy-z-2 {
+    animation: z-float 2s ease-out 0.8s infinite;
+}
+
+.sleepy-z-3 {
+    animation: z-float 2s ease-out 1.6s infinite;
+}
+
+@keyframes z-float {
+    0%   { transform: translate(0, 0) scale(0.5); opacity: 0; }
+    15%  { opacity: 1; }
+    100% { transform: translate(12px, -25px) scale(1.2); opacity: 0; }
+}
+
+/* ── CONFUSED wiggling question mark not needed, we tilted the body ── */
+
+/* ── BEAST pupils pulsate red ─────────────────────────────────────── */
+.beast-eye-glow {
+    animation: beast-pulse 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes beast-pulse {
+    0%   { opacity: 0.3; r: 3; }
+    100% { opacity: 1; r: 5; }
 }
