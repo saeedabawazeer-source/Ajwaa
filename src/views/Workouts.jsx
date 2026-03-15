@@ -18,6 +18,12 @@ export default function Workouts({ today, user, onStartWorkout, onLogWorkout, ge
         setWorkoutName('');
     }
 
+    function handleStartTemplate(template) {
+        // When adding a template workout later we might want to pass the template details
+        // but for now we just pass the template name to the active workout session.
+        onStartWorkout(template.name);
+    }
+
     return (
         <div className="view-section" style={{ paddingBottom: 100 }}>
             {/* Weekly Streak / Schedule Visual */}
