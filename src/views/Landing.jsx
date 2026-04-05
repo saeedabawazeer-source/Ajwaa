@@ -15,7 +15,7 @@ export default function Landing({ onStart }) {
                     <div className="lp-v4-logo">AJWAA</div>
                     <div className="lp-v4-nav-right">
                         <button className="lp-v4-btn-outline" onClick={onStart}>
-                            Try Web App
+                            Early Access Login
                         </button>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ export default function Landing({ onStart }) {
                         
                         <div className="lp-v4-actions">
                             <button className="lp-v4-btn-solid" onClick={onStart}>
-                                Launch Web App <ArrowRight size={20} />
+                                Early Access Login <ArrowRight size={20} />
                             </button>
                             <div className="lp-v4-store-buttons">
                                 <div className="lp-v4-store coming-soon">
@@ -187,7 +187,7 @@ export default function Landing({ onStart }) {
                 <h2 className="lp-v4-h1 txt-sand text-center" style={{fontSize: '8vw', margin: '0 0 40px'}}>AJWAA FITNESS</h2>
                 <div className="lp-v4-footer-bottom">
                     <button className="lp-v4-btn-solid invert" onClick={onStart}>
-                        Try Web App <ArrowRight size={20} />
+                        Early Access Login <ArrowRight size={20} />
                     </button>
                     <div className="txt-muted" style={{fontSize: 14, fontWeight: 700}}>© 2026. BRUTAL EFFICIENCY.</div>
                 </div>

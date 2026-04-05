@@ -57,14 +57,11 @@ export default function App() {
   }, [state.xp]);
 
   // Landing page state
-  const [showLanding, setShowLanding] = useState(() => {
-    return !state.onboardingComplete && !localStorage.getItem('ajwaa_landing_seen');
-  });
+  const [showLanding, setShowLanding] = useState(true);
 
-  // Show landing page for new users
+  // Show landing page initially
   if (showLanding) {
     return <Landing onStart={() => {
-      localStorage.setItem('ajwaa_landing_seen', '1');
       setShowLanding(false);
     }} />;
   }
