@@ -167,7 +167,7 @@ function loadState() {
             if (parsed.onboardingComplete === undefined) parsed.onboardingComplete = true;
             return parsed;
         }
-    } catch (e) { }
+    } catch { /* localStorage unavailable */ }
     return INITIAL_STATE;
 }
 

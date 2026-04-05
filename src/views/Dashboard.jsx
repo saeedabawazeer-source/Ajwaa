@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import AjwaMascot from '../components/AjwaMascot';
 import CalendarStrip from '../components/CalendarStrip';
 import { getXPProgress } from '../store/xpEngine';
 import { getDashboardNudge } from '../utils/ajwaChat';
@@ -21,7 +20,7 @@ function getCurrentSlot() {
     return 'snacks';
 }
 
-export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, onRemoveMeal, onStartWorkout, xp, selectedDate, onSelectDate }) {
+export default function Dashboard({ today, totals, user, streak, getLast7Days, onWaterClick, onMealSlotClick, onStartWorkout, xp, selectedDate, onSelectDate }) {
     const days = getLast7Days();
     const calPct = Math.min(totals.cals / user.calorieTarget, 1);
     const calCirc = 2 * Math.PI * 38; // Slightly larger ring
@@ -44,26 +43,15 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
         <div className="dash">
             <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
 
-            {/* Ajwa Context + Stats Card Wrapper */}
-            <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 42, marginBottom: 4 }}>
-                {/* 1. Body BEHIND Card (Lowered to lean ON card) */}
-                <div className="d-leaning-ajwa" style={{ zIndex: 1, top: -55 }}>
-                    <AjwaMascot mood={nudge.mood} lookingAt="user" showHands={false} />
-                </div>
-
-                {/* Speech Bubble */}
-                <div className="d-hero-bubble" style={{ zIndex: 10 }}>
+            {/* Nudge + Stats Card */}
+            <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 12, marginBottom: 4 }}>
+                {/* Nudge Bubble */}
+                <div className="d-hero-bubble" style={{ zIndex: 10, marginBottom: 8 }}>
                     {nudge.text}
-                    <div className="d-hb-arrow" />
                 </div>
 
-                {/* Big Stats Card (z-index 5) */}
+                {/* Big Stats Card */}
                 <div className="d-stats-card" style={{ position: 'relative', zIndex: 5 }}>
-
-                    {/* 2. Hands ON TOP of Card (Aligned with Body) */}
-                    <div className="d-leaning-ajwa" style={{ zIndex: 20, pointerEvents: 'none', top: -55 }}>
-                        <AjwaMascot mood={nudge.mood} lookingAt="user" showBody={false} />
-                    </div>
 
                     {/* Left: Interactive Calorie Ring */}
                     <div className="d-sc-left" onClick={() => onMealSlotClick(currentSlot)}>
@@ -138,7 +126,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                         <Scale size={20} fill="currentColor" />
                     </div>
                     <div className="d-vital-info">
-                        <span className="d-vital-val">74.5 kg</span>
+                        <span className="d-vital-val">{user.weight} kg</span>
                         <span className="d-vital-lbl">Weight</span>
                     </div>
                     <div className="d-vital-add">+</div>

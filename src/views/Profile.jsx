@@ -6,7 +6,7 @@ import './Profile.css';
 
 const ICON_MAP = { Flame, Droplets, Trophy, Star, Crown, Shield, Award, Heart, Sunrise, Target, Dumbbell, Zap };
 
-export default function Profile({ user, today, totals, streak, xp, unlockedAchievements, onUpdate, onLogWeight, getWeightHistory, getLast7Days, days }) {
+export default function Profile({ user, today, totals, streak, xp, unlockedAchievements, onUpdate, onLogWeight, getWeightHistory, getLast7Days }) {
     const bmi = (user.weight / ((user.height / 100) ** 2)).toFixed(1);
     const [tab, setTab] = useState('overview');
     const [wt, setWt] = useState('');

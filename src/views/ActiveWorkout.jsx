@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { searchExercises, getMuscleGroups, getExercisesByMuscle } from '../data/exerciseDB';
+import { searchExercises, getMuscleGroups } from '../data/exerciseDB';
 import { Dumbbell, X, Plus, Check, Play } from 'lucide-react';
 import './ActiveWorkout.css';
 
 export default function ActiveWorkout({ workout, onAddExercise, onUpdateSet, onAddSet, onRemoveSet, onFinish, onCancel }) {
     const [search, setSearch] = useState('');
     const [picking, setPicking] = useState(false);
-    const [elapsed, setElapsed] = useState('');
 
     const results = search ? searchExercises(search) : [];
     const muscles = getMuscleGroups();

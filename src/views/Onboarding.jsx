@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { ChevronRight, Target, Dumbbell, Zap, Trophy, Crown, Check, Ruler, Weight, Calendar } from 'lucide-react';
 import { calculatePlan } from '../utils/helpers';
-import AjwaMascot from '../components/AjwaMascot';
 import './Onboarding.css';
 
 const STEPS = [
@@ -17,9 +16,6 @@ const STEPS = [
 
 export default function Onboarding({ onComplete }) {
     const [stepIndex, setStepIndex] = useState(0);
-    const [mascotMood, setMascotMood] = useState('happy');
-    const [isTalking, setIsTalking] = useState(false);
-    const [lookingAt, setLookingAt] = useState('center');
 
     const [data, setData] = useState({
         name: '',
@@ -32,27 +28,22 @@ export default function Onboarding({ onComplete }) {
         commit: false
     });
 
-
-
     const step = STEPS[stepIndex];
 
-    useEffect(() => {
-        // Simulate talking when step changes
-        setIsTalking(true);
-        setMascotMood('neutral');
-        setLookingAt('center');
-
-        const timer = setTimeout(() => {
-            setIsTalking(false);
-            // Set mood based on step
-            if (step.id === 'intro') setMascotMood('happy');
-            else if (step.id === 'plan') setMascotMood('pump'); // Excited about plan
-            else if (step.id === 'commit') setMascotMood('Thinking');
-            else setMascotMood('neutral');
-        }, 1500); // Talk for 1.5s
-
-        return () => clearTimeout(timer);
-    }, [stepIndex, step.id]);
+    // Compute mascot emoji based on step (no side effects)
+    const stepEmoji = useMemo(() => {
+        switch (step.id) {
+            case 'intro': return '💪';
+            case 'name': return '👋';
+            case 'gender': return '🧬';
+            case 'stats': return '📊';
+            case 'goal': return '🎯';
+            case 'activity': return '🏃';
+            case 'plan': return '⚡';
+            case 'commit': return '🔥';
+            default: return '💪';
+        }
+    }, [step.id]);
 
     function next() {
         if (stepIndex < STEPS.length - 1) {
@@ -102,9 +93,9 @@ export default function Onboarding({ onComplete }) {
             </div>
 
             <div className="ob-content">
-                {/* Ajwa Interactive Mascot */}
-                <div className="mascot-header">
-                    <AjwaMascot mood={mascotMood} lookingAt={lookingAt} />
+                {/* Step Icon Header */}
+                <div className="mascot-header" style={{ fontSize: 56, textAlign: 'center' }}>
+                    {stepEmoji}
                 </div>
 
                 {/* 1. INTRO */}
@@ -168,8 +159,6 @@ export default function Onboarding({ onComplete }) {
                                     <input className="ob-input" placeholder="25" type="number" style={{ textAlign: 'center' }}
                                         value={data.age}
                                         onChange={e => setData({ ...data, age: e.target.value })}
-                                        onFocus={() => setLookingAt('input')}
-                                        onBlur={() => setLookingAt('center')}
                                     />
                                 </div>
                                 <div>
@@ -177,8 +166,6 @@ export default function Onboarding({ onComplete }) {
                                     <input className="ob-input" placeholder="180" type="number" style={{ textAlign: 'center' }}
                                         value={data.height}
                                         onChange={e => setData({ ...data, height: e.target.value })}
-                                        onFocus={() => setLookingAt('input')}
-                                        onBlur={() => setLookingAt('center')}
                                     />
                                 </div>
                                 <div>
@@ -186,8 +173,6 @@ export default function Onboarding({ onComplete }) {
                                     <input className="ob-input" placeholder="75" type="number" style={{ textAlign: 'center' }}
                                         value={data.weight}
                                         onChange={e => setData({ ...data, weight: e.target.value })}
-                                        onFocus={() => setLookingAt('input')}
-                                        onBlur={() => setLookingAt('center')}
                                     />
                                 </div>
                             </div>

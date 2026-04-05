@@ -108,7 +108,7 @@ export function generateAjwaResponse(message, { totals, user, streak, today, xp 
 }
 
 // Welcome message on chat open
-export function getWelcomeMessage(user, totals, streak) {
+export function getWelcomeMessage(user, totals) {
     const hour = new Date().getHours();
     const timeGreet = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
     const firstName = user.name.split(' ')[0];
@@ -116,7 +116,7 @@ export function getWelcomeMessage(user, totals, streak) {
 }
 
 // Proactive dashboard nudge
-export function getDashboardNudge(today, user, totals, streak) {
+export function getDashboardNudge(today, user) {
     const hour = new Date().getHours();
     const firstName = user.name.split(' ')[0];
     const logCount = today.meals.breakfast.length + today.meals.lunch.length + today.meals.dinner.length + today.meals.snacks.length;

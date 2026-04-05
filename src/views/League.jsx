@@ -1,6 +1,5 @@
 import { getLeaderboard, getCurrentLeagueTier } from '../data/friendsData';
 import { getLevel } from '../store/xpEngine';
-import { calcDayXP } from '../store/xpEngine';
 import { Trophy, TrendingUp, TrendingDown, Minus, Crown, Flame } from 'lucide-react';
 import './Social.css';
 

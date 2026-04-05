@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { calcVolume } from '../utils/helpers';
 import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
 import { Dumbbell, BarChart2, Play, Clipboard } from 'lucide-react';
 import './Workouts.css';
 
-export default function Workouts({ today, user, onStartWorkout, onLogWorkout, getExerciseHistory }) {
+export default function Workouts({ onStartWorkout }) {
     const [tab, setTab] = useState('sessions');
     const [workoutName, setWorkoutName] = useState('');
 
-    const workouts = today.workouts || [];
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     const todayIndex = new Date().getDay();
 

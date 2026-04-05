@@ -17,6 +17,7 @@ import XPPopup from './components/XPPopup';
 import Confetti from './components/Confetti';
 import LevelUpModal from './components/LevelUpModal';
 import Onboarding from './views/Onboarding';
+import Landing from './views/Landing';
 import './App.css';
 
 export default function App() {
@@ -38,9 +39,6 @@ export default function App() {
   const prevLevelRef = useRef(getLevel(state.xp));
   const prevXPRef = useRef(state.xp);
 
-  // Mascot Reaction State (Moved up to fix Hook Order Violation)
-  const [mascotReaction, setMascotReaction] = useState(null);
-
   // Check for level up
 
   useEffect(() => {
@@ -57,6 +55,19 @@ export default function App() {
     prevLevelRef.current = currentLevel;
     prevXPRef.current = state.xp;
   }, [state.xp]);
+
+  // Landing page state
+  const [showLanding, setShowLanding] = useState(() => {
+    return !state.onboardingComplete && !localStorage.getItem('ajwaa_landing_seen');
+  });
+
+  // Show landing page for new users
+  if (showLanding) {
+    return <Landing onStart={() => {
+      localStorage.setItem('ajwaa_landing_seen', '1');
+      setShowLanding(false);
+    }} />;
+  }
 
   if (!state.onboardingComplete) {
     return <Onboarding onComplete={store.completeOnboarding} />;
@@ -76,30 +87,20 @@ export default function App() {
     setWorkoutOpen(true);
   }
 
-
-
-  function triggerMascot(mood) {
-    setMascotReaction(mood);
-    setTimeout(() => setMascotReaction(null), 2500);
-  }
-
   function handleLogWater() {
     store.addWater(0.25);
     showToast('+250ml water');
-    triggerMascot('laugh'); // Laugh/Happy for water
   }
 
   function handleSaveMeal(food, cals, p, c, f) {
     store.addMeal(mealSlot, food, Number(cals), Number(p), Number(c), Number(f));
     showToast(`${food} logged`);
-    triggerMascot('amazed'); // Open mouth for food
   }
 
   function handleSaveWorkout(title, exercises) {
     store.logWorkoutSession(title, exercises);
     setWorkoutOpen(false);
     showToast(`${title} saved`);
-    triggerMascot('happy');
   }
 
   // ... rest of component ...
@@ -148,8 +149,7 @@ export default function App() {
             onMealSlotClick={handleLogFood}
             onRemoveMeal={store.removeMeal}
             onStartWorkout={() => {
-              triggerMascot('beast'); // Go Crazy Mode
-              setActiveView('workouts'); // Go to Workouts/Split Screen
+              setActiveView('workouts');
             }}
           />
         );
@@ -159,7 +159,6 @@ export default function App() {
             today={today} user={state.user}
             onStartWorkout={(title) => {
               store.startWorkout(title || 'Workout Session');
-              triggerMascot('happy');
             }}
             onLogWorkout={() => setWorkoutOpen(true)}
             getExerciseHistory={store.getExerciseHistory}
@@ -205,11 +204,35 @@ export default function App() {
     }
   }
 
+  // If there's an active workout, show the active workout view
+  if (state.activeWorkout) {
+    return (
+      <div className="app">
+        <ActiveWorkout
+          workout={state.activeWorkout}
+          onAddExercise={store.addExerciseToActive}
+          onUpdateSet={store.updateSet}
+          onAddSet={store.addSet}
+          onRemoveSet={store.removeSet}
+          onFinish={() => {
+            store.finishWorkout();
+            showToast('Workout saved! 💪');
+          }}
+          onCancel={store.cancelWorkout}
+        />
+        {toast && <Toast msg={toast.msg} type={toast.type} />}
+        {xpPopup && <XPPopup xp={xpPopup} onDone={() => setXpPopup(null)} />}
+        <Confetti active={confettiActive} onDone={() => setConfettiActive(false)} />
+        {levelUpLevel !== null && <LevelUpModal level={levelUpLevel} xp={state.xp} onClose={() => setLevelUpLevel(null)} />}
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <Header userName={state.user.name} streak={streak} />
       {renderView()}
-      <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} reaction={mascotReaction} />
+      <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} />
       <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} />
 
       <LogMealModal

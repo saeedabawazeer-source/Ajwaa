@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Scale, TrendingUp, Utensils, Beef, Wheat, Droplet } from 'lucide-react';
 import './Stats.css';
 
-export default function Stats({ days, user, today, totals, getLast7Days, getWeightHistory, getExerciseHistory }) {
+export default function Stats({ user, today, totals, getLast7Days, getWeightHistory }) {
     const [tab, setTab] = useState('overview');
     const last7 = getLast7Days();
     const maxCals = Math.max(...last7.map(d => d.cals), 1);

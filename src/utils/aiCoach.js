@@ -59,7 +59,7 @@ function pick(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export function getSmartCoachMessage(totals, user, streak, today) {
+export function getSmartCoachMessage(totals, user, streak) {
     const hour = new Date().getHours();
     const calPct = totals.cals / user.calorieTarget;
     const proteinPct = totals.p / user.macros.p;

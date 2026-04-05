@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { CheckCircle, AlertCircle, X } from 'lucide-react';
 import './Toast.css';
 
