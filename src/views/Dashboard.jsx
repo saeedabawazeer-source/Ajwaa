@@ -2,7 +2,8 @@ import { useState } from 'react';
 import CalendarStrip from '../components/CalendarStrip';
 import { getXPProgress } from '../store/xpEngine';
 import { getDashboardNudge } from '../utils/ajwaChat';
-import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Scale } from 'lucide-react';
+import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Scale, Camera } from 'lucide-react';
+import CheckInModal from '../components/CheckInModal';
 import './Dashboard.css';
 
 const SLOT_META = {
@@ -26,6 +27,12 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
     const calCirc = 2 * Math.PI * 38; // Slightly larger ring
     const waterPct = Math.min(today.water / user.waterGoal, 1);
     const [tapped, setTapped] = useState(false);
+    const [showCheckIn, setShowCheckIn] = useState(false);
+
+    // Check if already checked in today
+    const { state, logCheckIn } = useStore();
+    const todayStr = new Date().toISOString().split('T')[0];
+    const hasCheckedIn = state.checkIns?.some(c => c.date === todayStr);
 
     // Nudge
     const nudge = getDashboardNudge(today, user, totals, streak);
@@ -133,6 +140,22 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
             </div>
 
+            {/* Daily Check In (BeReal Style) */}
+            <div className={`d-checkin-card ${hasCheckedIn ? 'done' : ''}`} onClick={() => !hasCheckedIn && setShowCheckIn(true)}>
+                <div className="d-checkin-icon">
+                    <Camera size={24} color={hasCheckedIn ? "var(--c-sand)" : "var(--c-volt)"} />
+                </div>
+                <div className="d-checkin-text">
+                    <div className="d-checkin-title">
+                        {hasCheckedIn ? 'Checked in for today! 🔥' : 'Time to be real.'}
+                    </div>
+                    <div className="d-checkin-sub">
+                        {hasCheckedIn ? '+50 XP Earned' : 'Snap your daily gym pic for XP'}
+                    </div>
+                </div>
+                {!hasCheckedIn && <div className="d-checkin-arrow">GO</div>}
+            </div>
+
             {/* Level & XP Progress (Gamification Focus) */}
             <div className="d-xp-card">
                 <div className="d-xp-header">
@@ -167,6 +190,17 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
                 </div>
                 <div className="d-ah-arrow">GO</div>
             </button>
+
+            {/* Check In Modal */}
+            {showCheckIn && (
+                <CheckInModal 
+                    onClose={() => setShowCheckIn(false)}
+                    onConfirm={(photo) => {
+                        logCheckIn(photo);
+                        setShowCheckIn(false);
+                    }}
+                />
+            )}
         </div>
     );
 }

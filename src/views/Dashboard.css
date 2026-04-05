@@ -568,3 +568,74 @@
     font-weight: 700;
     opacity: 0.5;
 }
+
+/* ── CHECK-IN HERO ─────────────────────────────────────────── */
+.d-checkin-card {
+    background: var(--c-black);
+    color: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--c-black);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.d-checkin-card:active {
+    transform: scale(0.98);
+}
+
+.d-checkin-card.done {
+    background: var(--c-green);
+    color: var(--c-black);
+    cursor: default;
+    box-shadow: none;
+    border-color: var(--c-green);
+}
+
+.d-checkin-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.d-checkin-card.done .d-checkin-icon {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.d-checkin-text {
+    flex: 1;
+}
+
+.d-checkin-title {
+    font-weight: 900;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.d-checkin-sub {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.d-checkin-card.done .d-checkin-sub {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.d-checkin-arrow {
+    background: var(--c-volt);
+    color: var(--c-black);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 12px;
+}

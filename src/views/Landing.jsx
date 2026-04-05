@@ -1,222 +1,197 @@
-import { Zap, Target, Trophy, Dumbbell, BarChart2, Sparkles, ChevronRight, Flame, Star, Users, Shield, Download, Smartphone, Heart } from 'lucide-react';
+import { Zap, Target, Trophy, Dumbbell, BarChart2, Camera, Flame, Star, ChevronRight, Smartphone, ShieldCheck, Gamepad2, ArrowRight } from 'lucide-react';
 import './Landing.css';
-
-const FEATURES = [
-    { icon: Target, title: 'Smart Nutrition', desc: 'Track calories & macros with AI-powered food search. Millions of foods at your fingertips.', color: '#FF4444' },
-    { icon: Dumbbell, title: 'Workout Tracker', desc: 'Pick from 100+ exercises. Log sets, reps, weight with rest timers built in.', color: '#FFB800' },
-    { icon: Trophy, title: 'Gamified XP System', desc: 'Earn XP for every action. Level up from Beginner to Legend. Unlock 12+ achievements.', color: '#E0FF00' },
-    { icon: BarChart2, title: 'Visual Analytics', desc: 'Weekly calorie charts, weight trends, macro breakdowns. See your progress at a glance.', color: '#3B82F6' },
-    { icon: Sparkles, title: 'AI Fitness Coach', desc: 'Ask Ajwa anything. Get personalized meal ideas, workout suggestions, and motivation.', color: '#A855F7' },
-    { icon: Users, title: 'Social Leagues', desc: 'Compete with friends on weekly leaderboards. Copy their workouts. Rise through the ranks.', color: '#22C55E' },
-];
-
-const REVIEWS = [
-    { name: 'Ahmed K.', text: "Finally an app that makes tracking fun. The XP system is addictive.", rating: 5 },
-    { name: 'Sara M.', text: "The AI coach actually gives useful advice. Way better than other diet apps.", rating: 5 },
-    { name: 'Omar H.', text: "I've tried MyFitnessPal, Hevy, and FitNotes. Ajwaa is the one I kept using.", rating: 5 },
-];
 
 export default function Landing({ onStart }) {
     const base = import.meta.env.BASE_URL || '/';
 
     return (
-        <div className="landing">
+        <div className="lp-v2">
             {/* ── NAVIGATION ───────────────────────────────────── */}
-            <nav className="l-nav">
-                <div className="l-logo">
-                    <Zap size={20} fill="var(--c-volt)" color="var(--c-volt)" />
+            <nav className="lp-nav">
+                <div className="lp-logo">
+                    <Zap size={20} fill="var(--c-volt)" color="var(--c-black)" />
                     <span>AJWAA</span>
                 </div>
-                <div className="l-nav-links">
-                    <a href="#features">Features</a>
-                    <a href="#screenshots">Screenshots</a>
-                    <a href="#reviews">Reviews</a>
+                <div className="lp-nav-links">
+                    <a href="#benefits">The System</a>
+                    <a href="#checkin">Daily Checks</a>
+                    <a href="#reviews">Wall of Frame</a>
                 </div>
-                <button className="l-nav-btn" onClick={onStart}>
-                    <Download size={14} /> Download
+                <button className="lp-btn-primary lp-nav-cta" onClick={onStart}>
+                    Try the Web App
                 </button>
             </nav>
 
-            {/* ── HERO ─────────────────────────────────────────── */}
-            <section className="l-hero">
-                <div className="l-hero-content">
-                    <div className="l-hero-text">
-                        <div className="l-hero-badge">
-                            <Flame size={14} /> GAMIFIED FITNESS
+            {/* ── HERO = 60/30/10 BRUTALIST ────────────────────── */}
+            <section className="lp-hero">
+                <div className="lp-split">
+                    <div className="lp-hero-text">
+                        <div className="lp-hero-badge">
+                            <Gamepad2 size={16} /> GAMIFIED FITNESS HAS ARRIVED
                         </div>
-                        <h1 className="l-hero-title">
-                            Your Body.<br />
-                            <span className="l-hero-accent">Your Game.</span>
+                        <h1 className="lp-hero-title">
+                            The Only Diet App<br />
+                            <span className="lp-highlight">You'll Actually Play.</span>
                         </h1>
-                        <p className="l-hero-sub">
-                            Track nutrition, crush workouts, earn XP, and level up.
-                            The fitness app that turns discipline into dopamine.
+                        <p className="lp-hero-sub">
+                            Stop logging calories like it's 2012. Track your nutrition, snap your daily gym check-in, earn XP, and level up from Beginner to Legend. 
                         </p>
-                        <div className="l-hero-buttons">
-                            <a href="https://apps.apple.com" className="l-store-btn apple" target="_blank" rel="noopener noreferrer">
-                                <div className="l-store-icon">🍎</div>
-                                <div>
-                                    <div className="l-store-small">Download on the</div>
-                                    <div className="l-store-big">App Store</div>
-                                </div>
-                            </a>
-                            <a href="https://play.google.com" className="l-store-btn google" target="_blank" rel="noopener noreferrer">
-                                <div className="l-store-icon">▶️</div>
-                                <div>
-                                    <div className="l-store-small">Get it on</div>
-                                    <div className="l-store-big">Google Play</div>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="l-hero-trust">
-                            <div className="l-trust-stars">{'★'.repeat(5)}</div>
-                            <span>4.9 rating · Free forever</span>
-                        </div>
-                    </div>
-                    <div className="l-hero-phone">
-                        <img src={`${base}mockups/dashboard.png`} alt="Ajwaa Dashboard" className="l-phone-img" />
-                    </div>
-                </div>
-            </section>
-
-            {/* ── STATS BAR ────────────────────────────────────── */}
-            <section className="l-stats-bar">
-                {[
-                    { num: '100+', label: 'Exercises' },
-                    { num: '12', label: 'Achievements' },
-                    { num: '∞', label: 'Food Database' },
-                    { num: '24/7', label: 'AI Coach' },
-                ].map(s => (
-                    <div key={s.label} className="l-stat">
-                        <div className="l-stat-num">{s.num}</div>
-                        <div className="l-stat-label">{s.label}</div>
-                    </div>
-                ))}
-            </section>
-
-            {/* ── FEATURES ─────────────────────────────────────── */}
-            <section className="l-features" id="features">
-                <div className="l-section-center">
-                    <div className="l-section-label"><Star size={14} /> FEATURES</div>
-                    <h2 className="l-section-title">Everything you need.<br />Nothing you don't.</h2>
-                </div>
-                <div className="l-features-grid">
-                    {FEATURES.map(f => (
-                        <div key={f.title} className="l-feature-card">
-                            <div className="l-feature-icon" style={{ background: `${f.color}15`, color: f.color }}>
-                                <f.icon size={24} />
-                            </div>
-                            <div className="l-feature-title">{f.title}</div>
-                            <div className="l-feature-desc">{f.desc}</div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* ── SCREENSHOTS ──────────────────────────────────── */}
-            <section className="l-screenshots" id="screenshots">
-                <div className="l-section-center">
-                    <div className="l-section-label"><Smartphone size={14} /> APP PREVIEW</div>
-                    <h2 className="l-section-title">See it in action.</h2>
-                </div>
-                <div className="l-screenshots-row">
-                    <div className="l-screenshot-item">
-                        <img src={`${base}mockups/dashboard.png`} alt="Dashboard" />
-                        <div className="l-screenshot-label">Smart Dashboard</div>
-                    </div>
-                    <div className="l-screenshot-item featured">
-                        <img src={`${base}mockups/workout.png`} alt="Workout Tracker" />
-                        <div className="l-screenshot-label">Workout Tracker</div>
-                    </div>
-                    <div className="l-screenshot-item">
-                        <img src={`${base}mockups/achievements.png`} alt="Achievements" />
-                        <div className="l-screenshot-label">Achievements & XP</div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── HOW IT WORKS ─────────────────────────────────── */}
-            <section className="l-how">
-                <div className="l-section-center">
-                    <div className="l-section-label"><Zap size={14} /> HOW IT WORKS</div>
-                    <h2 className="l-section-title">3 steps to a better you.</h2>
-                </div>
-                <div className="l-steps">
-                    {[
-                        { num: '01', title: 'Set Your Goals', desc: 'Tell us your stats. Our algorithm calculates your perfect calorie & macro targets.', icon: Target },
-                        { num: '02', title: 'Track Everything', desc: 'Log meals from our global food database. Record workouts with built-in timers.', icon: BarChart2 },
-                        { num: '03', title: 'Level Up', desc: 'Earn XP, unlock badges, climb leaderboards. Watch yourself transform.', icon: Trophy },
-                    ].map(s => (
-                        <div key={s.num} className="l-step">
-                            <div className="l-step-num">{s.num}</div>
-                            <div className="l-step-icon"><s.icon size={20} /></div>
-                            <div className="l-step-text">
-                                <div className="l-step-title">{s.title}</div>
-                                <div className="l-step-desc">{s.desc}</div>
+                        
+                        <div className="lp-hero-actions">
+                            <button className="lp-btn-mega" onClick={onStart}>
+                                Start Playing Now <ArrowRight size={20} />
+                            </button>
+                            <div className="lp-trust-block">
+                                <span className="lp-stars">★★★★★</span>
+                                <div><strong>4.9/5 Rating</strong> • 100% Free Web App</div>
                             </div>
                         </div>
-                    ))}
+                    </div>
+                    
+                    <div className="lp-hero-art">
+                        <img src={`${base}mockups/dashboard.png`} alt="Dashboard Mockup" className="lp-phone-mock" />
+                        
+                        {/* Floating elements to show gaming aspect */}
+                        <div className="lp-float-card xp-float">
+                            <div className="lp-fc-icon"><Trophy size={16} color="#000" /></div>
+                            <div className="lp-fc-text">
+                                <div className="fc-bold">+50 XP</div>
+                                <div className="fc-sub">Goal Reached</div>
+                            </div>
+                        </div>
+                        
+                        <div className="lp-float-card bereal-float">
+                            <div className="lp-fc-icon"><Camera size={16} color="#000" /></div>
+                            <div className="lp-fc-text">
+                                <div className="fc-bold">Gym Check-in</div>
+                                <div className="fc-sub">24 Day Streak 🔥</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ── SOCIAL PROOF STRIP ───────────────────────────── */}
+            <div className="lp-proof-strip">
+                <div className="lp-proof-item">🔥 5,000+ WORKOUTS LOGGED</div>
+                <div className="lp-proof-item">•</div>
+                <div className="lp-proof-item">🏆 12,000+ BADGES EARNED</div>
+                <div className="lp-proof-item">•</div>
+                <div className="lp-proof-item">📸 24/7 ACCOUNTABILITY</div>
+                <div className="lp-proof-item">•</div>
+                <div className="lp-proof-item">🔥 5,000+ WORKOUTS LOGGED</div>
+            </div>
+
+            {/* ── BENEFITS GRID ────────────────────────────────── */}
+            <section className="lp-section" id="benefits">
+                <div className="lp-container">
+                    <h2 className="lp-section-title">Built for results.<br/>Designed for dopamine.</h2>
+                    
+                    <div className="lp-grid-3">
+                        <div className="lp-bcard bg-black">
+                            <div className="lp-bicon txt-volt"><Target size={32} /></div>
+                            <h3>Smart Macros</h3>
+                            <p>Automated macro splits. Interactive calorie tracking ring. Millions of foods.</p>
+                        </div>
+                        <div className="lp-bcard bg-white">
+                            <div className="lp-bicon txt-red"><Dumbbell size={32} /></div>
+                            <h3>Workout Tracker</h3>
+                            <p>Replace your spreadsheet. Track sets, reps, and PRs with built-in rest timers.</p>
+                        </div>
+                        <div className="lp-bcard bg-sand">
+                            <div className="lp-bicon txt-black"><Trophy size={32} /></div>
+                            <h3>XP & Levels</h3>
+                            <p>Every healthy choice grants you XP. Level up your profile to flex on your friends.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ── THE HOOK: GYM CHECK-IN ───────────────────────── */}
+            <section className="lp-feature-split" id="checkin">
+                <div className="lp-container lp-split align-center">
+                    <div className="lp-feat-img-box">
+                        <img src={`${base}mockups/workout.png`} alt="Workout Checkin Mockup" className="lp-phone-mock offset" />
+                    </div>
+                    <div className="lp-feat-text">
+                        <div className="lp-label"><Camera size={16}/> ACCOUNTABILITY</div>
+                        <h2 className="lp-section-title">The "BeReal" of Fitness.</h2>
+                        <ul className="lp-checklist">
+                            <li><ShieldCheck size={20} className="txt-volt" /> <strong>Tap to open the camera</strong> right from your dashboard.</li>
+                            <li><ShieldCheck size={20} className="txt-volt" /> <strong>Snap a post-workout selfie</strong> or a photo of the gym floor.</li>
+                            <li><ShieldCheck size={20} className="txt-volt" /> <strong>Build an unbreakable streak</strong> and earn massive XP boosts.</li>
+                        </ul>
+                        <button className="lp-btn-outline mt-24" onClick={onStart}>
+                            Start Your Streak <ChevronRight size={16} />
+                        </button>
+                    </div>
                 </div>
             </section>
 
             {/* ── REVIEWS ──────────────────────────────────────── */}
-            <section className="l-reviews" id="reviews">
-                <div className="l-section-center">
-                    <div className="l-section-label"><Heart size={14} /> REVIEWS</div>
-                    <h2 className="l-section-title">Loved by lifters.</h2>
-                </div>
-                <div className="l-reviews-row">
-                    {REVIEWS.map(r => (
-                        <div key={r.name} className="l-review-card">
-                            <div className="l-review-stars">{'★'.repeat(r.rating)}</div>
-                            <div className="l-review-text">"{r.text}"</div>
-                            <div className="l-review-author">— {r.name}</div>
-                        </div>
-                    ))}
+            <section className="lp-section bg-black text-white" id="reviews">
+                <div className="lp-container">
+                    <div className="lp-label txt-volt"><Star size={16} /> WALL OF GAINS</div>
+                    <h2 className="lp-section-title txt-white">Don't just take our word for it.</h2>
+                    
+                    <div className="lp-grid-3">
+                        {[
+                            { name: "Ahmed K.", text: "The daily photo check-in actually gets me out of bed. I refuse to lose my 40-day streak.", role: "Level 14 Warrior" },
+                            { name: "Sara M.", text: "Finally an app that makes calorie tracking feel like a game instead of a chore.", role: "Level 8 Beginner" },
+                            { name: "Omar H.", text: "The brutalist design is gorgeous. It looks like a premium streetwear brand, not a medical app.", role: "Level 22 Legend" }
+                        ].map(r => (
+                            <div key={r.name} className="lp-review-card">
+                                <div className="lp-review-stars">★★★★★</div>
+                                <p>"{r.text}"</p>
+                                <div className="lp-reviewer">
+                                    <div className="lp-r-name">{r.name}</div>
+                                    <div className="lp-r-role">{r.role}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
             {/* ── FINAL CTA ────────────────────────────────────── */}
-            <section className="l-cta">
-                <div className="l-cta-card">
-                    <div className="l-cta-glow" />
-                    <h2 className="l-cta-title">Ready to level up?</h2>
-                    <p className="l-cta-sub">Free forever. No credit card. No ads. Just gains.</p>
-                    <div className="l-hero-buttons" style={{ justifyContent: 'center' }}>
-                        <a href="https://apps.apple.com" className="l-store-btn apple" target="_blank" rel="noopener noreferrer">
-                            <div className="l-store-icon">🍎</div>
-                            <div>
-                                <div className="l-store-small">Download on the</div>
-                                <div className="l-store-big">App Store</div>
-                            </div>
-                        </a>
-                        <a href="https://play.google.com" className="l-store-btn google" target="_blank" rel="noopener noreferrer">
-                            <div className="l-store-icon">▶️</div>
-                            <div>
-                                <div className="l-store-small">Get it on</div>
-                                <div className="l-store-big">Google Play</div>
-                            </div>
-                        </a>
+            <section className="lp-cta-mega">
+                <div className="lp-container text-center">
+                    <h2 className="lp-mega-title">Stop Thinking.<br/>Start Playing.</h2>
+                    <p className="lp-mega-sub">Join the thousands of users leveling up their real-life stats.</p>
+                    
+                    <div className="lp-store-flex">
+                        <button className="lp-btn-mega" onClick={onStart}>
+                            Launch the Web App <ArrowRight size={20} />
+                        </button>
+                        
+                        <div className="lp-store-badges">
+                            <a href="https://apps.apple.com" className="lp-store-badge apple">
+                                <div className="badge-icon">🍏</div>
+                                <div>
+                                    <div className="badge-s">Download on the</div>
+                                    <div className="badge-b">App Store</div>
+                                </div>
+                            </a>
+                            <a href="https://play.google.com" className="lp-store-badge google">
+                                <div className="badge-icon">▶️</div>
+                                <div>
+                                    <div className="badge-s">GET IT ON</div>
+                                    <div className="badge-b">Google Play</div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <button className="l-try-web" onClick={onStart}>
-                        Or try the web app <ChevronRight size={14} />
-                    </button>
                 </div>
             </section>
 
             {/* ── FOOTER ───────────────────────────────────────── */}
-            <footer className="l-footer">
-                <div className="l-footer-inner">
-                    <div className="l-footer-logo">
-                        <Zap size={16} fill="var(--c-volt)" color="var(--c-volt)" />
+            <footer className="lp-footer">
+                <div className="lp-container lp-split align-center" style={{ gap: '20px' }}>
+                    <div className="lp-logo">
+                        <Zap size={20} fill="var(--c-volt)" color="var(--c-volt)" />
                         <span>AJWAA</span>
                     </div>
-                    <div className="l-footer-links">
-                        <a href="#features">Features</a>
-                        <a href="#screenshots">Screenshots</a>
-                        <a href="#reviews">Reviews</a>
-                    </div>
-                    <div className="l-footer-text">© 2026 Ajwaa Fitness. Built with 💪</div>
+                    <div className="lp-f-text">© 2026 Ajwaa Fitness. All gains reserved.</div>
                 </div>
             </footer>
         </div>

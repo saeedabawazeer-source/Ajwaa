@@ -96,6 +96,7 @@ const INITIAL_STATE = {
     unlockedAchievements: [],
     streakFreezes: 0,
     onboardingComplete: false, // Start with onboarding
+    checkIns: [], // Array of { date: 'YYYY-MM-DD', time: 'HH:MM', photoUri: '...' }
 };
 
 
@@ -165,6 +166,7 @@ function loadState() {
             if (!parsed.unlockedAchievements) parsed.unlockedAchievements = [];
             if (parsed.streakFreezes === undefined) parsed.streakFreezes = 0;
             if (parsed.onboardingComplete === undefined) parsed.onboardingComplete = true;
+            if (!parsed.checkIns) parsed.checkIns = [];
             return parsed;
         }
     } catch { /* localStorage unavailable */ }
@@ -398,6 +400,22 @@ export function useStore() {
         });
     }, [update]);
 
+    // ─── CHECK INS ───
+    const logCheckIn = useCallback((photoDataUrl) => {
+        update(s => {
+            const date = todayKey();
+            // Don't log if already checked in today
+            if (s.checkIns && s.checkIns.some(c => c.date === date)) return s;
+            
+            if (!s.checkIns) s.checkIns = [];
+            s.checkIns.push({ date, time: timeNow(), photoUri: photoDataUrl });
+            
+            // Add XP for checking in
+            s.xp += 50; 
+            return s;
+        });
+    }, [update]);
+
     return {
         state, update,
         // Meals
@@ -407,7 +425,7 @@ export function useStore() {
         // Workouts
         startWorkout, addExerciseToActive, updateSet, addSet, removeSet, finishWorkout, cancelWorkout, logWorkoutSession,
         // Body
-        logBodyWeight, updateProfile, completeOnboarding,
+        logBodyWeight, updateProfile, completeOnboarding, logCheckIn,
         // Derived
         getToday, getTodayTotals, getStreak, getLast7Days, getWeightHistory, getExerciseHistory,
     };
