@@ -4,6 +4,7 @@ import { getXPProgress } from '../store/xpEngine';
 import { getDashboardNudge } from '../utils/ajwaChat';
 import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Scale, Camera } from 'lucide-react';
 import CheckInModal from '../components/CheckInModal';
+import { useStore } from '../store/useStore';
 import './Dashboard.css';
 
 const SLOT_META = {
