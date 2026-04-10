@@ -217,7 +217,7 @@
    ══════════════════════════════════════════════════════════════ */
 
 .lp-v5-nav {
-    padding: 32px 24px;
+    padding: 16px 24px;
     max-width: 1300px;
     margin: 0 auto;
     animation: navSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -246,7 +246,7 @@
    ══════════════════════════════════════════════════════════════ */
 
 .lp-v5-hero {
-    padding: 40px 24px 120px;
+    padding: 0px 24px 120px;
     overflow: hidden; /* Clip phone on mobile */
 }
 
@@ -899,7 +899,7 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
     .lp-v5-store-list { flex-direction: column; }
     .hook-viewfinder { height: 240px; }
     .lp-stat-num { font-size: 36px; }
-    .lp-v5-hero { padding: 20px 24px 60px; }
+    .lp-v5-hero { padding: 0px 24px 60px; }
     .lp-v5-footer { padding: 60px 0; }
 
     /* Bring back phone on mobile, but scaled down so it fits gracefully */
