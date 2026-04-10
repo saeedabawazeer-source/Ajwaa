@@ -457,8 +457,8 @@ export default function Landing({ onStart }) {
 
             {/* ═══ FOOTER ═══ */}
             <footer className="lp-v5-footer bg-black text-white" ref={footerRef}>
-                <div className={`lp-v5-container text-center py-20 lp-reveal ${footerRevealed ? 'revealed' : ''}`}>
-                    <h2 className="lp-v5-h2 mb-8" style={{fontSize: 32}}>AJWAA FITNESS</h2>
+                <div className={`lp-v5-container text-center lp-reveal ${footerRevealed ? 'revealed' : ''}`}>
+                    <h2 className="lp-v5-h2 mb-6">AJWAA FITNESS</h2>
                     <p className="txt-muted sm-bold">© 2026 AJWAA. BRUTAL EFFICIENCY.</p>
                 </div>
             </footer>

@@ -243,11 +243,20 @@
    HERO
    ══════════════════════════════════════════════════════════════ */
 
-.lp-v5-hero { padding: 0 24px 120px; }
+.lp-v5-hero {
+    padding: 40px 24px 120px;
+    overflow: hidden; /* Clip phone on mobile */
+}
 
 .lp-v5-hero-inner {
     max-width: 1300px; margin: 0 auto;
     display: flex; flex-direction: column; gap: 64px;
+}
+
+.lp-v5-hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 @media (min-width: 1024px) {
@@ -265,7 +274,7 @@
 
 .lp-v5-h1 {
     font-size: 64px; font-weight: 900; line-height: 0.95;
-    letter-spacing: -3px; margin: 0 0 24px;
+    letter-spacing: -3px; margin: 16px 0 0;
 }
 
 .lp-v5-h1-line {
@@ -292,11 +301,13 @@
 }
 
 .lp-v5-sub {
-    font-size: 20px; line-height: 1.5; font-weight: 600; margin-bottom: 48px;
+    font-size: 20px; line-height: 1.5; font-weight: 600;
+    margin: 24px 0 0;
     opacity: 0; animation: fadeInUp 0.7s 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .lp-v5-actions {
+    margin-top: 16px;
     opacity: 0; animation: fadeInUp 0.7s 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -847,7 +858,21 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
    FOOTER
    ══════════════════════════════════════════════════════════════ */
 
-.lp-v5-footer { position: relative; overflow: hidden; }
+.lp-v5-footer {
+    position: relative;
+    overflow-x: hidden; /* Only clip horizontal — don't clip text vertically */
+    padding: 80px 0;
+}
+
+.lp-v5-footer .lp-v5-container {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.lp-v5-footer .lp-v5-h2 {
+    color: white;
+}
+
 .lp-v5-footer::before {
     content: ''; position: absolute; top: 0; left: 0;
     width: 200%; height: 4px;
@@ -860,12 +885,22 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
    RESPONSIVE
    ══════════════════════════════════════════════════════════════ */
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .lp-v5-h1 { font-size: 48px; letter-spacing: -2px; }
     .lp-v5-h2 { font-size: 32px; }
-    .lp-v5-phone { width: 260px; height: 540px; }
     .lp-v5-store-list { flex-direction: column; }
     .hook-viewfinder { height: 240px; }
     .lp-stat-num { font-size: 36px; }
-    .lp-v5-hero { padding: 0 24px 80px; }
+    .lp-v5-hero { padding: 20px 24px 60px; }
+    .lp-v5-footer { padding: 60px 0; }
+
+    /* Hide phone on mobile — it overflows into section 2 */
+    .lp-v5-hero-art {
+        display: none;
+    }
+}
+
+/* Tablet — show phone smaller */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .lp-v5-phone { width: 280px; height: 580px; }
 }
