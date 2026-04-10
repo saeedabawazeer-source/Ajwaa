@@ -263,8 +263,8 @@
 
 @media (min-width: 1024px) {
     .lp-v5-hero-inner { flex-direction: row; align-items: flex-start; }
-    .lp-v5-hero-text { flex: 1.2; padding-top: 60px; }
-    .lp-v5-hero-art { flex: 1; margin-top: 20px;}
+    .lp-v5-hero-text { flex: 1.2; padding-top: 0; }
+    .lp-v5-hero-art { flex: 1; margin-top: 0; }
 }
 
 .lp-v5-badge {
@@ -902,13 +902,13 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
     .lp-v5-hero { padding: 20px 24px 60px; }
     .lp-v5-footer { padding: 60px 0; }
 
-    /* Bring back phone on mobile, but scaled to fit */
+    /* Bring back phone on mobile, but scaled down so it fits gracefully */
     .lp-v5-hero-art {
         display: flex;
-        transform: scale(0.85);
+        transform: scale(0.65);
         transform-origin: top center;
-        margin-top: 32px;
-        margin-bottom: -80px; /* Offset the white space left by scale down */
+        margin-top: 16px;
+        margin-bottom: -240px; /* Collapse the 35% empty height remaining from scale */
     }
 }
 
