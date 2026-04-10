@@ -29,8 +29,7 @@ body {
   /* changed from flex */
   min-width: 320px;
   min-height: 100dvh;
-  overflow: hidden;
-  /* Prevent body scroll */
+  /* overflow managed per-view */
   background-color: #f3f3f3;
   /* Matches c-sand just in case */
 }

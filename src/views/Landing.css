@@ -1,398 +1,872 @@
 /* ═══════════════════════════════════════════════════════════════
-   AJWAA MARKETING V5 — TRUE NEO-BRUTALISM
+   AJWAA MARKETING V5 — FULLY ANIMATED NEO-BRUTALISM
    ═══════════════════════════════════════════════════════════════ */
 
-   @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
 
-   .lp-v5 {
-       --bg-sand: #F4F1EA; 
-       --accent-red: #FF3B30;
-       --accent-volt: #E0FF00;
-       --dark-ink: #000000;
-       --shadow-size: 8px; /* Classic neo-brutal drop shadow depth */
-   
-       background: var(--bg-sand);
-       color: var(--dark-ink);
-       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-       min-height: 100vh;
-       overflow-x: hidden;
-   }
-   
-   .lp-v5 *, .lp-v5 *::before, .lp-v5 *::after {
-       box-sizing: border-box;
-   }
-   
-   /* Utils */
-   .txt-red { color: var(--accent-red) !important; }
-   .txt-volt { color: var(--accent-volt) !important; }
-   .txt-black { color: var(--dark-ink) !important; }
-   .bg-black { background: var(--dark-ink); }
-   .bg-sand { background: var(--bg-sand); }
-   .bg-white { background: #FFFFFF; }
-   .bg-volt { background: var(--accent-volt); }
-   .text-white { color: #FFFFFF; }
-   .text-center { text-align: center; }
-   .text-gray { color: rgba(255,255,255,0.6); }
+/* ── KEYFRAME ANIMATIONS ────────────────────────────────────── */
 
-   .flex { display: flex; }
-   .items-center { align-items: center; }
-   .justify-between { justify-content: space-between; }
-   .justify-center { justify-content: center; }
-   .mr-2 { margin-right: 8px; }
-   .mb-4 { margin-bottom: 16px; }
-   .mb-6 { margin-bottom: 24px; }
-   .mb-8 { margin-bottom: 32px; }
-   .mb-12 { margin-bottom: 48px; }
-   .mb-16 { margin-bottom: 64px; }
-   .mt-6 { margin-top: 24px; }
-   .mt-8 { margin-top: 32px; }
-   .py-20 { padding: 80px 0; }
-   .pb-0 { padding-bottom: 0 !important; }
-   .w-fit { width: fit-content; }
-   .w-full { width: 100%; }
-   
-   /* Typography Defaults */
-   .sm-bold { font-size: 14px; font-weight: 800; }
-   .xs-text { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8;}
-   
-   /* TRUE NEO-BRUTALISM SHADOW MIXIN */
-   /* Soft rounded corners (16px), thick 3px black border, solid unblurred 8px black shadow */
-   .neo-brutal-box {
-       border: 3px solid var(--dark-ink);
-       border-radius: 16px;
-       box-shadow: var(--shadow-size) var(--shadow-size) 0 var(--dark-ink);
-       transition: transform 0.1s, box-shadow 0.1s;
-   }
-   
-   .neo-brutal-box:active {
-       transform: translate(calc(var(--shadow-size) / 2), calc(var(--shadow-size) / 2));
-       box-shadow: calc(var(--shadow-size) / 2) calc(var(--shadow-size) / 2) 0 var(--dark-ink);
-   }
-   
-   /* ── CONTAINER ───────────────────────────────────────────────── */
-   .lp-v5-container {
-       max-width: 1200px;
-       margin: 0 auto;
-       padding: 0 24px;
-   }
-   
-   /* ── NAV ─────────────────────────────────────────────────────── */
-   .lp-v5-nav {
-       padding: 32px 24px;
-       max-width: 1300px;
-       margin: 0 auto;
-   }
-   
-   .lp-v5-nav-inner {
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-   }
-   
-   .lp-v5-logo {
-       font-size: 28px;
-       font-weight: 900;
-       letter-spacing: -1.5px;
-   }
-   
-   .lp-v5-btn-outline {
-       background: transparent;
-       color: var(--dark-ink);
-       padding: 12px 24px;
-       font-weight: 900;
-       font-size: 14px;
-       cursor: pointer;
-       /* Neo-Brutal */
-       border: 3px solid var(--dark-ink);
-       border-radius: 12px;
-       box-shadow: 4px 4px 0 var(--dark-ink);
-       transition: transform 0.1s, box-shadow 0.1s;
-   }
-   .lp-v5-btn-outline:active {
-       transform: translate(2px,2px);
-       box-shadow: 2px 2px 0 var(--dark-ink);
-   }
-   
-   /* ── HERO ────────────────────────────────────────────────────── */
-   .lp-v5-hero {
-       padding: 0 24px 96px;
-   }
-   
-   .lp-v5-hero-inner {
-       max-width: 1300px;
-       margin: 0 auto;
-       display: flex;
-       flex-direction: column;
-       gap: 64px;
-   }
-   
-   @media (min-width: 1024px) {
-       .lp-v5-hero-inner { flex-direction: row; align-items: center; }
-       .lp-v5-hero-text { flex: 1.2; padding-top: 48px; }
-       .lp-v5-hero-art { flex: 1; }
-   }
-   
-   /* BADGE */
-   .lp-v5-badge {
-       background: var(--dark-ink);
-       color: var(--bg-sand);
-       padding: 10px 16px;
-       border-radius: 12px;
-       font-weight: 800;
-       font-size: 13px;
-       letter-spacing: 0.5px;
-       /* Not shadowed, just stark */
-   }
-   
-   /* HERO TYPOGRAPHY */
-   .lp-v5-h1 {
-       font-size: 64px;
-       font-weight: 900;
-       line-height: 0.95;
-       letter-spacing: -3px;
-       margin: 0 0 24px;
-   }
-   @media (min-width: 768px) {
-       .lp-v5-h1 { font-size: 80px; }
-   }
-   
-   .lp-v5-highlight {
-       background: var(--accent-volt);
-       padding: 0 8px;
-       display: inline-block;
-       border: 3px solid var(--dark-ink);
-       border-radius: 8px;
-       box-shadow: 6px 6px 0 var(--dark-ink);
-       transform: rotate(-2deg);
-       margin-top: 4px;
-   }
-   
-   .lp-v5-sub {
-       font-size: 20px;
-       line-height: 1.5;
-       font-weight: 600;
-       margin-bottom: 48px;
-   }
-   
-   /* MEGA BUTTON */
-   .lp-v5-btn-mega {
-       display: inline-flex;
-       align-items: center;
-       justify-content: center;
-       gap: 12px;
-       background: var(--dark-ink);
-       color: var(--bg-sand);
-       padding: 20px 32px;
-       font-weight: 900;
-       font-size: 18px;
-       cursor: pointer;
-       /* Neo-Brutal */
-       border: 3px solid var(--dark-ink);
-       border-radius: 16px;
-       box-shadow: 8px 8px 0 rgba(0,0,0,0.3); /* Softer shadow since bg is black? No, black shadow */
-       transition: transform 0.1s, box-shadow 0.1s;
-   }
-   
-   .lp-v5-btn-mega:active {
-       transform: translate(4px,4px);
-       box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
-   }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
-   /* For coloured mega buttons */
-   button.lp-v5-btn-mega.bg-sand {
-       color: var(--dark-ink);
-       box-shadow: 8px 8px 0 var(--accent-volt);
-   }
-   button.lp-v5-btn-mega.bg-sand:active { box-shadow: 4px 4px 0 var(--accent-volt); }
-   
-   /* STORE BUTTON MOCKS */
-   .lp-v5-store-list {
-       display: flex;
-       gap: 16px;
-       margin-top: 24px;
-   }
-   
-   .lp-v5-store-btn {
-       display: flex;
-       align-items: center;
-       gap: 12px;
-       padding: 10px 16px;
-       border-width: 3px;
-       opacity: 0.7;
-       /* Neo brutal box via class in js, or mapped here */
-       border: 3px solid var(--dark-ink);
-       border-radius: 12px;
-       box-shadow: 4px 4px 0 var(--dark-ink);
-   }
-   .store-ic { font-size: 24px; }
-   
-   /* ── HERO PHONE ART ────────────────────────────────────────── */
-   .lp-v5-hero-art {
-       display: flex;
-       justify-content: center;
-       perspective: 1000px;
-   }
-   
-   .lp-v5-phone {
-       width: 340px;
-       height: 680px;
-       background: var(--dark-ink);
-       border-radius: 40px;
-       border: 12px solid var(--dark-ink);
-       box-shadow: 24px 24px 0 var(--accent-volt);
-       position: relative;
-       transform: rotate(3deg) scale(0.95);
-       /* Thick phone frame, neo-brutal shadow on phone container */
-   }
-   
-   @media (min-width: 768px) {
-       .lp-v5-phone { transform: rotate(3deg) scale(1.05); }
-   }
-   
-   .lp-v5-notch {
-       position: absolute;
-       top: 0; left: 50%;
-       transform: translateX(-50%);
-       width: 140px; height: 32px;
-       background: var(--dark-ink);
-       border-bottom-left-radius: 16px;
-       border-bottom-right-radius: 16px;
-       z-index: 100;
-   }
-   
-   .lp-v5-screen {
-       width: 100%;
-       height: 100%;
-       background: #1A1A1A; /* Mock dashboard dark bg */
-       border-radius: 28px;
-       overflow: hidden;
-       display: flex;
-       flex-direction: column;
-   }
-   
-   .screen-header {
-       display: flex; justify-content: space-between;
-       padding: 16px 24px 8px; font-size: 12px; color: white;
-       z-index: 90;
-   }
-   
-   .screen-scroll {
-       flex: 1;
-       padding: 16px;
-       display: flex;
-       flex-direction: column;
-       gap: 16px;
-       overflow: hidden; /* Hide overflow for mock */
-   }
-   
-   /* Override Dashboard widgets inside screen */
-   .lp-live-widget { margin: 0 !important; }
-   
-   /* Dashboard Mock Additions */
-   .mock-calendar {
-       display: flex; justify-content: space-between;
-       padding: 0 8px; color: rgba(255,255,255,0.6);
-   }
-   .mock-cal-day {
-       display: flex; flex-direction: column; align-items: center; gap: 4px;
-   }
-   .mock-cal-day.active { color: white; }
-   .cal-dot { width: 4px; height: 4px; border-radius: 50%; }
-   
-   .mock-vitals-row {
-       display: flex; gap: 12px;
-   }
-   .d-vital-card { flex: 1; margin: 0; }
-   
-   .mock-meals-list {
-       display: flex; flex-direction: column; gap: 12px;
-   }
-   .mock-meal-item {
-       display: flex; align-items: center; gap: 12px;
-       background: rgba(255,255,255,0.05); padding: 12px; border-radius: 16px;
-   }
-   .m-icon {
-       width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-       border-radius: 12px; font-size: 18px;
-   }
-   
-   /* ── SECTIONS ────────────────────────────────────────────────── */
-   .lp-v5-section { padding: 96px 0; }
-   
-   .lp-v5-split {
-       display: flex; flex-direction: column; gap: 64px;
-   }
-   @media (min-width: 900px) { .lp-v5-split { flex-direction: row; align-items: center; } .lp-v5-split > * { flex: 1; } }
-   
-   .lp-v5-h2 {
-       font-size: 40px;
-       font-weight: 900;
-       letter-spacing: -1.5px;
-       line-height: 1.1;
-       margin: 0;
-   }
-   @media(min-width: 768px) { .lp-v5-h2 { font-size: 56px; }}
-   
-   .lp-v5-check-list { list-style:none; padding:0; display:flex; flex-direction: column; gap: 24px; }
-   .lp-v5-check-list li { display: flex; align-items: flex-start; gap: 16px; font-size: 18px; line-height: 1.4; font-weight: 500;}
-   
-   /* Floating Hook Card - NeoBrutal */
-   .lp-v5-hook-card {
-       width: 100%; max-width: 380px; padding: 24px;
-       transform: rotate(-2deg);
-       /* Apply neo-brutal */
-       border: 4px solid var(--dark-ink);
-       border-radius: 24px;
-       box-shadow: 16px 16px 0 var(--dark-ink);
-   }
-   
-   .hook-cam-feed {
-       height: 400px;
-       background: #111;
-       border-radius: 16px;
-       border: 3px solid rgba(255,255,255,0.2);
-       position: relative;
-       background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop');
-       background-size: cover;
-       background-position: center;
-   }
-   .hook-x-hair {
-       position: absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-       width: 60px; height: 60px; border-radius: 50%; opacity: 0.5;
-       border: 2px dashed rgba(255,255,255,0.8);
-   }
-   .hook-stamp {
-       position: absolute; bottom: 16px; left: 16px;
-       background: rgba(0,0,0,0.7); font-size: 11px; font-weight: 900;
-       color: white; padding: 6px 12px; border-radius: 8px; border-left: 3px solid var(--accent-volt);
-   }
-   
-   /* ── FEATURES GRID (NEO-BRUTAL CARDS) ────────────────────────── */
-   .lp-v5-grid-3 {
-       display: grid; grid-template-columns: 1fr; gap: 32px;
-   }
-   @media (min-width: 900px) { .lp-v5-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
-   
-   .lp-neo-card {
-       padding: 32px;
-       border: 4px solid var(--dark-ink);
-       border-radius: 24px;
-       box-shadow: 12px 12px 0 var(--dark-ink);
-       transition: transform 0.2s, box-shadow 0.2s;
-   }
-   .lp-neo-card:hover {
-       transform: translate(-4px, -4px);
-       box-shadow: 16px 16px 0 var(--dark-ink);
-   }
-   
-   .neo-icon-wrap {
-       width: 56px; height: 56px; border-radius: 16px;
-       display: grid; place-items: center;
-       border: 3px solid var(--dark-ink);
-       box-shadow: 4px 4px 0 var(--dark-ink);
-       margin-bottom: 24px;
-   }
-   
-   .lp-neo-card h3 { font-size: 24px; font-weight: 900; margin: 0 0 16px; line-height: 1.1; letter-spacing: -0.5px;}
-   .lp-neo-card p { font-size: 16px; line-height: 1.5; font-weight: 600; margin: 0; opacity: 0.8;}
-   
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes phoneFloat {
+    0%, 100% { transform: rotate(3deg) translateY(0px) scale(0.95); }
+    50%      { transform: rotate(3deg) translateY(-18px) scale(0.95); }
+}
+
+@keyframes phoneFloatLg {
+    0%, 100% { transform: rotate(3deg) translateY(0px) scale(1.05); }
+    50%      { transform: rotate(3deg) translateY(-18px) scale(1.05); }
+}
+
+@keyframes phoneShadowPulse {
+    0%, 100% { box-shadow: 24px 24px 0 var(--accent-volt); }
+    50%      { box-shadow: 24px 42px 0 var(--accent-volt); }
+}
+
+@keyframes phoneShadowPulseLg {
+    0%, 100% { box-shadow: 24px 24px 0 var(--accent-volt); }
+    50%      { box-shadow: 24px 42px 0 var(--accent-volt); }
+}
+
+@keyframes phoneEntrance {
+    from { opacity: 0; transform: rotate(8deg) translateY(120px) scale(0.7); }
+    to   { opacity: 1; transform: rotate(3deg) translateY(0) scale(0.95); }
+}
+
+@keyframes phoneEntranceLg {
+    from { opacity: 0; transform: rotate(8deg) translateY(120px) scale(0.7); }
+    to   { opacity: 1; transform: rotate(3deg) translateY(0) scale(1.05); }
+}
+
+@keyframes ringDraw {
+    from { stroke-dashoffset: 238; }
+}
+
+@keyframes barGrow {
+    from { width: 0%; }
+}
+
+@keyframes fillWater {
+    from { height: 0%; }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 8px 8px 0 rgba(0,0,0,0.3), 0 0 0 0 rgba(224,255,0,0.4); }
+    50%      { box-shadow: 8px 8px 0 rgba(0,0,0,0.3), 0 0 24px 8px rgba(224,255,0,0.15); }
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes typewriter {
+    from { width: 0; }
+    to   { width: 100%; }
+}
+
+@keyframes blinkCaret {
+    0%, 100% { border-color: transparent; }
+    50%      { border-color: var(--accent-red); }
+}
+
+@keyframes highlightPop {
+    0%   { transform: rotate(-2deg) scale(0.5); opacity: 0; }
+    60%  { transform: rotate(-2deg) scale(1.08); opacity: 1; }
+    100% { transform: rotate(-2deg) scale(1); opacity: 1; }
+}
+
+@keyframes slideInWidget {
+    from { opacity: 0; transform: translateY(30px) scale(0.92); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes notchBlink {
+    0%, 90%, 100% { opacity: 1; }
+    95%           { opacity: 0.6; }
+}
+
+@keyframes hookFloat {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50%      { transform: rotate(-2deg) translateY(-12px); }
+}
+
+@keyframes crosshairSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes stampSlide {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes cardReveal {
+    from { opacity: 0; transform: translateY(50px) rotate(2deg); }
+    to   { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+@keyframes counterPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.1); }
+}
+
+@keyframes dotPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.6); opacity: 0.7; }
+}
+
+@keyframes navSlide {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes megaBtnShine {
+    0%   { left: -80%; }
+    100% { left: 120%; }
+}
+
+/* ── BASE ───────────────────────────────────────────────── */
+
+.lp-v5 {
+    --bg-sand: #F4F1EA;
+    --accent-red: #FF3B30;
+    --accent-volt: #E0FF00;
+    --dark-ink: #000000;
+    --shadow-size: 8px;
+
+    background: var(--bg-sand);
+    color: var(--dark-ink);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.lp-v5 *, .lp-v5 *::before, .lp-v5 *::after {
+    box-sizing: border-box;
+}
+
+/* Utils */
+.txt-red { color: var(--accent-red) !important; }
+.txt-volt { color: var(--accent-volt) !important; }
+.txt-black { color: var(--dark-ink) !important; }
+.bg-black { background: var(--dark-ink); }
+.bg-sand { background: var(--bg-sand); }
+.bg-white { background: #FFFFFF; }
+.bg-volt { background: var(--accent-volt); }
+.text-white { color: #FFFFFF; }
+.text-center { text-align: center; }
+.text-gray { color: rgba(255,255,255,0.6); }
+.txt-muted { color: rgba(255,255,255,0.5); }
+
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.mr-2 { margin-right: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+.mb-8 { margin-bottom: 32px; }
+.mb-12 { margin-bottom: 48px; }
+.mb-16 { margin-bottom: 64px; }
+.mt-6 { margin-top: 24px; }
+.mt-8 { margin-top: 32px; }
+.py-20 { padding: 80px 0; }
+.pb-0 { padding-bottom: 0 !important; }
+.w-fit { width: fit-content; }
+.w-full { width: 100%; }
+
+/* Typography Defaults */
+.sm-bold { font-size: 14px; font-weight: 800; }
+.xs-text { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
+
+/* ── SCROLL-TRIGGERED REVEAL SYSTEM ────────────────────────────── */
+
+.lp-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lp-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.lp-reveal-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lp-reveal-left.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.lp-reveal-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lp-reveal-right.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.lp-reveal-scale {
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lp-reveal-scale.revealed {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ── CONTAINER ───────────────────────────────────────────────── */
+.lp-v5-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ── NAV ─────────────────────────────────────────────────────── */
+.lp-v5-nav {
+    padding: 32px 24px;
+    max-width: 1300px;
+    margin: 0 auto;
+    animation: navSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lp-v5-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lp-v5-logo {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    animation: fadeInLeft 0.6s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lp-v5-btn-outline {
+    background: transparent;
+    color: var(--dark-ink);
+    padding: 12px 24px;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+    border: 3px solid var(--dark-ink);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--dark-ink);
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeInRight 0.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lp-v5-btn-outline:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--dark-ink);
+}
+
+.lp-v5-btn-outline:active {
+    transform: translate(2px,2px);
+    box-shadow: 2px 2px 0 var(--dark-ink);
+}
+
+/* ── HERO ────────────────────────────────────────────────────── */
+.lp-v5-hero {
+    padding: 0 24px 96px;
+}
+
+.lp-v5-hero-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+@media (min-width: 1024px) {
+    .lp-v5-hero-inner { flex-direction: row; align-items: center; }
+    .lp-v5-hero-text { flex: 1.2; padding-top: 48px; }
+    .lp-v5-hero-art { flex: 1; }
+}
+
+/* BADGE */
+.lp-v5-badge {
+    background: var(--dark-ink);
+    color: var(--bg-sand);
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    animation: fadeInUp 0.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* HERO TYPOGRAPHY */
+.lp-v5-h1 {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    margin: 0 0 24px;
+}
+
+.lp-v5-h1-line {
+    display: block;
+    opacity: 0;
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lp-v5-h1-line:nth-child(1) { animation-delay: 0.4s; }
+.lp-v5-h1-line:nth-child(2) { animation-delay: 0.55s; }
+.lp-v5-h1-line:nth-child(3) { animation-delay: 0.7s; }
+
+@media (min-width: 768px) {
+    .lp-v5-h1 { font-size: 80px; }
+}
+
+.lp-v5-highlight {
+    background: var(--accent-volt);
+    padding: 0 8px;
+    display: inline-block;
+    border: 3px solid var(--dark-ink);
+    border-radius: 8px;
+    box-shadow: 6px 6px 0 var(--dark-ink);
+    animation: highlightPop 0.6s 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    margin-top: 4px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.lp-v5-highlight:hover {
+    transform: rotate(-2deg) scale(1.05);
+    box-shadow: 8px 8px 0 var(--dark-ink);
+}
+
+.lp-v5-sub {
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 600;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeInUp 0.7s 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lp-v5-actions {
+    opacity: 0;
+    animation: fadeInUp 0.7s 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* MEGA BUTTON */
+.lp-v5-btn-mega {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--dark-ink);
+    color: var(--bg-sand);
+    padding: 20px 32px;
+    font-weight: 900;
+    font-size: 18px;
+    cursor: pointer;
+    border: 3px solid var(--dark-ink);
+    border-radius: 16px;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shine sweep on hover */
+.lp-v5-btn-mega::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: skewX(-15deg);
+    transition: none;
+    pointer-events: none;
+}
+
+.lp-v5-btn-mega:hover::after {
+    animation: megaBtnShine 0.6s ease-out;
+}
+
+.lp-v5-btn-mega:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0 rgba(0,0,0,0.3);
+}
+
+.lp-v5-btn-mega:active {
+    transform: translate(4px,4px);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+}
+
+/* Pulse glow on hero CTA */
+.lp-v5-hero .lp-v5-btn-mega {
+    animation: pulseGlow 3s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+/* For coloured mega buttons */
+button.lp-v5-btn-mega.bg-sand {
+    color: var(--dark-ink);
+    box-shadow: 8px 8px 0 var(--accent-volt);
+}
+button.lp-v5-btn-mega.bg-sand:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0 var(--accent-volt);
+}
+button.lp-v5-btn-mega.bg-sand:active { box-shadow: 4px 4px 0 var(--accent-volt); }
+
+/* STORE BUTTON MOCKS */
+.lp-v5-store-list {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.lp-v5-store-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border: 3px solid var(--dark-ink);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--dark-ink);
+    opacity: 0.7;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s;
+}
+
+.lp-v5-store-btn:hover {
+    opacity: 1;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--dark-ink);
+}
+
+.store-ic { font-size: 24px; }
+
+/* ── HERO PHONE ART ────────────────────────────────────────── */
+.lp-v5-hero-art {
+    display: flex;
+    justify-content: center;
+    perspective: 1200px;
+}
+
+.lp-v5-phone {
+    width: 340px;
+    height: 680px;
+    background: var(--dark-ink);
+    border-radius: 40px;
+    border: 12px solid var(--dark-ink);
+    position: relative;
+    /* Entrance animation then continuous float */
+    animation: phoneEntrance 1s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both,
+               phoneFloat 4s 1.8s ease-in-out infinite,
+               phoneShadowPulse 4s 1.8s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+    .lp-v5-phone {
+        animation: phoneEntranceLg 1s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both,
+                   phoneFloatLg 4s 1.8s ease-in-out infinite,
+                   phoneShadowPulseLg 4s 1.8s ease-in-out infinite;
+    }
+}
+
+.lp-v5-notch {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 140px; height: 32px;
+    background: var(--dark-ink);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    z-index: 100;
+    animation: notchBlink 4s 2s infinite;
+}
+
+/* Indicator dot inside notch */
+.lp-v5-notch::after {
+    content: '';
+    position: absolute;
+    top: 10px; left: 50%;
+    transform: translateX(-50%);
+    width: 8px; height: 8px;
+    background: #333;
+    border-radius: 50%;
+}
+
+.lp-v5-screen {
+    width: 100%;
+    height: 100%;
+    background: #1A1A1A;
+    border-radius: 28px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.screen-header {
+    display: flex; justify-content: space-between;
+    padding: 16px 24px 8px; font-size: 12px; color: white;
+    z-index: 90;
+    animation: fadeInDown 0.5s 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.screen-scroll {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+}
+
+/* Override Dashboard widgets inside screen */
+.lp-live-widget { margin: 0 !important; }
+
+/* ── PHONE SCREEN WIDGET ANIMATIONS ────────────────────────────── */
+
+.mock-calendar {
+    display: flex; justify-content: space-between;
+    padding: 0 8px; color: rgba(255,255,255,0.6);
+    animation: slideInWidget 0.5s 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mock-cal-day {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    opacity: 0;
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mock-cal-day:nth-child(1) { animation-delay: 1.5s; }
+.mock-cal-day:nth-child(2) { animation-delay: 1.6s; }
+.mock-cal-day:nth-child(3) { animation-delay: 1.7s; }
+.mock-cal-day:nth-child(4) { animation-delay: 1.8s; }
+.mock-cal-day:nth-child(5) { animation-delay: 1.9s; }
+.mock-cal-day:nth-child(6) { animation-delay: 2.0s; }
+.mock-cal-day:nth-child(7) { animation-delay: 2.1s; }
+
+.mock-cal-day.active { color: white; }
+.cal-dot { width: 4px; height: 4px; border-radius: 50%; }
+
+/* Active day dot pulsing */
+.mock-cal-day.active .cal-dot {
+    animation: dotPulse 2s 2.5s ease-in-out infinite;
+}
+
+.mock-hero-wrapper {
+    animation: slideInWidget 0.6s 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Animated ring inside phone */
+.lp-v5-screen .d-sc-svg circle:last-child {
+    animation: ringDraw 1.5s 2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Animated macro bars */
+.lp-v5-screen .d-macro-bar {
+    animation: barGrow 1s 2.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Animated calorie counter */
+.lp-v5-screen .d-sc-val {
+    animation: counterPulse 0.6s 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mock-vitals-row {
+    display: flex; gap: 12px;
+    animation: slideInWidget 0.5s 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.d-vital-card { flex: 1; margin: 0; }
+
+/* Animated water fill */
+.lp-v5-screen .d-vital-bg-bar {
+    animation: fillWater 1.2s 2.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Check-in widget slide */
+.lp-v5-screen .d-checkin-card {
+    animation: slideInWidget 0.5s 2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mock-meals-list {
+    display: flex; flex-direction: column; gap: 12px;
+    animation: slideInWidget 0.5s 2.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mock-meal-item {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.05); padding: 12px; border-radius: 16px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.mock-meal-item:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateX(4px);
+}
+
+.m-icon {
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    border-radius: 12px; font-size: 18px;
+}
+
+/* XP card animate */
+.lp-v5-screen .d-xp-card {
+    animation: slideInWidget 0.5s 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* XP bar fill animation */
+.lp-v5-screen .d-xp-bar-fill {
+    animation: barGrow 1s 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Workout button */
+.lp-v5-screen .d-action-hero {
+    animation: slideInWidget 0.5s 2.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── SECTIONS ────────────────────────────────────────────────── */
+.lp-v5-section { padding: 96px 0; }
+
+.lp-v5-split {
+    display: flex; flex-direction: column; gap: 64px;
+}
+@media (min-width: 900px) { .lp-v5-split { flex-direction: row; align-items: center; } .lp-v5-split > * { flex: 1; } }
+
+.lp-v5-h2 {
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin: 0;
+}
+@media(min-width: 768px) { .lp-v5-h2 { font-size: 56px; } }
+
+.lp-v5-check-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 24px; }
+.lp-v5-check-list li {
+    display: flex; align-items: flex-start; gap: 16px; font-size: 18px; line-height: 1.4; font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.6s, transform 0.6s;
+    transform: translateX(-30px);
+}
+.lp-v5-check-list li.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Floating Hook Card - NeoBrutal + Float Animation */
+.lp-v5-hook-card {
+    width: 100%; max-width: 380px; padding: 24px;
+    border: 4px solid var(--dark-ink);
+    border-radius: 24px;
+    box-shadow: 16px 16px 0 var(--dark-ink);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lp-v5-hook-card.animate {
+    animation: hookFloat 3s ease-in-out infinite;
+}
+
+.lp-v5-hook-card:hover {
+    box-shadow: 20px 20px 0 var(--dark-ink);
+}
+
+.hook-cam-feed {
+    height: 400px;
+    background: #111;
+    border-radius: 16px;
+    border: 3px solid rgba(255,255,255,0.2);
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+/* Animated scan line effect over camera feed */
+.hook-cam-feed::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-volt);
+    box-shadow: 0 0 20px var(--accent-volt), 0 0 60px var(--accent-volt);
+    animation: scanLine 3s 1s linear infinite;
+    z-index: 5;
+}
+
+@keyframes scanLine {
+    0%   { top: -2px; }
+    100% { top: 100%; }
+}
+
+.hook-x-hair {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px; border-radius: 50%; opacity: 0.5;
+    border: 2px dashed rgba(255,255,255,0.8);
+}
+
+.hook-x-hair.animate {
+    animation: crosshairSpin 8s linear infinite;
+}
+
+.hook-stamp {
+    position: absolute; bottom: 16px; left: 16px;
+    background: rgba(0,0,0,0.7); font-size: 11px; font-weight: 900;
+    color: white; padding: 6px 12px; border-radius: 8px; border-left: 3px solid var(--accent-volt);
+}
+
+.hook-stamp.animate {
+    animation: stampSlide 0.6s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── FEATURES GRID (NEO-BRUTAL CARDS) ────────────────────────── */
+.lp-v5-grid-3 {
+    display: grid; grid-template-columns: 1fr; gap: 32px;
+}
+@media (min-width: 900px) { .lp-v5-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+.lp-neo-card {
+    padding: 32px;
+    border: 4px solid var(--dark-ink);
+    border-radius: 24px;
+    box-shadow: 12px 12px 0 var(--dark-ink);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Scroll reveal */
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.lp-neo-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.lp-neo-card:nth-child(1).revealed { transition-delay: 0s; }
+.lp-neo-card:nth-child(2).revealed { transition-delay: 0.15s; }
+.lp-neo-card:nth-child(3).revealed { transition-delay: 0.3s; }
+
+.lp-neo-card:hover {
+    transform: translate(-6px, -6px) rotate(-1deg);
+    box-shadow: 18px 18px 0 var(--dark-ink);
+}
+
+.neo-icon-wrap {
+    width: 56px; height: 56px; border-radius: 16px;
+    display: grid; place-items: center;
+    border: 3px solid var(--dark-ink);
+    box-shadow: 4px 4px 0 var(--dark-ink);
+    margin-bottom: 24px;
+    transition: transform 0.3s;
+}
+
+.lp-neo-card:hover .neo-icon-wrap {
+    transform: rotate(-8deg) scale(1.1);
+}
+
+.lp-neo-card h3 { font-size: 24px; font-weight: 900; margin: 0 0 16px; line-height: 1.1; letter-spacing: -0.5px; }
+.lp-neo-card p { font-size: 16px; line-height: 1.5; font-weight: 600; margin: 0; opacity: 0.8; }
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+.lp-v5-footer {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle animated gradient bar above footer */
+.lp-v5-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-volt), var(--accent-red), var(--accent-volt));
+    animation: shimmer 3s linear infinite;
+    background-size: 50% 100%;
+}
+
+/* ── MACRO BAR STYLES (for phone mock) ──────────────────────── */
+.d-macro-bar-wrap {
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.d-macro-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.d-macro-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+.d-macro-val {
+    color: rgba(255,255,255,0.6);
+    font-size: 10px;
+}
+
+.d-macro-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* ── RESPONSIVE POLISH ──────────────────────────────────────── */
+@media (max-width: 600px) {
+    .lp-v5-h1 { font-size: 48px; letter-spacing: -2px; }
+    .lp-v5-h2 { font-size: 32px; }
+    .lp-v5-phone { width: 300px; height: 600px; }
+    .lp-v5-store-list { flex-direction: column; }
+    .hook-cam-feed { height: 280px; }
+}
