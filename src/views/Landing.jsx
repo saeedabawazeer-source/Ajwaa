@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { dumbell, BarChart2, Camera, ShieldCheck, ArrowRight, Zap, Target, Droplets, Trophy, Users, Flame, Timer, TrendingUp, ChevronRight, Star, Award, CheckCircle2, Wifi, BatteryFull, Activity, Plus, Dumbbell } from 'lucide-react';
+import { dumbell, BarChart2, Camera, ShieldCheck, ArrowRight, Zap, Target, Droplets, Trophy, Users, Flame, Timer, TrendingUp, ChevronRight, Star, Award, CheckCircle2, Wifi, BatteryFull, Activity, Plus, Dumbbell, Bell } from 'lucide-react';
 import './Landing.css';
 
 /* ── Intersection Observer hook for scroll-triggered reveals ── */
@@ -149,10 +149,18 @@ export default function Landing({ onStart }) {
                                         <Wifi size={11} />
                                         <BatteryFull size={13} />
                                     </div>
-                                </div>
-
-                                <div className="screen-scroll">
-                                    {/* Dashboard Mockup */}
+                                {/* Dashboard Mockup */}
+                                    
+                                    <div className="ph-header">
+                                        <div className="ph-user-chip">
+                                            <div className="ph-avatar" />
+                                            <span>Saeed</span>
+                                        </div>
+                                        <div className="ph-hdr-right">
+                                            <div className="ph-streak-badge"><Flame size={12} fill="currentColor" color="black" /> <span>24</span></div>
+                                            <div className="ph-icon-btn"><Bell size={14} color="black" /></div>
+                                        </div>
+                                    </div>
                                     
                                     {/* Calendar Strip */}
                                     <div className="ph-calendar">
@@ -232,9 +240,9 @@ export default function Landing({ onStart }) {
                                         </div>
                                     </div>
 
-                                    {/* Daily Check-in */}
+                                    {/* Checkin Card */}
                                     <div className="ph-checkin-card">
-                                        <Camera size={20} className="ph-chk-ic" color="#E0FF00" />
+                                        <div className="ph-chk-ic"><Camera size={18} color="#E0FF00" /></div>
                                         <div className="ph-chk-txt">
                                             <div className="ph-chk-t1">Time to be real.</div>
                                             <div className="ph-chk-t2">Snap your daily gym pic for XP</div>
@@ -255,8 +263,8 @@ export default function Landing({ onStart }) {
                                     {/* Start Workout Hero */}
                                     <div className="ph-start-workout">
                                         <div className="ph-sw-left">
-                                            <div className="ph-sw-ic"><Dumbbell size={20} strokeWidth={3} color="white" /></div>
-                                            <div>
+                                            <div className="ph-sw-ic"><Dumbbell size={20} strokeWidth={3} color="#A3E635" /></div>
+                                            <div className="ph-sw-t">
                                                 <div className="ph-sw-t1">Start Workout</div>
                                                 <div className="ph-sw-t2">Chest & Triceps • 45m</div>
                                             </div>
@@ -329,7 +337,7 @@ export default function Landing({ onStart }) {
             {/* ═══ SECTION 3: HOW IT WORKS ═══ */}
             <section className="lp-section-spaced bg-white" ref={howRef}>
                 <div className="lp-v5-container">
-                    <h2 className={`lp-v5-h2 text-center mb-24 lp-reveal ${howRevealed ? 'revealed' : ''}`}>
+                    <h2 className={`lp-v5-h2 text-center mb-32 lp-reveal ${howRevealed ? 'revealed' : ''}`}>
                         HOW IT WORKS.
                     </h2>
                     <div className="lp-how-steps">
@@ -353,7 +361,7 @@ export default function Landing({ onStart }) {
             {/* ═══ SECTION 4: FEATURES ═══ */}
             <section className="lp-section-spaced bg-sand">
                 <div className="lp-v5-container" ref={gridRef}>
-                    <h2 className={`lp-v5-h2 text-center mb-24 lp-reveal ${gridRevealed ? 'revealed' : ''}`}>
+                    <h2 className={`lp-v5-h2 text-center mb-32 lp-reveal ${gridRevealed ? 'revealed' : ''}`}>
                         PURE FUNCTION. ZERO FLUFF.
                     </h2>
                     <div className="lp-v5-grid-3">
