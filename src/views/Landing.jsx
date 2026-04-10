@@ -149,6 +149,9 @@ export default function Landing({ onStart }) {
                                         <Wifi size={11} />
                                         <BatteryFull size={13} />
                                     </div>
+                                </div>
+
+                                <div className="screen-scroll">
                                 {/* Dashboard Mockup */}
                                     
                                     <div className="ph-header">
@@ -337,7 +340,7 @@ export default function Landing({ onStart }) {
             {/* ═══ SECTION 3: HOW IT WORKS ═══ */}
             <section className="lp-section-spaced bg-white" ref={howRef}>
                 <div className="lp-v5-container">
-                    <h2 className={`lp-v5-h2 text-center mb-32 lp-reveal ${howRevealed ? 'revealed' : ''}`}>
+                    <h2 className={`lp-v5-h2 text-center mb-16 lp-reveal ${howRevealed ? 'revealed' : ''}`}>
                         HOW IT WORKS.
                     </h2>
                     <div className="lp-how-steps">
@@ -361,7 +364,7 @@ export default function Landing({ onStart }) {
             {/* ═══ SECTION 4: FEATURES ═══ */}
             <section className="lp-section-spaced bg-sand">
                 <div className="lp-v5-container" ref={gridRef}>
-                    <h2 className={`lp-v5-h2 text-center mb-32 lp-reveal ${gridRevealed ? 'revealed' : ''}`}>
+                    <h2 className={`lp-v5-h2 text-center mb-16 lp-reveal ${gridRevealed ? 'revealed' : ''}`}>
                         PURE FUNCTION. ZERO FLUFF.
                     </h2>
                     <div className="lp-v5-grid-3">
