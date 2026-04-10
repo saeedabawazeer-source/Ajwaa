@@ -86,7 +86,7 @@ export default function Landing({ onStart }) {
     const [gridRef, gridRevealed] = useReveal(0.1);
     const [howRef, howRevealed] = useReveal(0.15);
     const [socialRef, socialRevealed] = useReveal(0.15);
-    const [statsRef, statsRevealed] = useReveal(0.2);
+
     const [ctaRef, ctaRevealed] = useReveal(0.2);
     const [footerRef, footerRevealed] = useReveal(0.2);
     const [li1Ref, li1Revealed] = useReveal(0.3);
@@ -419,30 +419,6 @@ export default function Landing({ onStart }) {
                                     <div className="lp-lb-xp">{u.xp.toLocaleString()} XP</div>
                                 </div>
                             ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ═══ SECTION 6: STATS BAND ═══ */}
-            <section className="lp-stats-band bg-black" ref={statsRef}>
-                <div className="lp-v5-container">
-                    <div className={`lp-stats-grid ${statsRevealed ? 'revealed' : ''}`}>
-                        <div className="lp-stat-item">
-                            <div className="lp-stat-num"><ScrollCounter end={12} duration={1200} suffix="K+" /></div>
-                            <div className="lp-stat-label">Meals Tracked</div>
-                        </div>
-                        <div className="lp-stat-item">
-                            <div className="lp-stat-num"><ScrollCounter end={4} duration={1000} suffix="K+" /></div>
-                            <div className="lp-stat-label">Workouts Logged</div>
-                        </div>
-                        <div className="lp-stat-item">
-                            <div className="lp-stat-num"><ScrollCounter end={850} duration={1400} suffix="+" /></div>
-                            <div className="lp-stat-label">Active Users</div>
-                        </div>
-                        <div className="lp-stat-item">
-                            <div className="lp-stat-num"><ScrollCounter end={98} duration={1200} suffix="%" /></div>
-                            <div className="lp-stat-label">Streak Retention</div>
                         </div>
                     </div>
                 </div>

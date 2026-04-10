@@ -832,23 +832,7 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
 .lp-lb-streak { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: #FB923C; }
 .lp-lb-xp { font-size: 13px; font-weight: 800; color: #E0FF00; min-width: 70px; text-align: right; }
 
-/* ══════════════════════════════════════════════════════════════
-   SECTION 6: STATS BAND
-   ══════════════════════════════════════════════════════════════ */
 
-.lp-stats-band { padding: 80px 0; }
-
-.lp-stats-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.8s, transform 0.8s;
-}
-@media (min-width: 768px) { .lp-stats-grid { grid-template-columns: repeat(4, 1fr); } }
-.lp-stats-grid.revealed { opacity: 1; transform: translateY(0); }
-
-.lp-stat-item { text-align: center; }
-.lp-stat-num { font-size: 48px; font-weight: 900; color: var(--accent-volt); line-height: 1; margin-bottom: 8px; letter-spacing: -2px; }
-.lp-stat-label { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
 
 /* ══════════════════════════════════════════════════════════════
    SECTION 7: FINAL CTA
