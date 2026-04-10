@@ -146,6 +146,7 @@
 .mb-8 { margin-bottom: 32px; }
 .mb-12 { margin-bottom: 48px; }
 .mb-16 { margin-bottom: 64px; }
+.mb-24 { margin-bottom: 96px; }
 .mt-4 { margin-top: 16px; }
 .mt-6 { margin-top: 24px; }
 .mt-8 { margin-top: 32px; }
@@ -407,9 +408,12 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
     overflow: hidden;
 }
 
-/* ── PHONE WIDGETS ── */
+/* ── NEW DASHBOARD MOCKUP SCROLL ── */
+.ph-anim {
+    animation: ringDraw 1.5s 2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 
-/* Calendar */
+/* Calendar Strip */
 .ph-calendar {
     display: flex; justify-content: space-between;
     padding: 0 4px; flex-shrink: 0;
@@ -417,9 +421,7 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
 }
 .ph-cal-day {
     display: flex; flex-direction: column; align-items: center; gap: 3px;
-    color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 700;
-    opacity: 0;
-    animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    opacity: 0; animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .ph-cal-day:nth-child(1) { animation-delay: 1.5s; }
 .ph-cal-day:nth-child(2) { animation-delay: 1.55s; }
@@ -428,159 +430,139 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
 .ph-cal-day:nth-child(5) { animation-delay: 1.7s; }
 .ph-cal-day:nth-child(6) { animation-delay: 1.75s; }
 .ph-cal-day:nth-child(7) { animation-delay: 1.8s; }
-.ph-cal-day.active { color: white; }
-.ph-cal-dot {
-    width: 4px; height: 4px; border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-}
-.ph-cal-dot.filled { background: #E0FF00; }
-.ph-cal-day.active .ph-cal-dot { animation: dotPulse 2s 2.5s ease-in-out infinite; }
-
-/* ── STREAK CARD — prominent daily check-in view ── */
-.ph-streak-card {
-    background: linear-gradient(135deg, rgba(251,146,60,0.15), rgba(251,146,60,0.05));
-    border: 1.5px solid rgba(251,146,60,0.3);
-    border-radius: 14px;
-    padding: 10px 12px;
-    flex-shrink: 0;
-    animation: slideInWidget 0.5s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both,
-               streakGlow 3s 2.5s ease-in-out infinite;
-}
-
-.ph-streak-top {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 8px;
-}
-
-.ph-streak-fire {
-    width: 32px; height: 32px;
-    background: rgba(251,146,60,0.2);
-    border-radius: 10px;
+.ph-cal-lbl { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); }
+.ph-cal-day.active .ph-cal-lbl { color: white; }
+.ph-cal-indicator {
+    width: 24px; height: 24px; position: relative;
     display: flex; align-items: center; justify-content: center;
-    color: #FB923C;
-    flex-shrink: 0;
+}
+.ph-cal-num { font-size: 11px; font-weight: 800; color: white; z-index: 2; }
+.ph-cal-day.active .ph-cal-num { color: #E0FF00; }
+.ph-cal-ring {
+    position: absolute; top: -2px; left: -2px; width: 28px; height: 28px;
 }
 
-.ph-streak-info { flex: 1; }
-
-.ph-streak-count {
-    font-size: 20px; font-weight: 900; color: white; line-height: 1;
+/* Nudge Bubble */
+.ph-hero-bubble {
+    background: white; border-radius: 12px; padding: 10px;
+    font-size: 12px; font-weight: 800; color: black; text-align: center;
+    border: 2px solid black; box-shadow: 2px 2px 0 var(--accent-volt);
+    animation: slideInWidget 0.5s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative; z-index: 10; margin-top: 6px; 
+}
+.ph-hero-bubble::after {
+    content: ''; position: absolute; bottom: -8px; left: 20px;
+    border-width: 8px 8px 0; border-style: solid;
+    border-color: black transparent transparent;
+}
+.ph-hero-bubble::before {
+    content: ''; position: absolute; bottom: -5px; left: 22px;
+    border-width: 6px 6px 0; border-style: solid;
+    border-color: white transparent transparent;
+    z-index: 2;
 }
 
-.ph-streak-label {
-    font-size: 8px; font-weight: 800; color: #FB923C;
-    letter-spacing: 1px; text-transform: uppercase;
+/* Big Stats Card */
+.ph-stats-card2 {
+    background: white; border: 2px solid black; border-radius: 14px;
+    box-shadow: 4px 4px 0 black;
+    display: flex; padding: 12px; gap: 8px; align-items: center;
+    animation: slideInWidget 0.6s 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative; z-index: 5; margin-top: -8px;
 }
-
-.ph-streak-badge {
-    display: flex; align-items: center; gap: 3px;
-    font-size: 9px; font-weight: 800; color: #34D399;
-    background: rgba(52,211,153,0.1);
-    padding: 4px 8px; border-radius: 6px;
+.ph-sc-left { position: relative; width: 68px; height: 68px; flex-shrink: 0; }
+.ph-sc-svg { width: 100%; height: 100%; }
+.ph-sc-val-wrap {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
+.ph-sc-val { font-size: 16px; font-weight: 900; line-height: 1; color: black; }
+.ph-sc-lbl { font-size: 8px; font-weight: 800; color: rgba(0,0,0,0.5); letter-spacing: 0.5px; }
 
-.ph-streak-dots {
-    display: flex; gap: 4px;
+.ph-sc-center { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.ph-macro-row { display: flex; flex-direction: column; gap: 3px; }
+.ph-mr-lbl { display: flex; justify-content: space-between; font-size: 9px; font-weight: 800; color: black; }
+.ph-mr-bar { height: 4px; background: rgba(0,0,0,0.1); border-radius: 2px; overflow: hidden; }
+.ph-mr-fill { height: 100%; border-radius: 2px; animation: barGrow 1s 2.2s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.ph-sc-right {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; padding-left: 8px; border-left: 1px dashed rgba(0,0,0,0.1);
 }
-
-.ph-streak-dot {
-    flex: 1; height: 4px; border-radius: 2px;
-    background: rgba(255,255,255,0.1);
+.ph-log-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent-volt); border: 2px solid black;
+    display: grid; place-items: center; box-shadow: 2px 2px 0 black;
 }
-.ph-streak-dot.done { background: #FB923C; }
-.ph-streak-dot.current { background: #E0FF00; }
+.ph-log-lbl { font-size: 9px; font-weight: 800; color: black; text-align: center; line-height: 1; }
 
-/* Stats Card */
-.ph-stats-card {
-    display: flex; gap: 10px; align-items: center;
-    background: rgba(255,255,255,0.06);
-    border-radius: 14px; padding: 10px;
-    animation: slideInWidget 0.6s 1.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-    flex-shrink: 0;
-}
-
-.ph-ring-wrap { position: relative; width: 68px; height: 68px; flex-shrink: 0; }
-.ph-ring-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.ph-ring-fill { animation: ringDraw 1.5s 2s cubic-bezier(0.16, 1, 0.3, 1) both; }
-
-.ph-ring-text {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    text-align: center; display: flex; flex-direction: column; pointer-events: none;
-}
-.ph-ring-val { font-size: 15px; font-weight: 800; color: white; line-height: 1; }
-.ph-ring-label { font-size: 8px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; }
-
-.ph-macros { flex: 1; display: flex; flex-direction: column; gap: 6px; }
-.ph-macro-row { display: flex; flex-direction: column; gap: 2px; }
-.ph-macro-bar-bg { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
-.ph-macro-bar-fill { height: 100%; border-radius: 2px; animation: barGrow 1s 2.2s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.ph-macro-info { display: flex; justify-content: space-between; font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.5); }
-
-/* Vitals */
+/* Vitals Row */
 .ph-vitals-row {
-    display: flex; gap: 6px; flex-shrink: 0;
-    animation: slideInWidget 0.5s 1.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    display: flex; gap: 8px;
+    animation: slideInWidget 0.5s 1.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.ph-vital {
-    flex: 1; background: rgba(255,255,255,0.06);
-    border-radius: 12px; padding: 10px 8px;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    position: relative; overflow: hidden;
-    color: rgba(255,255,255,0.7);
+.ph-vital-card {
+    flex: 1; background: white; border: 2px solid black; border-radius: 12px;
+    box-shadow: 3px 3px 0 black; padding: 10px;
+    display: flex; align-items: center; gap: 8px; position: relative; overflow: hidden;
 }
-.ph-vital-val { font-size: 12px; font-weight: 800; color: white; }
-.ph-vital-fill {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: rgba(59, 130, 246, 0.2);
+.ph-vital-card.water { color: #3B82F6; }
+.ph-vital-card.weight { color: #22C55E; }
+.ph-vc-info { flex: 1; z-index: 2; }
+.ph-vc-val { font-size: 13px; font-weight: 900; color: black; }
+.ph-vc-lbl { font-size: 9px; font-weight: 800; color: rgba(0,0,0,0.5); text-transform: uppercase; }
+.ph-vc-add {
+    width: 20px; height: 20px; background: rgba(0,0,0,0.05); border-radius: 5px;
+    display: grid; place-items: center; font-size: 14px; font-weight: 900; z-index: 2; color: black;
+}
+.ph-vc-fill {
+    position: absolute; bottom: 0; left: 0; right: 0; background: rgba(59,130,246,0.1); z-index: 1;
     animation: fillUp 1.2s 2.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.ph-vital.water { color: #60A5FA; }
-.ph-vital.steps { color: #FB923C; }
-.ph-vital.weight { color: #34D399; }
 
-/* XP */
-.ph-xp-card {
-    background: rgba(255,255,255,0.06);
-    border-radius: 12px; padding: 10px;
-    animation: slideInWidget 0.5s 2.1s cubic-bezier(0.16, 1, 0.3, 1) both;
-    flex-shrink: 0;
+/* Checkin Card */
+.ph-checkin-card {
+    background: var(--dark-ink); border: 2px solid var(--accent-volt); border-radius: 12px;
+    padding: 12px; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 0 12px rgba(224,255,0,0.1);
+    animation: slideInWidget 0.5s 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.ph-xp-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.ph-xp-lbl { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
-.ph-xp-num { font-size: 22px; font-weight: 800; color: #E0FF00; margin-left: 4px; }
-.ph-xp-badge { font-size: 10px; font-weight: 800; color: #E0FF00; background: rgba(224,255,0,0.1); padding: 3px 8px; border-radius: 6px; }
-.ph-xp-bar-bg { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-.ph-xp-bar-fill { height: 100%; background: #E0FF00; border-radius: 3px; animation: barGrow 1s 2.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ph-chk-txt { flex: 1; }
+.ph-chk-t1 { font-size: 13px; font-weight: 900; color: white; }
+.ph-chk-t2 { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.5); }
+.ph-chk-btn {
+    background: var(--accent-volt); color: black; font-size: 10px; font-weight: 900;
+    padding: 6px 10px; border-radius: 8px; border: 2px solid black; box-shadow: 2px 2px 0 black;
+}
 
-/* Meals — icon-based, no emoji */
-.ph-meals {
-    display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;
-    animation: slideInWidget 0.5s 2.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+/* XP Card */
+.ph-xp-card2 {
+    background: white; border: 2px solid black; border-radius: 12px; padding: 12px;
+    box-shadow: 3px 3px 0 black;
+    animation: slideInWidget 0.5s 1.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.ph-meal-item {
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.05); padding: 8px 10px; border-radius: 10px;
-}
-.ph-meal-ic {
-    width: 30px; height: 30px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-}
-.ph-meal-ic.breakfast { background: rgba(251,146,60,0.15); color: #FB923C; }
-.ph-meal-ic.lunch { background: rgba(52,211,153,0.15); color: #34D399; }
+.ph-xp-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.ph-xp-lvl { font-size: 10px; font-weight: 800; color: rgba(0,0,0,0.5); }
+.ph-xp-lvl strong { font-size: 16px; color: black; margin-left: 2px; }
+.ph-xp-next { display: flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 800; color: #FFB800; }
+.ph-xp-bar { height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; }
+.ph-xp-fill { height: 100%; background: linear-gradient(90deg, #FFB800, #E0FF00); border-radius: 3px; animation: barGrow 1s 2.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ph-xp-vals { display: flex; justify-content: space-between; font-size: 9px; font-weight: 800; color: rgba(0,0,0,0.4); margin-top: 4px; }
 
-.ph-meal-info { flex: 1; }
-.ph-meal-name { font-size: 12px; font-weight: 700; color: white; }
-.ph-meal-meta { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; }
-
-/* Workout */
-.ph-workout-btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    background: #A3E635; color: #000;
-    font-size: 13px; font-weight: 900; text-transform: uppercase;
-    padding: 12px; border-radius: 12px;
-    animation: slideInWidget 0.5s 2.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-    flex-shrink: 0;
+/* Start Workout */
+.ph-start-workout {
+    background: var(--accent-red); border: 2px solid black; border-radius: 14px;
+    padding: 14px; display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 4px 4px 0 black;
+    animation: slideInWidget 0.5s 2.0s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.ph-sw-left { display: flex; align-items: center; gap: 10px; }
+.ph-sw-ic { width: 32px; height: 32px; background: rgba(0,0,0,0.2); border-radius: 10px; display: grid; place-items: center; }
+.ph-sw-t1 { font-size: 14px; font-weight: 900; color: white; }
+.ph-sw-t2 { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.7); }
+.ph-sw-go {
+    background: white; color: black; font-size: 11px; font-weight: 900;
+    padding: 8px 12px; border-radius: 8px; border: 2px solid black; box-shadow: 2px 2px 0 black;
 }
 
 /* ══════════════════════════════════════════════════════════════

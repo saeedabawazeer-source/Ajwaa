@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Dumbbell, BarChart2, Camera, ShieldCheck, ArrowRight, Zap, Target, Droplets, Trophy, Users, Flame, Timer, TrendingUp, ChevronRight, Star, Award, CheckCircle2, Wifi, BatteryFull, Activity } from 'lucide-react';
+import { dumbell, BarChart2, Camera, ShieldCheck, ArrowRight, Zap, Target, Droplets, Trophy, Users, Flame, Timer, TrendingUp, ChevronRight, Star, Award, CheckCircle2, Wifi, BatteryFull, Activity, Plus, Dumbbell } from 'lucide-react';
 import './Landing.css';
 
 /* ── Intersection Observer hook for scroll-triggered reveals ── */
@@ -152,116 +152,116 @@ export default function Landing({ onStart }) {
                                 </div>
 
                                 <div className="screen-scroll">
+                                    {/* Dashboard Mockup */}
+                                    
                                     {/* Calendar Strip */}
                                     <div className="ph-calendar">
                                         {['M','T','W','T','F','S','S'].map((d, i) => (
                                             <div key={i} className={`ph-cal-day ${i === 3 ? 'active' : ''}`}>
-                                                <span>{d}</span>
-                                                <div className={`ph-cal-dot ${i <= 3 ? 'filled' : ''}`} />
+                                                <span className="ph-cal-lbl">{d}</span>
+                                                <div className="ph-cal-indicator">
+                                                    <span className="ph-cal-num">{i + 12}</span>
+                                                    {i <= 3 && (
+                                                        <svg className="ph-cal-ring" viewBox="0 0 36 36">
+                                                            <circle cx="18" cy="18" r="16" fill="none" strokeWidth="3" stroke="rgba(255,255,255,0.1)" />
+                                                            <circle cx="18" cy="18" r="16" fill="none" strokeWidth="3" stroke="#E0FF00" strokeDasharray="100" strokeDashoffset={i === 3 ? "40" : "0"} strokeLinecap="round" transform="rotate(-90 18 18)" className="ph-anim" />
+                                                        </svg>
+                                                    )}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
 
-                                    {/* Daily Streak Check-in Card — PROMINENT */}
-                                    <div className="ph-streak-card">
-                                        <div className="ph-streak-top">
-                                            <div className="ph-streak-fire">
-                                                <Flame size={18} />
-                                            </div>
-                                            <div className="ph-streak-info">
-                                                <div className="ph-streak-count">24</div>
-                                                <div className="ph-streak-label">DAY STREAK</div>
-                                            </div>
-                                            <div className="ph-streak-badge">
-                                                <CheckCircle2 size={12} />
-                                                <span>Today</span>
+                                    {/* Nudge Bubble */}
+                                    <div className="ph-hero-bubble">
+                                        Time to crush your protein goal!
+                                    </div>
+
+                                    {/* Big Stats */}
+                                    <div className="ph-stats-card2">
+                                        <div className="ph-sc-left">
+                                            <div className="ph-sc-ring-wrap">
+                                                <svg viewBox="0 0 84 84" className="ph-sc-svg">
+                                                    <circle cx="42" cy="42" r="38" stroke="rgba(255,255,255,0.1)" strokeWidth="8" fill="none" />
+                                                    <circle cx="42" cy="42" r="38" stroke="#D62828" strokeWidth="8" fill="none" strokeDasharray="238" strokeDashoffset="60" strokeLinecap="round" transform="rotate(-90 42 42)" className="ph-anim" />
+                                                </svg>
+                                                <div className="ph-sc-val-wrap">
+                                                    <span className="ph-sc-val"><AnimatedCounter end={1850} delay={2000} duration={1200} /></span>
+                                                    <span className="ph-sc-lbl">KCAL</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="ph-streak-dots">
-                                            {[1,2,3,4,5,6,7].map(i => (
-                                                <div key={i} className={`ph-streak-dot ${i <= 5 ? 'done' : i === 6 ? 'current' : ''}`} />
-                                            ))}
+                                        <div className="ph-sc-center">
+                                            <div className="ph-macro-row">
+                                                <div className="ph-mr-lbl"><span>Protein</span><span>145 / 180g</span></div>
+                                                <div className="ph-mr-bar"><div className="ph-mr-fill" style={{width: '80%', background: '#FFB800'}} /></div>
+                                            </div>
+                                            <div className="ph-macro-row">
+                                                <div className="ph-mr-lbl"><span>Carbs</span><span>120 / 250g</span></div>
+                                                <div className="ph-mr-bar"><div className="ph-mr-fill" style={{width: '45%', background: '#3B82F6'}} /></div>
+                                            </div>
+                                            <div className="ph-macro-row">
+                                                <div className="ph-mr-lbl"><span>Fats</span><span>55 / 70g</span></div>
+                                                <div className="ph-mr-bar"><div className="ph-mr-fill" style={{width: '78%', background: '#D62828'}} /></div>
+                                            </div>
+                                        </div>
+                                        <div className="ph-sc-right">
+                                            <div className="ph-log-btn"><Plus size={16} strokeWidth={3} /></div>
+                                            <span className="ph-log-lbl">Log Meal</span>
                                         </div>
                                     </div>
 
-                                    {/* Macro Ring + Bars */}
-                                    <div className="ph-stats-card">
-                                        <div className="ph-ring-wrap">
-                                            <svg viewBox="0 0 72 72" className="ph-ring-svg">
-                                                <circle cx="36" cy="36" r="30" stroke="rgba(255,255,255,0.1)" strokeWidth="7" fill="none" />
-                                                <circle cx="36" cy="36" r="30" stroke="#E0FF00" strokeWidth="7" fill="none" strokeDasharray="188" strokeDashoffset="30" strokeLinecap="round" className="ph-ring-fill" />
-                                            </svg>
-                                            <div className="ph-ring-text">
-                                                <span className="ph-ring-val">
-                                                    <AnimatedCounter end={1850} delay={2000} duration={1200} />
-                                                </span>
-                                                <span className="ph-ring-label">KCAL</span>
-                                            </div>
-                                        </div>
-                                        <div className="ph-macros">
-                                            <div className="ph-macro-row">
-                                                <div className="ph-macro-bar-bg"><div className="ph-macro-bar-fill" style={{width:'80%', background:'#F4F1EA'}} /></div>
-                                                <div className="ph-macro-info"><span style={{color:'#F4F1EA'}}>Protein</span><span>145g</span></div>
-                                            </div>
-                                            <div className="ph-macro-row">
-                                                <div className="ph-macro-bar-bg"><div className="ph-macro-bar-fill" style={{width:'40%', background:'#60A5FA'}} /></div>
-                                                <div className="ph-macro-info"><span style={{color:'#60A5FA'}}>Carbs</span><span>120g</span></div>
-                                            </div>
-                                            <div className="ph-macro-row">
-                                                <div className="ph-macro-bar-bg"><div className="ph-macro-bar-fill" style={{width:'30%', background:'#FB923C'}} /></div>
-                                                <div className="ph-macro-info"><span style={{color:'#FB923C'}}>Fat</span><span>55g</span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Vitals Row — icons only, no emoji */}
+                                    {/* Vitals */}
                                     <div className="ph-vitals-row">
-                                        <div className="ph-vital water">
-                                            <Droplets size={14} />
-                                            <span className="ph-vital-val">2.5 L</span>
-                                            <div className="ph-vital-fill" style={{height:'75%'}} />
+                                        <div className="ph-vital-card water">
+                                            <Droplets size={16} fill="currentColor" />
+                                            <div className="ph-vc-info">
+                                                <div className="ph-vc-val">2.5L</div>
+                                                <div className="ph-vc-lbl">Water</div>
+                                            </div>
+                                            <div className="ph-vc-add">+</div>
+                                            <div className="ph-vc-fill" style={{height:'75%'}} />
                                         </div>
-                                        <div className="ph-vital steps">
-                                            <Activity size={14} />
-                                            <span className="ph-vital-val">8,420</span>
-                                        </div>
-                                        <div className="ph-vital weight">
-                                            <Target size={14} />
-                                            <span className="ph-vital-val">76 kg</span>
+                                        <div className="ph-vital-card weight">
+                                            <Target size={16} fill="currentColor" />
+                                            <div className="ph-vc-info">
+                                                <div className="ph-vc-val">76 kg</div>
+                                                <div className="ph-vc-lbl">Weight</div>
+                                            </div>
+                                            <div className="ph-vc-add">+</div>
                                         </div>
                                     </div>
 
-                                    {/* XP Level */}
-                                    <div className="ph-xp-card">
-                                        <div className="ph-xp-top">
-                                            <div><span className="ph-xp-lbl">LEVEL</span> <span className="ph-xp-num">14</span></div>
-                                            <span className="ph-xp-badge">+50 XP</span>
+                                    {/* Daily Check-in */}
+                                    <div className="ph-checkin-card">
+                                        <Camera size={20} className="ph-chk-ic" color="#E0FF00" />
+                                        <div className="ph-chk-txt">
+                                            <div className="ph-chk-t1">Time to be real.</div>
+                                            <div className="ph-chk-t2">Snap your daily gym pic for XP</div>
                                         </div>
-                                        <div className="ph-xp-bar-bg"><div className="ph-xp-bar-fill" style={{width:'85%'}} /></div>
+                                        <div className="ph-chk-btn">GO</div>
                                     </div>
 
-                                    {/* Meals — icon-based, no emoji */}
-                                    <div className="ph-meals">
-                                        <div className="ph-meal-item">
-                                            <div className="ph-meal-ic breakfast"><Flame size={14} /></div>
-                                            <div className="ph-meal-info">
-                                                <div className="ph-meal-name">Eggs & Toast</div>
-                                                <div className="ph-meal-meta">450 kcal · 32g Pro</div>
+                                    {/* XP Card */}
+                                    <div className="ph-xp-card2">
+                                        <div className="ph-xp-hdr">
+                                            <div className="ph-xp-lvl"><span>LEVEL</span> <strong>14</strong></div>
+                                            <div className="ph-xp-next"><Zap size={10} fill="currentColor" /> Next: Gold Badge</div>
+                                        </div>
+                                        <div className="ph-xp-bar"><div className="ph-xp-fill" style={{width: '65%'}} /></div>
+                                        <div className="ph-xp-vals"><span>1400 XP</span><span>2500 XP</span></div>
+                                    </div>
+
+                                    {/* Start Workout Hero */}
+                                    <div className="ph-start-workout">
+                                        <div className="ph-sw-left">
+                                            <div className="ph-sw-ic"><Dumbbell size={20} strokeWidth={3} color="white" /></div>
+                                            <div>
+                                                <div className="ph-sw-t1">Start Workout</div>
+                                                <div className="ph-sw-t2">Chest & Triceps • 45m</div>
                                             </div>
                                         </div>
-                                        <div className="ph-meal-item">
-                                            <div className="ph-meal-ic lunch"><Target size={14} /></div>
-                                            <div className="ph-meal-info">
-                                                <div className="ph-meal-name">Chicken Salad</div>
-                                                <div className="ph-meal-meta">600 kcal · 55g Pro</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Workout CTA */}
-                                    <div className="ph-workout-btn">
-                                        <Dumbbell size={16} strokeWidth={3} />
-                                        <span>Start Workout</span>
+                                        <div className="ph-sw-go">GO</div>
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +329,7 @@ export default function Landing({ onStart }) {
             {/* ═══ SECTION 3: HOW IT WORKS ═══ */}
             <section className="lp-section-spaced bg-white" ref={howRef}>
                 <div className="lp-v5-container">
-                    <h2 className={`lp-v5-h2 text-center mb-16 lp-reveal ${howRevealed ? 'revealed' : ''}`}>
+                    <h2 className={`lp-v5-h2 text-center mb-24 lp-reveal ${howRevealed ? 'revealed' : ''}`}>
                         HOW IT WORKS.
                     </h2>
                     <div className="lp-how-steps">
@@ -339,7 +339,7 @@ export default function Landing({ onStart }) {
                             { num: '03', icon: <Camera size={28} />, title: 'Snap Your Check-in', desc: 'Take a gym selfie. Prove you showed up. No faking. Camera feed only.' },
                             { num: '04', icon: <Trophy size={28} />, title: 'Level Up & Compete', desc: 'Earn XP from every action. Climb the leaderboard. Unlock prestige badges.' },
                         ].map((step, i) => (
-                            <div key={i} className={`lp-how-step ${howRevealed ? 'revealed' : ''}`} style={{transitionDelay: `${i * 0.12}s`}}>
+                            <div key={i} className={`lp-how-step ${howRevealed ? 'revealed' : ''}`} style={{transitionDelay: `${i * 0.25}s`}}>
                                 <div className="lp-how-num">{step.num}</div>
                                 <div className="lp-how-icon">{step.icon}</div>
                                 <h3>{step.title}</h3>
@@ -353,7 +353,7 @@ export default function Landing({ onStart }) {
             {/* ═══ SECTION 4: FEATURES ═══ */}
             <section className="lp-section-spaced bg-sand">
                 <div className="lp-v5-container" ref={gridRef}>
-                    <h2 className={`lp-v5-h2 text-center mb-16 lp-reveal ${gridRevealed ? 'revealed' : ''}`}>
+                    <h2 className={`lp-v5-h2 text-center mb-24 lp-reveal ${gridRevealed ? 'revealed' : ''}`}>
                         PURE FUNCTION. ZERO FLUFF.
                     </h2>
                     <div className="lp-v5-grid-3">
