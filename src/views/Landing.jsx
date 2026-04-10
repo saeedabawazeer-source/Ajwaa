@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Dumbbell, BarChart2, Camera, ShieldCheck, ArrowRight, Zap, Target, Droplets, Trophy, Users, Flame, Timer, TrendingUp, ChevronRight, Star, Award, CheckCircle2 } from 'lucide-react';
-import '../views/Dashboard.css'; 
+import { Dumbbell, BarChart2, Camera, ShieldCheck, ArrowRight, Zap, Target, Droplets, Trophy, Users, Flame, Timer, TrendingUp, ChevronRight, Star, Award, CheckCircle2, Wifi, BatteryFull, Activity } from 'lucide-react';
 import './Landing.css';
 
 /* ── Intersection Observer hook for scroll-triggered reveals ── */
@@ -22,8 +21,8 @@ function useReveal(threshold = 0.15) {
     return [ref, revealed];
 }
 
-/* ── Animated Counter Component ── */
-function AnimatedCounter({ end, duration = 1500, delay = 2400, suffix = '' }) {
+/* ── Animated Counter ── */
+function AnimatedCounter({ end, duration = 1500, delay = 2400 }) {
     const [value, setValue] = useState(0);
     const [started, setStarted] = useState(false);
 
@@ -36,7 +35,6 @@ function AnimatedCounter({ end, duration = 1500, delay = 2400, suffix = '' }) {
         if (!started) return;
         const startTime = Date.now();
         const numEnd = typeof end === 'string' ? parseInt(end.replace(/,/g, '')) : end;
-        
         function tick() {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
@@ -47,7 +45,7 @@ function AnimatedCounter({ end, duration = 1500, delay = 2400, suffix = '' }) {
         requestAnimationFrame(tick);
     }, [started, end, duration]);
 
-    return <>{value.toLocaleString()}{suffix}</>;
+    return <>{value.toLocaleString()}</>;
 }
 
 /* ── Scroll-triggered counter ── */
@@ -84,7 +82,6 @@ function ScrollCounter({ end, duration = 1500, suffix = '' }) {
 }
 
 export default function Landing({ onStart }) {
-    // Scroll reveal refs
     const [hookRef, hookRevealed] = useReveal(0.2);
     const [gridRef, gridRevealed] = useReveal(0.1);
     const [howRef, howRevealed] = useReveal(0.15);
@@ -97,7 +94,7 @@ export default function Landing({ onStart }) {
 
     return (
         <div className="lp-v5">
-            {/* ── TOP NAV ──────────────────────────────────────── */}
+            {/* ── NAV ── */}
             <nav className="lp-v5-nav">
                 <div className="lp-v5-nav-inner">
                     <div className="lp-v5-logo">AJWAA</div>
@@ -107,11 +104,9 @@ export default function Landing({ onStart }) {
                 </div>
             </nav>
 
-            {/* ── HERO SECTION ─────────────────────────────────── */}
+            {/* ═══ SECTION 1: HERO ═══ */}
             <header className="lp-v5-hero">
                 <div className="lp-v5-hero-inner">
-                    
-                    {/* LEFT: Animated Typography */}
                     <div className="lp-v5-hero-text">
                         <div className="lp-v5-badge flex items-center mb-6">
                            <Zap size={14} className="txt-red mr-2" /> <span>KILL YOUR CALORIE SPREADSHEET</span>
@@ -124,50 +119,72 @@ export default function Landing({ onStart }) {
                             </span>
                         </h1>
                         <p className="lp-v5-sub" style={{maxWidth: 400}}>
-                            Stop using boring tracker apps. Earn XP, level up your profile, and build a massive streak of daily gym check-ins.  
+                            Stop using boring tracker apps. Earn XP, level up your profile, and build a massive streak of daily gym check-ins.
                         </p>
-                        
                         <div className="lp-v5-actions">
                             <button className="lp-v5-btn-mega" onClick={onStart}>
                                 Early Access Login <ArrowRight size={20} />
                             </button>
                             <div className="lp-v5-store-list">
                                 <div className="lp-v5-store-btn bg-white">
-                                    <span className="store-ic">🍎</span>
+                                    <Star size={20} />
                                     <div><div className="xs-text">App Store</div><div className="sm-bold txt-red">Coming Soon</div></div>
                                 </div>
                                 <div className="lp-v5-store-btn bg-white">
-                                    <span className="store-ic">▶️</span>
+                                    <ChevronRight size={20} />
                                     <div><div className="xs-text">Google Play</div><div className="sm-bold txt-red">Coming Soon</div></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* RIGHT: TIGHT Phone Mockup — no overflow */}
+                    {/* Phone — static, no shake, no emoji */}
                     <div className="lp-v5-hero-art">
                         <div className="lp-v5-phone">
                             <div className="lp-v5-notch" />
-                            
                             <div className="lp-v5-screen">
-                                {/* Status bar */}
                                 <div className="screen-header">
                                     <strong>9:41</strong>
-                                    <div style={{fontSize: 11}}>📶 🔋</div>
+                                    <div className="screen-header-icons">
+                                        <Wifi size={11} />
+                                        <BatteryFull size={13} />
+                                    </div>
                                 </div>
 
                                 <div className="screen-scroll">
-                                    {/* CALENDAR */}
-                                    <div className="mock-calendar">
+                                    {/* Calendar Strip */}
+                                    <div className="ph-calendar">
                                         {['M','T','W','T','F','S','S'].map((d, i) => (
-                                            <div key={i} className={`mock-cal-day ${i === 3 ? 'active' : ''}`}>
-                                                <div className="sm-bold" style={{fontSize: 11}}>{d}</div>
-                                                <div className="cal-dot" style={{background: i <= 3 ? '#E0FF00' : 'rgba(255,255,255,0.15)'}}></div>
+                                            <div key={i} className={`ph-cal-day ${i === 3 ? 'active' : ''}`}>
+                                                <span>{d}</span>
+                                                <div className={`ph-cal-dot ${i <= 3 ? 'filled' : ''}`} />
                                             </div>
                                         ))}
                                     </div>
 
-                                    {/* MACRO RING — compact */}
+                                    {/* Daily Streak Check-in Card — PROMINENT */}
+                                    <div className="ph-streak-card">
+                                        <div className="ph-streak-top">
+                                            <div className="ph-streak-fire">
+                                                <Flame size={18} />
+                                            </div>
+                                            <div className="ph-streak-info">
+                                                <div className="ph-streak-count">24</div>
+                                                <div className="ph-streak-label">DAY STREAK</div>
+                                            </div>
+                                            <div className="ph-streak-badge">
+                                                <CheckCircle2 size={12} />
+                                                <span>Today</span>
+                                            </div>
+                                        </div>
+                                        <div className="ph-streak-dots">
+                                            {[1,2,3,4,5,6,7].map(i => (
+                                                <div key={i} className={`ph-streak-dot ${i <= 5 ? 'done' : i === 6 ? 'current' : ''}`} />
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Macro Ring + Bars */}
                                     <div className="ph-stats-card">
                                         <div className="ph-ring-wrap">
                                             <svg viewBox="0 0 72 72" className="ph-ring-svg">
@@ -184,11 +201,11 @@ export default function Landing({ onStart }) {
                                         <div className="ph-macros">
                                             <div className="ph-macro-row">
                                                 <div className="ph-macro-bar-bg"><div className="ph-macro-bar-fill" style={{width:'80%', background:'#F4F1EA'}} /></div>
-                                                <div className="ph-macro-info"><span style={{color:'#F4F1EA'}}>Pro</span><span>145g</span></div>
+                                                <div className="ph-macro-info"><span style={{color:'#F4F1EA'}}>Protein</span><span>145g</span></div>
                                             </div>
                                             <div className="ph-macro-row">
                                                 <div className="ph-macro-bar-bg"><div className="ph-macro-bar-fill" style={{width:'40%', background:'#60A5FA'}} /></div>
-                                                <div className="ph-macro-info"><span style={{color:'#60A5FA'}}>Carb</span><span>120g</span></div>
+                                                <div className="ph-macro-info"><span style={{color:'#60A5FA'}}>Carbs</span><span>120g</span></div>
                                             </div>
                                             <div className="ph-macro-row">
                                                 <div className="ph-macro-bar-bg"><div className="ph-macro-bar-fill" style={{width:'30%', background:'#FB923C'}} /></div>
@@ -197,7 +214,7 @@ export default function Landing({ onStart }) {
                                         </div>
                                     </div>
 
-                                    {/* VITALS — compact */}
+                                    {/* Vitals Row — icons only, no emoji */}
                                     <div className="ph-vitals-row">
                                         <div className="ph-vital water">
                                             <Droplets size={14} />
@@ -205,8 +222,8 @@ export default function Landing({ onStart }) {
                                             <div className="ph-vital-fill" style={{height:'75%'}} />
                                         </div>
                                         <div className="ph-vital steps">
-                                            <Flame size={14} />
-                                            <span className="ph-vital-val">24 🔥</span>
+                                            <Activity size={14} />
+                                            <span className="ph-vital-val">8,420</span>
                                         </div>
                                         <div className="ph-vital weight">
                                             <Target size={14} />
@@ -214,7 +231,7 @@ export default function Landing({ onStart }) {
                                         </div>
                                     </div>
 
-                                    {/* XP CARD — compact */}
+                                    {/* XP Level */}
                                     <div className="ph-xp-card">
                                         <div className="ph-xp-top">
                                             <div><span className="ph-xp-lbl">LEVEL</span> <span className="ph-xp-num">14</span></div>
@@ -223,30 +240,29 @@ export default function Landing({ onStart }) {
                                         <div className="ph-xp-bar-bg"><div className="ph-xp-bar-fill" style={{width:'85%'}} /></div>
                                     </div>
 
-                                    {/* MEALS — compact */}
+                                    {/* Meals — icon-based, no emoji */}
                                     <div className="ph-meals">
                                         <div className="ph-meal-item">
-                                            <div className="ph-meal-ic" style={{background: '#FFF3E0'}}>☕</div>
+                                            <div className="ph-meal-ic breakfast"><Flame size={14} /></div>
                                             <div className="ph-meal-info">
                                                 <div className="ph-meal-name">Eggs & Toast</div>
-                                                <div className="ph-meal-meta">450 kcal • 32g Pro</div>
+                                                <div className="ph-meal-meta">450 kcal · 32g Pro</div>
                                             </div>
                                         </div>
                                         <div className="ph-meal-item">
-                                            <div className="ph-meal-ic" style={{background: '#E8F5E9'}}>🥗</div>
+                                            <div className="ph-meal-ic lunch"><Target size={14} /></div>
                                             <div className="ph-meal-info">
                                                 <div className="ph-meal-name">Chicken Salad</div>
-                                                <div className="ph-meal-meta">600 kcal • 55g Pro</div>
+                                                <div className="ph-meal-meta">600 kcal · 55g Pro</div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* START WORKOUT BUTTON */}
+                                    {/* Workout CTA */}
                                     <div className="ph-workout-btn">
                                         <Dumbbell size={16} strokeWidth={3} />
                                         <span>Start Workout</span>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -254,14 +270,11 @@ export default function Landing({ onStart }) {
                 </div>
             </header>
 
-            {/* ── SECTION 2: ACCOUNTABILITY (BEREAL) ────────────────────────── */}
-            <section className="lp-v5-section bg-sand">
+            {/* ═══ SECTION 2: ACCOUNTABILITY ═══ */}
+            <section className="lp-section-spaced bg-sand">
                 <div className="lp-v5-container lp-v5-split">
                     <div className="lp-v5-col text-focused">
-                        <div
-                            ref={hookRef}
-                            className={`lp-reveal-left ${hookRevealed ? 'revealed' : ''}`}
-                        >
+                        <div ref={hookRef} className={`lp-reveal-left ${hookRevealed ? 'revealed' : ''}`}>
                             <div className="lp-v5-badge flex items-center mb-6 w-fit bg-white">
                                <Camera size={14} className="mr-2" /> <span>ACCOUNTABILITY PROTOCOL</span>
                             </div>
@@ -278,28 +291,24 @@ export default function Landing({ onStart }) {
                             </li>
                         </ul>
                     </div>
-                    {/* Clean Camera Viewfinder Card (no gym photo) */}
                     <div className="lp-v5-col flex justify-center">
                         <div className={`lp-v5-hook-card bg-black ${hookRevealed ? 'animate' : ''}`}>
                             <div className="hook-header text-white flex justify-between mb-4 items-center">
                                 <span className="sm-bold flex items-center"><Camera size={16} className="mr-2 txt-volt"/> TIME TO BE REAL.</span>
-                                <span className="hook-live-dot">● LIVE</span>
+                                <span className="hook-live-dot">LIVE</span>
                             </div>
-                            {/* CSS-only camera viewfinder — no external image */}
                             <div className="hook-viewfinder">
                                 <div className="hook-vf-grid" />
                                 <div className={`hook-vf-crosshair ${hookRevealed ? 'animate' : ''}`}>
                                     <div className="hook-vf-cross-h" />
                                     <div className="hook-vf-cross-v" />
                                 </div>
-                                {/* Corner brackets */}
                                 <div className="hook-vf-corner tl" />
                                 <div className="hook-vf-corner tr" />
                                 <div className="hook-vf-corner bl" />
                                 <div className="hook-vf-corner br" />
-                                {/* Info overlay */}
                                 <div className="hook-vf-info">
-                                    <div className="hook-vf-rec">● REC</div>
+                                    <div className="hook-vf-rec"><span className="hook-rec-dot" /> REC</div>
                                     <div className="hook-vf-time">00:04:32</div>
                                 </div>
                                 <div className={`hook-stamp ${hookRevealed ? 'animate' : ''}`}>
@@ -317,8 +326,8 @@ export default function Landing({ onStart }) {
                 </div>
             </section>
 
-            {/* ── SECTION 3: HOW IT WORKS ────────────────────────── */}
-            <section className="lp-v5-section bg-white" ref={howRef}>
+            {/* ═══ SECTION 3: HOW IT WORKS ═══ */}
+            <section className="lp-section-spaced bg-white" ref={howRef}>
                 <div className="lp-v5-container">
                     <h2 className={`lp-v5-h2 text-center mb-16 lp-reveal ${howRevealed ? 'revealed' : ''}`}>
                         HOW IT WORKS.
@@ -326,7 +335,7 @@ export default function Landing({ onStart }) {
                     <div className="lp-how-steps">
                         {[
                             { num: '01', icon: <Dumbbell size={28} />, title: 'Log Your Lifts', desc: 'Track exercises, sets, reps, and weight with auto rest timers. Takes 5 seconds.' },
-                            { num: '02', icon: <BarChart2 size={28} />, title: 'Track Your Macros', desc: 'Scan food, log meals, visualize protein, carbs, fat, and calories in real-time rings.' },
+                            { num: '02', icon: <BarChart2 size={28} />, title: 'Track Your Macros', desc: 'Scan food, log meals, visualize protein, carbs, fat, and calories in real-time.' },
                             { num: '03', icon: <Camera size={28} />, title: 'Snap Your Check-in', desc: 'Take a gym selfie. Prove you showed up. No faking. Camera feed only.' },
                             { num: '04', icon: <Trophy size={28} />, title: 'Level Up & Compete', desc: 'Earn XP from every action. Climb the leaderboard. Unlock prestige badges.' },
                         ].map((step, i) => (
@@ -341,8 +350,8 @@ export default function Landing({ onStart }) {
                 </div>
             </section>
 
-            {/* ── SECTION 4: FEATURES GRID ────────────────────────── */}
-            <section className="lp-v5-section bg-sand">
+            {/* ═══ SECTION 4: FEATURES ═══ */}
+            <section className="lp-section-spaced bg-sand">
                 <div className="lp-v5-container" ref={gridRef}>
                     <h2 className={`lp-v5-h2 text-center mb-16 lp-reveal ${gridRevealed ? 'revealed' : ''}`}>
                         PURE FUNCTION. ZERO FLUFF.
@@ -367,15 +376,15 @@ export default function Landing({ onStart }) {
                 </div>
             </section>
 
-            {/* ── SECTION 5: SOCIAL PROOF / LEADERBOARD PREVIEW ────────────── */}
-            <section className="lp-v5-section bg-white" ref={socialRef}>
+            {/* ═══ SECTION 5: SOCIAL / LEADERBOARD ═══ */}
+            <section className="lp-section-spaced bg-white" ref={socialRef}>
                 <div className="lp-v5-container lp-v5-split">
                     <div className={`lp-reveal-left ${socialRevealed ? 'revealed' : ''}`}>
                         <div className="lp-v5-badge flex items-center mb-6 w-fit" style={{background: '#E0FF00', color: '#000'}}>
                            <Users size={14} className="mr-2" /> <span>SOCIAL ACCOUNTABILITY</span>
                         </div>
                         <h2 className="lp-v5-h2">COMPETE.<br/>DON'T QUIT.</h2>
-                        <p className="lp-v5-sub mt-8" style={{maxWidth: 420, animationDelay: '0s', opacity: 1}}>
+                        <p className="lp-social-desc">
                             See your friends' streaks, compare levels, and call them out when they skip leg day. Built-in shame engine.
                         </p>
                     </div>
@@ -386,14 +395,14 @@ export default function Landing({ onStart }) {
                                 <span>Weekly Leaderboard</span>
                             </div>
                             {[
-                                { rank: 1, name: 'Saeed', xp: 2450, streak: 48, medal: '🥇' },
-                                { rank: 2, name: 'Ahmed', xp: 2100, streak: 32, medal: '🥈' },
-                                { rank: 3, name: 'Khalid', xp: 1800, streak: 24, medal: '🥉' },
+                                { rank: 1, name: 'Saeed', xp: 2450, streak: 48, medal: '1st' },
+                                { rank: 2, name: 'Ahmed', xp: 2100, streak: 32, medal: '2nd' },
+                                { rank: 3, name: 'Khalid', xp: 1800, streak: 24, medal: '3rd' },
                                 { rank: 4, name: 'Omar', xp: 1400, streak: 16, medal: '' },
                                 { rank: 5, name: 'Youssef', xp: 900, streak: 8, medal: '' },
                             ].map((u, i) => (
-                                <div key={i} className="lp-lb-row" style={{animationDelay: `${i * 0.1}s`}}>
-                                    <div className="lp-lb-rank">{u.medal || u.rank}</div>
+                                <div key={i} className="lp-lb-row">
+                                    <div className={`lp-lb-rank ${i < 3 ? 'top' : ''}`}>{u.medal || u.rank}</div>
                                     <div className="lp-lb-name">{u.name}</div>
                                     <div className="lp-lb-streak"><Flame size={12}/> {u.streak}</div>
                                     <div className="lp-lb-xp">{u.xp.toLocaleString()} XP</div>
@@ -404,7 +413,7 @@ export default function Landing({ onStart }) {
                 </div>
             </section>
 
-            {/* ── SECTION 6: STATS BAND ────────────────────────────── */}
+            {/* ═══ SECTION 6: STATS BAND ═══ */}
             <section className="lp-stats-band bg-black" ref={statsRef}>
                 <div className="lp-v5-container">
                     <div className={`lp-stats-grid ${statsRevealed ? 'revealed' : ''}`}>
@@ -428,11 +437,11 @@ export default function Landing({ onStart }) {
                 </div>
             </section>
 
-            {/* ── SECTION 7: FINAL CTA ────────────────────────────── */}
-            <section className="lp-v5-section bg-volt" ref={ctaRef}>
+            {/* ═══ SECTION 7: FINAL CTA ═══ */}
+            <section className="lp-section-spaced bg-volt" ref={ctaRef}>
                 <div className={`lp-v5-container text-center lp-reveal-scale ${ctaRevealed ? 'revealed' : ''}`}>
                     <h2 className="lp-v5-h2 mb-8">STOP SCROLLING.<br/>START GRINDING.</h2>
-                    <p style={{fontSize: 20, fontWeight: 600, maxWidth: 500, margin: '0 auto 40px', lineHeight: 1.5}}>
+                    <p className="lp-cta-desc">
                         Your body won't build itself. Join the early access and start earning XP from day one.
                     </p>
                     <button className="lp-v5-btn-mega mb-8" onClick={onStart}>
@@ -446,7 +455,7 @@ export default function Landing({ onStart }) {
                 </div>
             </section>
 
-            {/* ── FOOTER ───────────────────────────────────────── */}
+            {/* ═══ FOOTER ═══ */}
             <footer className="lp-v5-footer bg-black text-white" ref={footerRef}>
                 <div className={`lp-v5-container text-center py-20 lp-reveal ${footerRevealed ? 'revealed' : ''}`}>
                     <h2 className="lp-v5-h2 mb-8" style={{fontSize: 32}}>AJWAA FITNESS</h2>
