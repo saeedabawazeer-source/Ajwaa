@@ -262,9 +262,9 @@
 }
 
 @media (min-width: 1024px) {
-    .lp-v5-hero-inner { flex-direction: row; align-items: center; }
-    .lp-v5-hero-text { flex: 1.2; padding-top: 48px; }
-    .lp-v5-hero-art { flex: 1; }
+    .lp-v5-hero-inner { flex-direction: row; align-items: flex-start; }
+    .lp-v5-hero-text { flex: 1.2; padding-top: 60px; }
+    .lp-v5-hero-art { flex: 1; margin-top: 20px;}
 }
 
 .lp-v5-badge {
@@ -356,20 +356,20 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
 }
 
 .lp-v5-phone {
-    width: 300px; height: 620px;
+    width: 320px; height: 680px;
     background: var(--dark-ink);
     border-radius: 36px;
     border: 10px solid var(--dark-ink);
     box-shadow: 20px 20px 0 var(--accent-volt);
     position: relative;
     overflow: hidden;
-    transform: rotate(3deg);
+    transform: rotate(2deg);
     /* STATIC — entrance only, then stays perfectly still */
     animation: phoneEntrance 1s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (min-width: 768px) {
-    .lp-v5-phone { width: 320px; height: 660px; }
+    .lp-v5-phone { width: 330px; height: 720px; }
 }
 
 .lp-v5-notch {
@@ -902,13 +902,17 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
     .lp-v5-hero { padding: 20px 24px 60px; }
     .lp-v5-footer { padding: 60px 0; }
 
-    /* Hide phone on mobile — it overflows into section 2 */
+    /* Bring back phone on mobile, but scaled to fit */
     .lp-v5-hero-art {
-        display: none;
+        display: flex;
+        transform: scale(0.85);
+        transform-origin: top center;
+        margin-top: 32px;
+        margin-bottom: -80px; /* Offset the white space left by scale down */
     }
 }
 
-/* Tablet — show phone smaller */
+/* Tablet — show phone slightly scaled */
 @media (min-width: 769px) and (max-width: 1023px) {
-    .lp-v5-phone { width: 280px; height: 580px; }
+    .lp-v5-phone { width: 300px; height: 660px; }
 }
