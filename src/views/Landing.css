@@ -246,7 +246,7 @@
    ══════════════════════════════════════════════════════════════ */
 
 .lp-v5-hero {
-    padding: 0px 24px 120px;
+    padding: 16px 24px 120px;
     overflow: hidden; /* Clip phone on mobile */
 }
 
@@ -883,7 +883,7 @@ button.lp-v5-btn-mega.bg-sand { color: var(--dark-ink); box-shadow: 8px 8px 0 va
     .lp-v5-store-list { flex-direction: column; }
     .hook-viewfinder { height: 240px; }
     .lp-stat-num { font-size: 36px; }
-    .lp-v5-hero { padding: 0px 24px 60px; }
+    .lp-v5-hero { padding: 16px 24px 60px; }
     .lp-v5-footer { padding: 60px 0; }
 
     /* Bring back phone on mobile, but scaled down so it fits gracefully */
