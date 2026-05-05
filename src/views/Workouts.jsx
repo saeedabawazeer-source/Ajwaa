@@ -1,14 +1,24 @@
 import { useState } from 'react';
 import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
-import { Dumbbell, BarChart2, Play, Clipboard } from 'lucide-react';
+import { Dumbbell, BarChart2, Play, Clipboard, CalendarDays, Zap, Check } from 'lucide-react';
+import BodyMap from '../components/BodyMap';
+import { useStore } from '../store/useStore';
 import './Workouts.css';
 
 export default function Workouts({ onStartWorkout }) {
+    const store = useStore();
+    const { state, updateWorkoutSchedule } = store;
+    const workoutSchedule = state.workoutSchedule || { 0: null, 1: 'push', 2: 'pull', 3: 'legs', 4: null, 5: 'upper', 6: 'full_body' };
+
+    const todayIndex = new Date().getDay();
+    const [selectedDay, setSelectedDay] = useState(todayIndex);
     const [tab, setTab] = useState('sessions');
     const [workoutName, setWorkoutName] = useState('');
 
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-    const todayIndex = new Date().getDay();
+    const fullDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    const scheduledTemplateId = workoutSchedule[selectedDay];
 
     function handleStart() {
         const name = workoutName.trim() || 'Freestyle Session';
@@ -17,30 +27,46 @@ export default function Workouts({ onStartWorkout }) {
     }
 
     function handleStartTemplate(template) {
-        // When adding a template workout later we might want to pass the template details
-        // but for now we just pass the template name to the active workout session.
         onStartWorkout(template.name);
+    }
+
+    function handleToggleSchedule(templateId) {
+        if (scheduledTemplateId === templateId) {
+            updateWorkoutSchedule(selectedDay, null); // Unassign
+        } else {
+            updateWorkoutSchedule(selectedDay, templateId); // Assign
+        }
     }
 
     return (
         <div className="view-section" style={{ paddingBottom: 100 }}>
-            {/* Weekly Streak / Schedule Visual */}
-            <div className="card" style={{ padding: 12, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className="text-label">WEEKLY CONSISTENCY</div>
-                <div style={{ display: 'flex', gap: 6 }}>
-                    {days.map((d, i) => (
-                        <div key={i} style={{
-                            width: 24, height: 24, borderRadius: 6, display: 'grid', placeItems: 'center',
-                            fontSize: 10, fontWeight: 800,
-                            background: i === todayIndex ? 'var(--c-black)' : 'var(--c-sand)',
-                            color: i === todayIndex ? 'var(--c-volt)' : 'var(--c-black)',
-                            border: '1px solid var(--c-black)'
-                        }}>
-                            {d}
-                        </div>
-                    ))}
+            {/* Schedule Selector */}
+            <div className="card schedule-card">
+                <div className="schedule-header">
+                    <CalendarDays size={18} />
+                    <span>WEEKLY SPLIT</span>
+                </div>
+                <div className="schedule-days-row">
+                    {days.map((d, i) => {
+                        const isSelected = i === selectedDay;
+                        const isToday = i === todayIndex;
+                        const hasWorkout = !!workoutSchedule[i];
+                        return (
+                            <div key={i} className={`schedule-day-btn ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+                                onClick={() => setSelectedDay(i)}>
+                                <div className="sd-label">{d}</div>
+                                {hasWorkout && <div className="sd-dot" />}
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className="schedule-status text-label" style={{ marginTop: 12, textAlign: 'center' }}>
+                    {fullDays[selectedDay]}: {scheduledTemplateId ? WORKOUT_TEMPLATES.find(t => t.id === scheduledTemplateId)?.name || 'Custom' : 'Rest Day'}
                 </div>
             </div>
+
+            {/* Body Map Visualizer */}
+            <BodyMap highlight={scheduledTemplateId} />
 
             {/* Quick Start Hero */}
             <div className="card start-wo-card">
@@ -57,32 +83,44 @@ export default function Workouts({ onStartWorkout }) {
             </div>
 
             {/* Gamified Templates List */}
-            <div className="text-h2" style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span>CHOOSE YOUR BATTLE</span>
-                <Clipboard size={20} strokeWidth={3} />
+            <div className="text-h2" style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8, marginTop: 24 }}>
+                <span>BATTLE BLUEPRINTS</span>
+                <Zap size={20} fill="var(--c-gold)" color="var(--c-gold)" />
             </div>
+            <div className="text-label" style={{ marginBottom: 12 }}>Assign templates to your split or start now.</div>
 
             <div className="wo-list">
-                {WORKOUT_TEMPLATES.map(t => (
-                    <div key={t.id} className="card template-card" onClick={() => handleStartTemplate(t)}>
-                        <div className="template-icon">
-                            {t.name.includes('Push') ? '🦁' : t.name.includes('Pull') ? '🦅' : t.name.includes('Legs') ? '🦖' : '⚔️'}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 800, fontSize: 16 }}>{t.name}</div>
-                            <div className="text-label" style={{ opacity: 0.6 }}>{t.desc}</div>
-                            <div className="template-exercises" style={{ marginTop: 6 }}>
-                                {t.exercises.slice(0, 3).map((ex, i) => (
-                                    <span key={i} className="template-ex-chip">{ex.name}</span>
-                                ))}
-                                {t.exercises.length > 3 && <span className="template-ex-chip">+{t.exercises.length - 3}</span>}
+                {WORKOUT_TEMPLATES.map(t => {
+                    const isAssigned = scheduledTemplateId === t.id;
+                    return (
+                        <div key={t.id} className={`card template-card ${isAssigned ? 'assigned' : ''}`}>
+                            <div className="template-icon">
+                                {t.name.includes('Push') ? '🦁' : t.name.includes('Pull') ? '🦅' : t.name.includes('Legs') ? '🦖' : '⚔️'}
+                            </div>
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontWeight: 900, fontSize: 16 }}>{t.name}</div>
+                                <div className="text-label" style={{ opacity: 0.6 }}>{t.desc}</div>
+                                <div className="template-exercises" style={{ marginTop: 6 }}>
+                                    {t.exercises.slice(0, 3).map((ex, i) => (
+                                        <span key={i} className="template-ex-chip">{ex.name}</span>
+                                    ))}
+                                    {t.exercises.length > 3 && <span className="template-ex-chip">+{t.exercises.length - 3}</span>}
+                                </div>
+                            </div>
+                            <div className="template-actions">
+                                <button 
+                                    className={`btn-assign ${isAssigned ? 'active' : ''}`} 
+                                    onClick={() => handleToggleSchedule(t.id)}
+                                >
+                                    {isAssigned ? <Check size={14} strokeWidth={4} /> : '+'}
+                                </button>
+                                <button className="btn-start-small" onClick={() => handleStartTemplate(t)}>
+                                    START
+                                </button>
                             </div>
                         </div>
-                        <div style={{ background: 'var(--c-black)', color: 'white', padding: '4px 8px', borderRadius: 6, fontWeight: 900, fontSize: 12 }}>
-                            START
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             {/* History Link */}

@@ -97,6 +97,7 @@ const INITIAL_STATE = {
     streakFreezes: 0,
     onboardingComplete: false, // Start with onboarding
     checkIns: [], // Array of { date: 'YYYY-MM-DD', time: 'HH:MM', photoUri: '...' }
+    workoutSchedule: { 0: null, 1: 'push', 2: 'pull', 3: 'legs', 4: null, 5: 'upper', 6: 'full_body' },
 };
 
 
@@ -167,6 +168,7 @@ function loadState() {
             if (parsed.streakFreezes === undefined) parsed.streakFreezes = 0;
             if (parsed.onboardingComplete === undefined) parsed.onboardingComplete = true;
             if (!parsed.checkIns) parsed.checkIns = [];
+            if (!parsed.workoutSchedule) parsed.workoutSchedule = { 0: null, 1: 'push', 2: 'pull', 3: 'legs', 4: null, 5: 'upper', 6: 'full_body' };
             return parsed;
         }
     } catch { /* localStorage unavailable */ }
@@ -416,6 +418,14 @@ export function useStore() {
         });
     }, [update]);
 
+    // ─── SCHEDULE ───
+    const updateWorkoutSchedule = useCallback((dayIndex, templateId) => {
+        update(s => {
+            s.workoutSchedule[dayIndex] = templateId;
+            return s;
+        });
+    }, [update]);
+
     return {
         state, update,
         // Meals
@@ -426,6 +436,8 @@ export function useStore() {
         startWorkout, addExerciseToActive, updateSet, addSet, removeSet, finishWorkout, cancelWorkout, logWorkoutSession,
         // Body
         logBodyWeight, updateProfile, completeOnboarding, logCheckIn,
+        // Schedule
+        updateWorkoutSchedule,
         // Derived
         getToday, getTodayTotals, getStreak, getLast7Days, getWeightHistory, getExerciseHistory,
     };

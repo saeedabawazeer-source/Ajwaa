@@ -148,3 +148,135 @@
     font-weight: 700;
     opacity: 0.7;
 }
+
+/* ── Weekly Schedule ── */
+.schedule-card {
+    padding: 14px;
+    margin-bottom: 16px;
+    background: var(--c-paper);
+}
+
+.schedule-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 900;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.schedule-days-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.schedule-day-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    background: var(--c-sand);
+    border: 2px solid var(--c-black);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.1s;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 1);
+}
+
+.schedule-day-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0 rgba(0, 0, 0, 1);
+}
+
+.schedule-day-btn.selected {
+    background: var(--c-black);
+    color: var(--c-volt);
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0 rgba(0, 0, 0, 1);
+}
+
+.schedule-day-btn.today {
+    border-color: var(--c-red);
+}
+
+.sd-label {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.sd-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--c-red);
+    margin-top: 4px;
+}
+
+.schedule-day-btn.selected .sd-dot {
+    background: var(--c-volt);
+}
+
+/* ── Gamified Templates ── */
+.template-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.template-card.assigned {
+    background: var(--c-sand);
+    border-color: var(--c-red);
+    border-width: 3px;
+}
+
+.template-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+}
+
+.btn-assign {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--c-black);
+    background: var(--c-paper);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--c-black);
+    transition: all 0.1s;
+}
+
+.btn-assign:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0 var(--c-black);
+}
+
+.btn-assign.active {
+    background: var(--c-green);
+    color: var(--c-black);
+    box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.2);
+    transform: translate(2px, 2px);
+}
+
+.btn-start-small {
+    background: var(--c-black);
+    color: var(--c-volt);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 900;
+    font-size: 11px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.btn-start-small:active {
+    transform: scale(0.95);
+}
