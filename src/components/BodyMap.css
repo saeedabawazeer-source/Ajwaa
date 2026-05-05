@@ -3,23 +3,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 4px;
     background: var(--c-black);
     border: 3px solid var(--c-black);
     border-radius: 16px;
-    padding: 20px 12px 12px;
-    margin-bottom: 16px;
+    padding: 16px 8px 10px;
+    margin-bottom: 12px;
     position: relative;
     flex-wrap: wrap;
     box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
 }
 
-.bm-wrapper.rest { opacity: 0.7; }
+.bm-wrapper.rest { opacity: 0.6; }
 .bm-wrapper.active { opacity: 1; }
 
 /* SVG container */
 .bm-body {
-    width: 100px;
+    width: 110px;
     flex-shrink: 0;
 }
 
@@ -31,73 +31,77 @@
 
 /* Bone = neutral body parts */
 .bm-bone {
-    fill: rgba(255,255,255,0.15);
-    stroke: rgba(255,255,255,0.25);
+    fill: rgba(255,255,255,0.12);
+    stroke: rgba(255,255,255,0.18);
     stroke-width: 1;
+    stroke-linejoin: round;
     transition: fill 0.3s, stroke 0.3s;
 }
 
 /* Muscle = highlightable */
 .bm-muscle {
-    fill: rgba(255,255,255,0.1);
-    stroke: rgba(255,255,255,0.2);
+    fill: rgba(255,255,255,0.08);
+    stroke: rgba(255,255,255,0.14);
     stroke-width: 1;
-    transition: fill 0.4s ease, stroke 0.4s ease;
+    stroke-linejoin: round;
+    transition: fill 0.4s ease, stroke 0.4s ease, filter 0.4s ease;
 }
 
 .bm-muscle.push {
     fill: var(--c-red);
-    stroke: white;
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 4px rgba(255,50,50,0.5));
+    stroke: rgba(255,255,255,0.4);
+    stroke-width: 1;
+    filter: drop-shadow(0 0 6px rgba(255,50,50,0.4));
 }
 
 .bm-muscle.pull {
     fill: #3B82F6;
-    stroke: white;
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 4px rgba(59,130,246,0.5));
+    stroke: rgba(255,255,255,0.4);
+    stroke-width: 1;
+    filter: drop-shadow(0 0 6px rgba(59,130,246,0.4));
 }
 
 .bm-muscle.legs {
     fill: var(--c-volt);
-    stroke: var(--c-black);
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 4px rgba(224,255,0,0.4));
+    stroke: rgba(0,0,0,0.3);
+    stroke-width: 1;
+    filter: drop-shadow(0 0 6px rgba(224,255,0,0.3));
 }
 
 .bm-muscle.core {
     fill: #FF9800;
-    stroke: white;
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 4px rgba(255,152,0,0.4));
+    stroke: rgba(255,255,255,0.4);
+    stroke-width: 1;
+    filter: drop-shadow(0 0 6px rgba(255,152,0,0.3));
 }
 
 /* ─── Labels ─── */
 .bm-labels {
     display: flex;
     flex-direction: column;
-    gap: 28px;
-    padding-top: 30px;
-    width: 70px;
+    gap: 24px;
+    padding-top: 20px;
+    width: 66px;
 }
 
 .bm-label-item {
     display: flex;
     align-items: center;
     gap: 4px;
-    opacity: 0.25;
+    opacity: 0.2;
     transition: opacity 0.3s;
 }
 
-.bm-label-item.lit {
-    opacity: 1;
-}
+.bm-label-item.lit { opacity: 1; }
+
+.bm-label-item.lit.push .bm-label-text { color: var(--c-red); }
+.bm-label-item.lit.pull .bm-label-text { color: #3B82F6; }
+.bm-label-item.lit.legs .bm-label-text { color: var(--c-volt); }
 
 .bm-label-text {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 800;
-    color: white;
+    color: rgba(255,255,255,0.7);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
@@ -106,12 +110,12 @@
 .bm-label-line {
     flex: 1;
     height: 1px;
-    background: rgba(255,255,255,0.3);
-    min-width: 10px;
+    background: rgba(255,255,255,0.15);
+    min-width: 8px;
 }
 
 .bm-label-item.lit .bm-label-line {
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.5);
 }
 
 .bm-labels-left { text-align: right; }
@@ -123,22 +127,23 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.06);
     border-radius: 10px;
     padding: 10px 14px;
     margin-top: 4px;
 }
 
-.bm-info-badge.rest-badge {
-    opacity: 0.5;
-}
+.bm-info-badge.rest-badge { opacity: 0.4; }
 
-.bm-info-emoji {
-    font-size: 24px;
+.bm-info-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .bm-info-label {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 900;
     color: white;
     letter-spacing: 1px;
@@ -147,6 +152,6 @@
 .bm-info-muscles {
     font-size: 10px;
     font-weight: 600;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.45);
     margin-top: 1px;
 }

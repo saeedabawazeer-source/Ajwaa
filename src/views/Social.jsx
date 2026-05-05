@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import { getFriendsFeed } from '../data/friendsData';
-import { Flame, Dumbbell, CheckCircle, Camera, Utensils, ChevronDown, ChevronUp, Copy, Users, Image } from 'lucide-react';
+import { Flame, Dumbbell, CheckCircle, Camera, Utensils, ChevronDown, ChevronUp, Copy, Users, Image, Send } from 'lucide-react';
 import './Social.css';
 
-// Generate mock check-in feed (friend photos of workouts/meals)
 function getCheckInFeed() {
     const feed = getFriendsFeed();
     const checkIns = [];
     const today = new Date();
 
     feed.forEach((f, i) => {
-        // Workout check-in
         if (f.workout) {
             checkIns.push({
                 id: `${f.id}-wo`,
@@ -19,12 +17,11 @@ function getCheckInFeed() {
                 type: 'workout',
                 title: f.workout.title,
                 time: getTimeAgo(i * 2 + 1),
-                caption: `Just finished ${f.workout.title}! 💪`,
+                caption: `Just finished ${f.workout.title}`,
                 xp: Math.floor(Math.random() * 80) + 30,
             });
         }
 
-        // Meal check-in (50% chance)
         if (Math.sin(today.getDate() + i * 13) > 0) {
             const meals = ['Chicken & Rice Bowl', 'Protein Shake + Oats', 'Salmon Poke Bowl', 'Greek Yogurt Parfait', 'Turkey Wrap'];
             checkIns.push({
@@ -34,13 +31,12 @@ function getCheckInFeed() {
                 type: 'meal',
                 title: meals[i % meals.length],
                 time: getTimeAgo(i * 2 + 3),
-                caption: `Clean eating today 🥗`,
+                caption: 'Clean eating today',
                 xp: Math.floor(Math.random() * 30) + 10,
             });
         }
     });
 
-    // Sort by time (just shuffle-ish for variety)
     return checkIns.sort(() => Math.random() - 0.5);
 }
 
@@ -52,10 +48,11 @@ function getTimeAgo(hours) {
 }
 
 export default function Social({ userName, xp, streak, onCopyWorkout }) {
-    const [tab, setTab] = useState('friends');
+    const [tab, setTab] = useState('checkins');
     const feed = getFriendsFeed();
     const checkIns = getCheckInFeed();
     const [expanded, setExpanded] = useState(null);
+    const [nudged, setNudged] = useState({});
 
     function handleCopy(workout) {
         if (onCopyWorkout && workout) {
@@ -63,68 +60,26 @@ export default function Social({ userName, xp, streak, onCopyWorkout }) {
         }
     }
 
+    function handleNudge(friendId) {
+        setNudged(prev => ({ ...prev, [friendId]: true }));
+        setTimeout(() => setNudged(prev => ({ ...prev, [friendId]: false })), 2000);
+    }
+
     return (
         <div className="so-page">
-            {/* Tabs */}
+            {/* Tabs — Check-Ins first, Friends second */}
             <div className="so-tabs">
-                <button className={`so-tab ${tab === 'friends' ? 'active' : ''}`} onClick={() => setTab('friends')}>
-                    <Users size={14} />
-                    <span>Friends</span>
-                </button>
                 <button className={`so-tab ${tab === 'checkins' ? 'active' : ''}`} onClick={() => setTab('checkins')}>
                     <Camera size={14} />
                     <span>Check-Ins</span>
                 </button>
+                <button className={`so-tab ${tab === 'friends' ? 'active' : ''}`} onClick={() => setTab('friends')}>
+                    <Users size={14} />
+                    <span>Friends</span>
+                </button>
             </div>
 
-            {/* ─── Friends Tab ─── */}
-            {tab === 'friends' && (
-                <div className="so-friends-list">
-                    {feed.map(f => (
-                        <div key={f.id} className="so-friend-card">
-                            <div className="so-friend-row" onClick={() => f.workout && setExpanded(expanded === f.id ? null : f.id)}>
-                                <div className="so-friend-avatar" style={{ background: f.avatar }}>{f.name[0]}</div>
-                                <div className="so-friend-info">
-                                    <div className="so-friend-name">{f.name}</div>
-                                    <div className="so-friend-meta">
-                                        LVL {f.level} · <Flame size={10} fill="currentColor" style={{ color: 'var(--c-red)' }} /> {f.streak}
-                                        {f.hitTarget && <span className="so-hit"> · <CheckCircle size={10} /> Hit target</span>}
-                                    </div>
-                                </div>
-                                <div className="so-friend-badge">
-                                    {f.workout ? (
-                                        <div className="so-wo-badge">
-                                            <Dumbbell size={11} /> {f.workout.title}
-                                            {expanded === f.id ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                                        </div>
-                                    ) : (
-                                        <div className="so-rest-badge">Rest day</div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {expanded === f.id && f.workout && (
-                                <div className="so-workout-detail">
-                                    {f.workout.exercises.map((ex, i) => {
-                                        const best = ex.sets.reduce((b, s) => s.weight > b.weight ? s : b, { reps: 0, weight: 0 });
-                                        return (
-                                            <div key={i} className="so-ex-row">
-                                                <span className="so-ex-name">{ex.name}</span>
-                                                <span className="so-ex-stats">{ex.sets.length}×{best.reps} @ {best.weight}kg</span>
-                                            </div>
-                                        );
-                                    })}
-                                    <button className="so-copy-btn" onClick={() => handleCopy(f.workout)}>
-                                        <Copy size={13} /> COPY WORKOUT
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            {/* ─── Check-Ins Tab ─── */}
+            {/* Check-Ins Tab */}
             {tab === 'checkins' && (
                 <div className="so-checkin-list">
                     {checkIns.length === 0 ? (
@@ -146,7 +101,6 @@ export default function Social({ userName, xp, streak, onCopyWorkout }) {
                                         {c.type === 'workout' ? 'Workout' : 'Meal'}
                                     </div>
                                 </div>
-                                {/* Simulated photo area */}
                                 <div className="so-checkin-photo" data-type={c.type}>
                                     <div className="so-checkin-photo-icon">
                                         {c.type === 'workout' ? <Dumbbell size={28} /> : <Utensils size={28} />}
@@ -160,6 +114,59 @@ export default function Social({ userName, xp, streak, onCopyWorkout }) {
                             </div>
                         ))
                     )}
+                </div>
+            )}
+
+            {/* Friends Tab */}
+            {tab === 'friends' && (
+                <div className="so-friends-list">
+                    {feed.map(f => (
+                        <div key={f.id} className="so-friend-card">
+                            <div className="so-friend-row">
+                                <div className="so-friend-avatar" style={{ background: f.avatar }}>{f.name[0]}</div>
+                                <div className="so-friend-info" onClick={() => f.workout && setExpanded(expanded === f.id ? null : f.id)}>
+                                    <div className="so-friend-name">{f.name}</div>
+                                    <div className="so-friend-meta">
+                                        LVL {f.level} <Flame size={10} fill="currentColor" style={{ color: 'var(--c-red)' }} /> {f.streak}
+                                        {f.hitTarget && <span className="so-hit"> <CheckCircle size={10} /> Hit target</span>}
+                                    </div>
+                                </div>
+                                <div className="so-friend-actions">
+                                    {f.workout && (
+                                        <div className="so-wo-badge" onClick={() => setExpanded(expanded === f.id ? null : f.id)}>
+                                            <Dumbbell size={11} /> {f.workout.title}
+                                            {expanded === f.id ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                                        </div>
+                                    )}
+                                    <button 
+                                        className={`so-nudge-btn ${nudged[f.id] ? 'sent' : ''}`}
+                                        onClick={() => handleNudge(f.id)}
+                                        disabled={nudged[f.id]}
+                                    >
+                                        <Send size={12} />
+                                        {nudged[f.id] ? 'SENT' : 'NUDGE'}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {expanded === f.id && f.workout && (
+                                <div className="so-workout-detail">
+                                    {f.workout.exercises.map((ex, i) => {
+                                        const best = ex.sets.reduce((b, s) => s.weight > b.weight ? s : b, { reps: 0, weight: 0 });
+                                        return (
+                                            <div key={i} className="so-ex-row">
+                                                <span className="so-ex-name">{ex.name}</span>
+                                                <span className="so-ex-stats">{ex.sets.length}x{best.reps} @ {best.weight}kg</span>
+                                            </div>
+                                        );
+                                    })}
+                                    <button className="so-copy-btn" onClick={() => handleCopy(f.workout)}>
+                                        <Copy size={13} /> COPY WORKOUT
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             )}
         </div>

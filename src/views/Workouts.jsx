@@ -1,17 +1,25 @@
 import { useState } from 'react';
 import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
-import { Dumbbell, Play, Zap, Check, ChevronRight } from 'lucide-react';
+import { Dumbbell, Play, Zap, Check, ChevronRight, Minus } from 'lucide-react';
 import BodyMap from '../components/BodyMap';
 import { useStore } from '../store/useStore';
 import './Workouts.css';
 
+const SPLIT_COLORS = {
+    push: 'var(--c-red)',
+    pull: '#3B82F6',
+    legs: 'var(--c-volt)',
+    upper: '#FF9800',
+    full_body: 'var(--c-green)',
+};
+
 const SPLIT_OPTIONS = [
-    { id: null, label: 'REST', emoji: '😴' },
-    { id: 'push', label: 'PUSH', emoji: '🦁' },
-    { id: 'pull', label: 'PULL', emoji: '🦅' },
-    { id: 'legs', label: 'LEGS', emoji: '🦖' },
-    { id: 'upper', label: 'UPPER', emoji: '⚔️' },
-    { id: 'full_body', label: 'FULL', emoji: '🔥' },
+    { id: null, label: 'REST' },
+    { id: 'push', label: 'PUSH' },
+    { id: 'pull', label: 'PULL' },
+    { id: 'legs', label: 'LEGS' },
+    { id: 'upper', label: 'UPPER' },
+    { id: 'full_body', label: 'FULL' },
 ];
 
 export default function Workouts({ onStartWorkout }) {
@@ -41,73 +49,72 @@ export default function Workouts({ onStartWorkout }) {
 
     return (
         <div className="wo-page">
-            {/* ── Week Strip ── */}
+            {/* Week Strip */}
             <div className="wo-week-strip">
                 {days.map((d, i) => {
                     const isSelected = i === selectedDay;
                     const isToday = i === todayIndex;
-                    const split = SPLIT_OPTIONS.find(s => s.id === schedule[i]);
+                    const splitId = schedule[i];
+                    const color = splitId ? SPLIT_COLORS[splitId] : null;
                     return (
                         <button key={i}
                             className={`wo-day ${isSelected ? 'sel' : ''} ${isToday ? 'today' : ''}`}
                             onClick={() => { setSelectedDay(i); setShowPicker(false); }}>
                             <span className="wo-day-letter">{d}</span>
-                            <span className="wo-day-split">{split?.emoji || '—'}</span>
+                            {color ? <span className="wo-day-dot" style={{ background: color }} /> : <Minus size={10} opacity={0.2} />}
                         </button>
                     );
                 })}
             </div>
 
-            {/* ── Body Map ── */}
+            {/* Body Map */}
             <BodyMap highlight={activeTemplateId} />
 
-            {/* ── Assign Split Button ── */}
+            {/* Assign Split */}
             <button className="wo-assign-btn" onClick={() => setShowPicker(!showPicker)}>
                 <span>{fullDays[selectedDay]}: {activeTemplate?.name || 'Rest Day'}</span>
                 <span className="wo-assign-edit">TAP TO CHANGE</span>
             </button>
 
-            {/* ── Split Picker (toggle) ── */}
+            {/* Split Picker */}
             {showPicker && (
                 <div className="wo-split-picker">
                     {SPLIT_OPTIONS.map(s => (
                         <button key={s.label}
                             className={`wo-split-opt ${activeTemplateId === s.id ? 'active' : ''}`}
                             onClick={() => assignSplit(s.id)}>
-                            <span>{s.emoji}</span>
+                            {s.id && <span className="wo-split-dot" style={{ background: SPLIT_COLORS[s.id] }} />}
                             <span>{s.label}</span>
-                            {activeTemplateId === s.id && <Check size={14} strokeWidth={4} />}
+                            {activeTemplateId === s.id && <Check size={12} strokeWidth={4} />}
                         </button>
                     ))}
                 </div>
             )}
 
-            {/* ── Today's Workout CTA ── */}
+            {/* Today CTA */}
             {todayTemplate && (
                 <button className="wo-today-hero" onClick={() => handleStartTemplate(todayTemplate)}>
                     <div className="wo-hero-left">
                         <div className="wo-hero-icon"><Dumbbell size={22} strokeWidth={3} /></div>
                         <div>
                             <div className="wo-hero-title">TODAY: {todayTemplate.name}</div>
-                            <div className="wo-hero-sub">{todayTemplate.exercises.length} exercises · ~45min</div>
+                            <div className="wo-hero-sub">{todayTemplate.exercises.length} exercises</div>
                         </div>
                     </div>
                     <div className="wo-hero-go">GO</div>
                 </button>
             )}
 
-            {/* ── Template Library ── */}
+            {/* Library */}
             <div className="wo-section-title">
-                <Zap size={16} fill="var(--c-volt)" color="var(--c-volt)" />
+                <Zap size={14} />
                 <span>WORKOUT LIBRARY</span>
             </div>
 
             <div className="wo-templates">
                 {WORKOUT_TEMPLATES.map(t => (
                     <button key={t.id} className="wo-tpl-card" onClick={() => handleStartTemplate(t)}>
-                        <div className="wo-tpl-emoji">
-                            {t.name.includes('Push') ? '🦁' : t.name.includes('Pull') ? '🦅' : t.name.includes('Leg') ? '🦖' : t.name.includes('Upper') ? '⚔️' : '🔥'}
-                        </div>
+                        <div className="wo-tpl-dot" style={{ background: SPLIT_COLORS[t.id] || 'var(--c-black)' }} />
                         <div className="wo-tpl-info">
                             <div className="wo-tpl-name">{t.name}</div>
                             <div className="wo-tpl-desc">{t.desc}</div>
@@ -123,7 +130,7 @@ export default function Workouts({ onStartWorkout }) {
                 ))}
             </div>
 
-            {/* Quick Start Freestyle */}
+            {/* Freestyle */}
             <button className="wo-freestyle" onClick={() => onStartWorkout('Freestyle Session')}>
                 <Play size={16} fill="currentColor" />
                 <span>FREESTYLE SESSION</span>

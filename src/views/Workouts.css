@@ -51,9 +51,17 @@
     font-weight: 800;
 }
 
-.wo-day-split {
-    font-size: 14px;
-    line-height: 1;
+.wo-day-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 2px;
+}
+
+.wo-split-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
 }
 
 /* ── Assign Button ── */
@@ -224,11 +232,12 @@
     box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
 }
 
-.wo-tpl-emoji {
-    font-size: 28px;
+.wo-tpl-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
     flex-shrink: 0;
-    width: 40px;
-    text-align: center;
+    border: 2px solid var(--c-black);
 }
 
 .wo-tpl-info {
