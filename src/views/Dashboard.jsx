@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import CalendarStrip from '../components/CalendarStrip';
 import { getXPProgress } from '../store/xpEngine';
-import { getDashboardNudge } from '../utils/ajwaChat';
 import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Scale, Camera } from 'lucide-react';
 import CheckInModal from '../components/CheckInModal';
 import { useStore } from '../store/useStore';
@@ -35,8 +34,7 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
     const todayStr = new Date().toISOString().split('T')[0];
     const hasCheckedIn = state.checkIns?.some(c => c.date === todayStr);
 
-    // Nudge
-    const nudge = getDashboardNudge(today, user, totals, streak);
+    // Check if already checked in today
     const currentSlot = getCurrentSlot();
 
     function tapWater() {
@@ -51,14 +49,8 @@ export default function Dashboard({ today, totals, user, streak, getLast7Days, o
         <div className="dash">
             <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
 
-            {/* Nudge + Stats Card */}
+            {/* Stats Card */}
             <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 12, marginBottom: 4 }}>
-                {/* Nudge Bubble */}
-                <div className="d-hero-bubble" style={{ zIndex: 10, marginBottom: 8 }}>
-                    {nudge.text}
-                </div>
-
-                {/* Big Stats Card */}
                 <div className="d-stats-card" style={{ position: 'relative', zIndex: 5 }}>
 
                     {/* Left: Interactive Calorie Ring */}

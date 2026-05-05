@@ -1,61 +1,152 @@
-.body-map-container {
-    width: 100%;
+/* ─── Body Map ─── */
+.bm-wrapper {
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 10px;
-    background: var(--c-sand);
+    justify-content: center;
+    gap: 8px;
+    background: var(--c-black);
     border: 3px solid var(--c-black);
-    box-shadow: 4px 4px 0 var(--c-black);
-    border-radius: 12px;
+    border-radius: 16px;
+    padding: 20px 12px 12px;
     margin-bottom: 16px;
     position: relative;
-    overflow: hidden;
+    flex-wrap: wrap;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
 }
 
-/* Diagonal stripes background for Neo-Brutalism */
-.body-map-container::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        rgba(0, 0, 0, 0.03) 10px,
-        rgba(0, 0, 0, 0.03) 20px
-    );
-    z-index: 0;
-    pointer-events: none;
+.bm-wrapper.rest { opacity: 0.7; }
+.bm-wrapper.active { opacity: 1; }
+
+/* SVG container */
+.bm-body {
+    width: 100px;
+    flex-shrink: 0;
 }
 
-.body-map-svg {
-    width: 140px;
-    height: 280px;
-    z-index: 1;
+.bm-svg {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-.bm-part {
-    fill: #ffffff;
+/* Bone = neutral body parts */
+.bm-bone {
+    fill: rgba(255,255,255,0.15);
+    stroke: rgba(255,255,255,0.25);
+    stroke-width: 1;
+    transition: fill 0.3s, stroke 0.3s;
+}
+
+/* Muscle = highlightable */
+.bm-muscle {
+    fill: rgba(255,255,255,0.1);
+    stroke: rgba(255,255,255,0.2);
+    stroke-width: 1;
+    transition: fill 0.4s ease, stroke 0.4s ease;
+}
+
+.bm-muscle.push {
+    fill: var(--c-red);
+    stroke: white;
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 4px rgba(255,50,50,0.5));
+}
+
+.bm-muscle.pull {
+    fill: #3B82F6;
+    stroke: white;
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 4px rgba(59,130,246,0.5));
+}
+
+.bm-muscle.legs {
+    fill: var(--c-volt);
     stroke: var(--c-black);
-    stroke-width: 4;
-    stroke-linejoin: miter;
-    transition: all 0.3s ease;
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 4px rgba(224,255,0,0.4));
 }
 
-/* Highlight Colors */
-.bm-highlight-push {
-    fill: var(--c-red); /* Vibrant Red */
+.bm-muscle.core {
+    fill: #FF9800;
+    stroke: white;
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 4px rgba(255,152,0,0.4));
 }
 
-.bm-highlight-pull {
-    fill: #00BFFF; /* Electric Blue */
+/* ─── Labels ─── */
+.bm-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding-top: 30px;
+    width: 70px;
 }
 
-.bm-highlight-legs {
-    fill: var(--c-volt); /* Volt Yellow */
+.bm-label-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.25;
+    transition: opacity 0.3s;
 }
 
-.bm-highlight-core {
-    fill: #FF9800; /* Orange */
+.bm-label-item.lit {
+    opacity: 1;
+}
+
+.bm-label-text {
+    font-size: 10px;
+    font-weight: 800;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.bm-label-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+    min-width: 10px;
+}
+
+.bm-label-item.lit .bm-label-line {
+    background: rgba(255,255,255,0.7);
+}
+
+.bm-labels-left { text-align: right; }
+.bm-labels-left .bm-label-item { flex-direction: row-reverse; }
+
+/* ─── Info Badge ─── */
+.bm-info-badge {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 4px;
+}
+
+.bm-info-badge.rest-badge {
+    opacity: 0.5;
+}
+
+.bm-info-emoji {
+    font-size: 24px;
+}
+
+.bm-info-label {
+    font-size: 13px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.bm-info-muscles {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    margin-top: 1px;
 }

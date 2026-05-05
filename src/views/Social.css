@@ -1,45 +1,66 @@
-/* ─── Social Tabs ─── */
-.social-tabs {
+/* ─── Social Page ─── */
+.so-page {
     display: flex;
-    gap: 5px;
-    margin-bottom: 10px;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 14px 120px;
+    overflow-y: auto;
+    height: calc(100dvh - 48px - 80px);
+}
+
+/* ─── Tabs ─── */
+.so-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 4px 0;
 }
 
 .so-tab {
     flex: 1;
-    padding: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
     border: 2px solid var(--c-black);
     border-radius: 999px;
-    font-family: var(--font);
     font-weight: 800;
     font-size: 12px;
     background: var(--c-paper);
-    text-align: center;
+    color: var(--c-black);
     cursor: pointer;
     box-shadow: 2px 2px 0 var(--c-black);
     transition: all 0.1s;
 }
 
+.so-tab:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--c-black);
+}
+
 .so-tab.active {
     background: var(--c-black);
     color: var(--c-volt);
-    box-shadow: none;
     transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--c-black);
 }
 
-/* ─── Friends Feed ─── */
-.friends-feed {
+/* ─── Friends List ─── */
+.so-friends-list {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.friend-card {
-    padding: 0;
+.so-friend-card {
+    background: var(--c-paper);
+    border: 2px solid var(--c-black);
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
 }
 
-.friend-row {
+.so-friend-row {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -48,11 +69,11 @@
     transition: background 0.1s;
 }
 
-.friend-row:active {
-    background: rgba(0, 0, 0, 0.02);
+.so-friend-row:active {
+    background: rgba(0,0,0,0.02);
 }
 
-.friend-avatar {
+.so-friend-avatar {
     width: 34px;
     height: 34px;
     border-radius: 50%;
@@ -65,17 +86,17 @@
     flex-shrink: 0;
 }
 
-.friend-info {
+.so-friend-info {
     flex: 1;
     min-width: 0;
 }
 
-.friend-name {
+.so-friend-name {
     font-weight: 800;
     font-size: 13px;
 }
 
-.friend-meta {
+.so-friend-meta {
     font-size: 10px;
     font-weight: 700;
     opacity: 0.5;
@@ -84,18 +105,18 @@
     gap: 3px;
 }
 
-.friend-hit {
+.so-hit {
     color: var(--c-green);
     display: inline-flex;
     align-items: center;
     gap: 2px;
 }
 
-.friend-right {
+.so-friend-badge {
     flex-shrink: 0;
 }
 
-.friend-workout-badge {
+.so-wo-badge {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -107,19 +128,24 @@
     font-size: 10px;
 }
 
-.friend-rest-badge {
+.so-rest-badge {
     font-size: 10px;
     font-weight: 700;
     opacity: 0.3;
 }
 
-.friend-workout-detail {
+.so-workout-detail {
     padding: 0 12px 10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-top: 1px solid rgba(0,0,0,0.06);
     animation: fadeIn 0.2s ease;
 }
 
-.friend-ex-row {
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.so-ex-row {
     display: flex;
     justify-content: space-between;
     padding: 4px 0;
@@ -127,16 +153,10 @@
     font-weight: 700;
 }
 
-.friend-ex-name {
-    opacity: 0.7;
-}
+.so-ex-name { opacity: 0.7; }
+.so-ex-stats { opacity: 0.4; font-size: 11px; }
 
-.friend-ex-stats {
-    opacity: 0.4;
-    font-size: 11px;
-}
-
-.friend-copy-btn {
+.so-copy-btn {
     width: 100%;
     margin-top: 8px;
     padding: 8px;
@@ -146,10 +166,155 @@
     justify-content: center;
     gap: 6px;
     border-radius: 10px;
+    background: var(--c-volt);
+    border: 2px solid var(--c-black);
+    font-weight: 800;
+    color: var(--c-black);
+    cursor: pointer;
 }
 
-/* ─── League ─── */
+/* ─── Check-Ins Feed ─── */
+.so-checkin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
+.so-empty {
+    text-align: center;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0.4;
+}
+
+.so-checkin-card {
+    background: var(--c-paper);
+    border: 2px solid var(--c-black);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+}
+
+.so-checkin-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+}
+
+.so-checkin-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--c-black);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 12px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.so-checkin-who {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.so-checkin-name {
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.so-checkin-time {
+    font-size: 9px;
+    font-weight: 600;
+    opacity: 0.4;
+}
+
+.so-checkin-type-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.so-checkin-type-badge[data-type="workout"] {
+    background: var(--c-volt);
+    color: var(--c-black);
+    border: 1px solid var(--c-black);
+}
+
+.so-checkin-type-badge[data-type="meal"] {
+    background: #FFE0B2;
+    color: #E65100;
+    border: 1px solid #E65100;
+}
+
+/* Photo placeholder */
+.so-checkin-photo {
+    width: 100%;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+}
+
+.so-checkin-photo[data-type="workout"] {
+    background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+    color: var(--c-volt);
+}
+
+.so-checkin-photo[data-type="meal"] {
+    background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+    color: #E65100;
+}
+
+.so-checkin-photo-icon {
+    opacity: 0.4;
+}
+
+.so-checkin-photo-title {
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.so-checkin-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+}
+
+.so-checkin-caption {
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0.7;
+}
+
+.so-checkin-xp {
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--c-volt);
+    background: var(--c-black);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+/* ─── League styles (kept from before) ─── */
 .league-header {
     display: flex;
     align-items: center;
@@ -188,93 +353,24 @@
     border-radius: 12px;
     background: var(--c-paper);
     border: 2px solid var(--c-black);
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.1s;
-}
-
-.league-row:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
 }
 
 .league-you {
     background: var(--c-black) !important;
     border-color: var(--c-volt) !important;
-    /* Invert */
     color: var(--c-volt);
-    border-width: 2px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
 }
 
-.league-promo {
-    border-left: 6px solid var(--c-green);
-}
+.league-promo { border-left: 6px solid var(--c-green); }
+.league-demo { border-left: 6px solid var(--c-red); opacity: 0.8; }
 
-.league-demo {
-    border-left: 6px solid var(--c-red);
-    opacity: 0.8;
-}
-
-.league-rank {
-    font-weight: 900;
-    font-size: 13px;
-    width: 20px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.league-player-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid var(--c-black);
-    display: grid;
-    place-items: center;
-    font-weight: 900;
-    font-size: 12px;
-    color: white;
-    flex-shrink: 0;
-}
-
-.league-player-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.league-player-name {
-    font-weight: 800;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.league-player-meta {
-    font-size: 9px;
-    font-weight: 700;
-    opacity: 0.4;
-    display: flex;
-    align-items: center;
-    gap: 2px;
-}
-
-.league-you-tag {
-    background: var(--c-black);
-    color: var(--c-volt);
-    font-size: 8px;
-    font-weight: 900;
-    padding: 1px 5px;
-    border-radius: 4px;
-    letter-spacing: 0.5px;
-}
-
-.league-xp {
-    font-weight: 900;
-    font-size: 12px;
-    flex-shrink: 0;
-}
-
-.league-zone-icon {
-    flex-shrink: 0;
-    width: 14px;
-}
+.league-rank { font-weight: 900; font-size: 13px; width: 20px; text-align: center; flex-shrink: 0; }
+.league-player-avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--c-black); display: grid; place-items: center; font-weight: 900; font-size: 12px; color: white; flex-shrink: 0; }
+.league-player-info { flex: 1; min-width: 0; }
+.league-player-name { font-weight: 800; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.league-player-meta { font-size: 9px; font-weight: 700; opacity: 0.4; display: flex; align-items: center; gap: 2px; }
+.league-you-tag { background: var(--c-black); color: var(--c-volt); font-size: 8px; font-weight: 900; padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px; }
+.league-xp { font-weight: 900; font-size: 12px; flex-shrink: 0; }
+.league-zone-icon { flex-shrink: 0; width: 14px; }

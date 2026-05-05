@@ -1,62 +1,135 @@
 import './BodyMap.css';
 
-export default function BodyMap({ highlight = null }) {
-    // highlight can be: 'push', 'pull', 'legs', 'upper', 'full_body'
+// Muscle group metadata for labels
+const MUSCLE_GROUPS = {
+    push: { label: 'PUSH', muscles: 'Chest · Shoulders · Triceps', emoji: '🦁', color: 'var(--c-red)' },
+    pull: { label: 'PULL', muscles: 'Back · Biceps · Rear Delts', emoji: '🦅', color: '#3B82F6' },
+    legs: { label: 'LEGS', muscles: 'Quads · Hamstrings · Glutes · Calves', emoji: '🦖', color: 'var(--c-volt)' },
+    upper: { label: 'UPPER', muscles: 'Chest · Back · Shoulders · Arms', emoji: '⚔️', color: '#FF9800' },
+    full_body: { label: 'FULL BODY', muscles: 'All Major Muscle Groups', emoji: '🔥', color: 'var(--c-green)' },
+};
 
+export default function BodyMap({ highlight = null }) {
     const isPush = highlight === 'push' || highlight === 'upper' || highlight === 'full_body';
     const isPull = highlight === 'pull' || highlight === 'upper' || highlight === 'full_body';
     const isLegs = highlight === 'legs' || highlight === 'full_body';
+    const isCore = highlight === 'full_body';
+    const info = highlight ? MUSCLE_GROUPS[highlight] : null;
 
     return (
-        <div className="body-map-container">
-            <svg viewBox="0 0 200 400" className="body-map-svg">
-                {/* Background Shadow Grid (Neo-brutalist touch) */}
-                <rect x="0" y="0" width="200" height="400" fill="transparent" />
+        <div className={`bm-wrapper ${highlight ? 'active' : 'rest'}`}>
+            {/* Left labels */}
+            <div className="bm-labels bm-labels-left">
+                <div className={`bm-label-item ${isPush ? 'lit' : ''}`}>
+                    <span className="bm-label-line" />
+                    <span className="bm-label-text">Chest</span>
+                </div>
+                <div className={`bm-label-item ${isPull ? 'lit' : ''}`}>
+                    <span className="bm-label-line" />
+                    <span className="bm-label-text">Back</span>
+                </div>
+                <div className={`bm-label-item ${isLegs ? 'lit' : ''}`}>
+                    <span className="bm-label-line" />
+                    <span className="bm-label-text">Quads</span>
+                </div>
+            </div>
 
-                {/* Head */}
-                <rect x="80" y="20" width="40" height="40" className="bm-part" rx="4" />
-                
-                {/* Neck */}
-                <rect x="90" y="62" width="20" height="15" className="bm-part" />
+            {/* SVG Body */}
+            <div className="bm-body">
+                <svg viewBox="0 0 120 280" className="bm-svg">
+                    {/* Head */}
+                    <ellipse cx="60" cy="22" rx="14" ry="16" className="bm-bone" />
+                    {/* Neck */}
+                    <rect x="53" y="38" width="14" height="10" className="bm-bone" rx="2" />
 
-                {/* Shoulders (Push/Pull) */}
-                <path d="M 50 79 L 150 79 L 150 100 L 50 100 Z" className={`bm-part ${isPush ? 'bm-highlight-push' : ''} ${isPull ? 'bm-highlight-pull' : ''}`} />
+                    {/* Trapezius / Shoulders */}
+                    <path d="M 30 50 Q 35 46 53 48 L 67 48 Q 85 46 90 50 L 90 60 L 30 60 Z"
+                        className={`bm-muscle ${isPush || isPull ? 'push' : ''}`} />
 
-                {/* Chest (Push) */}
-                <rect x="70" y="102" width="60" height="40" className={`bm-part ${isPush ? 'bm-highlight-push' : ''}`} rx="2" />
-                
-                {/* Core/Abs (Core - maybe full body) */}
-                <rect x="75" y="144" width="50" height="45" className={`bm-part ${highlight === 'full_body' ? 'bm-highlight-core' : ''}`} rx="2" />
+                    {/* Chest */}
+                    <path d="M 38 60 L 82 60 Q 84 72 78 78 L 42 78 Q 36 72 38 60 Z"
+                        className={`bm-muscle ${isPush ? 'push' : ''}`} />
 
-                {/* Lats/Back (Pull) - Behind torso visual representation */}
-                <path d="M 60 102 L 70 102 L 70 160 L 65 160 Z" className={`bm-part ${isPull ? 'bm-highlight-pull' : ''}`} />
-                <path d="M 130 102 L 140 102 L 135 160 L 130 160 Z" className={`bm-part ${isPull ? 'bm-highlight-pull' : ''}`} />
+                    {/* Back (lats - side strips) */}
+                    <rect x="32" y="60" width="8" height="40" rx="3"
+                        className={`bm-muscle ${isPull ? 'pull' : ''}`} />
+                    <rect x="80" y="60" width="8" height="40" rx="3"
+                        className={`bm-muscle ${isPull ? 'pull' : ''}`} />
 
-                {/* Upper Arms (Biceps/Triceps) */}
-                {/* Left Arm */}
-                <rect x="40" y="102" width="25" height="50" className={`bm-part ${isPush ? 'bm-highlight-push' : ''} ${isPull ? 'bm-highlight-pull' : ''}`} rx="4" />
-                {/* Right Arm */}
-                <rect x="135" y="102" width="25" height="50" className={`bm-part ${isPush ? 'bm-highlight-push' : ''} ${isPull ? 'bm-highlight-pull' : ''}`} rx="4" />
+                    {/* Core */}
+                    <rect x="42" y="80" width="36" height="32" rx="3"
+                        className={`bm-muscle ${isCore ? 'core' : ''}`} />
 
-                {/* Forearms */}
-                <rect x="35" y="154" width="20" height="45" className="bm-part" rx="4" />
-                <rect x="145" y="154" width="20" height="45" className="bm-part" rx="4" />
+                    {/* Left Arm (upper) */}
+                    <rect x="16" y="55" width="16" height="36" rx="6"
+                        className={`bm-muscle ${isPush || isPull ? 'push' : ''}`} />
+                    {/* Left Forearm */}
+                    <rect x="12" y="93" width="14" height="32" rx="5" className="bm-bone" />
 
-                {/* Pelvis */}
-                <path d="M 70 191 L 130 191 L 120 220 L 80 220 Z" className="bm-part" />
+                    {/* Right Arm (upper) */}
+                    <rect x="88" y="55" width="16" height="36" rx="6"
+                        className={`bm-muscle ${isPush || isPull ? 'push' : ''}`} />
+                    {/* Right Forearm */}
+                    <rect x="94" y="93" width="14" height="32" rx="5" className="bm-bone" />
 
-                {/* Thighs (Quads/Hamstrings - Legs) */}
-                <rect x="72" y="222" width="25" height="70" className={`bm-part ${isLegs ? 'bm-highlight-legs' : ''}`} rx="4" />
-                <rect x="103" y="222" width="25" height="70" className={`bm-part ${isLegs ? 'bm-highlight-legs' : ''}`} rx="4" />
+                    {/* Pelvis */}
+                    <path d="M 40 114 L 80 114 L 74 130 L 46 130 Z" className="bm-bone" />
 
-                {/* Calves (Legs) */}
-                <rect x="74" y="294" width="20" height="60" className={`bm-part ${isLegs ? 'bm-highlight-legs' : ''}`} rx="3" />
-                <rect x="106" y="294" width="20" height="60" className={`bm-part ${isLegs ? 'bm-highlight-legs' : ''}`} rx="3" />
+                    {/* Left Thigh */}
+                    <rect x="42" y="132" width="16" height="52" rx="6"
+                        className={`bm-muscle ${isLegs ? 'legs' : ''}`} />
+                    {/* Right Thigh */}
+                    <rect x="62" y="132" width="16" height="52" rx="6"
+                        className={`bm-muscle ${isLegs ? 'legs' : ''}`} />
 
-                {/* Feet */}
-                <path d="M 65 356 L 94 356 L 94 370 L 60 370 Z" className="bm-part" />
-                <path d="M 106 356 L 135 356 L 140 370 L 106 370 Z" className="bm-part" />
-            </svg>
+                    {/* Left Calf */}
+                    <rect x="43" y="188" width="13" height="44" rx="5"
+                        className={`bm-muscle ${isLegs ? 'legs' : ''}`} />
+                    {/* Right Calf */}
+                    <rect x="64" y="188" width="13" height="44" rx="5"
+                        className={`bm-muscle ${isLegs ? 'legs' : ''}`} />
+
+                    {/* Feet */}
+                    <ellipse cx="49" cy="238" rx="9" ry="5" className="bm-bone" />
+                    <ellipse cx="71" cy="238" rx="9" ry="5" className="bm-bone" />
+                </svg>
+            </div>
+
+            {/* Right labels */}
+            <div className="bm-labels bm-labels-right">
+                <div className={`bm-label-item ${isPush ? 'lit' : ''}`}>
+                    <span className="bm-label-text">Shoulders</span>
+                    <span className="bm-label-line" />
+                </div>
+                <div className={`bm-label-item ${isPush || isPull ? 'lit' : ''}`}>
+                    <span className="bm-label-text">Arms</span>
+                    <span className="bm-label-line" />
+                </div>
+                <div className={`bm-label-item ${isLegs ? 'lit' : ''}`}>
+                    <span className="bm-label-text">Calves</span>
+                    <span className="bm-label-line" />
+                </div>
+            </div>
+
+            {/* Bottom label badge */}
+            {info && (
+                <div className="bm-info-badge">
+                    <span className="bm-info-emoji">{info.emoji}</span>
+                    <div>
+                        <div className="bm-info-label">{info.label}</div>
+                        <div className="bm-info-muscles">{info.muscles}</div>
+                    </div>
+                </div>
+            )}
+            {!info && (
+                <div className="bm-info-badge rest-badge">
+                    <span className="bm-info-emoji">😴</span>
+                    <div>
+                        <div className="bm-info-label">REST DAY</div>
+                        <div className="bm-info-muscles">Recovery is growth</div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

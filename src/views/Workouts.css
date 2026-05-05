@@ -1,282 +1,294 @@
-/* ── Start Workout Hero ── */
-.start-wo-card {
-    background: var(--c-green);
-    color: var(--c-black);
-    border: 2px solid var(--c-black);
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 4px 4px 0 var(--c-black);
-    margin: 4px;
-    /* Ensure shadow isn't cut off */
-}
-
-.start-wo-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-/* ── Tabs ── */
-.wo-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-    padding: 2px;
-}
-
-.wo-tab {
-    flex: 1;
-    padding: 10px;
-    border: 2px solid var(--c-black);
-    border-radius: 12px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 13px;
-    background: var(--c-paper);
-    color: var(--c-black);
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.1s;
-    text-transform: uppercase;
-}
-
-.wo-tab:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
-}
-
-.wo-tab.active {
-    background: var(--c-black);
-    color: var(--c-volt);
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-    transform: translate(1px, 1px);
-}
-
-/* ── Sessions List ── */
-.wo-list {
+/* ─── Workouts Page ─── */
+.wo-page {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding: 0 14px 120px;
+    overflow-y: auto;
+    height: calc(100dvh - 48px - 80px);
 }
 
-.session-card {
-    background: var(--c-paper);
-    border: 2px solid var(--c-black);
-    padding: 14px;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-}
-
-.session-card:active {
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-}
-
-.session-top {
-    margin-bottom: 10px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
-    padding-bottom: 8px;
-}
-
-.session-ex-grid {
+/* ── Week Strip ── */
+.wo-week-strip {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    gap: 4px;
+    padding: 4px 0;
 }
 
-.session-ex-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--c-sand);
-    border: 1px solid var(--c-black);
-    border-radius: 6px;
-    padding: 4px 8px;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.ex-nums {
-    opacity: 0.6;
-    font-weight: 500;
-    font-family: monospace;
-}
-
-/* ── Templates ── */
-.template-card {
-    background: var(--c-paper);
-    border: 2px solid var(--c-black);
-    padding: 14px;
-    cursor: pointer;
-    transition: all 0.1s;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-}
-
-.template-card:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
-}
-
-.template-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.template-icon {
-    width: 40px;
-    height: 40px;
-    display: grid;
-    place-items: center;
-    font-size: 24px;
-    flex-shrink: 0;
-}
-
-.template-exercises {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.template-ex-chip {
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    padding: 2px 6px;
-    font-size: 10px;
-    font-weight: 700;
-    opacity: 0.7;
-}
-
-/* ── Weekly Schedule ── */
-.schedule-card {
-    padding: 14px;
-    margin-bottom: 16px;
-    background: var(--c-paper);
-}
-
-.schedule-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 900;
-    font-size: 14px;
-    margin-bottom: 12px;
-}
-
-.schedule-days-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 6px;
-}
-
-.schedule-day-btn {
+.wo-day {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 3px;
     padding: 8px 0;
-    background: var(--c-sand);
-    border: 2px solid var(--c-black);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.1s;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 1);
-}
-
-.schedule-day-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0 rgba(0, 0, 0, 1);
-}
-
-.schedule-day-btn.selected {
-    background: var(--c-black);
-    color: var(--c-volt);
-    transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0 rgba(0, 0, 0, 1);
-}
-
-.schedule-day-btn.today {
-    border-color: var(--c-red);
-}
-
-.sd-label {
-    font-size: 12px;
-    font-weight: 800;
-}
-
-.sd-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--c-red);
-    margin-top: 4px;
-}
-
-.schedule-day-btn.selected .sd-dot {
-    background: var(--c-volt);
-}
-
-/* ── Gamified Templates ── */
-.template-card {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    transition: all 0.2s;
-}
-
-.template-card.assigned {
-    background: var(--c-sand);
-    border-color: var(--c-red);
-    border-width: 3px;
-}
-
-.template-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-end;
-}
-
-.btn-assign {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid var(--c-black);
     background: var(--c-paper);
-    display: grid;
-    place-items: center;
-    font-weight: 900;
+    border: 2px solid var(--c-black);
+    border-radius: 10px;
     cursor: pointer;
     box-shadow: 2px 2px 0 var(--c-black);
     transition: all 0.1s;
 }
 
-.btn-assign:active {
+.wo-day:active {
     transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0 var(--c-black);
+    box-shadow: 0 0 0 var(--c-black);
 }
 
-.btn-assign.active {
-    background: var(--c-green);
-    color: var(--c-black);
-    box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.2);
-    transform: translate(2px, 2px);
-}
-
-.btn-start-small {
+.wo-day.sel {
     background: var(--c-black);
     color: var(--c-volt);
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 900;
-    font-size: 11px;
-    cursor: pointer;
-    transition: transform 0.1s;
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--c-black);
 }
 
-.btn-start-small:active {
-    transform: scale(0.95);
+.wo-day.today {
+    border-color: var(--c-red);
+}
+
+.wo-day-letter {
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.wo-day-split {
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* ── Assign Button ── */
+.wo-assign-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--c-sand);
+    border: 2px solid var(--c-black);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--c-black);
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--c-black);
+    transition: all 0.1s;
+}
+
+.wo-assign-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--c-black);
+}
+
+.wo-assign-edit {
+    font-size: 9px;
+    font-weight: 800;
+    opacity: 0.4;
+    letter-spacing: 0.5px;
+}
+
+/* ── Split Picker ── */
+.wo-split-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    animation: fadeSlide 0.2s ease;
+}
+
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.wo-split-opt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 10px 4px;
+    background: var(--c-paper);
+    border: 2px solid var(--c-black);
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--c-black);
+    transition: all 0.1s;
+    color: var(--c-black);
+}
+
+.wo-split-opt:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--c-black);
+}
+
+.wo-split-opt.active {
+    background: var(--c-black);
+    color: var(--c-volt);
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--c-black);
+}
+
+/* ── Today's Hero CTA ── */
+.wo-today-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--c-green);
+    border: 3px solid var(--c-black);
+    border-radius: 14px;
+    box-shadow: 4px 4px 0 var(--c-black);
+    cursor: pointer;
+    color: var(--c-black);
+    transition: all 0.1s;
+}
+
+.wo-today-hero:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 var(--c-black);
+}
+
+.wo-hero-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.wo-hero-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--c-black);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: var(--c-green);
+}
+
+.wo-hero-title {
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.wo-hero-sub {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.7;
+}
+
+.wo-hero-go {
+    background: var(--c-black);
+    color: var(--c-green);
+    padding: 8px 16px;
+    border-radius: 99px;
+    font-weight: 900;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* ── Section Title ── */
+.wo-section-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+}
+
+/* ── Template Cards ── */
+.wo-templates {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.wo-tpl-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: var(--c-paper);
+    border: 2px solid var(--c-black);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.1s;
+    text-align: left;
+    color: var(--c-black);
+}
+
+.wo-tpl-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+.wo-tpl-emoji {
+    font-size: 28px;
+    flex-shrink: 0;
+    width: 40px;
+    text-align: center;
+}
+
+.wo-tpl-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.wo-tpl-name {
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.wo-tpl-desc {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.5;
+    margin-top: 1px;
+}
+
+.wo-tpl-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.wo-tpl-chip {
+    background: var(--c-sand);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.wo-tpl-chip.more {
+    background: var(--c-black);
+    color: white;
+    border: none;
+}
+
+/* ── Freestyle ── */
+.wo-freestyle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    background: var(--c-black);
+    color: var(--c-volt);
+    border: 2px solid var(--c-black);
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.1s;
+    margin-top: 4px;
+}
+
+.wo-freestyle:active {
+    transform: scale(0.98);
 }
