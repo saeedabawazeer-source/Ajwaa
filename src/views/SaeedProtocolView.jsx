@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Bell } from 'lucide-react'; // For the notification bell
 
 const TODAY_KEY = () => {
   const d = new Date();
@@ -7,9 +8,10 @@ const TODAY_KEY = () => {
 
 const ANYTIME = [
   { id: "pushups", label: "Push-ups", unit: "reps", target: 500, step: 25, color: "#FF4B3E" },
-  { id: "vacuums", label: "Stomach Vacuums", unit: "sets", target: 15, step: 1, color: "#C0FF72", note: "30–60s hold, exhale fully" },
-  { id: "hollow", label: "Hollow Body Holds", unit: "sets", target: 7, step: 1, color: "#01A0A1", note: "30–60s hold" },
-  { id: "rows", label: "Doorframe Rows", unit: "reps", target: 125, step: 10, color: "#FFC93C" },
+  { id: "rows", label: "Back Rows", unit: "reps", target: 125, step: 10, color: "#FFC93C" },
+  { id: "vacuums", label: "Stomach Vacs", unit: "sets", target: 15, step: 1, color: "#C0FF72" },
+  { id: "hollow", label: "Hollow Holds", unit: "sets", target: 7, step: 1, color: "#01A0A1" },
+  { id: "water", label: "Water", unit: "cups", target: 12, step: 1, color: "#3B82F6" },
 ];
 
 const GROWTH = [
@@ -22,8 +24,7 @@ const GROWTH = [
 
 const BLANK_DAY = () => ({
   bend: false,
-  morningVacuums: false,
-  anytime: { pushups: 0, vacuums: 0, hollow: 0, rows: 0 },
+  anytime: { pushups: 0, vacuums: 0, hollow: 0, rows: 0, water: 0 },
   growth: { pike: 0, split: 0, vups: 0, curls: 0, plank: 0 },
 });
 
@@ -58,7 +59,7 @@ function useDay(dateKey) {
 
 function Bar({ pct, color }) {
   return (
-    <div style={{ height: 14, background: "#fff", border: "3px solid #111", position: "relative", overflow: "hidden" }}>
+    <div style={{ height: 10, background: "#fff", border: "2px solid #111", position: "relative", overflow: "hidden" }}>
       <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: color, transition: "width 200ms" }} />
     </div>
   );
@@ -69,21 +70,20 @@ function AnytimeCard({ cfg, value, onChange }) {
   const done = value >= cfg.target;
   return (
     <div style={{
-      border: "4px solid #111",
+      border: "3px solid #111",
       background: done ? cfg.color : "#fff",
-      boxShadow: "6px 6px 0 #111",
-      padding: 16,
+      boxShadow: "3px 3px 0 #111",
+      padding: "8px 10px",
       display: "flex",
       flexDirection: "column",
-      gap: 10,
+      gap: 6,
     }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 16, textTransform: "uppercase" }}>{cfg.label}</span>
-        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 22 }}>{value}<span style={{ fontSize: 12, opacity: 0.6 }}>/{cfg.target}</span></span>
+        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 11, textTransform: "uppercase", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cfg.label}</span>
+        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14 }}>{value}<span style={{ fontSize: 9, opacity: 0.6 }}>/{cfg.target}</span></span>
       </div>
-      {cfg.note && <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.7 }}>{cfg.note}</div>}
       <Bar pct={pct} color="#111" />
-      <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ display: "flex", gap: 4 }}>
         <button
           onClick={() => onChange(Math.max(0, value - cfg.step))}
           style={btnStyle("#fff")}
@@ -91,7 +91,7 @@ function AnytimeCard({ cfg, value, onChange }) {
         <button
           onClick={() => onChange(value + cfg.step)}
           style={btnStyle(cfg.color)}
-        >+{cfg.step} {cfg.unit}</button>
+        >+{cfg.step}</button>
       </div>
     </div>
   );
@@ -100,13 +100,13 @@ function AnytimeCard({ cfg, value, onChange }) {
 function btnStyle(bg) {
   return {
     flex: 1,
-    border: "3px solid #111",
+    border: "2px solid #111",
     background: bg,
     fontFamily: "'Archivo Black', sans-serif",
-    fontSize: 13,
-    padding: "10px 6px",
+    fontSize: 10,
+    padding: "6px 0",
     cursor: "pointer",
-    boxShadow: "3px 3px 0 #111",
+    boxShadow: "2px 2px 0 #111",
     textTransform: "uppercase",
   };
 }
@@ -122,21 +122,21 @@ function GrowthRow({ cfg, count, onToggle }) {
         border: "3px solid #111",
         background: count >= 4 ? "#111" : "#fff",
         color: count >= 4 ? "#F5F0E6" : "#111",
-        padding: "10px 14px",
-        marginBottom: 8,
+        padding: "6px 10px",
+        marginBottom: 6,
         cursor: "pointer",
         fontFamily: "'Archivo Black', sans-serif",
-        fontSize: 13,
+        fontSize: 11,
       }}
     >
       <div>
         <div style={{ textTransform: "uppercase" }}>{cfg.label}</div>
-        <div style={{ fontSize: 10, opacity: 0.7, fontWeight: 400 }}>{cfg.scheme}</div>
+        <div style={{ fontSize: 9, opacity: 0.7, fontWeight: 400 }}>{cfg.scheme}</div>
       </div>
-      <div style={{ display: "flex", gap: 4 }}>
+      <div style={{ display: "flex", gap: 3 }}>
         {[0, 1, 2, 3].map((i) => (
           <div key={i} style={{
-            width: 16, height: 16,
+            width: 12, height: 12,
             border: "2px solid " + (count >= 4 ? "#F5F0E6" : "#111"),
             background: i < count ? "#C0FF72" : "transparent",
           }} />
@@ -149,34 +149,20 @@ function GrowthRow({ cfg, count, onToggle }) {
 export default function SaeedProtocolView() {
   const dateKey = TODAY_KEY();
   const { day, save, loading } = useDay(dateKey);
-  const [tab, setTab] = useState("today");
-  const [history, setHistory] = useState([]);
-  const [histLoading, setHistLoading] = useState(false);
+  const [notifPerm, setNotifPerm] = useState(typeof window !== "undefined" && "Notification" in window ? Notification.permission : "default");
 
-  useEffect(() => {
-    if (tab !== "history") return;
-    setHistLoading(true);
-    try {
-      const rows = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k.startsWith("bufflog:")) {
-          const r = localStorage.getItem(k);
-          if (r) rows.push({ date: k.replace("bufflog:", ""), data: JSON.parse(r) });
-        }
-      }
-      rows.sort((a, b) => (a.date < b.date ? 1 : -1));
-      setHistory(rows.slice(0, 30));
-    } catch (e) {
-      console.error(e);
+  const requestNotif = async () => {
+    if (typeof window === "undefined" || !("Notification" in window)) return;
+    const p = await Notification.requestPermission();
+    setNotifPerm(p);
+    if (p === "granted" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER", intervalMinutes: 60 });
+      new Notification("Buff Protocol Active", { body: "Reminders active. Time to grind.", icon: "/vite.svg" });
     }
-    setHistLoading(false);
-  }, [tab]);
+  };
 
   if (loading || !day) {
-    return (
-      <div style={{ fontFamily: "monospace", padding: 40, textAlign: "center" }}>Loading…</div>
-    );
+    return <div style={{ fontFamily: "monospace", padding: 40, textAlign: "center" }}>Loading…</div>;
   }
 
   const setAnytime = (id, val) => save({ ...day, anytime: { ...day.anytime, [id]: val } });
@@ -195,8 +181,11 @@ export default function SaeedProtocolView() {
       fontFamily: "'Helvetica Neue', Arial, sans-serif",
       background: "#F5F0E6",
       minHeight: "100vh",
+      height: "100vh", /* Lock to screen */
+      overflow: "hidden", /* No scroll on main container */
+      display: "flex",
+      flexDirection: "column",
       color: "#111",
-      paddingBottom: 40,
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
@@ -204,121 +193,75 @@ export default function SaeedProtocolView() {
         button:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #111 !important; }
       `}</style>
 
-      <div style={{ background: "#111", color: "#F5F0E6", padding: "20px 16px 16px" }}>
-        <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 22, letterSpacing: -0.5, textTransform: "uppercase" }}>
-          Buff Protocol
+      {/* Header */}
+      <div style={{ background: "#111", color: "#F5F0E6", padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
+          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 18, letterSpacing: -0.5, textTransform: "uppercase" }}>
+            Buff Protocol
+          </div>
+          <div style={{ fontSize: 10, opacity: 0.7, marginTop: 2 }}>{dateKey} {allDone && "· ALL DONE 🔥"}</div>
         </div>
-        <div style={{ fontSize: 12, opacity: 0.7, marginTop: 2 }}>{dateKey} {allDone && "· ALL DONE 🔥"}</div>
+        <button 
+          onClick={requestNotif}
+          style={{ 
+            background: notifPerm === 'granted' ? '#C0FF72' : '#F5F0E6', 
+            border: '2px solid #111', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' 
+          }}>
+          <Bell size={18} color="#111" />
+        </button>
       </div>
 
-      <div style={{ display: "flex", borderBottom: "4px solid #111" }}>
-        {["today", "history"].map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            style={{
-              flex: 1,
-              padding: 12,
-              border: "none",
-              borderRight: t === "today" ? "4px solid #111" : "none",
-              background: tab === t ? "#C0FF72" : "#F5F0E6",
-              fontFamily: "'Archivo Black', sans-serif",
-              fontSize: 13,
-              textTransform: "uppercase",
-              cursor: "pointer",
-            }}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
+      {/* Main Content Pane (Scrollable if absolutely needed on tiny phones, but mostly fits) */}
+      <div style={{ padding: 10, display: "flex", flexDirection: "column", gap: 10, flex: 1, overflowY: "auto", overflowX: "hidden" }}>
 
-      {tab === "today" && (
-        <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 20 }}>
-
-          {/* Bend / Yoga check */}
-          <div
-            onClick={() => save({ ...day, bend: !day.bend })}
-            style={{
-              border: "4px solid #111",
-              background: day.bend ? "#01A0A1" : "#fff",
-              color: day.bend ? "#F5F0E6" : "#111",
-              boxShadow: "6px 6px 0 #111",
-              padding: 18,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <div>
-              <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 18, textTransform: "uppercase" }}>Bend (Yoga)</div>
-              <div style={{ fontSize: 11, opacity: 0.8 }}>Morning session, empty stomach</div>
-            </div>
-            <div style={{
-              width: 32, height: 32, border: "3px solid " + (day.bend ? "#F5F0E6" : "#111"),
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontFamily: "'Archivo Black', sans-serif",
-            }}>{day.bend ? "✓" : ""}</div>
-          </div>
-
+        {/* Bend / Yoga check */}
+        <div
+          onClick={() => save({ ...day, bend: !day.bend })}
+          style={{
+            border: "3px solid #111",
+            background: day.bend ? "#01A0A1" : "#fff",
+            color: day.bend ? "#F5F0E6" : "#111",
+            boxShadow: "4px 4px 0 #111",
+            padding: "10px 14px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            cursor: "pointer",
+          }}
+        >
           <div>
-            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 13, textTransform: "uppercase", marginBottom: 10, borderBottom: "3px solid #111", paddingBottom: 4 }}>
-              Anytime List — {anytimeDoneCount}/{ANYTIME.length} hit
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
-              {ANYTIME.map((cfg) => (
-                <AnytimeCard key={cfg.id} cfg={cfg} value={day.anytime[cfg.id] || 0} onChange={(v) => setAnytime(cfg.id, v)} />
-              ))}
-            </div>
+            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14, textTransform: "uppercase" }}>Bend (Yoga)</div>
           </div>
+          <div style={{
+            width: 24, height: 24, border: "2px solid " + (day.bend ? "#F5F0E6" : "#111"),
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontFamily: "'Archivo Black', sans-serif", fontSize: 12
+          }}>{day.bend ? "✓" : ""}</div>
+        </div>
 
-          <div>
-            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 13, textTransform: "uppercase", marginBottom: 10, borderBottom: "3px solid #111", paddingBottom: 4 }}>
-              Growth Session — tap to log a set
-            </div>
-            {GROWTH.map((cfg) => (
-              <GrowthRow key={cfg.id} cfg={cfg} count={day.growth[cfg.id] || 0} onToggle={() => bumpGrowth(cfg.id)} />
+        {/* Anytime List */}
+        <div>
+          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 11, textTransform: "uppercase", marginBottom: 6, borderBottom: "2px solid #111", paddingBottom: 2 }}>
+            Anytime List — {anytimeDoneCount}/{ANYTIME.length}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            {ANYTIME.map((cfg) => (
+              <AnytimeCard key={cfg.id} cfg={cfg} value={day.anytime[cfg.id] || 0} onChange={(v) => setAnytime(cfg.id, v)} />
             ))}
           </div>
+        </div>
 
-          <div style={{ border: "3px dashed #111", padding: 12, fontSize: 11, lineHeight: 1.5 }}>
-            <b>Sharp pain in lower back on Hollow Holds/V-ups = stop.</b> Rest 5 min, breathe, then continue. Missed an hour? Double up next set — total daily volume is what counts.
+        {/* Growth Session */}
+        <div>
+          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 11, textTransform: "uppercase", marginBottom: 6, borderBottom: "2px solid #111", paddingBottom: 2 }}>
+            Growth Session — Tap to Log
           </div>
+          {GROWTH.map((cfg) => (
+            <GrowthRow key={cfg.id} cfg={cfg} count={day.growth[cfg.id] || 0} onToggle={() => bumpGrowth(cfg.id)} />
+          ))}
         </div>
-      )}
 
-      {tab === "history" && (
-        <div style={{ padding: 16 }}>
-          {histLoading && <div>Loading…</div>}
-          {!histLoading && history.length === 0 && (
-            <div style={{ border: "3px dashed #111", padding: 20, textAlign: "center", fontSize: 13 }}>
-              No days logged yet. Get to work.
-            </div>
-          )}
-          {history.map((h) => {
-            const doneCount = ANYTIME.filter((c) => (h.data.anytime?.[c.id] || 0) >= c.target).length;
-            const gDone = GROWTH.filter((c) => (h.data.growth?.[c.id] || 0) >= 4).length;
-            return (
-              <div key={h.date} style={{
-                border: "3px solid #111", marginBottom: 10, padding: 12,
-                background: h.data.bend && doneCount === ANYTIME.length ? "#C0FF72" : "#fff",
-              }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "'Archivo Black', sans-serif", fontSize: 13 }}>
-                  <span>{h.date}</span>
-                  <span>{h.data.bend ? "Bend ✓" : "Bend ✗"}</span>
-                </div>
-                <div style={{ fontSize: 11, marginTop: 6, display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  {ANYTIME.map((c) => (
-                    <span key={c.id}>{c.label}: {h.data.anytime?.[c.id] || 0}/{c.target}</span>
-                  ))}
-                </div>
-                <div style={{ fontSize: 11, marginTop: 4, opacity: 0.7 }}>Growth exercises maxed: {gDone}/{GROWTH.length}</div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+      </div>
     </div>
   );
 }
