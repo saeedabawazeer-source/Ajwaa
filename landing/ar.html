@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>عجوة — تتبع اللياقة والتغذية بالأسلوب التكتيكي</title>
+  <meta name="description" content="عجوة هو تطبيق تتبع اللياقة التكتيكي. تتبع السعرات، التمارين، والمهام اليومية بدقة 100% بدون تعقيد."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+
+/* ══════════════════════════════════════════════
+   BRAND SYSTEM: 60% Sand · 30% Black · 10% Volt/Red
+══════════════════════════════════════════════ */
+:root {
+  --c-sand:  #F3F0E6;
+  --c-black: #1A1A1A;
+  --c-volt:  #E0FF00;
+  --c-red:   #D62828;
+  --c-paper: #FFFFFF;
+  --c-gold:  #FFB800;
+  --c-green: #22C55E;
+  --c-blue:  #3B82F6;
+  --c-muted: rgba(26, 26, 26, 0.55);
+
+  --font: 'Cairo', sans-serif;
+
+  --border: 2px solid var(--c-black);
+  --shadow: 3px 3px 0 var(--c-black);
+  --shadow-lg: 5px 5px 0 var(--c-black);
+  --radius: 14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font);
+  background: var(--c-sand);
+  color: var(--c-black);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+/* ── REVEAL ANIMATIONS ── */
+.r { opacity: 0; transform: translateY(28px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.rl { opacity: 0; transform: translateX(28px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.rr { opacity: 0; transform: translateX(-28px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.r.on, .rl.on, .rr.on { opacity: 1; transform: translate(0); }
+.d1 { transition-delay: .08s; } .d2 { transition-delay: .16s; }
+.d3 { transition-delay: .24s; } .d4 { transition-delay: .32s; }
+
+/* ── CONTAINER ── */
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 64px); }
+section { padding: clamp(70px, 8vw, 120px) 0; }
+
+/* ══════════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════════ */
+nav.top-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px clamp(20px, 5vw, 64px);
+  background: rgba(243, 240, 230, 0.94);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: var(--border);
+}
+.nav-brand { display: flex; align-items: center; gap: 8px; }
+.nav-logo-ar { font-family: var(--font); font-size: 28px; font-weight: 900; color: var(--c-black); letter-spacing: -0.5px; }
+
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+.lang-switch {
+  padding: 8px 16px;
+  background: var(--c-paper);
+  border: var(--border); border-radius: 8px;
+  font-size: 13px; font-weight: 800;
+  box-shadow: 2px 2px 0 var(--c-black);
+  transition: transform .12s, box-shadow .12s;
+}
+.lang-switch:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--c-black); }
+
+.nav-cta {
+  padding: 10px 22px;
+  background: var(--c-black); color: var(--c-volt);
+  font-weight: 900; font-size: 13px; letter-spacing: 0.3px;
+  border-radius: 8px; border: var(--border);
+  box-shadow: var(--shadow);
+  transition: transform .12s, box-shadow .12s;
+}
+.nav-cta:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--c-black); }
+
+/* ══════════════════════════════════════════════
+   HERO SECTION
+══════════════════════════════════════════════ */
+.hero-grid {
+  min-height: 92dvh;
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  align-items: center; gap: clamp(32px, 4vw, 70px);
+  padding-top: 96px; padding-bottom: 40px;
+}
+
+.hero-left { display: flex; flex-direction: column; gap: 24px; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+  padding: 6px 14px;
+  border: var(--border); border-radius: 999px;
+  background: var(--c-volt); color: var(--c-black);
+  font-size: 11px; font-weight: 900; letter-spacing: 0.5px;
+  box-shadow: 2px 2px 0 var(--c-black);
+}
+.badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-black); animation: pulse 1.8s infinite; }
+@keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.3; transform:scale(1.3); } }
+
+.brand-titles { display: flex; flex-direction: column; }
+.brand-ar-title { font-family: var(--font); font-size: clamp(56px, 7vw, 90px); font-weight: 900; color: var(--c-black); line-height: 0.95; }
+.brand-sub-tag { font-size: 13px; font-weight: 900; color: var(--c-red); letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; }
+
+.hero-headline {
+  font-size: clamp(24px, 2.8vw, 36px);
+  font-weight: 900; line-height: 1.35;
+  color: var(--c-black);
+}
+.hero-headline b { color: var(--c-red); }
+
+.hero-desc {
+  font-size: 16px; line-height: 1.9;
+  color: var(--c-muted); max-width: 470px; font-weight: 700;
+}
+
+.hero-cta-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 18px 38px; width: fit-content;
+  background: var(--c-black); color: var(--c-volt);
+  font-weight: 900; font-size: 15px;
+  border-radius: 12px; border: var(--border);
+  box-shadow: var(--shadow-lg);
+  transition: transform .12s cubic-bezier(.16,1,.3,1), box-shadow .12s;
+}
+.hero-cta-btn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--c-black); }
+
+.hero-subnote { font-size: 12px; font-weight: 800; color: var(--c-muted); }
+
+/* ══════════════════════════════════════════════
+   1:1 ACCURATE IPHONE MOCKUP & APP COMPONENTS
+══════════════════════════════════════════════ */
+.phone-col { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+
+.phone-shell {
+  width: 290px; height: 610px;
+  background: var(--c-black);
+  border-radius: 46px;
+  padding: 10px;
+  border: var(--border);
+  box-shadow:
+    0 0 0 7px rgba(26,26,26,.08),
+    8px 8px 0 var(--c-black),
+    0 40px 70px rgba(0,0,0,.15);
+  position: relative; flex-shrink: 0;
+}
+.phone-shell::before { content:''; position:absolute; right:-4px; top:100px; width:4px; height:38px; background:var(--c-black); border-radius:2px 0 0 2px; }
+.phone-shell::after { content:''; position:absolute; left:-4px; top:124px; width:4px; height:58px; background:var(--c-black); border-radius:0 2px 2px 0; }
+
+.dynamic-island {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 86px; height: 24px;
+  background: var(--c-black); border-radius: 12px;
+  z-index: 10; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.island-cam { width: 8px; height: 8px; border-radius: 50%; background: #222; border: 1px solid #333; }
+.island-sensor { width: 20px; height: 4px; border-radius: 2px; background: #222; }
+
+.phone-screen {
+  background: var(--c-sand);
+  border-radius: 36px;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+
+/* 1:1 REAL APP HEADER (RTL) */
+.real-app-header {
+  height: 44px; width: 100%; box-sizing: border-box;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 10px 0 10px; background: var(--c-sand); flex-shrink: 0; z-index: 5;
+}
+.app-user-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--c-paper); padding: 4px 10px;
+  border: 2px solid var(--c-black); border-radius: 999px;
+  font-weight: 900; font-size: 10.5px; box-shadow: 2px 2px 0 var(--c-black);
+}
+.app-user-avatar {
+  width: 18px; height: 18px; background: var(--c-red);
+  border: 1.5px solid var(--c-black); border-radius: 50%;
+  color: white; font-size: 9px; font-weight: 900;
+  display: grid; place-items: center;
+}
+.app-header-right { display: flex; align-items: center; gap: 6px; }
+.app-header-date { font-weight: 900; font-size: 9px; opacity: 0.8; }
+.app-streak-badge {
+  background: var(--c-volt); border: 2px solid var(--c-black);
+  border-radius: 999px; padding: 3px 8px; font-size: 9px; font-weight: 900;
+  box-shadow: 2px 2px 0 var(--c-black); white-space: nowrap;
+  display: flex; align-items: center; gap: 4px;
+}
+
+/* APP SCREEN CONTAINERS */
+.app-view-container { flex: 1; position: relative; overflow: hidden; }
+
+.app-screen {
+  position: absolute; inset: 0;
+  padding: 6px 10px 54px 10px;
+  display: flex; flex-direction: column; gap: 6px;
+  opacity: 0; transition: opacity .45s ease;
+  pointer-events: none;
+}
+.app-screen.active { opacity: 1; pointer-events: auto; }
+
+/* 1:1 REAL APP DOCK */
+.real-app-dock {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: calc(100% - 20px); height: 46px;
+  background: var(--c-black); border: 2.5px solid var(--c-black);
+  border-radius: 999px; display: flex; justify-content: space-between; align-items: center;
+  padding: 0 8px; box-shadow: 3px 3px 0 rgba(0,0,0,0.25); z-index: 10; box-sizing: border-box;
+}
+.dock-item-btn {
+  color: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center;
+  flex: 1; background: none; border: none; cursor: pointer; padding: 4px;
+}
+.dock-item-btn.active { color: var(--c-volt); transform: scale(1.1); }
+
+.dock-mascot-fab {
+  width: 48px; height: 48px; background: var(--c-volt); color: var(--c-black);
+  border: 2.5px solid var(--c-black); border-radius: 50%;
+  margin-top: -18px; display: grid; place-items: center;
+  box-shadow: 2.5px 2.5px 0 var(--c-black); flex-shrink: 0; cursor: pointer;
+}
+
+/* ── 1:1 DASHBOARD VIEW SLIDE ── */
+.d-top-bar { display: flex; gap: 2px; width: 100%; }
+.d-day-chip {
+  flex: 1; padding: 3px 0; text-align: center; font-size: 8px; font-weight: 900;
+  background: var(--c-paper); border: 1px solid var(--c-black); border-radius: 5px;
+}
+.d-day-chip.active { background: var(--c-black); color: var(--c-volt); }
+
+.d-hero-card {
+  background: var(--c-paper); border: 2px solid var(--c-black);
+  box-shadow: 3px 3px 0 var(--c-black); border-radius: 12px;
+  padding: 7px 9px; display: flex; flex-direction: column; gap: 6px;
+}
+.d-hero-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.d-cal-ring-box { position: relative; width: 56px; height: 56px; flex-shrink: 0; display: grid; place-items: center; }
+.d-ring-cals { font-size: 13px; font-weight: 900; color: var(--c-black); }
+.d-ring-target { font-size: 8px; font-weight: 800; opacity: 0.6; }
+
+.d-macros-col { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.d-macro-row { display: flex; flex-direction: column; gap: 1px; }
+.d-mr-hdr { display: flex; justify-content: space-between; font-size: 8px; font-weight: 900; }
+.d-mr-track { height: 6px; background: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden; border: 1px solid var(--c-black); }
+.d-mr-fill { height: 100%; border-left: 1.5px solid var(--c-black); }
+.d-mr-fill.protein { background: var(--c-red); }
+.d-mr-fill.carbs { background: #3B82F6; }
+.d-mr-fill.fats { background: #EAB308; }
+
+.d-log-food-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--c-paper); border: 2px solid var(--c-black);
+  padding: 6px; border-radius: 8px; font-weight: 900; font-size: 9px;
+  box-shadow: 2px 2px 0 var(--c-black);
+}
+
+.d-vitals-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+.d-vital-card {
+  position: relative; background: var(--c-paper); border: 1.5px solid var(--c-black);
+  border-radius: 8px; padding: 4px 6px; display: flex; align-items: center; justify-content: space-between; overflow: hidden;
+}
+.d-vital-val { font-weight: 900; font-size: 9px; display: block; }
+.d-vital-lbl { font-size: 6.5px; font-weight: 900; opacity: 0.6; text-transform: uppercase; }
+
+/* 1:1 Daily Quests Card */
+.real-quest-card {
+  padding: 7px 9px; background: var(--c-black); color: var(--c-paper);
+  border: 2px solid var(--c-black); box-shadow: 3px 3px 0 var(--c-volt);
+  border-radius: 10px; display: flex; flex-direction: column; gap: 4px; flex: 1; overflow: hidden;
+}
+.real-quest-hdr { display: flex; justify-content: space-between; align-items: center; }
+.real-quest-title { font-size: 8.5px; font-weight: 900; color: var(--c-volt); letter-spacing: 0.3px; }
+.real-quest-count { font-size: 7px; font-weight: 900; background: var(--c-volt); color: var(--c-black); border: 1px solid var(--c-black); padding: 1px 5px; border-radius: 4px; }
+
+.real-quest-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  padding: 4px 6px; background: var(--c-paper); color: var(--c-black);
+  border: 1.5px solid var(--c-black); border-radius: 6px;
+}
+.real-quest-xp { font-size: 7px; font-weight: 900; color: var(--c-black); background: var(--c-volt); padding: 1px 4px; border-radius: 3px; border: 1px solid var(--c-black); }
+
+.d-xp-card-compact {
+  padding: 5px 8px; background: var(--c-black); color: white;
+  border: 1.5px solid var(--c-black); border-radius: 8px; box-shadow: 2px 2px 0 var(--c-black);
+  display: flex; align-items: center; gap: 6px; font-size: 8px; font-weight: 900;
+}
+
+/* 1:1 Action Hero Button */
+.d-action-hero {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 10px; background: var(--c-volt); color: var(--c-black);
+  border: 2px solid var(--c-black); border-radius: 10px;
+  box-shadow: 3px 3px 0 var(--c-black); font-weight: 900; font-size: 9.5px;
+}
+.d-ah-icon { width: 22px; height: 22px; background: var(--c-black); color: var(--c-volt); border-radius: 6px; display: grid; place-items: center; }
+
+/* PHONE SWITCHER DOTS */
+.screen-dots { display: flex; gap: 8px; justify-content: center; }
+.dot-btn { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--c-black); background: transparent; padding: 0; cursor: pointer; transition: background .2s, transform .2s; }
+.dot-btn.active { background: var(--c-black); transform: scale(1.25); }
+
+/* ══════════════════════════════════════════════
+   MARQUEE TICKER
+══════════════════════════════════════════════ */
+.ticker-band {
+  border-top: var(--border); border-bottom: var(--border);
+  background: var(--c-black); color: white;
+  overflow: hidden; padding: 14px 0;
+}
+.ticker-track { display: flex; gap: 0; width: max-content; animation: marquee 28s linear infinite; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(50%); } }
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 32px; white-space: nowrap;
+  font-size: 13px; font-weight: 900; color: rgba(255,255,255,0.4);
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
+.ticker-item b { color: var(--c-volt); }
+
+/* ══════════════════════════════════════════════
+   FEATURE SHOWCASE
+══════════════════════════════════════════════ */
+.sec-header { text-align: center; margin-bottom: clamp(48px, 6vw, 80px); }
+.sec-label { font-size: 11px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: var(--c-muted); display: block; margin-bottom: 8px; }
+.sec-title { font-size: clamp(28px, 3.8vw, 48px); font-weight: 900; line-height: 1.25; }
+
+.feat-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; gap: clamp(32px, 5vw, 80px);
+  margin-bottom: clamp(60px, 8vw, 100px);
+}
+.feat-row:last-child { margin-bottom: 0; }
+
+.feat-copy { display: flex; flex-direction: column; gap: 16px; }
+.feat-num { font-size: 11px; font-weight: 900; letter-spacing: 1px; color: var(--c-muted); }
+.feat-h { font-size: clamp(24px, 3vw, 36px); font-weight: 900; line-height: 1.3; }
+.feat-h b { color: var(--c-red); }
+.feat-p { font-size: 15px; line-height: 1.9; color: var(--c-muted); font-weight: 700; }
+
+.feat-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.f-pill {
+  padding: 6px 14px; border-radius: 999px; border: var(--border);
+  font-size: 11px; font-weight: 900; background: var(--c-sand);
+  box-shadow: 2px 2px 0 var(--c-black);
+}
+.f-pill.highlight { background: var(--c-volt); }
+
+/* WIDGET PANELS */
+.widget-panel {
+  border: var(--border); border-radius: 16px;
+  overflow: hidden; box-shadow: var(--shadow-lg);
+  background: var(--c-paper);
+}
+
+/* 1. REPORTS WIDGET */
+.w-reports { background: var(--c-black); padding: 22px; color: white; display: flex; flex-direction: column; gap: 12px; }
+.w-rep-top { display: flex; justify-content: space-between; align-items: center; }
+.w-rep-title { font-size: 16px; font-weight: 900; color: var(--c-volt); }
+.w-rep-streak { background: var(--c-black); border: 2px solid var(--c-volt); border-radius: 999px; padding: 4px 12px; font-size: 11px; font-weight: 900; color: var(--c-volt); }
+
+.w-xp-card { background: white; color: var(--c-black); border-radius: 12px; padding: 14px; border: var(--border); box-shadow: var(--shadow); }
+.w-xp-hdr { display: flex; justify-content: space-between; align-items: center; font-size: 9px; font-weight: 900; opacity: 0.5; margin-bottom: 4px; }
+.w-xp-lvl { background: var(--c-black); color: var(--c-volt); border-radius: 4px; padding: 2px 8px; font-size: 9px; font-weight: 900; }
+.w-xp-big { font-size: 36px; font-weight: 900; line-height: 1; color: var(--c-black); }
+.w-xp-sub { font-size: 11px; font-weight: 800; opacity: 0.4; margin: 2px 0 8px 0; }
+.w-xp-track { height: 9px; background: rgba(0,0,0,0.06); border-radius: 4px; overflow: hidden; border: 1.5px solid var(--c-black); }
+.w-xp-fill { height: 100%; background: var(--c-volt); width: 0%; transition: width 1.5s cubic-bezier(.16,1,.3,1); }
+.w-xp-fill.animate { width: 68%; }
+
+/* 2. MEAL DRAWER WIDGET */
+.w-meal { background: var(--c-sand); padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+.w-meal-hdr { display: flex; justify-content: space-between; align-items: center; }
+.w-meal-t { font-size: 16px; font-weight: 900; }
+.w-meal-d { font-size: 11px; font-weight: 800; color: var(--c-muted); }
+
+.w-meal-card {
+  background: var(--c-paper); color: var(--c-black); border-radius: 12px;
+  padding: 14px; display: flex; gap: 14px; align-items: center;
+  border: var(--border); box-shadow: var(--shadow);
+}
+.w-meal-ring { position: relative; width: 68px; height: 68px; flex-shrink: 0; display: grid; place-items: center; }
+.w-ring-info { position: absolute; display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.w-cals { font-size: 14px; font-weight: 900; color: var(--c-black); }
+.w-of { font-size: 8px; font-weight: 800; opacity: 0.5; }
+
+.w-meal-item {
+  background: var(--c-paper); border: var(--border); border-radius: 10px;
+  padding: 9px 12px; display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 2px 2px 0 var(--c-black);
+}
+.w-food-name { font-size: 12px; font-weight: 900; }
+.w-food-macros { font-size: 9px; font-weight: 800; opacity: 0.5; }
+.w-food-cals { font-size: 11px; font-weight: 900; color: var(--c-red); }
+
+.w-meal-btn {
+  background: var(--c-paper); color: var(--c-black); border: var(--border);
+  border-radius: 10px; padding: 10px; text-align: center; font-size: 12px; font-weight: 900;
+  box-shadow: var(--shadow);
+}
+
+/* 3. QUESTS WIDGET */
+.w-quests { background: var(--c-black); padding: 22px; color: white; display: flex; flex-direction: column; gap: 10px; border-radius: 14px; }
+.w-q-hdr { display: flex; justify-content: space-between; align-items: center; }
+.w-q-title { font-size: 14px; font-weight: 900; color: var(--c-volt); letter-spacing: 0.5px; }
+.w-q-cnt { font-size: 10px; font-weight: 900; background: var(--c-volt); color: var(--c-black); border: 1.5px solid var(--c-black); padding: 2px 8px; border-radius: 5px; }
+
+.w-q-row {
+  background: var(--c-paper); color: var(--c-black); border: 2px solid var(--c-black);
+  border-radius: 8px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;
+}
+.w-q-name { font-size: 12px; font-weight: 900; }
+.w-q-xp { font-size: 9px; font-weight: 900; background: var(--c-volt); color: var(--c-black); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--c-black); }
+
+/* ══════════════════════════════════════════════
+   EARLY ACCESS FORM SECTION
+══════════════════════════════════════════════ */
+.access-section { background: var(--c-black); color: white; border-top: var(--border); }
+
+.access-grid {
+  display: grid; grid-template-columns: 1fr 1.1fr;
+  gap: clamp(40px, 6vw, 80px); align-items: start;
+}
+.access-info { display: flex; flex-direction: column; gap: 20px; padding-top: 8px; }
+.access-h { font-size: clamp(30px, 4vw, 50px); font-weight: 900; line-height: 1.2; }
+.access-p { font-size: 15px; line-height: 1.9; color: rgba(255,255,255,0.5); font-weight: 700; }
+
+.honest-box {
+  background: rgba(255,255,255,0.04);
+  border: 1.5px solid rgba(255,255,255,0.08); border-radius: 14px;
+  padding: 20px;
+}
+.honest-box p { font-size: 14px; line-height: 1.9; color: rgba(255,255,255,0.6); font-weight: 700; }
+.honest-box strong { color: white; }
+
+.form-card {
+  background: var(--c-sand); color: var(--c-black);
+  border: var(--border); border-radius: 20px;
+  padding: clamp(28px, 4vw, 44px);
+  display: flex; flex-direction: column; gap: 16px;
+  box-shadow: 6px 6px 0 rgba(255,255,255,0.08);
+}
+.form-card h3 { font-size: 22px; font-weight: 900; }
+.f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.f-group { display: flex; flex-direction: column; gap: 6px; }
+.f-group label { font-size: 11px; font-weight: 900; letter-spacing: 0.5px; color: var(--c-muted); }
+.f-group input, .f-group select, .f-group textarea {
+  width: 100%; padding: 13px 15px;
+  border: var(--border); border-radius: 99px;
+  font-family: var(--font); font-weight: 800; font-size: 14px;
+  background: var(--c-paper); color: var(--c-black);
+  outline: none; transition: box-shadow .15s;
+  -webkit-appearance: none; appearance: none;
+}
+.f-group input:focus, .f-group select:focus, .f-group textarea:focus { box-shadow: 0 0 0 3px rgba(224,255,0,0.5); }
+.f-group textarea { border-radius: 14px; resize: vertical; min-height: 85px; line-height: 1.7; }
+
+.f-check { flex-direction: row; align-items: flex-start; gap: 10px; }
+.f-check input { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; accent-color: var(--c-black); cursor: pointer; padding: 0; }
+.f-check label { font-size: 13px; font-weight: 800; text-transform: none; letter-spacing: 0; color: var(--c-muted); cursor: pointer; line-height: 1.6; }
+
+.submit-btn {
+  width: 100%; padding: 18px;
+  background: var(--c-black); color: var(--c-volt);
+  font-family: var(--font); font-weight: 900; font-size: 15px;
+  border-radius: 99px; border: var(--border);
+  box-shadow: var(--shadow);
+  transition: transform .12s cubic-bezier(.16,1,.3,1), box-shadow .12s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.submit-btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--c-black); }
+
+.form-success {
+  background: var(--c-sand); color: var(--c-black);
+  border: var(--border); border-radius: 20px;
+  padding: 60px 44px; text-align: center;
+  display: none; flex-direction: column; align-items: center; gap: 16px;
+}
+.succ-ring {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--c-volt); border: 3px solid var(--c-black);
+  display: grid; place-items: center;
+  font-size: 30px; font-weight: 900; color: var(--c-black);
+  box-shadow: var(--shadow);
+  animation: popIn .5s cubic-bezier(.16,1,.3,1) both;
+}
+
+/* FOOTER & PIN CODE ACCESS */
+footer {
+  background: var(--c-black); color: white;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 40px clamp(20px, 5vw, 64px);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+}
+.ft-brand { font-family: var(--font); font-size: 28px; font-weight: 900; color: var(--c-volt); }
+.ft-copy { font-size: 12px; font-weight: 800; color: rgba(255,255,255,0.3); }
+
+/* PIN Passcode Access Box */
+.pin-access-box {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 12px; padding: 6px 12px;
+}
+.pin-label { font-size: 10px; font-weight: 900; color: var(--c-volt); letter-spacing: 0.5px; }
+.pin-input {
+  width: 70px; padding: 6px 10px; text-align: center;
+  border: 1.5px solid var(--c-volt); border-radius: 8px;
+  font-family: monospace; font-weight: 900; font-size: 14px;
+  background: var(--c-black); color: var(--c-volt); outline: none;
+  letter-spacing: 2px;
+}
+.pin-input::placeholder { color: rgba(224,255,0,0.4); font-size: 10px; letter-spacing: 0; }
+
+@media(max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; padding-bottom: 40px; }
+  .phone-col { margin-top: 20px; }
+  .feat-row { grid-template-columns: 1fr; gap: 32px; }
+  .access-grid { grid-template-columns: 1fr; }
+  .f-row { grid-template-columns: 1fr; }
+  footer { flex-direction: column; text-align: center; }
+}
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="nav-brand">
+    <span class="nav-logo-ar">عجوة</span>
+  </div>
+  <div class="nav-actions">
+    <a href="index.html" class="lang-switch">English</a>
+    <a href="#join" class="nav-cta">طلب انضمام ←</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="wrap">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-badge r">
+        <span class="badge-dot"></span>
+        الوصول المبكر مفتوح الآن
+      </div>
+      
+      <div class="brand-titles r d1">
+        <div class="brand-ar-title">عجوة</div>
+        <div class="brand-sub-tag">تتبع التغذية والتمارين بالأسلوب التكتيكي</div>
+      </div>
+
+      <h1 class="hero-headline r d2">
+        تطبيق تتبع لياقتك.<br/>
+        مصمم مثل <b>اللعبة.</b>
+      </h1>
+
+      <p class="hero-desc r d3">
+        تتبع وجباتك، سجل تمارينك، أنجز المهام اليومية، وشاهد نقاط XP تتصاعد. بدون جداول معقدة. بدون مساحات بيضاء مملة. نظام محفز مبني للالتزام اليومي.
+      </p>
+
+      <a href="#join" class="hero-cta-btn r d4">
+        طلب الوصول المبكر ←
+      </a>
+      <p class="hero-subnote r d4">مجاني بالكامل أثناء فترة الوصول المبكر</p>
+    </div>
+
+    <!-- 1:1 IPHONE MOCKUP WITH 0 EMOJIS -->
+    <div class="phone-col rr d2">
+      <div class="phone-shell">
+        <div class="dynamic-island">
+          <div class="island-cam"></div>
+          <div class="island-sensor"></div>
+        </div>
+        
+        <div class="phone-screen">
+          <!-- 1:1 HEADER COMPONENT -->
+          <div class="real-app-header">
+            <div class="app-user-chip">
+              <div class="app-user-avatar">س</div>
+              <span>سعيد</span>
+            </div>
+            <div class="app-header-right">
+              <span class="app-header-date">٣٠ يوليو</span>
+              <div class="app-streak-badge">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                ١٤ يوم
+              </div>
+            </div>
+          </div>
+
+          <!-- APP VIEW SLIDES CONTAINER -->
+          <div class="app-view-container">
+            <!-- COACH HUB SCREEN SLIDE (RTL) -->
+            <div class="app-screen active" id="scCoach">
+              <div style="background:var(--c-black);color:white;border-radius:10px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;border:1.5px solid var(--c-black);box-shadow:2px 2px 0 var(--c-volt)">
+                <div>
+                  <div style="font-size:10px;font-weight:900;color:var(--c-volt)">مركز التدريب والمتابعة</div>
+                  <div style="font-size:7.5px;opacity:0.6">تدقيق المغذيات المباشر للمتدربين</div>
+                </div>
+                <span style="background:var(--c-volt);color:var(--c-black);font-size:8px;font-weight:900;padding:2px 6px;border-radius:4px">٣ متدربين</span>
+              </div>
+
+              <!-- Trainee 1 Card (Macro Lag Alert) -->
+              <div style="background:var(--c-paper);border:1.5px solid var(--c-red);border-radius:10px;padding:7px 9px;display:flex;flex-direction:column;gap:5px;box-shadow:2px 2px 0 var(--c-red)">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <div style="display:flex;align-items:center;gap:6px">
+                    <div style="width:20px;height:20px;background:var(--c-black);color:var(--c-volt);border-radius:50%;font-size:9px;font-weight:900;display:grid;place-items:center">ف</div>
+                    <div>
+                      <div style="font-size:10px;font-weight:900;line-height:1">فهد العتيبي</div>
+                      <div style="font-size:7px;opacity:0.5">إعادة تشكيل الجسم · نشط منذ ١٢ دقيقة</div>
+                    </div>
+                  </div>
+                  <span style="font-size:7px;font-weight:900;background:#FFE4E6;color:var(--c-red);padding:2px 5px;border-radius:4px;border:1px solid var(--c-red)">⚠️ نقص بروتين</span>
+                </div>
+
+                <div style="background:rgba(0,0,0,0.03);border:1px solid var(--c-black);border-radius:6px;padding:5px;display:flex;flex-direction:column;gap:3px">
+                  <div style="display:flex;justify-content:space-between;font-size:7.5px;font-weight:900"><span>البروتين</span><span>١٥٢ج / ١٨٠ج</span></div>
+                  <div style="height:4px;background:rgba(0,0,0,0.08);border-radius:2px;overflow:hidden;border:1px solid var(--c-black)"><div style="height:100%;width:84%;background:var(--c-gold)"></div></div>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;background:var(--c-volt);color:var(--c-black);padding:4px 6px;border-radius:6px;border:1px solid var(--c-black);font-size:8px;font-weight:900">
+                  <span>إرسال توجيه: +٢٥ج بروتين</span>
+                  <span>إرسال ←</span>
+                </div>
+              </div>
+
+              <!-- Trainee 2 Card (On Target) -->
+              <div style="background:var(--c-paper);border:1.5px solid var(--c-black);border-radius:10px;padding:7px 9px;display:flex;flex-direction:column;gap:4px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <div style="display:flex;align-items:center;gap:6px">
+                    <div style="width:20px;height:20px;background:var(--c-black);color:var(--c-volt);border-radius:50%;font-size:9px;font-weight:900;display:grid;place-items:center">ط</div>
+                    <div>
+                      <div style="font-size:10px;font-weight:900;line-height:1">طارق منصور</div>
+                      <div style="font-size:7px;opacity:0.5">خسارة دهون · نشط منذ ساعة</div>
+                    </div>
+                  </div>
+                  <span style="font-size:7px;font-weight:900;background:#DCFCE7;color:#15803D;padding:2px 5px;border-radius:4px;border:1px solid #15803D">✓ ملتزم بالخطة</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DASHBOARD SCREEN SLIDE -->
+            <div class="app-screen" id="scDash">
+              <div class="d-top-bar">
+                <div class="d-day-chip">ن</div>
+                <div class="d-day-chip">ث</div>
+                <div class="d-day-chip">ر</div>
+                <div class="d-day-chip active">خ</div>
+                <div class="d-day-chip">ج</div>
+                <div class="d-day-chip">س</div>
+                <div class="d-day-chip">ح</div>
+              </div>
+
+              <!-- 1:1 Calorie & Macro Hero Card -->
+              <div class="d-hero-card">
+                <div class="d-hero-top">
+                  <div class="d-cal-ring-box">
+                    <svg viewBox="0 0 76 76" style="width:100%;height:100%">
+                      <circle cx="38" cy="38" r="34" stroke="rgba(0,0,0,0.08)" stroke-width="7" fill="none"/>
+                      <circle cx="38" cy="38" r="34" stroke="#D62828" stroke-width="7" fill="none"
+                        stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="64"
+                        transform="rotate(-90 38 38)"/>
+                    </svg>
+                    <div style="position:absolute;display:flex;flex-direction:column;align-items:center">
+                      <span class="d-ring-cals">١,٤٨٠</span>
+                      <span class="d-ring-target">/٢٠٠٠</span>
+                    </div>
+                  </div>
+                  <div class="d-macros-col">
+                    <div class="d-macro-row">
+                      <div class="d-mr-hdr"><span>بروتين</span><span>١٤٨ج / ١٨٠ج</span></div>
+                      <div class="d-mr-track"><div class="d-mr-fill protein" style="width:82%"></div></div>
+                    </div>
+                    <div class="d-macro-row">
+                      <div class="d-mr-hdr"><span>كاربووهيدرات</span><span>١٦٠ج / ٢٤٠ج</span></div>
+                      <div class="d-mr-track"><div class="d-mr-fill carbs" style="width:67%"></div></div>
+                    </div>
+                    <div class="d-macro-row">
+                      <div class="d-mr-hdr"><span>دهون</span><span>٤٢ج / ٦٥ج</span></div>
+                      <div class="d-mr-track"><div class="d-mr-fill fats" style="width:64%"></div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-log-food-btn">+ تسجيل وجبة</div>
+              </div>
+
+              <!-- Vitals Grid -->
+              <div class="d-vitals-row">
+                <div class="d-vital-card">
+                  <div>
+                    <span class="d-vital-val">٢.٠ لتر</span>
+                    <span class="d-vital-lbl">المستهدف</span>
+                  </div>
+                  <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:#3B82F6;opacity:0.5"></div>
+                </div>
+                <div class="d-vital-card">
+                  <div>
+                    <span class="d-vital-val">٨٣.٢ كجم</span>
+                    <span class="d-vital-lbl">الوزن</span>
+                  </div>
+                </div>
+                <div class="d-vital-card" style="background:#DCFCE7;border-color:#15803D">
+                  <div>
+                    <span class="d-vital-val" style="color:#14532D">مكتمل</span>
+                    <span class="d-vital-lbl" style="color:#15803D">+٥٠ XP</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 1:1 Daily Battle Quests Component -->
+              <div class="real-quest-card">
+                <div class="real-quest-hdr">
+                  <span class="real-quest-title">المهام اليومية التكتيكية</span>
+                  <span class="real-quest-count">٢ / ٤ مكتمل</span>
+                </div>
+                <div class="real-quest-item">
+                  <span style="font-size:8px;font-weight:900">تسجيل وجبة الإفطار</span>
+                  <span class="real-quest-xp">+٣٠ XP</span>
+                </div>
+                <div class="real-quest-item">
+                  <span style="font-size:8px;font-weight:900">تسجيل الحضور اليومي</span>
+                  <span class="real-quest-xp">+٥٠ XP</span>
+                </div>
+              </div>
+
+              <!-- Compact XP Progress Card -->
+              <div class="d-xp-card-compact">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#E0FF00"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>مستوى ٨</span>
+                <div style="flex:1;height:5px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden"><div style="height:100%;width:68%;background:var(--c-volt)"></div></div>
+                <span style="opacity:0.6">٣٢٤٠ XP</span>
+              </div>
+
+              <!-- 1:1 Direct Start Workout Hero Button -->
+              <div class="d-action-hero">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="d-ah-icon">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 0 1 2 2v4a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6V10"/></svg>
+                  </div>
+                  <span>بدء جلسة التمرين</span>
+                </div>
+                <span style="background:var(--c-black);color:var(--c-volt);padding:2px 8px;border-radius:99px;font-size:9px">←</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1:1 REAL APP DOCK (RTL Vector Icons, 0 Emojis) -->
+          <div class="real-app-dock">
+            <button class="dock-item-btn active" title="الرئيسية">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </button>
+            <button class="dock-item-btn" title="التمارين">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 0 1 2 2v4a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6V10"/></svg>
+            </button>
+
+            <!-- Mascot FAB SVG Palm Render -->
+            <div class="dock-mascot-fab" title="مساعد عجوة الذكي">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9.5 8.5H2L7.5 13L5.5 20L12 15.5L18.5 20L16.5 13L22 8.5H14.5L12 2Z"/></svg>
+            </div>
+
+            <button class="dock-item-btn" title="مجتمع الأبطال">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </button>
+            <button class="dock-item-btn" title="الملف الشخصي">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
+          </div>
+
+        </div><!-- phone-screen -->
+      </div><!-- phone-shell -->
+    </div>
+  </div>
+</div>
+
+<!-- TICKER BAND -->
+<div class="ticker-band">
+  <div class="ticker-track" aria-hidden="true">
+    <div class="ticker-item"><b>+٥٠ XP</b> تسجيل حضور متواصل</div>
+    <div class="ticker-item"><b>رقم قياسي</b> بنش بريس ١٠٠ كجم</div>
+    <div class="ticker-item"><b>٢,١٠٠ سعرة</b> مسجلة اليوم</div>
+    <div class="ticker-item"><b>ترقية للمستوى ٩</b> تم كسب الخبرة</div>
+    <div class="ticker-item"><b>١٤ يوم</b> سحابة التزام نشطة</div>
+    <div class="ticker-item"><b>+٧٥ XP</b> تم استلام مكافأة المهمة</div>
+  </div>
+</div>
+
+<!-- EARLY ACCESS FORM -->
+<section class="access-section" id="join">
+  <div class="wrap">
+    <div class="access-grid">
+      <div class="access-info">
+        <div class="r">
+          <span class="sec-label" style="color:rgba(255,255,255,0.4)">مقاعد محدودة</span>
+          <h2 class="access-h">نحن نحدد عدد المستخدمين بعناية.</h2>
+        </div>
+
+        <p class="access-p r d1">
+          تطبيق عجوة مجاني بالكامل خلال مرحلة الوصول المبكر. نضمن تقديم تجربة عالية الجودة لكل رياضي.
+        </p>
+
+        <div class="honest-box r d2">
+          <p>
+            <strong>ملاحظة صريحة:</strong> نحن فريق سعودي نطور التطبيق الذي نستخدمه يومياً في تماريننا. انضمامك يمنحك وصولاً مباشراً للتحديثات اليومية.
+          </p>
+        </div>
+      </div>
+
+      <div class="r d1" id="formWrap">
+        <form class="form-card" id="accessForm" onsubmit="handleSubmit(event)">
+          <h3>طلب الانضمام للوصول المبكر</h3>
+          <div class="f-row">
+            <div class="f-group"><label for="fn">الاسم الأول</label><input type="text" id="fn" name="fn" placeholder="سعيد" required/></div>
+            <div class="f-group"><label for="ln">اسم العائلة</label><input type="text" id="ln" name="ln" placeholder="الغامدي"/></div>
+          </div>
+
+          <div class="f-group"><label for="em">البريد الإلكتروني</label><input type="email" id="em" name="em" placeholder="name@email.com" required/></div>
+
+          <div class="f-group">
+            <label for="gl">الهدف الرياضي الرئيسي</label>
+            <select id="gl" name="gl" required>
+              <option value="" disabled selected>اختر هدفك الأساسي</option>
+              <option value="muscle">بناء العضلات والقوة</option>
+              <option value="fat_loss">خسارة الدهون وإعادة التشكيل</option>
+              <option value="performance">الأداء الرياضي العالي</option>
+              <option value="consistency">الالتزام بالروتين اليومي</option>
+            </select>
+          </div>
+
+          <div class="f-group">
+            <label for="wy">لماذا ترغب في تجربة عجوة؟</label>
+            <textarea id="wy" name="wy" placeholder="التطبيقات الأخرى مملة وتشبه جداول المستشفيات. أريد نظاماً تفاعلياً محفزاً..." required></textarea>
+          </div>
+
+          <div class="f-group f-check">
+            <input type="checkbox" id="cm" name="cm" required/>
+            <label for="cm">أوافق على تجربة النسخة المبكرة وتقديم الملاحظات الصريحة.</label>
+          </div>
+
+          <button type="submit" class="submit-btn" id="subBtn">
+            <span id="subTxt">إرسال طلب الانضمام ←</span>
+            <span id="subLod" style="display:none">جاري الإرسال…</span>
+          </button>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          <div class="succ-ring">✓</div>
+          <h3>تمت إضافة طلبك بنجاح!</h3>
+          <p>سنراجع طلبك ونرسل لك دعوة الانضمام عبر البريد الإلكتروني قريباً.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER WITH PIN 555 CODE ACCESS -->
+<footer>
+  <div class="ft-brand">عجوة</div>
+  
+  <div class="pin-access-box">
+    <span class="pin-label">رمز دخول المطورين:</span>
+    <input type="password" maxlength="3" id="pinInput" class="pin-input" placeholder="555" oninput="checkPin(this.value)"/>
+  </div>
+
+  <p class="ft-copy">© ٢٠٢٥ عجوة · جميع الحقوق محفوظة · نظام تكتيكي لتتبع التغذية</p>
+</footer>
+
+<script>
+// PIN CODE 555 ACCESS PASSCODE HANDLER
+function checkPin(val) {
+  if (val === '555') {
+    localStorage.setItem('ajwaa_preset_unlocked', 'true');
+    // Launch preset app dashboard view directly
+    window.location.href = '../index.html';
+  }
+}
+
+// SCROLL REVEAL
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.r,.rl,.rr').forEach(el => io.observe(el));
+
+// FORM SUBMISSION
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('subBtn'), txt = document.getElementById('subTxt'), lod = document.getElementById('subLod');
+  const form = document.getElementById('accessForm'), succ = document.getElementById('formSuccess');
+  
+  const data = { fn: fn.value.trim(), ln: ln.value.trim(), em: em.value.trim(), gl: gl.value, wy: wy.value.trim(), ts: new Date().toISOString() };
+  const existing = JSON.parse(localStorage.getItem('ajwaa_ar_reqs') || '[]');
+  existing.push(data);
+  localStorage.setItem('ajwaa_ar_reqs', JSON.stringify(existing));
+
+  btn.disabled = true; txt.style.display = 'none'; lod.style.display = 'inline';
+  setTimeout(() => {
+    form.style.display = 'none';
+    succ.style.display = 'flex';
+    succ.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 800);
+}
+</script>
+
+</body>
+</html>
