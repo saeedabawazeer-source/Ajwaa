@@ -207,7 +207,7 @@ export default function SaeedProtocolView() {
 - **Rows**: ${day?.anytime?.rows || 0}/125
 - **Stomach Vacuums**: ${day?.anytime?.vacuums || 0}/15
 - **Hollow Holds**: ${day?.anytime?.hollow || 0}/7
-- **Growth Session**: ${growthDoneCount === GROWTH.length ? "Completed 🔥" : \`\${growthDoneCount}/\${GROWTH.length} done\`}`;
+- **Growth Session**: ${growthDoneCount === GROWTH.length ? "Completed 🔥" : `${growthDoneCount}/${GROWTH.length} done`}`;
     try {
       await navigator.clipboard.writeText(md);
       alert("Copied to clipboard for Obsidian!");
