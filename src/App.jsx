@@ -25,12 +25,21 @@ export default function App() {
   const store = useStore();
   const { state } = store;
 
-  const isSaeedRoute = typeof window !== 'undefined' && (
-    window.location.pathname.includes('/saeed') || 
-    window.location.hash === '#saeed'
-  );
+  const [activeView, setActiveView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname.includes('/saeed') || window.location.hash === '#saeed') {
+        localStorage.setItem('ajwaa_last_view', 'saeed');
+        return 'saeed';
+      }
+      return localStorage.getItem('ajwaa_last_view') || 'dashboard';
+    }
+    return 'dashboard';
+  });
 
-  const [activeView, setActiveView] = useState(isSaeedRoute ? 'saeed' : 'dashboard');
+  useEffect(() => {
+    localStorage.setItem('ajwaa_last_view', activeView);
+  }, [activeView]);
+
   const [chatOpen, setChatOpen] = useState(false);
   const [mealOpen, setMealOpen] = useState(false);
   const [mealSlot, setMealSlot] = useState('snacks');

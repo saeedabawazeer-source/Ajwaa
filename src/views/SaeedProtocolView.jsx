@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Bell } from 'lucide-react'; // For the notification bell
+import { Bell, Copy } from 'lucide-react'; // For the notification bell and export
 
 const TODAY_KEY = () => {
   const d = new Date();
@@ -11,7 +11,6 @@ const ANYTIME = [
   { id: "rows", label: "Back Rows", unit: "reps", target: 125, step: 10, color: "#FFC93C" },
   { id: "vacuums", label: "Stomach Vacs", unit: "sets", target: 15, step: 1, color: "#C0FF72" },
   { id: "hollow", label: "Hollow Holds", unit: "sets", target: 7, step: 1, color: "#01A0A1" },
-  { id: "water", label: "Water", unit: "cups", target: 12, step: 1, color: "#3B82F6" },
 ];
 
 const GROWTH = [
@@ -59,7 +58,7 @@ function useDay(dateKey) {
 
 function Bar({ pct, color }) {
   return (
-    <div style={{ height: 10, background: "#fff", border: "2px solid #111", position: "relative", overflow: "hidden" }}>
+    <div style={{ height: 10, background: "#fff", border: "2px solid #111", borderRadius: 6, position: "relative", overflow: "hidden" }}>
       <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: color, transition: "width 200ms" }} />
     </div>
   );
@@ -70,7 +69,8 @@ function AnytimeCard({ cfg, value, onChange }) {
   const done = value >= cfg.target;
   return (
     <div style={{
-      border: "3px solid #111",
+      border: "2px solid #111",
+      borderRadius: 16,
       background: done ? cfg.color : "#fff",
       boxShadow: "3px 3px 0 #111",
       padding: "8px 10px",
@@ -101,6 +101,7 @@ function btnStyle(bg) {
   return {
     flex: 1,
     border: "2px solid #111",
+    borderRadius: 8,
     background: bg,
     fontFamily: "'Archivo Black', sans-serif",
     fontSize: 10,
@@ -111,6 +112,26 @@ function btnStyle(bg) {
   };
 }
 
+function WaterWidget({ value, onChange }) {
+  const target = 12;
+  const pct = (value / target) * 100;
+  return (
+    <div style={{
+      border: "2px solid #111", borderRadius: 16, background: value >= target ? "#3B82F6" : "#fff",
+      boxShadow: "3px 3px 0 #111", padding: "8px 12px", display: "flex", gap: 12, alignItems: "center"
+    }}>
+      <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 13, textTransform: "uppercase" }}>WATER</div>
+      <div style={{ flex: 1, height: 12, background: "#fff", border: "2px solid #111", borderRadius: 6, overflow: "hidden" }}>
+        <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: "#3B82F6", transition: "width 200ms" }} />
+      </div>
+      <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14 }}>{value}<span style={{ fontSize: 10, opacity: 0.6 }}>/{target}</span></span>
+        <button onClick={() => onChange(value + 1)} style={{ background: "#3B82F6", border: "2px solid #111", borderRadius: 8, padding: "4px 10px", fontFamily: "'Archivo Black', sans-serif", cursor: "pointer", boxShadow: "2px 2px 0 #111" }}>+1</button>
+      </div>
+    </div>
+  );
+}
+
 function GrowthRow({ cfg, count, onToggle }) {
   return (
     <div
@@ -119,7 +140,8 @@ function GrowthRow({ cfg, count, onToggle }) {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        border: "3px solid #111",
+        border: "2px solid #111",
+        borderRadius: 16,
         background: count >= 4 ? "#111" : "#fff",
         color: count >= 4 ? "#F5F0E6" : "#111",
         padding: "6px 10px",
@@ -138,6 +160,7 @@ function GrowthRow({ cfg, count, onToggle }) {
           <div key={i} style={{
             width: 12, height: 12,
             border: "2px solid " + (count >= 4 ? "#F5F0E6" : "#111"),
+            borderRadius: 4,
             background: i < count ? "#C0FF72" : "transparent",
           }} />
         ))}
@@ -172,9 +195,26 @@ export default function SaeedProtocolView() {
     save({ ...day, growth: { ...(day?.growth || {}), [id]: next } });
   };
 
-  const anytimeDoneCount = ANYTIME.filter((c) => (day?.anytime?.[c.id] || 0) >= c.target).length;
+  const anytimeDoneCount = ANYTIME.filter((c) => (day?.anytime?.[c.id] || 0) >= c.target).length + ((day?.anytime?.water || 0) >= 12 ? 1 : 0);
   const growthDoneCount = GROWTH.filter((c) => (day?.growth?.[c.id] || 0) >= 4).length;
-  const allDone = anytimeDoneCount === ANYTIME.length && growthDoneCount === GROWTH.length && day?.bend;
+  const allDone = anytimeDoneCount === ANYTIME.length + 1 && growthDoneCount === GROWTH.length && day?.bend;
+
+  const exportToObsidian = async () => {
+    const md = `### Buff Protocol — ${dateKey}
+- **Bend (Yoga)**: ${day?.bend ? "Done ✅" : "Missed ❌"}
+- **Water**: ${day?.anytime?.water || 0}/12 cups
+- **Push-ups**: ${day?.anytime?.pushups || 0}/500
+- **Rows**: ${day?.anytime?.rows || 0}/125
+- **Stomach Vacuums**: ${day?.anytime?.vacuums || 0}/15
+- **Hollow Holds**: ${day?.anytime?.hollow || 0}/7
+- **Growth Session**: ${growthDoneCount === GROWTH.length ? "Completed 🔥" : \`\${growthDoneCount}/\${GROWTH.length} done\`}`;
+    try {
+      await navigator.clipboard.writeText(md);
+      alert("Copied to clipboard for Obsidian!");
+    } catch {
+      alert("Failed to copy");
+    }
+  };
 
   return (
     <div style={{
@@ -201,14 +241,24 @@ export default function SaeedProtocolView() {
           </div>
           <div style={{ fontSize: 10, opacity: 0.7, marginTop: 2 }}>{dateKey} {allDone && "· ALL DONE 🔥"}</div>
         </div>
-        <button 
-          onClick={requestNotif}
-          style={{ 
-            background: notifPerm === 'granted' ? '#C0FF72' : '#F5F0E6', 
-            border: '2px solid #111', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' 
-          }}>
-          <Bell size={18} color="#111" />
-        </button>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button 
+            onClick={exportToObsidian}
+            style={{ 
+              background: '#F5F0E6', 
+              border: '2px solid #111', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' 
+            }}>
+            <Copy size={18} color="#111" />
+          </button>
+          <button 
+            onClick={requestNotif}
+            style={{ 
+              background: notifPerm === 'granted' ? '#C0FF72' : '#F5F0E6', 
+              border: '2px solid #111', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' 
+            }}>
+            <Bell size={18} color="#111" />
+          </button>
+        </div>
       </div>
 
       {/* Main Content Pane (Scrollable if absolutely needed on tiny phones, but mostly fits) */}
@@ -218,10 +268,11 @@ export default function SaeedProtocolView() {
         <div
           onClick={() => save({ ...day, bend: !day.bend })}
           style={{
-            border: "3px solid #111",
-            background: day.bend ? "#01A0A1" : "#fff",
-            color: day.bend ? "#F5F0E6" : "#111",
-            boxShadow: "4px 4px 0 #111",
+            border: "2px solid #111",
+            borderRadius: 16,
+            background: day?.bend ? "#01A0A1" : "#fff",
+            color: day?.bend ? "#F5F0E6" : "#111",
+            boxShadow: "3px 3px 0 #111",
             padding: "10px 14px",
             display: "flex",
             justifyContent: "space-between",
@@ -233,18 +284,19 @@ export default function SaeedProtocolView() {
             <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14, textTransform: "uppercase" }}>Bend (Yoga)</div>
           </div>
           <div style={{
-            width: 24, height: 24, border: "2px solid " + (day.bend ? "#F5F0E6" : "#111"),
+            width: 24, height: 24, border: "2px solid " + (day?.bend ? "#F5F0E6" : "#111"), borderRadius: 8,
             display: "flex", alignItems: "center", justifyContent: "center",
             fontFamily: "'Archivo Black', sans-serif", fontSize: 12
-          }}>{day.bend ? "✓" : ""}</div>
+          }}>{day?.bend ? "✓" : ""}</div>
         </div>
 
         {/* Anytime List */}
         <div>
           <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 11, textTransform: "uppercase", marginBottom: 6, borderBottom: "2px solid #111", paddingBottom: 2 }}>
-            Anytime List — {anytimeDoneCount}/{ANYTIME.length}
+            Anytime List — {anytimeDoneCount}/{ANYTIME.length + 1}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+          <WaterWidget value={day?.anytime?.water || 0} onChange={(v) => setAnytime("water", v)} />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
             {ANYTIME.map((cfg) => (
               <AnytimeCard key={cfg.id} cfg={cfg} value={day?.anytime?.[cfg.id] || 0} onChange={(v) => setAnytime(cfg.id, v)} />
             ))}
