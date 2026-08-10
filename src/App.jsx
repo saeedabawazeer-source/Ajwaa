@@ -25,14 +25,17 @@ export default function App() {
   const store = useStore();
   const { state } = store;
 
+  const isStandalone = typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches;
+
   const isSaeedRoute = typeof window !== 'undefined' && (
     window.location.pathname.includes('/saeed') || 
-    window.location.hash === '#saeed'
+    window.location.hash === '#saeed' ||
+    isStandalone
   );
 
   const [activeView, setActiveView] = useState(() => {
     if (typeof window !== 'undefined') {
-      if (window.location.pathname.includes('/saeed') || window.location.hash === '#saeed') {
+      if (window.location.pathname.includes('/saeed') || window.location.hash === '#saeed' || isStandalone) {
         localStorage.setItem('ajwaa_last_view', 'saeed');
         return 'saeed';
       }
