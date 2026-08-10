@@ -71,7 +71,7 @@ export default function App() {
     return <Landing onStart={() => setShowLanding(false)} />;
   }
 
-  if (!state.onboardingComplete) {
+  if (!state.onboardingComplete && !isSaeedRoute && activeView !== 'saeed') {
     return <Onboarding onComplete={store.completeOnboarding} />;
   }
 

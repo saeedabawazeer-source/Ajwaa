@@ -19,9 +19,9 @@ export default function SaeedProtocolView() {
 
     // Vacuum / Hold Timer State
     const [timerRunning, setTimerRunning] = useState(false);
-    const [timerTarget, setTimerTarget] = useState(45); // 30s or 45s or 60s
+    const [timerTarget, setTimerTarget] = useState(45);
     const [timeLeft, setTimeLeft] = useState(45);
-    const [timerType, setTimerType] = useState('vacuums'); // 'vacuums' | 'hollow'
+    const [timerType, setTimerType] = useState('vacuums');
 
     // Notification Permission State
     const [notifPermission, setNotifPermission] = useState(
@@ -31,9 +31,7 @@ export default function SaeedProtocolView() {
     useEffect(() => {
         let interval = null;
         if (timerRunning && timeLeft > 0) {
-            interval = setInterval(() => {
-                setTimeLeft(prev => prev - 1);
-            }, 1000);
+            interval = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
         } else if (timeLeft === 0 && timerRunning) {
             setTimerRunning(false);
             if (timerType === 'vacuums') {
@@ -64,7 +62,7 @@ export default function SaeedProtocolView() {
 
     async function requestNotifPermission() {
         if (typeof window === 'undefined' || !('Notification' in window)) {
-            alert('Web Notifications are not supported in this browser environment.');
+            alert('Notifications not supported in this browser.');
             return;
         }
         try {
@@ -79,7 +77,7 @@ export default function SaeedProtocolView() {
                     });
                 }
                 new Notification('Saeed Protocol Activated', {
-                    body: 'Accumulation reminders enabled! Keep your core tight throughout the day.',
+                    body: 'Accumulation reminders active! Squeeze and hold tight.',
                     icon: '/vite.svg'
                 });
             }
@@ -95,276 +93,265 @@ export default function SaeedProtocolView() {
     const rowsPct = Math.min(100, Math.round(((log.doorframeRows || 0) / 125) * 100));
 
     const gs = log.growthSession || {};
-    const growthCompletedCount = Object.values(gs).filter(Boolean).length;
+    const growthCount = Object.values(gs).filter(Boolean).length;
 
     return (
-        <div className="saeed-protocol-container">
-            {/* Header & Protocol Day Selector */}
-            <div className="saeed-hdr-card card">
-                <div className="saeed-hdr-top">
-                    <div className="saeed-badge-group">
-                        <div className="saeed-role-badge">SAEED PERSONAL PROTOCOL</div>
-                        <div className="saeed-title">30-DAY BUFF &amp; ANYTIME ACCUMULATION</div>
+        <div className="saeed-clean-app">
+            {/* Header */}
+            <header className="saeed-hdr card">
+                <div className="saeed-hdr-row">
+                    <div>
+                        <h1 className="saeed-title">SAEED PROTOCOL</h1>
+                        <p className="saeed-subtitle">30-Day Buff &amp; Anytime Accumulation</p>
                     </div>
                     <button 
-                        className={`saeed-notif-btn btn ${notifPermission === 'granted' ? 'active' : ''}`}
+                        className={`saeed-notif-chip ${notifPermission === 'granted' ? 'active' : ''}`}
                         onClick={requestNotifPermission}
                     >
                         <KenneyIcon name="star" size={14} />
-                        {notifPermission === 'granted' ? 'IOS NOTIFICATIONS ACTIVE' : 'ENABLE IOS REMINDERS'}
+                        <span>{notifPermission === 'granted' ? 'REMINDERS ACTIVE' : 'ENABLE REMINDERS'}</span>
                     </button>
                 </div>
 
-                {/* Day selector 1 to 30 */}
-                <div className="saeed-day-picker">
-                    <span className="saeed-picker-label">CURRENT DAY:</span>
-                    <div className="saeed-days-scroll">
+                {/* Day selector */}
+                <div className="saeed-day-strip">
+                    <span className="sds-label">DAY {dayNumber}/30</span>
+                    <div className="sds-pills">
                         {Array.from({ length: 30 }, (_, i) => i + 1).map(d => (
                             <button
                                 key={d}
-                                className={`saeed-day-btn ${dayNumber === d ? 'active' : ''}`}
+                                className={`sds-pill ${dayNumber === d ? 'active' : ''}`}
                                 onClick={() => setSaeedDayNumber(d)}
                             >
-                                DAY {d}
+                                {d}
                             </button>
                         ))}
                     </div>
                 </div>
-            </div>
+            </header>
 
-            {/* Content Pane - Single Scroll Container */}
-            <div className="saeed-content-pane">
-                
-                {/* MORNING PROTOCOL (EMPTY STOMACH) */}
-                <div className="saeed-sec-card card">
-                    <div className="saeed-sec-hdr">
-                        <div className="saeed-sec-title">
-                            <KenneyIcon name="power" size={16} />
-                            <span>1. MORNING PROTOCOL (EMPTY STOMACH)</span>
-                        </div>
-                        <span className="saeed-tag-pill">DAILY MANDATORY</span>
+            {/* Scrollable Content Body */}
+            <div className="saeed-body-pane">
+
+                {/* 1. Morning Empty Stomach Protocol */}
+                <section className="saeed-card card">
+                    <div className="card-hdr">
+                        <h2>1. MORNING (EMPTY STOMACH)</h2>
+                        <span className="pill-tag">MANDATORY</span>
                     </div>
 
-                    <div className="saeed-morning-grid">
-                        {/* Bend Check-in (Yoga) */}
-                        <div className={`saeed-check-box ${log.bendDone ? 'done' : ''}`} onClick={() => logSaeedBend(currentKey)}>
-                            <div className="scb-top">
-                                <span className="scb-lbl">BEND (YOGA)</span>
-                                <span className="scb-status">{log.bendDone ? '✓ COMPLETED' : 'PENDING'}</span>
+                    <div className="morning-tiles">
+                        {/* Bend Yoga Check */}
+                        <div className={`tile-check ${log.bendDone ? 'complete' : ''}`} onClick={() => logSaeedBend(currentKey)}>
+                            <div className="tc-hdr">
+                                <span className="tc-title">BEND (YOGA)</span>
+                                <span className="tc-badge">{log.bendDone ? 'DONE' : 'PENDING'}</span>
                             </div>
-                            <div className="scb-desc">Daily morning yoga flow for mobility and core warmth.</div>
-                            <button className="scb-btn btn">{log.bendDone ? 'CHECKED IN' : 'MARK BEND COMPLETE'}</button>
+                            <p className="tc-sub">Morning mobility flow on empty stomach.</p>
+                            <button className="tc-action-btn">{log.bendDone ? '✓ BEND COMPLETED' : 'MARK BEND DONE'}</button>
                         </div>
 
-                        {/* 5 Vacuums Check-in */}
-                        <div className={`saeed-check-box ${log.morningVacuumsDone ? 'done' : ''}`} onClick={() => logSaeedMorningVacuums(currentKey)}>
-                            <div className="scb-top">
-                                <span className="scb-lbl">5 STANDING VACUUMS</span>
-                                <span className="scb-status">{log.morningVacuumsDone ? '✓ 5/5 SETS DONE' : 'PENDING'}</span>
+                        {/* 5 Standing Vacuums */}
+                        <div className={`tile-check ${log.morningVacuumsDone ? 'complete' : ''}`} onClick={() => logSaeedMorningVacuums(currentKey)}>
+                            <div className="tc-hdr">
+                                <span className="tc-title">5 VACUUMS</span>
+                                <span className="tc-badge">{log.morningVacuumsDone ? 'DONE' : 'PENDING'}</span>
                             </div>
-                            <div className="scb-desc">5x 30-60s holds on empty stomach before breakfast.</div>
-                            <button className="scb-btn btn">{log.morningVacuumsDone ? 'VACUUMS LOGGED' : 'MARK 5 VACUUMS DONE'}</button>
+                            <p className="tc-sub">5x 30-60s holds before breakfast.</p>
+                            <button className="tc-action-btn">{log.morningVacuumsDone ? '✓ 5 VACUUMS DONE' : 'MARK 5 VACUUMS DONE'}</button>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                {/* VACUUM HOLD TIMER & FORM GUIDE */}
-                <div className="saeed-sec-card card vacuum-module">
-                    <div className="saeed-sec-hdr">
-                        <div className="saeed-sec-title">
-                            <KenneyIcon name="target" size={16} />
-                            <span>STANDING STOMACH VACUUM TIMER</span>
-                        </div>
-                        <span className="saeed-tag-pill volt">TRANSVERSUS ABDOMINIS</span>
+                {/* Vacuum Hold Timer */}
+                <section className="saeed-card card timer-card">
+                    <div className="card-hdr">
+                        <h2>STOMACH VACUUM TIMER</h2>
+                        <span className="pill-tag volt">TRANSVERSUS ABDOMINIS</span>
                     </div>
 
-                    <div className="vacuum-guide-text">
-                        <strong>Technique:</strong> Stand tall. Exhale ALL air out of your lungs. Pull your belly button in as far as it can go, toward your spine and slightly upward under your ribs.
+                    <div className="timer-guide">
+                        <strong>Form:</strong> Stand tall. Exhale ALL air out of your lungs. Pull belly button in as far as possible toward spine &amp; under ribs.
                     </div>
 
-                    <div className="timer-display-box">
-                        <div className="tdb-time">{timeLeft}s</div>
-                        <div className="tdb-label">TARGET HOLD ({timerTarget}S)</div>
-                        
-                        <div className="timer-controls">
-                            <button className="btn btn-volt" onClick={toggleTimer}>
+                    <div className="timer-display">
+                        <div className="timer-seconds">{timeLeft}s</div>
+                        <p className="timer-target-lbl">TARGET HOLD ({timerTarget}S)</p>
+
+                        <div className="timer-actions">
+                            <button className="btn-main-volt" onClick={toggleTimer}>
                                 {timerRunning ? 'PAUSE HOLD' : 'START HOLD TIMER'}
                             </button>
-                            <button className="btn btn-outline" onClick={resetTimer}>RESET</button>
-                            
-                            <div className="timer-presets">
-                                <button className={`tp-btn ${timerTarget === 30 ? 'active' : ''}`} onClick={() => { setTimerTarget(30); setTimeLeft(30); setTimerRunning(false); }}>30S</button>
-                                <button className={`tp-btn ${timerTarget === 45 ? 'active' : ''}`} onClick={() => { setTimerTarget(45); setTimeLeft(45); setTimerRunning(false); }}>45S</button>
-                                <button className={`tp-btn ${timerTarget === 60 ? 'active' : ''}`} onClick={() => { setTimerTarget(60); setTimeLeft(60); setTimerRunning(false); }}>60S</button>
-                            </div>
+                            <button className="btn-sec-outline" onClick={resetTimer}>RESET</button>
+                        </div>
+
+                        <div className="timer-preset-row">
+                            {[30, 45, 60].map(sec => (
+                                <button 
+                                    key={sec} 
+                                    className={`preset-btn ${timerTarget === sec ? 'active' : ''}`}
+                                    onClick={() => { setTimerTarget(sec); setTimeLeft(sec); setTimerRunning(false); }}
+                                >
+                                    {sec}S
+                                </button>
+                            ))}
                         </div>
                     </div>
-                </div>
+                </section>
 
-                {/* 2. UPDATED "ANYTIME" ACCUMULATION PROTOCOL */}
-                <div className="saeed-sec-card card">
-                    <div className="saeed-sec-hdr">
-                        <div className="saeed-sec-title">
-                            <KenneyIcon name="fist" size={16} />
-                            <span>2. FULL DAY "ANYTIME" ACCUMULATION</span>
-                        </div>
-                        <span className="saeed-tag-pill">SHORT BURSTS ALL DAY</span>
+                {/* 2. Full Day Accumulation */}
+                <section className="saeed-card card">
+                    <div className="card-hdr">
+                        <h2>2. ANYTIME ACCUMULATION</h2>
+                        <span className="pill-tag">ALL DAY BURSTS</span>
                     </div>
 
-                    <div className="accumulation-grid">
-                        
-                        {/* PUSH-UPS (500 TOTAL) */}
-                        <div className="acc-card">
-                            <div className="acc-hdr">
+                    <div className="acc-rows">
+                        {/* Push-ups */}
+                        <div className="acc-item">
+                            <div className="acc-item-hdr">
                                 <div>
-                                    <div className="acc-name">PUSH-UPS</div>
-                                    <div className="acc-target-lbl">Target: 500 Total (Sets of 25–40)</div>
+                                    <div className="acc-item-title">PUSH-UPS</div>
+                                    <div className="acc-item-sub">Target: 500 total (sets of 25–40)</div>
                                 </div>
-                                <div className="acc-val-big">{log.pushups || 0} / 500</div>
+                                <div className="acc-score">{log.pushups || 0} / 500</div>
                             </div>
-                            <div className="acc-track">
+                            <div className="acc-bar">
                                 <div className="acc-fill" style={{ width: `${pushupPct}%`, background: 'var(--c-red)' }} />
                             </div>
-                            <div className="acc-btn-row">
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('pushups', 25, currentKey)}>+25</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('pushups', 30, currentKey)}>+30</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('pushups', 40, currentKey)}>+40</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('pushups', 50, currentKey)}>+50</button>
-                                <button className="btn acc-sub-btn" onClick={() => logSaeedAccumulation('pushups', -25, currentKey)}>-25</button>
+                            <div className="acc-btns">
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('pushups', 25, currentKey)}>+25</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('pushups', 30, currentKey)}>+30</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('pushups', 40, currentKey)}>+40</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('pushups', 50, currentKey)}>+50</button>
+                                <button className="btn-log-sub" onClick={() => logSaeedAccumulation('pushups', -25, currentKey)}>-25</button>
                             </div>
                         </div>
 
-                        {/* STOMACH VACUUMS (10-20 SETS) */}
-                        <div className="acc-card">
-                            <div className="acc-hdr">
+                        {/* Stomach Vacuums */}
+                        <div className="acc-item">
+                            <div className="acc-item-hdr">
                                 <div>
-                                    <div className="acc-name">STOMACH VACUUMS</div>
-                                    <div className="acc-target-lbl">Target: 10–20 Sets (30–60s holds)</div>
+                                    <div className="acc-item-title">STOMACH VACUUMS</div>
+                                    <div className="acc-item-sub">Target: 10–20 sets (30–60s holds)</div>
                                 </div>
-                                <div className="acc-val-big">{log.vacuumsSets || 0} / 15 SETS</div>
+                                <div className="acc-score">{log.vacuumsSets || 0} / 15 SETS</div>
                             </div>
-                            <div className="acc-track">
+                            <div className="acc-bar">
                                 <div className="acc-fill" style={{ width: `${vacuumPct}%`, background: 'var(--c-volt)' }} />
                             </div>
-                            <div className="acc-btn-row">
-                                <button className="btn acc-add-btn" onClick={() => startTimer('vacuums', 45)}>TIMER 45S</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('vacuumsSets', 1, currentKey)}>+1 SET</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('vacuumsSets', 2, currentKey)}>+2 SETS</button>
-                                <button className="btn acc-sub-btn" onClick={() => logSaeedAccumulation('vacuumsSets', -1, currentKey)}>-1</button>
+                            <div className="acc-btns">
+                                <button className="btn-log" onClick={() => startTimer('vacuums', 45)}>45S TIMER</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('vacuumsSets', 1, currentKey)}>+1 SET</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('vacuumsSets', 2, currentKey)}>+2 SETS</button>
+                                <button className="btn-log-sub" onClick={() => logSaeedAccumulation('vacuumsSets', -1, currentKey)}>-1</button>
                             </div>
                         </div>
 
-                        {/* HOLLOW BODY HOLDS (5-10 SETS) */}
-                        <div className="acc-card">
-                            <div className="acc-hdr">
+                        {/* Hollow Body Holds */}
+                        <div className="acc-item">
+                            <div className="acc-item-hdr">
                                 <div>
-                                    <div className="acc-name">HOLLOW BODY HOLDS</div>
-                                    <div className="acc-target-lbl">Target: 5–10 Sets (30–60s holds)</div>
+                                    <div className="acc-item-title">HOLLOW BODY HOLDS</div>
+                                    <div className="acc-item-sub">Target: 5–10 sets (30–60s holds)</div>
                                 </div>
-                                <div className="acc-val-big">{log.hollowHoldsSets || 0} / 8 SETS</div>
+                                <div className="acc-score">{log.hollowHoldsSets || 0} / 8 SETS</div>
                             </div>
-                            <div className="acc-track">
+                            <div className="acc-bar">
                                 <div className="acc-fill" style={{ width: `${hollowPct}%`, background: '#3B82F6' }} />
                             </div>
-                            <div className="acc-btn-row">
-                                <button className="btn acc-add-btn" onClick={() => startTimer('hollow', 45)}>TIMER 45S</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('hollowHoldsSets', 1, currentKey)}>+1 SET</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('hollowHoldsSets', 2, currentKey)}>+2 SETS</button>
-                                <button className="btn acc-sub-btn" onClick={() => logSaeedAccumulation('hollowHoldsSets', -1, currentKey)}>-1</button>
+                            <div className="acc-btns">
+                                <button className="btn-log" onClick={() => startTimer('hollow', 45)}>45S TIMER</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('hollowHoldsSets', 1, currentKey)}>+1 SET</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('hollowHoldsSets', 2, currentKey)}>+2 SETS</button>
+                                <button className="btn-log-sub" onClick={() => logSaeedAccumulation('hollowHoldsSets', -1, currentKey)}>-1</button>
                             </div>
                         </div>
 
-                        {/* DOORFRAME ROWS (100-150 TOTAL) */}
-                        <div className="acc-card">
-                            <div className="acc-hdr">
+                        {/* Doorframe Rows */}
+                        <div className="acc-item">
+                            <div className="acc-item-hdr">
                                 <div>
-                                    <div className="acc-name">DOORFRAME ROWS</div>
-                                    <div className="acc-target-lbl">Target: 100–150 Total (Pulling Motion)</div>
+                                    <div className="acc-item-title">DOORFRAME ROWS</div>
+                                    <div className="acc-item-sub">Target: 100–150 total (pulling motion)</div>
                                 </div>
-                                <div className="acc-val-big">{log.doorframeRows || 0} / 125</div>
+                                <div className="acc-score">{log.doorframeRows || 0} / 125</div>
                             </div>
-                            <div className="acc-track">
+                            <div className="acc-bar">
                                 <div className="acc-fill" style={{ width: `${rowsPct}%`, background: '#EAB308' }} />
                             </div>
-                            <div className="acc-btn-row">
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('doorframeRows', 15, currentKey)}>+15</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('doorframeRows', 25, currentKey)}>+25</button>
-                                <button className="btn acc-add-btn" onClick={() => logSaeedAccumulation('doorframeRows', 30, currentKey)}>+30</button>
-                                <button className="btn acc-sub-btn" onClick={() => logSaeedAccumulation('doorframeRows', -15, currentKey)}>-15</button>
+                            <div className="acc-btns">
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('doorframeRows', 15, currentKey)}>+15</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('doorframeRows', 25, currentKey)}>+25</button>
+                                <button className="btn-log" onClick={() => logSaeedAccumulation('doorframeRows', 30, currentKey)}>+30</button>
+                                <button className="btn-log-sub" onClick={() => logSaeedAccumulation('doorframeRows', -15, currentKey)}>-15</button>
                             </div>
                         </div>
 
                     </div>
-                </div>
+                </section>
 
-                {/* 3. GROWTH SESSION (POST-YOGA / AFTERNOON) */}
-                <div className="saeed-sec-card card">
-                    <div className="saeed-sec-hdr">
-                        <div className="saeed-sec-title">
-                            <KenneyIcon name="trophy" size={16} />
-                            <span>3. GROWTH SESSION (POST-YOGA OR AFTERNOON)</span>
-                        </div>
-                        <span className="saeed-tag-pill">{growthCompletedCount}/5 COMPLETED</span>
+                {/* 3. Growth Session */}
+                <section className="saeed-card card">
+                    <div className="card-hdr">
+                        <h2>3. GROWTH SESSION</h2>
+                        <span className="pill-tag">{growthCount}/5 COMPLETED</span>
                     </div>
 
-                    <div className="growth-checklist">
+                    <div className="growth-list">
                         {[
-                            { key: 'pikePushups', title: 'Pike Push-ups', target: '4 x 10–12', desc: 'Shoulder & Upper Chest Mass' },
-                            { key: 'splitSquats', title: 'Bulgarian Split Squats', target: '4 x 12', desc: 'Leg & Glute Mass' },
-                            { key: 'weightedVups', title: 'Weighted V-Ups', target: '4 x 15', desc: 'Direct Abdominal Crunch' },
-                            { key: 'bicepCurls', title: 'Bicep Curls (Water Jugs)', target: '4 x 20', desc: 'Slower Tempo Control' },
-                            { key: 'plankDownwardDog', title: 'Plank to Downward Dog', target: '3 x 15', desc: 'Shoulder & Core Stability' }
-                        ].map(ex => {
-                            const isDone = Boolean(gs[ex.key]);
+                            { key: 'pikePushups', name: 'Pike Push-ups', target: '4 x 10–12', desc: 'Shoulder & Upper Chest Mass' },
+                            { key: 'splitSquats', name: 'Bulgarian Split Squats', target: '4 x 12', desc: 'Leg & Glute Mass' },
+                            { key: 'weightedVups', name: 'Weighted V-Ups', target: '4 x 15', desc: 'Direct Ab Crunch' },
+                            { key: 'bicepCurls', name: 'Bicep Curls (Water Jugs)', target: '4 x 20', desc: 'Slow Tempo Control' },
+                            { key: 'plankDownwardDog', name: 'Plank to Downward Dog', target: '3 x 15', desc: 'Core & Shoulder Stability' }
+                        ].map(item => {
+                            const done = Boolean(gs[item.key]);
                             return (
-                                <div key={ex.key} className={`growth-row ${isDone ? 'done' : ''}`} onClick={() => toggleSaeedGrowthExercise(ex.key, currentKey)}>
-                                    <div className="gr-check-square">{isDone ? '✓' : ''}</div>
-                                    <div className="gr-info">
-                                        <div className="gr-title">{ex.title}</div>
-                                        <div className="gr-sub">{ex.desc}</div>
+                                <div key={item.key} className={`growth-box ${done ? 'done' : ''}`} onClick={() => toggleSaeedGrowthExercise(item.key, currentKey)}>
+                                    <div className="gb-check">{done ? '✓' : ''}</div>
+                                    <div className="gb-info">
+                                        <div className="gb-name">{item.name}</div>
+                                        <div className="gb-sub">{item.desc}</div>
                                     </div>
-                                    <div className="gr-target">{ex.target}</div>
+                                    <div className="gb-target">{item.target}</div>
                                 </div>
                             );
                         })}
                     </div>
-                </div>
+                </section>
 
-                {/* 4. CRITICAL TIPS FOR 30-DAY SUCCESS & SAFETY WARNING */}
-                <div className="saeed-sec-card card tips-card">
-                    <div className="saeed-sec-hdr">
-                        <div className="saeed-sec-title">
-                            <KenneyIcon name="star" size={16} />
-                            <span>4. CRITICAL TIPS FOR 30-DAY SUCCESS</span>
+                {/* 4. Tips & Lower Back Pain Warning */}
+                <section className="saeed-card card tips-section">
+                    <div className="card-hdr">
+                        <h2>4. PROTOCOL RULES &amp; SAFETY</h2>
+                    </div>
+
+                    <div className="rules-grid">
+                        <div className="rule-item">
+                            <strong>Mind-Muscle Connection:</strong> Squeeze target muscle intentionally. For abs, pull ribs down toward pelvis.
+                        </div>
+                        <div className="rule-item">
+                            <strong>Skin Tightening:</strong> High protein (salmon, eggs, feta, lean meats) + aggressive water intake.
+                        </div>
+                        <div className="rule-item">
+                            <strong>500 Push-up Rule:</strong> Vary hand width if front delts feel inflamed.
+                        </div>
+                        <div className="rule-item">
+                            <strong>Volume Rule:</strong> Miss an hour? Double the next hour. Total daily volume is what changes physique.
                         </div>
                     </div>
 
-                    <div className="tips-list">
-                        <div className="tip-box">
-                            <strong>Mind-Muscle Connection:</strong> Squeeze the target muscle intentionally. For abs, visualize your ribs pulling down toward your pelvis.
-                        </div>
-                        <div className="tip-box">
-                            <strong>Skin Tightening Protocol:</strong> Keep protein high (salmon, eggs, feta, lean meats) to support skin elasticity. Stay aggressive with water intake.
-                        </div>
-                        <div className="tip-box">
-                            <strong>500 Push-up Rule:</strong> If shoulders feel inflamed, switch push-up hand width to take pressure off front delts.
-                        </div>
-                        <div className="tip-box">
-                            <strong>Consistency Makeup:</strong> If you miss an hour, do a double set the next hour you remember. Total daily volume is what changes your physique.
-                        </div>
-                    </div>
-
-                    {/* Safety Alert Box */}
-                    <div className="saeed-warning-box">
-                        <div className="sw-hdr">
+                    <div className="safety-alert">
+                        <div className="sa-hdr">
                             <KenneyIcon name="cross" size={16} />
                             <span>SAFETY WARNING</span>
                         </div>
                         <p>
-                            If you feel sharp pain in your lower back during Hollow Holds or V-ups, stop immediately. Your core is fatigued; take a 5-minute break and focus on breathing before continuing.
+                            If you feel sharp lower back pain during Hollow Holds or V-ups, stop immediately. Rest 5 minutes and focus on deep breathing before continuing.
                         </p>
                     </div>
-                </div>
+                </section>
 
             </div>
         </div>
