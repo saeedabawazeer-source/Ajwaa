@@ -16,10 +16,11 @@ self.addEventListener('message', (event) => {
         
         // Trigger notification
         if (self.registration && self.registration.showNotification) {
-            self.registration.showNotification('Saeed Protocol Check-in', {
-                body: 'Time for an Anytime Accumulation set! Push-ups, Vacuums or Hollow Holds.',
+            self.registration.showNotification('Buff Protocol Alert', {
+                body: 'DRINK WATER. DROP AND DO PUSHUPS. IS WHAT YOU\'RE DOING RIGHT NOW WORTH THE REWARD?',
                 icon: '/vite.svg',
-                tag: 'saeed-reminder'
+                tag: 'saeed-reminder',
+                requireInteraction: true
             });
         }
     }

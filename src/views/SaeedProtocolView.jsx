@@ -13,13 +13,43 @@ const ANYTIME = [
   { id: "hollow", label: "Hollow Holds", unit: "sets", target: 7, step: 1, color: "#01A0A1" },
 ];
 
-const GROWTH = [
-  { id: "pike", label: "Pike Push-ups", scheme: "4 x 10–12" },
-  { id: "split", label: "Bulgarian Split Squats", scheme: "4 x 12" },
-  { id: "vups", label: "Weighted V-Ups", scheme: "4 x 15" },
-  { id: "curls", label: "Bicep Curls (jugs)", scheme: "4 x 20" },
-  { id: "plank", label: "Plank → Down Dog", scheme: "3 x 15" },
-];
+const SPLITS = {
+  0: [ // Sun - Push
+    { id: "pike", label: "Pike Push-ups", scheme: "4 x 10–12" },
+    { id: "diamond", label: "Diamond Push-ups", scheme: "4 x 12-15" },
+    { id: "latraise", label: "Lateral Raises (Jugs)", scheme: "4 x 15" }
+  ],
+  1: [ // Mon - Pull
+    { id: "pullups", label: "Pull-ups / Door Rows", scheme: "4 x 8-10" },
+    { id: "curls", label: "Bicep Curls (Jugs)", scheme: "4 x 20" },
+    { id: "shrugs", label: "Shrugs (Jugs)", scheme: "4 x 15" }
+  ],
+  2: [ // Tue - Legs
+    { id: "split", label: "Bulgarian Split Squats", scheme: "4 x 12" },
+    { id: "sissy", label: "Sissy Squats", scheme: "4 x 15" },
+    { id: "calf", label: "Single-Leg Calf Raises", scheme: "4 x 20" }
+  ],
+  3: [ // Wed - Core/Iso
+    { id: "vups", label: "Weighted V-Ups", scheme: "4 x 15" },
+    { id: "plank", label: "Plank → Down Dog", scheme: "4 x 15" },
+    { id: "larch", label: "L-Sit / Arch Body", scheme: "4 x 30s" }
+  ],
+  4: [ // Thu - Push
+    { id: "pike", label: "Pike Push-ups", scheme: "4 x 10–12" },
+    { id: "diamond", label: "Diamond Push-ups", scheme: "4 x 12-15" },
+    { id: "latraise", label: "Lateral Raises (Jugs)", scheme: "4 x 15" }
+  ],
+  5: [ // Fri - Pull
+    { id: "pullups", label: "Pull-ups / Door Rows", scheme: "4 x 8-10" },
+    { id: "curls", label: "Bicep Curls (Jugs)", scheme: "4 x 20" },
+    { id: "shrugs", label: "Shrugs (Jugs)", scheme: "4 x 15" }
+  ],
+  6: [ // Sat - Legs
+    { id: "split", label: "Bulgarian Split Squats", scheme: "4 x 12" },
+    { id: "sissy", label: "Sissy Squats", scheme: "4 x 15" },
+    { id: "calf", label: "Single-Leg Calf Raises", scheme: "4 x 20" }
+  ]
+};
 
 const BLANK_DAY = () => ({
   bend: false,
@@ -117,16 +147,16 @@ function WaterWidget({ value, onChange }) {
   const pct = (value / target) * 100;
   return (
     <div style={{
-      border: "2px solid #111", borderRadius: 16, background: value >= target ? "#3B82F6" : "#fff",
+      border: "2px solid #111", borderRadius: 16, background: value >= target ? "#01A0A1" : "#fff",
       boxShadow: "3px 3px 0 #111", padding: "8px 12px", display: "flex", gap: 12, alignItems: "center"
     }}>
-      <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 13, textTransform: "uppercase" }}>WATER</div>
+      <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 13, textTransform: "uppercase", color: value >= target ? "#F5F0E6" : "#111" }}>WATER</div>
       <div style={{ flex: 1, height: 12, background: "#fff", border: "2px solid #111", borderRadius: 6, overflow: "hidden" }}>
-        <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: "#3B82F6", transition: "width 200ms" }} />
+        <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: "#01A0A1", transition: "width 200ms" }} />
       </div>
       <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14 }}>{Number(value || 0).toFixed(1)}<span style={{ fontSize: 10, opacity: 0.6 }}>/{target.toFixed(1)}L</span></span>
-        <button onClick={() => onChange(Number(((value || 0) + 0.5).toFixed(1)))} style={{ background: "#3B82F6", border: "2px solid #111", borderRadius: 8, padding: "4px 10px", fontFamily: "'Archivo Black', sans-serif", cursor: "pointer", boxShadow: "2px 2px 0 #111" }}>+0.5</button>
+        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14, color: value >= target ? "#F5F0E6" : "#111" }}>{Number(value || 0).toFixed(1)}<span style={{ fontSize: 10, opacity: 0.8 }}>/{target.toFixed(1)}L</span></span>
+        <button onClick={() => onChange(Number(((value || 0) + 0.5).toFixed(1)))} style={{ background: value >= target ? "#111" : "#01A0A1", color: value >= target ? "#F5F0E6" : "#111", border: "2px solid #111", borderRadius: 8, padding: "4px 10px", fontFamily: "'Archivo Black', sans-serif", cursor: "pointer", boxShadow: "2px 2px 0 #111" }}>+0.5</button>
       </div>
     </div>
   );
@@ -174,13 +204,31 @@ export default function SaeedProtocolView() {
   const { day, save, loading } = useDay(dateKey);
   const [notifPerm, setNotifPerm] = useState(typeof window !== "undefined" && "Notification" in window ? Notification.permission : "default");
 
+  const dayOfWeek = new Date().getDay();
+  const GROWTH = SPLITS[dayOfWeek];
+
+  useEffect(() => {
+    // Aggressive hourly spam timer if permissions are granted
+    let interval;
+    if (notifPerm === 'granted') {
+      interval = setInterval(() => {
+        if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER" });
+        } else if ("Notification" in window) {
+          new Notification("Buff Protocol Alert", { body: "DRINK WATER. DROP AND DO PUSHUPS. IS WHAT YOU'RE DOING RIGHT NOW WORTH THE REWARD?", icon: "/vite.svg" });
+        }
+      }, 60 * 60 * 1000); // 1 hour
+    }
+    return () => clearInterval(interval);
+  }, [notifPerm]);
+
   const requestNotif = async () => {
     if (typeof window === "undefined" || !("Notification" in window)) return;
     const p = await Notification.requestPermission();
     setNotifPerm(p);
     if (p === "granted" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER", intervalMinutes: 60 });
-      new Notification("Buff Protocol Active", { body: "Reminders active. Time to grind.", icon: "/vite.svg" });
+      navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER" });
+      new Notification("Buff Protocol Active", { body: "Spam notifications ACTIVE. Prepare to grind.", icon: "/vite.svg" });
     }
   };
 
