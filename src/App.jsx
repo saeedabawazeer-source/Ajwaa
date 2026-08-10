@@ -221,8 +221,12 @@ export default function App() {
       <div className="view-section">
         {renderView()}
       </div>
-      <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} isCoach={state.user.role === 'coach'} />
-      <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} />
+      {activeView !== 'saeed' && (
+        <>
+          <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} isCoach={state.user.role === 'coach'} />
+          <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} />
+        </>
+      )}
 
       <LogMealModal
         open={mealOpen}
