@@ -1,6 +1,6 @@
 import './Dock.css';
 import KenneyIcon from './KenneyIcon';
-import AjwaaMascot from './AjwaaMascot';
+import AjwaMascot from './AjwaMascot';
 
 export default function Dock({ activeView, onNavigate, onFab, isCoach }) {
     const isSaeedMode = activeView === 'saeed';
@@ -31,7 +31,7 @@ export default function Dock({ activeView, onNavigate, onFab, isCoach }) {
             ) : (
                 <button className="nav-fab mascot-fab" onClick={onFab} title="Ask Ajwaa AI Coach">
                     <div className="dock-mascot-wrap">
-                        <AjwaaMascot action="idle" />
+                        <AjwaMascot mood="neutral" />
                     </div>
                 </button>
             )}
