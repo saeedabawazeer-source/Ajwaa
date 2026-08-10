@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { calcDayXP, getLevel } from './xpEngine';
 import { calcAchievementStats, getUnlockedAchievements } from '../data/achievements';
-import { calculateTDEE } from './questEngine';
+import { calculateTDEE } from '../utils/helpers';
 
 // Helpers
 function todayKey() {

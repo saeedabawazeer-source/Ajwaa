@@ -56,3 +56,14 @@ export function calculatePlan(gender, age, weight, height, activity, goal) {
         water: 3 // Default 3L roughly
     };
 }
+
+export function calculateTDEE(user) {
+    if (!user) return { calorieTarget: 2200, p: 160, c: 230, f: 70 };
+    const plan = calculatePlan(user.gender || 'male', user.age || 25, user.weight || 70, user.height || 175, user.activityLevel || 'active', user.goal || 'muscle_gain');
+    return {
+        calorieTarget: plan.cals,
+        p: plan.macros.p,
+        c: plan.macros.c,
+        f: plan.macros.f
+    };
+}
