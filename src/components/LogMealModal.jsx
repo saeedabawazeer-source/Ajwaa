@@ -1,17 +1,10 @@
 import { useState } from 'react';
 import { getMealSlotLabel } from '../utils/helpers';
 import { FOOD_DB } from '../data/foodDB';
-import { X, Search, Coffee, Sun, Moon, Utensils } from 'lucide-react';
+import KenneyIcon from './KenneyIcon';
 import './Modal.css';
 
 const SLOTS = ['breakfast', 'lunch', 'dinner', 'snacks'];
-
-function SlotIcon({ slot, size = 18 }) {
-    if (slot === 'breakfast') return <Coffee size={size} />;
-    if (slot === 'lunch') return <Sun size={size} />;
-    if (slot === 'dinner') return <Moon size={size} />;
-    return <Utensils size={size} />;
-}
 
 export default function LogMealModal({ open, onClose, onSave, slot, onSlotChange }) {
     const [food, setFood] = useState('');
@@ -25,7 +18,6 @@ export default function LogMealModal({ open, onClose, onSave, slot, onSlotChange
 
     if (!open) return null;
 
-    // Debounce helper
     const debounce = (func, wait) => {
         let timeout;
         return (...args) => {
@@ -38,12 +30,10 @@ export default function LogMealModal({ open, onClose, onSave, slot, onSlotChange
         if (query.length < 3) return;
         setLoading(true);
         try {
-            // Search local first
             const localMatches = FOOD_DB.filter(item =>
                 item.name.toLowerCase().includes(query.toLowerCase())
             ).slice(0, 5);
 
-            // Search OpenFoodFacts API
             const res = await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${query}&search_simple=1&action=process&json=1&page_size=10`);
             const data = await res.json();
 
@@ -96,33 +86,23 @@ export default function LogMealModal({ open, onClose, onSave, slot, onSlotChange
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-card" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <SlotIcon slot={slot} size={24} />
-                    <span style={{ fontWeight: 900, fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
-                        onClick={() => setPickingSlot(!pickingSlot)}>
-                        LOG {getMealSlotLabel(slot).toUpperCase()}
-                        <span style={{ fontSize: 10, opacity: 0.5, textDecoration: 'underline' }}>CHANGE?</span>
-                    </span>
-                    <button className="modal-close" onClick={onClose}><X size={16} /></button>
+                    <KenneyIcon name="food" size={24} />
+                    <span style={{ fontWeight: 900, fontSize: 16, flex: 1 }}>LOG FOOD</span>
+                    <button className="modal-close" onClick={onClose}><KenneyIcon name="cross" size={14} /></button>
                 </div>
 
-                {/* Slot Picker (Collapsible) */}
-                {pickingSlot && (
-                    <div className="slot-picker">
-                        {SLOTS.map(s => (
-                            <button key={s} className={`slot-btn ${slot === s ? 'active' : ''}`} onClick={() => { onSlotChange(s); setPickingSlot(false); }}>
-                                {getMealSlotLabel(s)}
-                            </button>
-                        ))}
-                    </div>
-                )}
+                <div className="slot-picker">
+                    {SLOTS.map(s => (
+                        <button key={s} className={`slot-btn ${slot === s ? 'active' : ''}`} onClick={() => onSlotChange(s)}>
+                            {getMealSlotLabel(s)}
+                        </button>
+                    ))}
+                </div>
 
-                {/* Food Search */}
                 <div style={{ position: 'relative' }}>
-                    <div style={{ position: 'absolute', left: 12, top: 12, opacity: 0.4 }}><Search size={16} /></div>
                     <input
                         className="modal-input"
-                        style={{ paddingLeft: 36 }}
-                        placeholder="Search ALL foods..."
+                        placeholder="Search food database..."
                         value={food}
                         onChange={handleFoodChange}
                         autoFocus
@@ -133,38 +113,45 @@ export default function LogMealModal({ open, onClose, onSave, slot, onSlotChange
                                 <div key={i} className="suggestion-item" onClick={() => selectFood(s)}>
                                     <div>
                                         <div style={{ lineHeight: 1.2 }}>{s.name}</div>
-                                        {s.brand && <div className="text-label" style={{ fontSize: 9, color: 'gray' }}>{s.brand}</div>}
+                                        {s.brand && <div className="text-label" style={{ fontSize: 10, color: 'var(--c-volt)' }}>{s.brand}</div>}
                                     </div>
-                                    <div className="text-label" style={{ fontSize: 9 }}>
+                                    <div className="text-label" style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>
                                         {s.cals}kcal {s.fromApi ? '(100g)' : ''}
                                     </div>
                                 </div>
                             ))}
                         </div>
                     )}
-                    {loading && <div className="suggestions-list" style={{ padding: 10, textAlign: 'center', fontSize: 12, color: 'gray' }}>Searching global database...</div>}
+                    {loading && <div className="suggestions-list" style={{ padding: 10, textAlign: 'center', fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>Searching...</div>}
                 </div>
 
-                <input className="modal-input" placeholder="Calories (kcal)" type="number" value={cals} onChange={e => setCals(e.target.value)} />
-
-                <div className="text-label" style={{ margin: '8px 0 4px' }}>MACROS (grams)</div>
-                <div className="macro-inputs">
-                    <div className="macro-input-group">
-                        <label className="macro-label" style={{ color: '#FFD700' }}>P</label>
-                        <input className="modal-input macro-field" placeholder="0" type="number" value={p} onChange={e => setP(e.target.value)} />
+                <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+                    <div style={{ flex: 1 }}>
+                        <div className="text-label" style={{ fontSize: 10, color: 'var(--c-red)', marginBottom: 4 }}>CALORIES</div>
+                        <input className="modal-input" placeholder="0" type="number" value={cals} onChange={e => setCals(e.target.value)} style={{ textAlign: 'center', fontSize: 24, padding: 8 }} />
                     </div>
-                    <div className="macro-input-group">
-                        <label className="macro-label" style={{ color: '#00BFFF' }}>C</label>
-                        <input className="modal-input macro-field" placeholder="0" type="number" value={c} onChange={e => setC(e.target.value)} />
-                    </div>
-                    <div className="macro-input-group">
-                        <label className="macro-label" style={{ color: '#FF4500' }}>F</label>
-                        <input className="modal-input macro-field" placeholder="0" type="number" value={f} onChange={e => setF(e.target.value)} />
+                    
+                    <div style={{ flex: 2, background: 'var(--c-black)', padding: '10px 12px', borderRadius: 12, border: '2px solid var(--c-black)', boxShadow: '4px 4px 0 rgba(0,0,0,0.1)' }}>
+                        <div className="text-label" style={{ fontSize: 10, color: 'var(--c-volt)', marginBottom: 8, textAlign: 'center' }}>MACRO REPORT (g)</div>
+                        <div className="macro-inputs" style={{ gap: 4 }}>
+                            <div className="macro-input-group">
+                                <label className="macro-label" style={{ color: 'var(--c-paper)' }}>P</label>
+                                <input className="modal-input macro-field" placeholder="0" type="number" value={p} onChange={e => setP(e.target.value)} style={{ padding: '6px', fontSize: 16, background: '#333', color: 'white', border: 'none', borderRadius: 6, boxShadow: 'none' }} />
+                            </div>
+                            <div className="macro-input-group">
+                                <label className="macro-label" style={{ color: 'var(--c-paper)' }}>C</label>
+                                <input className="modal-input macro-field" placeholder="0" type="number" value={c} onChange={e => setC(e.target.value)} style={{ padding: '6px', fontSize: 16, background: '#333', color: 'white', border: 'none', borderRadius: 6, boxShadow: 'none' }} />
+                            </div>
+                            <div className="macro-input-group">
+                                <label className="macro-label" style={{ color: 'var(--c-paper)' }}>F</label>
+                                <input className="modal-input macro-field" placeholder="0" type="number" value={f} onChange={e => setF(e.target.value)} style={{ padding: '6px', fontSize: 16, background: '#333', color: 'white', border: 'none', borderRadius: 6, boxShadow: 'none' }} />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <button className="btn btn-primary" onClick={handleSave} disabled={!food || !cals}
-                    style={{ width: '100%', marginTop: 12, opacity: (!food || !cals) ? 0.4 : 1 }}>
+                    style={{ width: '100%', marginTop: 14, opacity: (!food || !cals) ? 0.4 : 1, padding: 12, fontSize: 14 }}>
                     ADD TO {getMealSlotLabel(slot).toUpperCase()}
                 </button>
             </div>

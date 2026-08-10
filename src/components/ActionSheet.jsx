@@ -1,18 +1,17 @@
 import './ActionSheet.css';
-import { getMealSlotLabel } from '../utils/helpers';
-import { Coffee, Sun, Moon, Utensils, Accessibility, Droplets } from 'lucide-react'; // Example mapping
+import KenneyIcon from './KenneyIcon';
 
 export default function ActionSheet({ open, onClose, onLogFood, onLogWorkout, onLogWater }) {
     if (!open) return null;
 
     // Icon mapping
     const icons = {
-        breakfast: <Coffee size={24} />,
-        lunch: <Sun size={24} />,
-        dinner: <Moon size={24} />,
-        snacks: <Utensils size={24} />,
-        workout: <Accessibility size={24} />, // or Dumbbell if available
-        water: <Droplets size={24} />
+        breakfast: <KenneyIcon name="food" size={24} />,
+        lunch: <KenneyIcon name="food" size={24} />,
+        dinner: <KenneyIcon name="food" size={24} />,
+        snacks: <KenneyIcon name="food" size={24} />,
+        workout: <KenneyIcon name="workout" size={24} />,
+        water: <KenneyIcon name="plus" size={24} />
     };
 
     return (

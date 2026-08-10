@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
-import { ChevronRight, Target, Dumbbell, Zap, Trophy, Crown, Check, Ruler, Weight, Calendar } from 'lucide-react';
+import KenneyIcon from '../components/KenneyIcon';
 import { calculatePlan } from '../utils/helpers';
+import AjwaaMascot from '../components/AjwaaMascot';
 import './Onboarding.css';
 
 const STEPS = [
@@ -30,18 +31,18 @@ export default function Onboarding({ onComplete }) {
 
     const step = STEPS[stepIndex];
 
-    // Compute mascot emoji based on step (no side effects)
-    const stepEmoji = useMemo(() => {
+    // Compute mascot animation action based on step
+    const stepAction = useMemo(() => {
         switch (step.id) {
-            case 'intro': return '💪';
-            case 'name': return '👋';
-            case 'gender': return '🧬';
-            case 'stats': return '📊';
-            case 'goal': return '🎯';
-            case 'activity': return '🏃';
-            case 'plan': return '⚡';
-            case 'commit': return '🔥';
-            default: return '💪';
+            case 'intro': return 'idle';
+            case 'name': return 'idle';
+            case 'gender': return 'idle';
+            case 'stats': return 'idle';
+            case 'goal': return 'punch';
+            case 'activity': return 'run';
+            case 'plan': return 'idle';
+            case 'commit': return 'run';
+            default: return 'idle';
         }
     }, [step.id]);
 
@@ -93,9 +94,9 @@ export default function Onboarding({ onComplete }) {
             </div>
 
             <div className="ob-content">
-                {/* Step Icon Header */}
-                <div className="mascot-header" style={{ fontSize: 56, textAlign: 'center' }}>
-                    {stepEmoji}
+                {/* Step Mascot */}
+                <div className="mascot-header">
+                    <AjwaaMascot action={stepAction} height="120px" />
                 </div>
 
                 {/* 1. INTRO */}
@@ -189,15 +190,15 @@ export default function Onboarding({ onComplete }) {
                         </div>
                         <div className="ob-grid ob-input-area">
                             <Card
-                                icon={<Target />} label="Lose Body Fat" sub="Deficit (-500 cal)"
+                                icon={<KenneyIcon name="target" />} label="Lose Body Fat" sub="Deficit (-500 cal)"
                                 selected={data.goal === 'fat_loss'} onClick={() => setData({ ...data, goal: 'fat_loss' })}
                             />
                             <Card
-                                icon={<Dumbbell />} label="Build Muscle" sub="Surplus (+300 cal)"
+                                icon={<KenneyIcon name="fist" />} label="Build Muscle" sub="Surplus (+300 cal)"
                                 selected={data.goal === 'muscle_gain'} onClick={() => setData({ ...data, goal: 'muscle_gain' })}
                             />
                             <Card
-                                icon={<Zap />} label="Get Fit" sub="Maintenance"
+                                icon={<KenneyIcon name="power" />} label="Get Fit" sub="Maintenance"
                                 selected={data.goal === 'fitness'} onClick={() => setData({ ...data, goal: 'fitness' })}
                             />
                             <button className="ob-btn" onClick={next} disabled={!isStepValid()}>NEXT</button>
@@ -267,8 +268,8 @@ export default function Onboarding({ onComplete }) {
                         </div>
                         <div className="ob-input-area">
                             <div className={`ob-card ${data.commit ? 'selected' : ''}`} onClick={() => setData({ ...data, commit: true })}>
-                                <div className="ob-card-icon" style={{ background: data.commit ? '#22C55E' : '#e5e5e5', color: 'white' }}>
-                                    <Check size={24} strokeWidth={4} />
+                                <div className="ob-card-icon" style={{ background: data.commit ? '#22C55E' : '#e5e5e5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <KenneyIcon name="check" size={16} tint="white" />
                                 </div>
                                 <div style={{ textAlign: 'left' }}>
                                     <div style={{ fontWeight: 800 }}>I COMMIT</div>
@@ -288,12 +289,12 @@ export default function Onboarding({ onComplete }) {
 function Card({ icon, label, sub, selected, onClick }) {
     return (
         <div className={`ob-card ${selected ? 'selected' : ''}`} onClick={onClick}>
-            <div className="ob-card-icon">{icon}</div>
+            <div className="ob-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>
             <div style={{ textAlign: 'left', flex: 1 }}>
                 <div style={{ fontWeight: 800, fontSize: 16 }}>{label}</div>
                 {sub && <div style={{ fontSize: 12, opacity: 0.6 }}>{sub}</div>}
             </div>
-            {selected && <div style={{ color: 'var(--c-green)' }}><Check size={20} strokeWidth={3} /></div>}
+            {selected && <div style={{ color: 'var(--c-green)' }}><KenneyIcon name="check" size={20} /></div>}
         </div>
     );
 }

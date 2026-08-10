@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Scale, TrendingUp, Utensils, Beef, Wheat, Droplet } from 'lucide-react';
+import KenneyIcon from '../components/KenneyIcon';
 import './Stats.css';
 
 export default function Stats({ user, today, totals, getLast7Days, getWeightHistory }) {
@@ -51,7 +51,7 @@ export default function Stats({ user, today, totals, getLast7Days, getWeightHist
                         <div className="text-label" style={{ marginBottom: 8 }}>WEEKLY CALORIES</div>
                         <div className="weekly-chart">
                             {last7.map((d, i) => (
-                                <div key={i} className="weekly-bar-col">
+                                <div className="weekly-bar-col" key={i}>
                                     <div className="weekly-bar" style={{
                                         height: `${Math.max((d.cals / maxCals) * 100, 5)}%`,
                                         background: d.isToday ? 'var(--c-red)' : 'var(--c-red-light)',
@@ -66,9 +66,9 @@ export default function Stats({ user, today, totals, getLast7Days, getWeightHist
                     <div className="card" style={{ padding: 12 }}>
                         <div className="text-label" style={{ marginBottom: 8 }}>MACROS</div>
                         {[
-                            { label: 'Protein', val: totals.p, goal: user.macros.p, color: '#FFD700', icon: <Beef size={18} /> },
-                            { label: 'Carbs', val: totals.c, goal: user.macros.c, color: '#00BFFF', icon: <Wheat size={18} /> },
-                            { label: 'Fats', val: totals.f, goal: user.macros.f, color: '#FF4500', icon: <Droplet size={18} /> },
+                            { label: 'Protein', val: totals.p, goal: user.macros.p, color: '#FFD700', icon: <KenneyIcon name="food" size={18} /> },
+                            { label: 'Carbs', val: totals.c, goal: user.macros.c, color: '#00BFFF', icon: <KenneyIcon name="food" size={18} /> },
+                            { label: 'Fats', val: totals.f, goal: user.macros.f, color: '#FF4500', icon: <KenneyIcon name="food" size={18} /> },
                         ].map(m => (
                             <div key={m.label} className="macro-row">
                                 <span style={{ color: m.color }}>{m.icon}</span>
@@ -89,7 +89,7 @@ export default function Stats({ user, today, totals, getLast7Days, getWeightHist
                 <div className="weight-tab">
                     {weightHist.length === 0 ? (
                         <div className="card" style={{ textAlign: 'center', padding: 24 }}>
-                            <div style={{ marginBottom: 8, opacity: 0.3 }}><Scale size={48} /></div>
+                            <div style={{ marginBottom: 8, opacity: 0.3 }}><KenneyIcon name="scale" size={48} /></div>
                             <div className="text-label" style={{ marginTop: 8 }}>NO WEIGHT DATA YET</div>
                         </div>
                     ) : (
@@ -98,8 +98,8 @@ export default function Stats({ user, today, totals, getLast7Days, getWeightHist
                                 <div className="text-label" style={{ marginBottom: 8 }}>WEIGHT TREND</div>
                                 <div className="weight-chart">
                                     {weightHist.slice(-7).map((w, i) => {
-                                        const min = Math.min(...weightHist.map(w => w.weight));
-                                        const max = Math.max(...weightHist.map(w => w.weight));
+                                        const min = Math.min(...weightHist.map(x => x.weight));
+                                        const max = Math.max(...weightHist.map(x => x.weight));
                                         const range = max - min || 1;
                                         const pct = ((w.weight - min) / range) * 80 + 10;
                                         return (

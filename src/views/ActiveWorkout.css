@@ -41,6 +41,59 @@
     font-size: 12px;
 }
 
+/* Rest Timer Bar */
+.aw-timer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: var(--c-black);
+    color: var(--c-volt);
+    border-bottom: 2px solid var(--c-black);
+}
+
+.aw-timer-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.aw-timer-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.aw-timer-preset {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.aw-timer-preset:active {
+    background: var(--c-volt);
+    color: var(--c-black);
+}
+
+.aw-timer-reset {
+    background: var(--c-red);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
 .aw-body {
     flex: 1;
     overflow-y: auto;
@@ -67,17 +120,15 @@
     margin-bottom: 10px;
 }
 
-.aw-sets {}
-
 .aw-set-header-row {
     display: grid;
-    grid-template-columns: 30px 1fr 1fr 30px;
+    grid-template-columns: 24px 1fr 1fr 40px 32px 24px;
     gap: 6px;
     margin-bottom: 4px;
 }
 
 .aw-set-label {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 800;
     opacity: 0.5;
     text-align: center;
@@ -85,17 +136,61 @@
 
 .aw-set-row {
     display: grid;
-    grid-template-columns: 30px 1fr 1fr 30px;
+    grid-template-columns: 24px 1fr 1fr 40px 32px 24px;
     gap: 6px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     align-items: center;
+    transition: all 0.2s;
+}
+
+.aw-set-row.done {
+    opacity: 0.6;
 }
 
 .aw-set-num {
     font-weight: 800;
     font-size: 12px;
     text-align: center;
+    opacity: 0.5;
+}
+
+.aw-set-1rm {
+    font-size: 10px;
+    font-weight: 800;
+    opacity: 0.6;
+    text-align: center;
+    font-family: monospace;
+}
+
+.aw-set-check {
+    width: 26px;
+    height: 26px;
+    border: 2px solid var(--c-black);
+    border-radius: 6px;
+    background: var(--c-paper);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    margin: 0 auto;
+}
+
+.aw-set-check.checked {
+    background: var(--c-green);
+    color: var(--c-black);
+}
+
+.aw-set-del {
+    background: transparent;
+    border: none;
+    cursor: pointer;
     opacity: 0.4;
+    display: grid;
+    place-items: center;
+}
+
+.aw-set-del:hover {
+    opacity: 1;
+    color: var(--c-red);
 }
 
 .aw-add-set {
@@ -125,12 +220,12 @@
 
 .aw-set-input {
     width: 100%;
-    padding: 8px;
+    padding: 6px 4px;
     border: 2px solid var(--c-black);
     border-radius: 8px;
     font-family: var(--font);
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: 800;
+    font-size: 13px;
     text-align: center;
     background: white;
     outline: none;

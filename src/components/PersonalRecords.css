@@ -1,0 +1,111 @@
+.pr-card {
+    padding: 14px 16px;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    background: var(--c-paper);
+}
+
+.pr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.pr-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pr-title {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.pr-count {
+    font-size: 10px;
+    font-weight: 800;
+    background: var(--c-sand);
+    border: 1px solid var(--c-black);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.pr-empty {
+    text-align: center;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    opacity: 0.5;
+}
+
+.pr-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pr-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--c-sand);
+    border: 2px solid var(--c-black);
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 var(--c-black);
+}
+
+.pr-item-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pr-ex-name {
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.pr-ex-date {
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.5;
+}
+
+.pr-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.pr-weight-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--c-black);
+    color: var(--c-volt);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 900;
+    font-size: 12px;
+}
+
+.pr-reps {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.pr-est-1rm {
+    font-size: 9px;
+    font-weight: 700;
+    opacity: 0.6;
+}

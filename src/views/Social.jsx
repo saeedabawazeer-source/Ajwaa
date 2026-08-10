@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import KenneyIcon from '../components/KenneyIcon';
 import { getFriendsFeed } from '../data/friendsData';
-import { Flame, Dumbbell, CheckCircle, Camera, Utensils, ChevronDown, ChevronUp, Copy, Users, Image, Send } from 'lucide-react';
+import { useStore } from '../store/useStore';
 import './Social.css';
 
 function getCheckInFeed() {
@@ -47,7 +48,8 @@ function getTimeAgo(hours) {
     return '1d ago';
 }
 
-export default function Social({ userName, xp, streak, onCopyWorkout }) {
+export default function Social({ onCopyWorkout }) {
+    const { state, toggleSocialCheer } = useStore();
     const [tab, setTab] = useState('checkins');
     const feed = getFriendsFeed();
     const checkIns = getCheckInFeed();
@@ -65,16 +67,18 @@ export default function Social({ userName, xp, streak, onCopyWorkout }) {
         setTimeout(() => setNudged(prev => ({ ...prev, [friendId]: false })), 2000);
     }
 
+    const socialReactions = state.socialReactions || {};
+
     return (
         <div className="so-page">
-            {/* Tabs — Check-Ins first, Friends second */}
+            {/* Tabs */}
             <div className="so-tabs">
                 <button className={`so-tab ${tab === 'checkins' ? 'active' : ''}`} onClick={() => setTab('checkins')}>
-                    <Camera size={14} />
+                    <KenneyIcon name="camera" size={14} />
                     <span>Check-Ins</span>
                 </button>
                 <button className={`so-tab ${tab === 'friends' ? 'active' : ''}`} onClick={() => setTab('friends')}>
-                    <Users size={14} />
+                    <KenneyIcon name="social" size={14} />
                     <span>Friends</span>
                 </button>
             </div>
@@ -84,35 +88,48 @@ export default function Social({ userName, xp, streak, onCopyWorkout }) {
                 <div className="so-checkin-list">
                     {checkIns.length === 0 ? (
                         <div className="so-empty">
-                            <Image size={40} opacity={0.2} />
+                            <KenneyIcon name="camera" size={40} style={{ opacity: 0.2 }} />
                             <div>No check-ins yet today</div>
                         </div>
                     ) : (
-                        checkIns.map(c => (
-                            <div key={c.id} className="so-checkin-card">
-                                <div className="so-checkin-header">
-                                    <div className="so-checkin-avatar" style={{ background: c.avatar }}>{c.name[0]}</div>
-                                    <div className="so-checkin-who">
-                                        <span className="so-checkin-name">{c.name}</span>
-                                        <span className="so-checkin-time">{c.time}</span>
+                        checkIns.map(c => {
+                            const reaction = socialReactions[c.id] || { cheers: Math.floor(Math.sin(c.id.length * 3) * 4) + 2, userCheered: false };
+
+                            return (
+                                <div key={c.id} className="so-checkin-card">
+                                    <div className="so-checkin-header">
+                                        <div className="so-checkin-avatar" style={{ background: c.avatar }}>{c.name[0]}</div>
+                                        <div className="so-checkin-who">
+                                            <span className="so-checkin-name">{c.name}</span>
+                                            <span className="so-checkin-time">{c.time}</span>
+                                        </div>
+                                        <div className="so-checkin-type-badge" data-type={c.type}>
+                                            {c.type === 'workout' ? <KenneyIcon name="fist" size={11} /> : <KenneyIcon name="food" size={11} />}
+                                            {c.type === 'workout' ? 'Workout' : 'Meal'}
+                                        </div>
                                     </div>
-                                    <div className="so-checkin-type-badge" data-type={c.type}>
-                                        {c.type === 'workout' ? <Dumbbell size={11} /> : <Utensils size={11} />}
-                                        {c.type === 'workout' ? 'Workout' : 'Meal'}
+                                    <div className="so-checkin-photo" data-type={c.type}>
+                                        <div className="so-checkin-photo-icon">
+                                            {c.type === 'workout' ? <KenneyIcon name="fist" size={28} tint="volt" /> : <KenneyIcon name="food" size={28} />}
+                                        </div>
+                                        <div className="so-checkin-photo-title">{c.title}</div>
+                                    </div>
+                                    <div className="so-checkin-footer">
+                                        <span className="so-checkin-caption">{c.caption}</span>
+                                        <div className="so-checkin-actions-row">
+                                            <button 
+                                                className={`so-cheer-btn ${reaction.userCheered ? 'cheered' : ''}`}
+                                                onClick={() => toggleSocialCheer(c.id)}
+                                            >
+                                                <KenneyIcon name="power" size={12} tint={reaction.userCheered ? 'white' : 'black'} />
+                                                <span>{reaction.cheers}</span>
+                                            </button>
+                                            <span className="so-checkin-xp">+{c.xp} XP</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="so-checkin-photo" data-type={c.type}>
-                                    <div className="so-checkin-photo-icon">
-                                        {c.type === 'workout' ? <Dumbbell size={28} /> : <Utensils size={28} />}
-                                    </div>
-                                    <div className="so-checkin-photo-title">{c.title}</div>
-                                </div>
-                                <div className="so-checkin-footer">
-                                    <span className="so-checkin-caption">{c.caption}</span>
-                                    <span className="so-checkin-xp">+{c.xp} XP</span>
-                                </div>
-                            </div>
-                        ))
+                            );
+                        })
                     )}
                 </div>
             )}
@@ -127,15 +144,15 @@ export default function Social({ userName, xp, streak, onCopyWorkout }) {
                                 <div className="so-friend-info" onClick={() => f.workout && setExpanded(expanded === f.id ? null : f.id)}>
                                     <div className="so-friend-name">{f.name}</div>
                                     <div className="so-friend-meta">
-                                        LVL {f.level} <Flame size={10} fill="currentColor" style={{ color: 'var(--c-red)' }} /> {f.streak}
-                                        {f.hitTarget && <span className="so-hit"> <CheckCircle size={10} /> Hit target</span>}
+                                        LVL {f.level} <KenneyIcon name="power" size={10} /> {f.streak}
+                                        {f.hitTarget && <span className="so-hit"> <KenneyIcon name="check" size={10} /> Hit target</span>}
                                     </div>
                                 </div>
                                 <div className="so-friend-actions">
                                     {f.workout && (
                                         <div className="so-wo-badge" onClick={() => setExpanded(expanded === f.id ? null : f.id)}>
-                                            <Dumbbell size={11} /> {f.workout.title}
-                                            {expanded === f.id ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                                            <KenneyIcon name="fist" size={11} /> {f.workout.title}
+                                            {expanded === f.id ? <KenneyIcon name="arrowUp" size={12} /> : <KenneyIcon name="arrowDown" size={12} />}
                                         </div>
                                     )}
                                     <button 
@@ -143,7 +160,7 @@ export default function Social({ userName, xp, streak, onCopyWorkout }) {
                                         onClick={() => handleNudge(f.id)}
                                         disabled={nudged[f.id]}
                                     >
-                                        <Send size={12} />
+                                        <KenneyIcon name="arrowRight" size={12} tint="volt" />
                                         {nudged[f.id] ? 'SENT' : 'NUDGE'}
                                     </button>
                                 </div>
@@ -161,7 +178,7 @@ export default function Social({ userName, xp, streak, onCopyWorkout }) {
                                         );
                                     })}
                                     <button className="so-copy-btn" onClick={() => handleCopy(f.workout)}>
-                                        <Copy size={13} /> COPY WORKOUT
+                                        <KenneyIcon name="plus" size={13} /> COPY WORKOUT
                                     </button>
                                 </div>
                             )}

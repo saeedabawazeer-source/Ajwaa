@@ -1,10 +1,10 @@
 // ─── QUEST ENGINE ───
 // Daily quests that rotate and track progress
 
-const QUEST_POOL = [
+export const QUEST_POOL = [
     {
         id: 'all_meals',
-        title: 'Full Day',
+        title: 'Full Day Nutrition',
         desc: 'Log all 4 meal slots',
         xp: 30,
         check: (day) => {
@@ -14,80 +14,87 @@ const QUEST_POOL = [
         }
     },
     {
-        id: 'protein_150',
-        title: 'Protein Power',
-        desc: 'Hit 150g protein',
+        id: 'protein_target',
+        title: 'Protein Champion',
+        desc: 'Hit your daily protein goal',
         xp: 40,
-        check: (day) => {
+        check: (day, user) => {
+            const target = user?.macros?.p || 150;
             const p = [...day.meals.breakfast, ...day.meals.lunch, ...day.meals.dinner, ...day.meals.snacks].reduce((s, m) => s + m.p, 0);
-            return { current: Math.min(p, 150), target: 150, done: p >= 150 };
+            return { current: Math.min(p, target), target, done: p >= target };
         }
     },
     {
-        id: 'water_3',
-        title: 'Hydro Mode',
-        desc: 'Drink 3L of water',
-        xp: 20,
-        check: (day) => {
-            return { current: Math.min(day.water, 3), target: 3, done: day.water >= 3 };
+        id: 'water_goal',
+        title: 'Hydration Master',
+        desc: 'Hit your water target',
+        xp: 25,
+        check: (day, user) => {
+            const target = user?.waterGoal || 2.5;
+            return { current: Math.min(day.water, target), target, done: day.water >= target };
         }
     },
     {
-        id: 'workout_3ex',
-        title: 'Iron Session',
-        desc: 'Complete a workout with 3+ exercises',
+        id: 'workout_complete',
+        title: 'Iron Warrior',
+        desc: 'Complete a workout session today',
         xp: 50,
         check: (day) => {
-            const best = (day.workouts || []).reduce((b, w) => Math.max(b, w.exercises.length), 0);
-            return { current: Math.min(best, 3), target: 3, done: best >= 3 };
+            const count = (day.workouts || []).length;
+            return { current: Math.min(count, 1), target: 1, done: count >= 1 };
         }
     },
     {
         id: 'cal_target',
-        title: 'On Point',
-        desc: 'Stay within 100 kcal of your target',
-        xp: 40,
+        title: 'Calorie Precision',
+        desc: 'Stay within 100 kcal of target',
+        xp: 45,
         check: (day, user) => {
             const cals = [...day.meals.breakfast, ...day.meals.lunch, ...day.meals.dinner, ...day.meals.snacks].reduce((s, m) => s + m.cals, 0);
-            const diff = Math.abs(cals - user.calorieTarget);
+            const target = user?.calorieTarget || 2000;
+            const diff = Math.abs(cals - target);
             const done = cals > 0 && diff <= 100;
             return { current: done ? 1 : 0, target: 1, done };
         }
     },
     {
         id: 'log_5_items',
-        title: 'Food Tracker',
-        desc: 'Log 5 food items today',
+        title: 'Nutrition Tracker',
+        desc: 'Log at least 4 food items today',
         xp: 25,
         check: (day) => {
             const count = [...day.meals.breakfast, ...day.meals.lunch, ...day.meals.dinner, ...day.meals.snacks].length;
-            return { current: Math.min(count, 5), target: 5, done: count >= 5 };
-        }
-    },
-    {
-        id: 'water_2',
-        title: 'Stay Hydrated',
-        desc: 'Drink at least 2L of water',
-        xp: 15,
-        check: (day) => {
-            return { current: Math.min(day.water, 2), target: 2, done: day.water >= 2 };
-        }
-    },
-    {
-        id: 'any_workout',
-        title: 'Move It',
-        desc: 'Complete any workout',
-        xp: 30,
-        check: (day) => {
-            const count = (day.workouts || []).length;
-            return { current: Math.min(count, 1), target: 1, done: count >= 1 };
+            return { current: Math.min(count, 4), target: 4, done: count >= 4 };
         }
     },
 ];
 
+// Calculate Mifflin-St Jeor TDEE & Recommended Macros
+export function calculateTDEE({ gender = 'male', weight = 72.5, height = 180, age = 25, activityLevel = 1.375, goal = 'muscle_gain' }) {
+    // BMR (Mifflin-St Jeor)
+    let bmr = 10 * weight + 6.25 * height - 5 * age;
+    bmr += (gender === 'female' ? -161 : 5);
+
+    let tdee = Math.round(bmr * activityLevel);
+
+    // Goal adjustment
+    if (goal === 'cutting') tdee -= 400;
+    else if (goal === 'muscle_gain') tdee += 300;
+
+    tdee = Math.max(1200, Math.round(tdee));
+
+    // Macro Split
+    let p = Math.round(weight * 2.2); // ~1g per lb
+    let f = Math.round((tdee * 0.25) / 9); // 25% cals from fats
+    let c = Math.round((tdee - (p * 4 + f * 9)) / 4); // remaining from carbs
+
+    if (c < 50) c = 50;
+
+    return { calorieTarget: tdee, macros: { p, c, f } };
+}
+
 // Pick 3 quests for today based on date seed
 export function getDailyQuests(dateKey) {
-    // Simple hash from date string to get consistent daily selection
     let hash = 0;
     for (let i = 0; i < dateKey.length; i++) {
         hash = ((hash << 5) - hash) + dateKey.charCodeAt(i);
@@ -95,7 +102,6 @@ export function getDailyQuests(dateKey) {
     }
     hash = Math.abs(hash);
 
-    // Shuffle pool using hash as seed
     const pool = [...QUEST_POOL];
     for (let i = pool.length - 1; i > 0; i--) {
         const j = (hash + i * 37) % (i + 1);

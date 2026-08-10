@@ -1,26 +1,31 @@
-import { getXPProgress, getLevelTitle } from '../store/xpEngine';
-import { Trophy } from 'lucide-react';
-import './LevelUpModal.css';
+import { useEffect } from 'react';
+import KenneyIcon from './KenneyIcon';
+import './Modal.css';
 
-export default function LevelUpModal({ level, xp, onClose }) {
-    if (level === null || level === undefined) return null;
-    const progress = getXPProgress(xp);
-    const title = getLevelTitle(level);
+export default function LevelUpModal({ open, level, onClose }) {
+    useEffect(() => {
+        if (open) {
+            // Trigger haptic feedback if available
+            if (typeof navigator !== 'undefined' && navigator.vibrate) {
+                try { navigator.vibrate([200, 100, 200, 100, 400]); } catch { /* unsupported */ }
+            }
+        }
+    }, [open]);
+
+    if (!open) return null;
 
     return (
-        <div className="levelup-overlay" onClick={onClose}>
-            <div className="levelup-card" onClick={e => e.stopPropagation()}>
-                <div className="levelup-badge">
-                    <Trophy size={48} color="#FFB800" />
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-card level-up-card" onClick={e => e.stopPropagation()}>
+                <div className="lu-icon">
+                    <KenneyIcon name="trophy" size={64} tint="white" />
                 </div>
-                <div className="levelup-title">LEVEL UP!</div>
-                <div className="levelup-level">Level {level}</div>
-                <div className="levelup-rank">{title}</div>
-                <div className="levelup-xp-bar">
-                    <div className="levelup-xp-fill" style={{ width: `${progress.percentage}%` }} />
-                </div>
-                <div className="levelup-xp-text">{progress.progress} / {progress.needed} XP to next level</div>
-                <button className="btn btn-volt levelup-btn" onClick={onClose}>LET'S GO!</button>
+                <div className="lu-title">LEVEL UP!</div>
+                <div className="lu-subtitle">You reached Level {level}</div>
+                <p className="lu-desc">Your dedication is paying off. Keep pushing!</p>
+                <button className="btn btn-primary" onClick={onClose} style={{ width: '100%', marginTop: 24, fontSize: 16 }}>
+                    KEEP CRUSHING IT
+                </button>
             </div>
         </div>
     );
