@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Bell, Copy } from 'lucide-react'; // For the notification bell and export
+import { Bell, Copy } from 'lucide-react';
 
 const TODAY_KEY = () => {
   const d = new Date();
@@ -58,7 +58,7 @@ function useDay(dateKey) {
 
 function Bar({ pct, color }) {
   return (
-    <div style={{ height: 10, background: "#fff", border: "2px solid #111", borderRadius: 6, position: "relative", overflow: "hidden" }}>
+    <div style={{ height: 8, background: "#fff", border: "2px solid #111", borderRadius: 4, position: "relative", overflow: "hidden" }}>
       <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: color, transition: "width 200ms" }} />
     </div>
   );
@@ -70,21 +70,21 @@ function AnytimeCard({ cfg, value, onChange }) {
   return (
     <div style={{
       border: "2px solid #111",
-      borderRadius: 16,
+      borderRadius: 12,
       background: done ? cfg.color : "#fff",
-      color: "#111", // Prevent iOS default blue link/button colors bleeding
-      boxShadow: "3px 3px 0 #111",
-      padding: "12px 14px", // Bigger widget
+      color: "#111",
+      boxShadow: "2px 2px 0 #111",
+      padding: "6px 8px",
       display: "flex",
       flexDirection: "column",
-      gap: 8,
+      gap: 4,
     }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 13, textTransform: "uppercase", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cfg.label}</span>
-        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 18 }}>{value}<span style={{ fontSize: 11, opacity: 0.6 }}>/{cfg.target}</span></span>
+        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 11, textTransform: "uppercase", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cfg.label}</span>
+        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 13 }}>{value}<span style={{ fontSize: 9, opacity: 0.6 }}>/{cfg.target}</span></span>
       </div>
       <Bar pct={pct} color="#111" />
-      <div style={{ display: "flex", gap: 6 }}>
+      <div style={{ display: "flex", gap: 4 }}>
         <button
           onClick={() => onChange(Math.max(0, value - cfg.step))}
           style={btnStyle("#fff", "#111")}
@@ -102,14 +102,14 @@ function btnStyle(bg, color) {
   return {
     flex: 1,
     border: "2px solid #111",
-    borderRadius: 8,
+    borderRadius: 6,
     background: bg,
     color: color,
     fontFamily: "'Archivo Black', sans-serif",
-    fontSize: 12,
-    padding: "8px 0",
+    fontSize: 10,
+    padding: "4px 0",
     cursor: "pointer",
-    boxShadow: "2px 2px 0 #111",
+    boxShadow: "1px 1px 0 #111",
     textTransform: "uppercase",
   };
 }
@@ -119,16 +119,16 @@ function WaterWidget({ value, onChange }) {
   const pct = (value / target) * 100;
   return (
     <div style={{
-      border: "2px solid #111", borderRadius: 16, background: value >= target ? "#01A0A1" : "#fff",
-      boxShadow: "3px 3px 0 #111", padding: "12px 14px", display: "flex", gap: 12, alignItems: "center"
+      border: "2px solid #111", borderRadius: 12, background: value >= target ? "#01A0A1" : "#fff",
+      boxShadow: "2px 2px 0 #111", padding: "8px 12px", display: "flex", gap: 10, alignItems: "center"
     }}>
-      <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14, textTransform: "uppercase", color: value >= target ? "#F5F0E6" : "#111" }}>WATER</div>
-      <div style={{ flex: 1, height: 12, background: "#fff", border: "2px solid #111", borderRadius: 6, overflow: "hidden" }}>
+      <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 12, textTransform: "uppercase", color: value >= target ? "#F5F0E6" : "#111" }}>WATER</div>
+      <div style={{ flex: 1, height: 10, background: "#fff", border: "2px solid #111", borderRadius: 5, overflow: "hidden" }}>
         <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: "#01A0A1", transition: "width 200ms" }} />
       </div>
       <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 16, color: value >= target ? "#F5F0E6" : "#111" }}>{Number(value || 0).toFixed(1)}<span style={{ fontSize: 11, opacity: 0.8 }}>/{target.toFixed(1)}L</span></span>
-        <button onClick={() => onChange(Number(((value || 0) + 0.5).toFixed(1)))} style={{ background: value >= target ? "#111" : "#01A0A1", color: value >= target ? "#F5F0E6" : "#111", border: "2px solid #111", borderRadius: 8, padding: "6px 12px", fontFamily: "'Archivo Black', sans-serif", fontSize: 12, cursor: "pointer", boxShadow: "2px 2px 0 #111" }}>+0.5</button>
+        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14, color: value >= target ? "#F5F0E6" : "#111" }}>{Number(value || 0).toFixed(1)}<span style={{ fontSize: 10, opacity: 0.8 }}>/{target.toFixed(1)}L</span></span>
+        <button onClick={() => onChange(Number(((value || 0) + 0.5).toFixed(1)))} style={{ background: value >= target ? "#111" : "#01A0A1", color: value >= target ? "#F5F0E6" : "#111", border: "2px solid #111", borderRadius: 6, padding: "4px 8px", fontFamily: "'Archivo Black', sans-serif", fontSize: 10, cursor: "pointer", boxShadow: "1px 1px 0 #111" }}>+0.5</button>
       </div>
     </div>
   );
@@ -143,23 +143,23 @@ function GrowthRow({ cfg, count, onToggle }) {
         justifyContent: "space-between",
         alignItems: "center",
         border: "2px solid #111",
-        borderRadius: 16,
+        borderRadius: 12,
         background: count >= 4 ? "#111" : "#fff",
         color: count >= 4 ? "#F5F0E6" : "#111",
-        padding: "12px 14px",
-        marginBottom: 8,
+        padding: "6px 10px",
+        marginBottom: 6,
         cursor: "pointer",
         fontFamily: "'Archivo Black', sans-serif",
       }}
     >
       <div>
-        <div style={{ textTransform: "uppercase", fontSize: 13 }}>{cfg.label}</div>
-        <div style={{ fontSize: 11, opacity: 0.7, fontWeight: 400 }}>{cfg.scheme}</div>
+        <div style={{ textTransform: "uppercase", fontSize: 11 }}>{cfg.label}</div>
+        <div style={{ fontSize: 9, opacity: 0.7, fontWeight: 400 }}>{cfg.scheme}</div>
       </div>
-      <div style={{ display: "flex", gap: 4 }}>
+      <div style={{ display: "flex", gap: 3 }}>
         {[0, 1, 2, 3].map((i) => (
           <div key={i} style={{
-            width: 14, height: 14,
+            width: 12, height: 12,
             border: "2px solid " + (count >= 4 ? "#F5F0E6" : "#111"),
             borderRadius: 4,
             background: i < count ? "#C0FF72" : "transparent",
@@ -173,33 +173,36 @@ function GrowthRow({ cfg, count, onToggle }) {
 function WeekCalendar({ selected, onSelect }) {
   const days = [];
   const today = new Date();
+  const todayKey = TODAY_KEY();
+  
   for (let i = 6; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
     const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     const dayLabel = ["S", "M", "T", "W", "T", "F", "S"][d.getDay()];
-    days.push({ key, label: dayLabel, date: d.getDate() });
+    days.push({ key, label: dayLabel, date: d.getDate(), isToday: key === todayKey });
   }
   
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12, padding: "0 4px", marginTop: 4 }}>
+    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, padding: "0 2px", marginTop: 2 }}>
       {days.map(d => (
         <div 
           key={d.key}
           onClick={() => onSelect(d.key)}
           style={{
-            display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-            cursor: "pointer", opacity: d.key === selected ? 1 : 0.5
+            display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+            cursor: "pointer", opacity: d.key === selected ? 1 : 0.6
           }}
         >
-          <div style={{ fontSize: 10, fontFamily: "'Archivo Black', sans-serif" }}>{d.label}</div>
+          <div style={{ fontSize: 9, fontFamily: "'Archivo Black', sans-serif" }}>{d.label}</div>
           <div style={{ 
-            width: 34, height: 34, borderRadius: "50%", 
+            width: 28, height: 28, borderRadius: "50%", 
             background: d.key === selected ? "#111" : "transparent",
             color: d.key === selected ? "#F5F0E6" : "#111",
-            border: d.key === selected ? "none" : "2px solid #111",
+            border: d.isToday ? "2px solid #01A0A1" : (d.key === selected ? "2px solid #111" : "2px solid #111"),
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontFamily: "'Archivo Black', sans-serif", fontSize: 13
+            fontFamily: "'Archivo Black', sans-serif", fontSize: 11,
+            boxShadow: d.isToday && d.key === selected ? "0 0 0 2px #01A0A1" : "none"
           }}>
             {d.date}
           </div>
@@ -222,7 +225,7 @@ export default function SaeedProtocolView() {
         if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER" });
         } else if ("Notification" in window) {
-          new Notification("Buff Protocol Alert", { body: "DRINK WATER. DROP AND DO PUSHUPS. IS WHAT YOU'RE DOING RIGHT NOW WORTH THE REWARD?", icon: "/vite.svg" });
+          new Notification("SAEED PROTOCOL ALERT", { body: "DRINK WATER. DROP AND DO PUSHUPS. IS WHAT YOU'RE DOING RIGHT NOW WORTH THE REWARD?", icon: "/vite.svg" });
         }
       }, 60 * 60 * 1000); // 1 hour
     }
@@ -235,7 +238,7 @@ export default function SaeedProtocolView() {
     setNotifPerm(p);
     if (p === "granted" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
       navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER" });
-      new Notification("Buff Protocol Active", { body: "Spam notifications ACTIVE. Prepare to grind.", icon: "/vite.svg" });
+      new Notification("SAEED PROTOCOL ACTIVE", { body: "Spam notifications ACTIVE. Prepare to grind.", icon: "/vite.svg" });
     }
   };
 
@@ -255,7 +258,7 @@ export default function SaeedProtocolView() {
   const allDone = anytimeDoneCount === ANYTIME.length + 1 && growthDoneCount === GROWTH.length && day?.bend;
 
   const exportToObsidian = async () => {
-    const md = `### Buff Protocol — ${activeDateKey}
+    const md = `### Saeed Protocol — ${activeDateKey}
 - **Bend (Yoga)**: ${day?.bend ? "Done ✅" : "Missed ❌"}
 - **Water**: ${day?.anytime?.water || 0}/3.0 Liters
 - **Push-ups**: ${day?.anytime?.pushups || 0}/500
@@ -285,39 +288,41 @@ export default function SaeedProtocolView() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
         * { box-sizing: border-box; }
-        button:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #111 !important; }
+        button:active { transform: translate(2px,2px); box-shadow: 0px 0px 0 #111 !important; }
       `}</style>
 
       {/* Header */}
-      <div style={{ background: "#111", color: "#F5F0E6", padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ background: "#111", color: "#F5F0E6", padding: "16px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
-          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 18, letterSpacing: -0.5, textTransform: "uppercase" }}>
-            Buff Protocol
+          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 24, letterSpacing: -1, textTransform: "uppercase" }}>
+            SAEED PROTOCOL
           </div>
-          <div style={{ fontSize: 10, opacity: 0.7, marginTop: 2 }}>{activeDateKey} {allDone && "· ALL DONE 🔥"}</div>
+          <div style={{ fontSize: 11, fontWeight: "bold", color: "#01A0A1", marginTop: 2, textTransform: "uppercase" }}>
+            {activeDateKey} {allDone && "· ALL DONE 🔥"}
+          </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <button 
             onClick={exportToObsidian}
             style={{ 
               background: '#F5F0E6', color: '#111',
-              border: '2px solid #111', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' 
+              border: '2px solid #111', borderRadius: 8, padding: 8, cursor: 'pointer', display: 'flex' 
             }}>
-            <Copy size={18} color="#111" />
+            <Copy size={20} color="#111" />
           </button>
           <button 
             onClick={requestNotif}
             style={{ 
               background: notifPerm === 'granted' ? '#C0FF72' : '#F5F0E6', color: '#111',
-              border: '2px solid #111', borderRadius: 8, padding: 6, cursor: 'pointer', display: 'flex' 
+              border: '2px solid #111', borderRadius: 8, padding: 8, cursor: 'pointer', display: 'flex' 
             }}>
-            <Bell size={18} color="#111" />
+            <Bell size={20} color="#111" />
           </button>
         </div>
       </div>
 
-      {/* Main Content Pane (Scrollable if absolutely needed on tiny phones, but mostly fits) */}
-      <div style={{ padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", gap: 12, flex: 1, overflowY: "auto", overflowX: "hidden" }}>
+      {/* Main Content Pane */}
+      <div style={{ padding: "8px 10px 10px 10px", display: "flex", flexDirection: "column", gap: 8, flex: 1, overflowY: "auto", overflowX: "hidden" }}>
         
         <WeekCalendar selected={activeDateKey} onSelect={setActiveDateKey} />
 
@@ -326,11 +331,11 @@ export default function SaeedProtocolView() {
           onClick={() => save({ ...day, bend: !day.bend })}
           style={{
             border: "2px solid #111",
-            borderRadius: 16,
+            borderRadius: 12,
             background: day?.bend ? "#01A0A1" : "#fff",
             color: day?.bend ? "#F5F0E6" : "#111",
-            boxShadow: "3px 3px 0 #111",
-            padding: "12px 14px",
+            boxShadow: "2px 2px 0 #111",
+            padding: "8px 12px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -338,22 +343,22 @@ export default function SaeedProtocolView() {
           }}
         >
           <div>
-            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 15, textTransform: "uppercase" }}>Bend (Yoga)</div>
+            <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 13, textTransform: "uppercase" }}>Bend (Yoga)</div>
           </div>
           <div style={{
-            width: 24, height: 24, border: "2px solid " + (day?.bend ? "#F5F0E6" : "#111"), borderRadius: 8,
+            width: 20, height: 20, border: "2px solid " + (day?.bend ? "#F5F0E6" : "#111"), borderRadius: 6,
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontFamily: "'Archivo Black', sans-serif", fontSize: 14
+            fontFamily: "'Archivo Black', sans-serif", fontSize: 12
           }}>{day?.bend ? "✓" : ""}</div>
         </div>
 
         {/* Anytime List */}
         <div>
-          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 12, textTransform: "uppercase", marginBottom: 8, borderBottom: "2px solid #111", paddingBottom: 4 }}>
+          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 11, textTransform: "uppercase", marginBottom: 6, borderBottom: "2px solid #111", paddingBottom: 2 }}>
             Anytime List — {anytimeDoneCount}/{ANYTIME.length + 1}
           </div>
           <WaterWidget value={day?.anytime?.water || 0} onChange={(v) => setAnytime("water", v)} />
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
             {ANYTIME.map((cfg) => (
               <AnytimeCard key={cfg.id} cfg={cfg} value={day?.anytime?.[cfg.id] || 0} onChange={(v) => setAnytime(cfg.id, v)} />
             ))}
@@ -362,7 +367,7 @@ export default function SaeedProtocolView() {
 
         {/* Growth Session */}
         <div>
-          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 12, textTransform: "uppercase", marginBottom: 8, borderBottom: "2px solid #111", paddingBottom: 4 }}>
+          <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 11, textTransform: "uppercase", marginBottom: 6, borderBottom: "2px solid #111", paddingBottom: 2 }}>
             Growth Session — Tap to Log
           </div>
           {GROWTH.map((cfg) => (
@@ -370,9 +375,6 @@ export default function SaeedProtocolView() {
           ))}
         </div>
         
-        {/* Spacer for bottom */}
-        <div style={{ height: 20 }}></div>
-
       </div>
     </div>
   );
