@@ -165,16 +165,16 @@ export default function SaeedProtocolView() {
     return <div style={{ fontFamily: "monospace", padding: 40, textAlign: "center" }}>Loading…</div>;
   }
 
-  const setAnytime = (id, val) => save({ ...day, anytime: { ...day.anytime, [id]: val } });
+  const setAnytime = (id, val) => save({ ...day, anytime: { ...(day?.anytime || {}), [id]: val } });
   const bumpGrowth = (id) => {
-    const cur = day.growth[id] || 0;
+    const cur = day?.growth?.[id] || 0;
     const next = cur >= 4 ? 0 : cur + 1;
-    save({ ...day, growth: { ...day.growth, [id]: next } });
+    save({ ...day, growth: { ...(day?.growth || {}), [id]: next } });
   };
 
-  const anytimeDoneCount = ANYTIME.filter((c) => day.anytime[c.id] >= c.target).length;
-  const growthDoneCount = GROWTH.filter((c) => (day.growth[c.id] || 0) >= 4).length;
-  const allDone = anytimeDoneCount === ANYTIME.length && growthDoneCount === GROWTH.length && day.bend;
+  const anytimeDoneCount = ANYTIME.filter((c) => (day?.anytime?.[c.id] || 0) >= c.target).length;
+  const growthDoneCount = GROWTH.filter((c) => (day?.growth?.[c.id] || 0) >= 4).length;
+  const allDone = anytimeDoneCount === ANYTIME.length && growthDoneCount === GROWTH.length && day?.bend;
 
   return (
     <div style={{
@@ -246,7 +246,7 @@ export default function SaeedProtocolView() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
             {ANYTIME.map((cfg) => (
-              <AnytimeCard key={cfg.id} cfg={cfg} value={day.anytime[cfg.id] || 0} onChange={(v) => setAnytime(cfg.id, v)} />
+              <AnytimeCard key={cfg.id} cfg={cfg} value={day?.anytime?.[cfg.id] || 0} onChange={(v) => setAnytime(cfg.id, v)} />
             ))}
           </div>
         </div>
@@ -257,7 +257,7 @@ export default function SaeedProtocolView() {
             Growth Session — Tap to Log
           </div>
           {GROWTH.map((cfg) => (
-            <GrowthRow key={cfg.id} cfg={cfg} count={day.growth[cfg.id] || 0} onToggle={() => bumpGrowth(cfg.id)} />
+            <GrowthRow key={cfg.id} cfg={cfg} count={day?.growth?.[cfg.id] || 0} onToggle={() => bumpGrowth(cfg.id)} />
           ))}
         </div>
 

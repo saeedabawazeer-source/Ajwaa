@@ -60,6 +60,7 @@ function generateMockHistory() {
 
 // ─── INITIAL STATE ───
 const INITIAL_STATE = {
+    days: {},
     user: {
         name: 'Saeed',
         role: 'coach', // 'client' | 'coach'
@@ -220,7 +221,7 @@ function loadState() {
         if (saved) {
             const parsed = JSON.parse(saved);
             if (!parsed.user) parsed.user = INITIAL_STATE.user;
-            if (!parsed.days) parsed.days = INITIAL_STATE.days;
+            if (!parsed.days) parsed.days = {};
             if (!parsed.coachStudents) parsed.coachStudents = INITIAL_STATE.coachStudents;
             if (!parsed.coachAdvice) parsed.coachAdvice = INITIAL_STATE.coachAdvice;
             if (parsed.xp === undefined) parsed.xp = 0;
