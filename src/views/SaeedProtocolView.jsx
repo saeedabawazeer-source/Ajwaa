@@ -264,11 +264,11 @@ export default function SaeedProtocolView() {
     if (notifPerm === 'granted') {
       interval = setInterval(() => {
         if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-          navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER" });
+          navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER", intervalMinutes: 5 });
         } else if ("Notification" in window) {
-          new Notification("SAEED PROTOCOL ALERT", { body: "DRINK WATER. DROP AND DO PUSHUPS. IS WHAT YOU'RE DOING RIGHT NOW WORTH THE REWARD?", icon: "/favicon.jpg" });
+          new Notification("SAEED PROTOCOL ALERT", { body: "DRINK WATER. DROP AND DO PUSHUPS. IS WHAT YOU'RE DOING RIGHT NOW WORTH THE REWARD?", icon: "/vite.svg" });
         }
-      }, 60 * 60 * 1000); // 1 hour
+      }, 5 * 60 * 1000); // 5 minutes
     }
     return () => clearInterval(interval);
   }, [notifPerm]);
@@ -278,8 +278,8 @@ export default function SaeedProtocolView() {
     const p = await Notification.requestPermission();
     setNotifPerm(p);
     if (p === "granted" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER" });
-      new Notification("SAEED PROTOCOL ACTIVE", { body: "Spam notifications ACTIVE. Prepare to grind.", icon: "/favicon.jpg" });
+      navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER", intervalMinutes: 5 });
+      new Notification("SAEED PROTOCOL ACTIVE", { body: "Spam notifications ACTIVE. Prepare to grind.", icon: "/vite.svg" });
     }
   };
 
@@ -336,7 +336,7 @@ export default function SaeedProtocolView() {
       <div style={{ background: "#111", color: "#F5F0E6", padding: "16px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
           <div style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 24, letterSpacing: -1, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 10 }}>
-            <img src="/favicon.jpg" alt="Logo" style={{ width: 28, height: 28, borderRadius: 4, objectFit: "cover" }} />
+            <img src="/vite.svg" alt="Logo" style={{ width: 28, height: 28, borderRadius: 4 }} />
             SAEED PROTOCOL
           </div>
           <div style={{ fontSize: 11, fontWeight: "bold", color: "#01A0A1", marginTop: 2, textTransform: "uppercase" }}>
