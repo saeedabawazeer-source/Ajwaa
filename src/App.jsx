@@ -75,10 +75,9 @@ export default function App() {
     prevXPRef.current = state.xp;
   }, [state.xp]);
 
-  // Landing page state (bypassed if PIN 555 was entered or on /saeed route)
   const [showLanding, setShowLanding] = useState(() => {
-    if (isSaeedRoute) return false;
-    return localStorage.getItem('ajwaa_preset_unlocked') !== 'true';
+    if (isSaeedRoute || (typeof window !== 'undefined' && localStorage.getItem('ajwaa_last_view') === 'saeed')) return false;
+    return typeof window !== 'undefined' && localStorage.getItem('ajwaa_preset_unlocked') !== 'true';
   });
 
   if (showLanding) {

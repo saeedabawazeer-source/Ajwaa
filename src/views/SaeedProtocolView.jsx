@@ -113,7 +113,7 @@ function btnStyle(bg) {
 }
 
 function WaterWidget({ value, onChange }) {
-  const target = 12;
+  const target = 3.0; // 3 Liters
   const pct = (value / target) * 100;
   return (
     <div style={{
@@ -125,8 +125,8 @@ function WaterWidget({ value, onChange }) {
         <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: "#3B82F6", transition: "width 200ms" }} />
       </div>
       <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14 }}>{value}<span style={{ fontSize: 10, opacity: 0.6 }}>/{target}</span></span>
-        <button onClick={() => onChange(value + 1)} style={{ background: "#3B82F6", border: "2px solid #111", borderRadius: 8, padding: "4px 10px", fontFamily: "'Archivo Black', sans-serif", cursor: "pointer", boxShadow: "2px 2px 0 #111" }}>+1</button>
+        <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 14 }}>{Number(value || 0).toFixed(1)}<span style={{ fontSize: 10, opacity: 0.6 }}>/{target.toFixed(1)}L</span></span>
+        <button onClick={() => onChange(Number(((value || 0) + 0.5).toFixed(1)))} style={{ background: "#3B82F6", border: "2px solid #111", borderRadius: 8, padding: "4px 10px", fontFamily: "'Archivo Black', sans-serif", cursor: "pointer", boxShadow: "2px 2px 0 #111" }}>+0.5</button>
       </div>
     </div>
   );
@@ -195,14 +195,14 @@ export default function SaeedProtocolView() {
     save({ ...day, growth: { ...(day?.growth || {}), [id]: next } });
   };
 
-  const anytimeDoneCount = ANYTIME.filter((c) => (day?.anytime?.[c.id] || 0) >= c.target).length + ((day?.anytime?.water || 0) >= 12 ? 1 : 0);
+  const anytimeDoneCount = ANYTIME.filter((c) => (day?.anytime?.[c.id] || 0) >= c.target).length + ((day?.anytime?.water || 0) >= 3.0 ? 1 : 0);
   const growthDoneCount = GROWTH.filter((c) => (day?.growth?.[c.id] || 0) >= 4).length;
   const allDone = anytimeDoneCount === ANYTIME.length + 1 && growthDoneCount === GROWTH.length && day?.bend;
 
   const exportToObsidian = async () => {
     const md = `### Buff Protocol — ${dateKey}
 - **Bend (Yoga)**: ${day?.bend ? "Done ✅" : "Missed ❌"}
-- **Water**: ${day?.anytime?.water || 0}/12 cups
+- **Water**: ${day?.anytime?.water || 0}/3.0 Liters
 - **Push-ups**: ${day?.anytime?.pushups || 0}/500
 - **Rows**: ${day?.anytime?.rows || 0}/125
 - **Stomach Vacuums**: ${day?.anytime?.vacuums || 0}/15
