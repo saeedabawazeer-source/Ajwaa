@@ -217,7 +217,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Header userName={state.user.name} streak={streak} />
+      {activeView !== 'saeed' && <Header userName={state.user.name} streak={streak} />}
       <div className="view-section">
         {renderView()}
       </div>
