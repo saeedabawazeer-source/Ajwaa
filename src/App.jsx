@@ -25,6 +25,11 @@ export default function App() {
   const store = useStore();
   const { state } = store;
 
+  const isSaeedRoute = typeof window !== 'undefined' && (
+    window.location.pathname.includes('/saeed') || 
+    window.location.hash === '#saeed'
+  );
+
   const [activeView, setActiveView] = useState(() => {
     if (typeof window !== 'undefined') {
       if (window.location.pathname.includes('/saeed') || window.location.hash === '#saeed') {
