@@ -273,27 +273,50 @@ export default function SaeedProtocolView() {
   const GROWTH = SPLITS[dayOfWeek];
 
   useEffect(() => {
-    // Aggressive hourly spam timer if permissions are granted
-    let interval;
-    if (notifPerm === 'granted') {
-      interval = setInterval(() => {
-        if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-          navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER", intervalMinutes: 5 });
-        } else if ("Notification" in window) {
-          new Notification("SAEED PROTOCOL ALERT", { body: "DRINK WATER. DROP AND DO PUSHUPS. IS WHAT YOU'RE DOING RIGHT NOW WORTH THE REWARD?", icon: "/vite.svg" });
-        }
-      }, 5 * 60 * 1000); // 5 minutes
-    }
-    return () => clearInterval(interval);
+    // We now rely purely on the Node.js backend Web Push to send notifications
+    // every 5 minutes in the background, so we don't need a local setInterval.
   }, [notifPerm]);
 
   const requestNotif = async () => {
     if (typeof window === "undefined" || !("Notification" in window)) return;
     const p = await Notification.requestPermission();
     setNotifPerm(p);
-    if (p === "granted" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: "SCHEDULE_ACCUMULATION_REMINDER", intervalMinutes: 5 });
-      new Notification("SAEED PROTOCOL ACTIVE", { body: "Spam notifications ACTIVE. Prepare to grind.", icon: "/vite.svg" });
+    
+    if (p === "granted" && "serviceWorker" in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.ready;
+        
+        // Convert VAPID key
+        const publicVapidKey = 'BK9homfUFtlgX6nhatmHlO0mvckJn2rnfuPhc95kXXR30LluBIoL2LMpdBMU0i148PE6_kYaFbIG45LhC4ddk_M';
+        const urlBase64ToUint8Array = (base64String) => {
+          const padding = '='.repeat((4 - base64String.length % 4) % 4);
+          const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+          const rawData = window.atob(base64);
+          const outputArray = new Uint8Array(rawData.length);
+          for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+          }
+          return outputArray;
+        };
+
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+        });
+
+        await fetch('/api/subscribe', {
+          method: 'POST',
+          body: JSON.stringify(subscription),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        new Notification("SAEED PROTOCOL ACTIVE", { body: "True background spam activated. Prepare to grind.", icon: "/vite.svg" });
+      } catch (err) {
+        console.error('Failed to subscribe to Web Push:', err);
+        new Notification("SAEED PROTOCOL", { body: "Local spam active, but background push failed.", icon: "/vite.svg" });
+      }
     }
   };
 
