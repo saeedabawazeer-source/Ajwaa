@@ -17,44 +17,58 @@ const SPLITS = {
   0: [ // Sun - Push
     { id: "pike", label: "Pike Push-ups", scheme: "4 x 10–12" },
     { id: "diamond", label: "Diamond Push-ups", scheme: "4 x 12-15" },
-    { id: "latraise", label: "Lateral Raises (Jugs)", scheme: "4 x 15" }
+    { id: "dips", label: "Chair Dips", scheme: "4 x 12" },
+    { id: "latraise", label: "Lateral Raises (Jugs)", scheme: "4 x 15" },
+    { id: "frontraise", label: "Front Raises (Jugs)", scheme: "3 x 15" }
   ],
   1: [ // Mon - Pull
     { id: "pullups", label: "Pull-ups / Door Rows", scheme: "4 x 8-10" },
+    { id: "revfly", label: "Reverse Flys (Jugs)", scheme: "4 x 15" },
     { id: "curls", label: "Bicep Curls (Jugs)", scheme: "4 x 20" },
+    { id: "hammer", label: "Hammer Curls (Jugs)", scheme: "3 x 15" },
     { id: "shrugs", label: "Shrugs (Jugs)", scheme: "4 x 15" }
   ],
   2: [ // Tue - Legs
     { id: "split", label: "Bulgarian Split Squats", scheme: "4 x 12" },
     { id: "sissy", label: "Sissy Squats", scheme: "4 x 15" },
-    { id: "calf", label: "Single-Leg Calf Raises", scheme: "4 x 20" }
+    { id: "glute", label: "Glute Bridges", scheme: "4 x 15" },
+    { id: "calf", label: "Single-Leg Calf Raises", scheme: "4 x 20" },
+    { id: "wallsit", label: "Wall Sit", scheme: "3 x 45s" }
   ],
   3: [ // Wed - Core/Iso
     { id: "vups", label: "Weighted V-Ups", scheme: "4 x 15" },
     { id: "plank", label: "Plank → Down Dog", scheme: "4 x 15" },
-    { id: "larch", label: "L-Sit / Arch Body", scheme: "4 x 30s" }
+    { id: "twist", label: "Russian Twists (Jugs)", scheme: "4 x 20" },
+    { id: "larch", label: "L-Sit / Arch Body", scheme: "4 x 30s" },
+    { id: "hollowrocks", label: "Hollow Body Rocks", scheme: "4 x 15" }
   ],
   4: [ // Thu - Push
     { id: "pike", label: "Pike Push-ups", scheme: "4 x 10–12" },
     { id: "diamond", label: "Diamond Push-ups", scheme: "4 x 12-15" },
-    { id: "latraise", label: "Lateral Raises (Jugs)", scheme: "4 x 15" }
+    { id: "dips", label: "Chair Dips", scheme: "4 x 12" },
+    { id: "latraise", label: "Lateral Raises (Jugs)", scheme: "4 x 15" },
+    { id: "frontraise", label: "Front Raises (Jugs)", scheme: "3 x 15" }
   ],
   5: [ // Fri - Pull
     { id: "pullups", label: "Pull-ups / Door Rows", scheme: "4 x 8-10" },
+    { id: "revfly", label: "Reverse Flys (Jugs)", scheme: "4 x 15" },
     { id: "curls", label: "Bicep Curls (Jugs)", scheme: "4 x 20" },
+    { id: "hammer", label: "Hammer Curls (Jugs)", scheme: "3 x 15" },
     { id: "shrugs", label: "Shrugs (Jugs)", scheme: "4 x 15" }
   ],
   6: [ // Sat - Legs
     { id: "split", label: "Bulgarian Split Squats", scheme: "4 x 12" },
     { id: "sissy", label: "Sissy Squats", scheme: "4 x 15" },
-    { id: "calf", label: "Single-Leg Calf Raises", scheme: "4 x 20" }
+    { id: "glute", label: "Glute Bridges", scheme: "4 x 15" },
+    { id: "calf", label: "Single-Leg Calf Raises", scheme: "4 x 20" },
+    { id: "wallsit", label: "Wall Sit", scheme: "3 x 45s" }
   ]
 };
 
 const BLANK_DAY = () => ({
   bend: false,
   anytime: { pushups: 0, vacuums: 0, hollow: 0, rows: 0, water: 0 },
-  growth: { pike: 0, split: 0, vups: 0, curls: 0, plank: 0, diamond: 0, latraise: 0, pullups: 0, shrugs: 0, sissy: 0, calf: 0, larch: 0 },
+  growth: { pike: 0, split: 0, vups: 0, curls: 0, plank: 0, diamond: 0, latraise: 0, pullups: 0, shrugs: 0, sissy: 0, calf: 0, larch: 0, dips: 0, frontraise: 0, revfly: 0, hammer: 0, glute: 0, wallsit: 0, twist: 0, hollowrocks: 0 },
 });
 
 function useDay(dateKey) {
