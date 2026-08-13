@@ -5,7 +5,6 @@ export default function Confetti({ active, onDone }) {
 
     useEffect(() => {
         if (!active) return;
-        let animationId;
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -55,15 +54,14 @@ export default function Confetti({ active, onDone }) {
             }
             frame++;
             if (alive && frame < 120) {
-                animationId = requestAnimationFrame(draw);
+                requestAnimationFrame(draw);
             } else {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 onDone && onDone();
             }
         }
         draw();
-        return () => cancelAnimationFrame(animationId);
-    }, [active, onDone]);
+    }, [active]);
 
     if (!active) return null;
 

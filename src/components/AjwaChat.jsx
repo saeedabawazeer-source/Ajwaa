@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import KenneyIcon from './KenneyIcon';
+import { X, Send, Sparkles, Bot } from 'lucide-react';
 import { generateAjwaResponse, getWelcomeMessage } from '../utils/ajwaChat';
 import './AjwaChat.css';
 
@@ -14,7 +14,7 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
     useEffect(() => {
         if (open) {
             const welcome = getWelcomeMessage(user, totals, streak);
-            setTimeout(() => setMessages([{ role: 'ajwa', text: welcome }]), 0);
+            setMessages([{ role: 'ajwa', text: welcome }]);
             setTimeout(() => inputRef.current?.focus(), 300);
         }
     }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -60,14 +60,14 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                 <div className="ajwa-header">
                     <div className="ajwa-header-left">
                         <div className="ajwa-logo" style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--c-volt)', display: 'grid', placeItems: 'center' }}>
-                            <KenneyIcon name="star" size={20} />
+                            <Sparkles size={20} color="var(--c-black)" />
                         </div>
                         <div>
                             <div className="ajwa-title">Ajwa</div>
                             <div className="ajwa-sub">Your fitness AI</div>
                         </div>
                     </div>
-                    <button className="ajwa-close" onClick={onClose}><KenneyIcon name="cross" size={14} /></button>
+                    <button className="ajwa-close" onClick={onClose}><X size={18} /></button>
                 </div>
 
                 {/* Messages */}
@@ -76,7 +76,7 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                         <div key={i} className={`ajwa-bubble ${msg.role}`}>
                             {msg.role === 'ajwa' && (
                                 <div className="ajwa-bubble-icon" style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--c-volt)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
-                                    <KenneyIcon name="robot" size={16} />
+                                    <Bot size={14} color="var(--c-black)" />
                                 </div>
                             )}
                             <div className="ajwa-bubble-text">{msg.text}</div>
@@ -85,7 +85,7 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                     {typing && (
                         <div className="ajwa-bubble ajwa">
                             <div className="ajwa-bubble-icon" style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--c-volt)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
-                                <KenneyIcon name="robot" size={16} />
+                                <Bot size={14} color="var(--c-black)" />
                             </div>
                             <div className="ajwa-typing"><span /><span /><span /></div>
                         </div>
@@ -121,7 +121,7 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                         onKeyDown={handleKeyDown}
                     />
                     <button className="ajwa-send" onClick={handleSend} disabled={!input.trim()}>
-                        <KenneyIcon name="arrowRight" size={16} tint="white" />
+                        <Send size={16} />
                     </button>
                 </div>
             </div>

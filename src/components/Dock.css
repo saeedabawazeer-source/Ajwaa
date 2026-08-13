@@ -1,68 +1,65 @@
 .dock {
     position: fixed;
-    bottom: 16px;
+    /* Fixed instead of absolute to stay on screen */
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: calc(100% - 32px);
+    width: calc(100% - 40px);
     max-width: 400px;
-    height: 60px;
+    /* Prevent it from getting too wide on desktop */
+    height: 64px;
     background: var(--c-black);
-    border: 3px solid var(--c-black);
+    border: 4px solid var(--c-black);
     border-radius: 999px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 12px;
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 0 16px;
+    /* Reduced padding for smaller screens */
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.15);
     z-index: 1000;
+    /* Higher z-index */
     box-sizing: border-box;
+    /* Ensure padding doesn't add to width */
 }
 
 .nav-item {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 1.0);
+    /* Solid white, no faint grey */
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.15s, transform 0.1s;
+    transition: color 0.15s;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 6px;
+    padding: 8px;
     flex: 1;
+    /* Distribute space evenly */
 }
 
 .nav-item.active {
     color: var(--c-volt);
-    transform: scale(1.1);
 }
 
 .nav-fab {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    /* Slightly smaller for better fit */
+    height: 56px;
     background: var(--c-volt);
     color: var(--c-black);
-    border: 3px solid var(--c-black);
+    border: 4px solid var(--c-black);
     border-radius: 50%;
-    margin-top: -24px;
+    margin-top: -36px;
     display: grid;
     place-items: center;
-    box-shadow: 3px 3px 0 var(--c-black);
-    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: inset 0 0 0 3px #000000;
+    /* Neobrutal inner stroke */
+    transition: transform 0.1s;
     cursor: pointer;
     flex-shrink: 0;
-    overflow: hidden;
 }
 
 .nav-fab:active {
-    transform: scale(0.92);
-}
-
-.dock-mascot-wrap {
-    width: 46px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: scale(0.65);
-    margin-top: -6px;
+    transform: scale(0.95);
 }

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import KenneyIcon from './KenneyIcon';
+import { Camera, X, Check, Scan, Image as ImageIcon } from 'lucide-react';
 import './CheckInModal.css';
 
 export default function CheckInModal({ onClose, onConfirm }) {
@@ -76,9 +76,9 @@ export default function CheckInModal({ onClose, onConfirm }) {
                 {/* Header */}
                 <div className="checkin-header">
                     <div className="checkin-title">
-                        <KenneyIcon name="camera" size={18} tint="white" /> Time to be real.
+                        <Scan size={18} color="var(--c-volt)" /> Time to be real.
                     </div>
-                    <button className="checkin-close" onClick={onClose}><KenneyIcon name="cross" size={16} tint="white" /></button>
+                    <button className="checkin-close" onClick={onClose}><X size={20} /></button>
                 </div>
 
                 {/* Viewport */}
@@ -88,7 +88,7 @@ export default function CheckInModal({ onClose, onConfirm }) {
                             <video ref={videoRef} autoPlay playsInline muted className="checkin-video" />
                             {error && (
                                 <div className="checkin-error-overlay" onClick={takePhoto}>
-                                    <KenneyIcon name="camera" size={32} style={{ opacity: 0.5 }} />
+                                    <ImageIcon size={32} opacity={0.5} />
                                     <p>{error}</p>
                                 </div>
                             )}
@@ -128,7 +128,7 @@ export default function CheckInModal({ onClose, onConfirm }) {
                                 Retake
                             </button>
                             <button className="checkin-btn-primary" onClick={submit}>
-                                <KenneyIcon name="check" size={18} /> Post Check-in
+                                <Check size={18} /> Post Check-in
                             </button>
                         </>
                     )}

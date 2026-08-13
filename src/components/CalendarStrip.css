@@ -70,8 +70,7 @@
 
 .cal-ring {
     position: absolute;
-    top: -2px;
-    left: -2px;
+    inset: -2px;
     width: 36px;
     height: 36px;
     transform: rotate(-90deg);

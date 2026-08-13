@@ -1,6 +1,8 @@
 // ─── ACHIEVEMENTS ───
 // Badge definitions with unlock conditions
 
+import { Trophy, Flame, Zap, Target, Droplets, Dumbbell, Star, Crown, Shield, Award, Heart, Sunrise } from 'lucide-react';
+
 export const ACHIEVEMENTS = [
     {
         id: 'first_meal',

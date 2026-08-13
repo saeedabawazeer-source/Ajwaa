@@ -1,337 +1,599 @@
-.dash-single-screen {
+/* Dashboard — Activity & Action Focus */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popBounce {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.dash {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    overflow: hidden; /* ABSOLUTELY NO SCROLLING */
-}
-
-/* Top Bar */
-.d-top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    flex-shrink: 0;
-}
-
-.d-top-bar .calendar-strip {
-    flex: 1;
-}
-
-.d-streak-tag {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 10px;
-    background: var(--c-black);
-    color: var(--c-volt);
-    border: 2px solid var(--c-black);
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 900;
-    white-space: nowrap;
-    box-shadow: 2px 2px 0 var(--c-black);
-    flex-shrink: 0;
-}
-
-/* Hero Nutrition Card */
-.d-hero-card {
-    padding: 6px 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
-.d-hero-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    height: calc(100dvh - 48px - 104px);
+    padding: 0 14px;
+    overflow: visible;
+    /* Allow shadows to pop out */
     gap: 8px;
 }
 
-.d-cal-ring-box {
+/* ── Calendar Strip (Now in separate file, but spacing handled here) ── */
+
+.d-stats-card {
+    /* Ensure card doesn't clip mascot if we change layering */
     position: relative;
-    width: 58px;
-    height: 58px;
-    flex-shrink: 0;
+    /* overflow: visible; default is visible but good to be explicit */
+    z-index: 5;
+    background: #1A1A1A;
+    /* Keep dark bg */
+    margin-top: 20px;
+    /* Space for mascot head if needed */
+    color: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* Left: Ring */
+.d-sc-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
     cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.d-ring-svg-wrap {
     position: relative;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    place-items: center;
+    /* Anchor for absolute text */
 }
 
-.d-ring-svg {
-    width: 100%;
-    height: 100%;
+.d-sc-left:active {
+    transform: scale(0.96);
+    transition: 0.1s;
 }
 
-.d-ring-center {
+.d-sc-ring-wrap {
+    position: relative;
+    width: 84px;
+    height: 84px;
+}
+
+.d-sc-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.d-sc-ring-inner {
     position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.d-add-icon-big {
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+.d-sc-cal-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    line-height: 1;
+    pointer-events: none;
+    /* Let clicks pass to ring */
 }
 
-.d-ring-cals {
-    font-size: 14px;
-    font-weight: 900;
-    color: var(--c-black);
+.d-sc-val {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
 }
 
-.d-ring-target {
-    font-size: 9px;
-    font-weight: 800;
+.d-sc-label {
+    font-size: 10px;
+    font-weight: 700;
     opacity: 0.6;
 }
 
-/* Macros Col */
-.d-macros-col {
-    flex: 1;
+/* Center: Macros */
+.d-sc-center {
+    flex: 1.5;
+    /* Give it space, but allow sharing with right col */
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    justify-content: center;
+    gap: 10px;
 }
 
 .d-macro-row {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 4px;
 }
 
-.d-mr-hdr {
+.d-mr-labels {
     display: flex;
     justify-content: space-between;
-    font-size: 10.5px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0.8;
 }
 
-.d-mr-track {
+.d-mr-bar {
     height: 6px;
-    background: rgba(0,0,0,0.08);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 3px;
     overflow: hidden;
-    border: 1px solid var(--c-black);
 }
-.d-mr-track.protein { background: rgba(214, 40, 40, 0.15); }
-.d-mr-track.carbs { background: rgba(59, 130, 246, 0.15); }
-.d-mr-track.fats { background: rgba(234, 179, 8, 0.15); }
 
 .d-mr-fill {
     height: 100%;
-    transition: width 0.4s ease;
-    background: var(--c-black);
+    border-radius: 3px;
+    transition: width 0.5s ease;
 }
 
-.d-mr-fill.protein { background: var(--c-red); border-right: 1.5px solid var(--c-black); }
-.d-mr-fill.carbs { background: #3B82F6; border-right: 1.5px solid var(--c-black); }
-.d-mr-fill.fats { background: #EAB308; border-right: 1.5px solid var(--c-black); }
+.d-mr-fill.p {
+    background: #FFD700;
+}
 
-.d-log-food-btn {
+/* Protein Gold */
+.d-mr-fill.c {
+    background: #00BFFF;
+}
+
+/* Carbs Blue */
+.d-mr-fill.f {
+    background: #FF4500;
+}
+
+/* Fat Red */
+
+/* Right: Log Meal Button */
+.d-sc-right {
+    flex: 1;
+    /* Shorter than macros */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    background: var(--c-paper);
-    border: 2px solid var(--c-black);
-    padding: 7px;
-    border-radius: 10px;
-    font-weight: 900;
-    font-size: 11.5px;
-    box-shadow: 2px 2px 0 var(--c-black);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     cursor: pointer;
-    transition: transform 0.1s;
-    margin-top: 2px;
+    transition: 0.2s;
 }
 
-.d-log-food-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: none;
+.d-sc-right:active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.96);
 }
 
-/* Vitals Row */
+.d-sc-log-icon {
+    width: 32px;
+    height: 32px;
+    background: white;
+    color: var(--c-black);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.d-sc-log-lbl {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    text-align: center;
+    line-height: 1.1;
+}
+
+/* Water Integrated - OLD, Removed or Moved? The user didn't ask to remove water, but standard conflict. 
+   Checking Dashboard.jsx, Water is in d-vitals-row now. 
+   So I can overwrite the old .d-sc-right if it existed for water previously in the card.
+   Wait, looking at file content lines 224-263... 
+   Ah, previous css had .d-sc-right for 'Water Integrated'. 
+   But Dashboard.jsx NO LONGER uses .d-sc-right for water inside the main card (it has d-vital-card water separate).
+   So it is safe to overwrite/purpose .d-sc-right for this new Log Meal button.
+*/
+
+/* ── Ajwa Section ── */
+.d-ajwa-section {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin-bottom: 2px;
+    margin-top: 4px;
+    pointer-events: none;
+    /* Prevent blocking clicks */
+    z-index: 10;
+}
+
+.d-ajwa-avatar {
+    width: 36px;
+    height: 36px;
+    /* Shrink from 48px */
+    background: var(--c-black);
+    border-radius: 50%;
+    border: 2px solid var(--c-black);
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    pointer-events: auto;
+    /* Allow avatar interaction if needed */
+}
+
+.d-ajwa-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.d-ajwa-bubble {
+    background: var(--c-black);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+    position: relative;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: auto;
+}
+
+.d-bubble-arrow {
+    position: absolute;
+    left: -6px;
+    bottom: 10px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 6px solid var(--c-black);
+}
+
+/* ── Vitals Row (Water + Steps) ── */
 .d-vitals-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-    flex-shrink: 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* ── Vitals Row (Water + Steps) ── */
+.d-vitals-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 .d-vital-card {
-    position: relative;
     background: var(--c-paper);
+    /* White (60%) */
+    color: var(--c-black);
     border: 2px solid var(--c-black);
-    border-radius: 10px;
-    padding: 6px 8px;
+    /* Branding */
+    border-radius: var(--radius);
+    padding: 14px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
+    position: relative;
     overflow: hidden;
+    height: 80px;
     cursor: pointer;
-    transition: transform 0.1s;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .d-vital-card:active {
-    transform: translate(1px, 1px);
-    box-shadow: none;
+    transform: scale(0.96);
+    transition: 0.1s;
+}
+
+.d-vital-icon {
+    margin-bottom: 4px;
+    z-index: 2;
+    position: relative;
 }
 
 .d-vital-info {
+    z-index: 2;
+    position: relative;
     display: flex;
     flex-direction: column;
-    line-height: 1.1;
-    z-index: 2;
-    min-width: 0;
 }
 
 .d-vital-val {
-    font-weight: 900;
-    font-size: 10.5px;
-    white-space: nowrap;
-    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
 }
 
 .d-vital-lbl {
-    font-size: 9px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 700;
     opacity: 0.6;
     text-transform: uppercase;
 }
 
-.d-vital-add {
-    margin-left: auto;
-    font-weight: 900;
-    font-size: 12px;
-    opacity: 0.5;
-    z-index: 2;
+/* Water Specific */
+.d-vital-card.water .d-vital-icon {
+    color: #3B82F6;
 }
 
 .d-vital-bg-bar {
     position: absolute;
-    top: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.06);
-    transition: width 0.4s ease;
+    right: 0;
+    background: #BFDBFE;
+    opacity: 0.5;
+    transition: height 0.4s ease;
     z-index: 1;
 }
 
-.d-vital-card.water .d-vital-bg-bar {
-    background: #3B82F6;
-    opacity: 0.3;
+.d-vital-add {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    opacity: 0.2;
+    z-index: 2;
+    color: var(--c-black);
 }
 
-/* Checkin card when done: use green tint so it doesn't compete with primary Volt hero button */
-.d-vital-card.checkin.done {
-    background: #DCFCE7;
-    border-color: #15803D;
-    color: #14532D;
+/* Weight Specific */
+.d-vital-card.weight .d-vital-icon {
+    color: #14B8A6;
 }
 
-/* Compact XP Card */
-.d-xp-card-compact {
-    padding: 6px 10px;
-    background: var(--c-black);
-    color: white;
-    border: 2px solid var(--c-black);
-    border-radius: 10px;
-    box-shadow: 2px 2px 0 var(--c-black);
-    flex-shrink: 0;
-}
-
-.d-xp-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.d-lvl-tag {
-    font-size: 11px;
-    font-weight: 900;
-    color: var(--c-volt);
-    white-space: nowrap;
-}
-
-.d-xp-bar-bg {
-    flex: 1;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.d-xp-bar-fill {
-    height: 100%;
-    background: var(--c-volt);
-    border-radius: 3px;
-    transition: width 0.4s ease;
-}
-
-.d-xp-vals {
-    font-size: 10px;
-    font-weight: 800;
-    opacity: 0.7;
-    white-space: nowrap;
-}
-
-/* SINGLE LOUD ACCENT PRIMARY CTA BUTTON */
+/* ── Action Hero (Full Width Workout) ── */
 .d-action-hero {
+    width: 100%;
+    min-height: 80px;
+    background: #A3E635;
+    /* Vibrant Lime Green (Big Green Button) */
+    border: 3px solid var(--c-black);
+    color: var(--c-black);
+    border-radius: var(--radius);
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 12px;
-    background: var(--c-volt);
-    color: var(--c-black);
-    border: 2.5px solid var(--c-black);
-    border-radius: 12px;
-    box-shadow: 3px 3px 0 var(--c-black);
     cursor: pointer;
+    box-shadow: 4px 4px 0 var(--c-black);
+    /* Hard Shadow */
     transition: transform 0.1s;
-    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
 }
 
 .d-action-hero:active {
     transform: translate(2px, 2px);
-    box-shadow: none;
+    box-shadow: 2px 2px 0 var(--c-black);
 }
 
 .d-ah-content {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
+    z-index: 2;
 }
 
 .d-ah-icon {
-    width: 28px;
-    height: 28px;
+    width: 48px;
+    height: 48px;
     background: var(--c-black);
-    color: var(--c-volt);
-    border-radius: 7px;
-    display: grid;
-    place-items: center;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #A3E635;
+    /* Green Icon */
+    border: none;
+}
+
+.d-ah-text {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 
 .d-ah-title {
-    font-size: 12.5px;
+    font-size: 18px;
     font-weight: 900;
-    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.d-ah-sub {
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0.8;
 }
 
 .d-ah-arrow {
-    background: var(--c-black);
-    color: var(--c-volt);
-    padding: 3px 10px;
-    border-radius: 999px;
+    font-size: 20px;
     font-weight: 900;
+    font-style: italic;
+    background: var(--c-black);
+    color: #A3E635;
+    padding: 8px 16px;
+    border-radius: 99px;
+    letter-spacing: normal;
+}
+
+/* ── XP Card (Gamification) ── */
+.d-xp-card {
+    margin-top: auto;
+    background: var(--c-black);
+    color: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+.d-xp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 12px;
+}
+
+.d-xp-level {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.d-lvl-label {
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0.6;
+    letter-spacing: 1px;
+}
+
+.d-lvl-num {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--c-volt);
+}
+
+.d-xp-reward {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 11px;
+    font-weight: 700;
+    color: var(--c-volt);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.d-xp-bar-bg {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.d-xp-bar-fill {
+    height: 100%;
+    background: var(--c-volt);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.d-xp-vals {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0.5;
+}
+
+/* ── CHECK-IN HERO ─────────────────────────────────────────── */
+.d-checkin-card {
+    background: var(--c-black);
+    color: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--c-black);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.d-checkin-card:active {
+    transform: scale(0.98);
+}
+
+.d-checkin-card.done {
+    background: var(--c-green);
+    color: var(--c-black);
+    cursor: default;
+    box-shadow: none;
+    border-color: var(--c-green);
+}
+
+.d-checkin-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.d-checkin-card.done .d-checkin-icon {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.d-checkin-text {
+    flex: 1;
+}
+
+.d-checkin-title {
+    font-weight: 900;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.d-checkin-sub {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.d-checkin-card.done .d-checkin-sub {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.d-checkin-arrow {
+    background: var(--c-volt);
+    color: var(--c-black);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 12px;
 }

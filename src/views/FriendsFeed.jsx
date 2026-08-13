@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { getFriendsFeed } from '../data/friendsData';
-import KenneyIcon from '../components/KenneyIcon';
+import { Flame, ChevronDown, ChevronUp, Copy, Dumbbell, CheckCircle } from 'lucide-react';
 import './Social.css';
 
 export default function FriendsFeed({ onCopyWorkout }) {
@@ -26,15 +26,15 @@ export default function FriendsFeed({ onCopyWorkout }) {
                         <div className="friend-info">
                             <div className="friend-name">{f.name}</div>
                             <div className="friend-meta">
-                                LVL {f.level} · <KenneyIcon name="star" size={10} /> {f.streak}
-                                {f.hitTarget && <span className="friend-hit"> · <KenneyIcon name="check" size={10} /> Hit target</span>}
+                                LVL {f.level} · <Flame size={10} fill="currentColor" style={{ color: 'var(--c-red)' }} /> {f.streak}
+                                {f.hitTarget && <span className="friend-hit"> · <CheckCircle size={10} /> Hit target</span>}
                             </div>
                         </div>
                         <div className="friend-right">
                             {f.workout ? (
                                 <div className="friend-workout-badge">
-                                    <KenneyIcon name="fist" size={11} /> {f.workout.title}
-                                    {expanded === f.id ? <KenneyIcon name="arrowUp" size={12} /> : <KenneyIcon name="arrowDown" size={12} />}
+                                    <Dumbbell size={11} /> {f.workout.title}
+                                    {expanded === f.id ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                                 </div>
                             ) : (
                                 <div className="friend-rest-badge">Rest day</div>
@@ -54,7 +54,7 @@ export default function FriendsFeed({ onCopyWorkout }) {
                                 );
                             })}
                             <button className="btn btn-volt friend-copy-btn" onClick={() => handleCopy(f.workout)}>
-                                <KenneyIcon name="plus" size={13} /> COPY WORKOUT
+                                <Copy size={13} /> COPY WORKOUT
                             </button>
                         </div>
                     )}

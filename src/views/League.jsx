@@ -1,6 +1,6 @@
 import { getLeaderboard, getCurrentLeagueTier } from '../data/friendsData';
 import { getLevel } from '../store/xpEngine';
-import KenneyIcon from '../components/KenneyIcon';
+import { Trophy, TrendingUp, TrendingDown, Minus, Crown, Flame } from 'lucide-react';
 import './Social.css';
 
 export default function League({ userName, xp, streak }) {
@@ -19,7 +19,7 @@ export default function League({ userName, xp, streak }) {
             {/* League Header */}
             <div className="league-header">
                 <div className="league-tier-badge" style={{ borderColor: tier.color }}>
-                    <KenneyIcon name="leaderboard" size={22} />
+                    <Trophy size={22} color={tier.color} />
                 </div>
                 <div>
                     <div className="league-tier-name" style={{ color: tier.color }}>{tier.name} League</div>
@@ -36,18 +36,18 @@ export default function League({ userName, xp, streak }) {
                     return (
                         <div key={p.id} className={`league-row ${p.isYou ? 'league-you' : ''} ${isPromo ? 'league-promo' : ''} ${isDemo ? 'league-demo' : ''}`}>
                             <div className="league-rank">
-                                {rank === 1 ? <KenneyIcon name="star" size={14} tint={p.isYou ? "volt" : "black"} /> : rank}
+                                {rank === 1 ? <Crown size={14} color="var(--c-gold)" fill="var(--c-gold)" /> : rank}
                             </div>
                             <div className="league-player-avatar" style={{ background: p.avatar }}>{p.name[0]}</div>
                             <div className="league-player-info">
                                 <div className="league-player-name">{p.name} {p.isYou && <span className="league-you-tag">YOU</span>}</div>
-                                <div className="league-player-meta">LVL {p.level} · <KenneyIcon name="star" size={9} tint={p.isYou ? "volt" : "black"} /> {p.streak}</div>
+                                <div className="league-player-meta">LVL {p.level} · <Flame size={9} fill="currentColor" /> {p.streak}</div>
                             </div>
                             <div className="league-xp">{p.weeklyXP} XP</div>
                             <div className="league-zone-icon">
-                                {isPromo && <KenneyIcon name="arrowUp" size={12} tint={p.isYou ? "volt" : "black"} />}
-                                {isDemo && <KenneyIcon name="arrowDown" size={12} tint={p.isYou ? "volt" : "black"} />}
-                                {!isPromo && !isDemo && <KenneyIcon name="minus" size={12} style={{ opacity: 0.2 }} tint={p.isYou ? "volt" : "black"} />}
+                                {isPromo && <TrendingUp size={12} color="var(--c-green)" />}
+                                {isDemo && <TrendingDown size={12} color="var(--c-red)" />}
+                                {!isPromo && !isDemo && <Minus size={12} opacity={0.2} />}
                             </div>
                         </div>
                     );

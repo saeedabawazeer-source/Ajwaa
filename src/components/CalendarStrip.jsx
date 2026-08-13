@@ -1,34 +1,30 @@
+import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import './CalendarStrip.css';
-import KenneyIcon from './KenneyIcon';
 
 export default function CalendarStrip({ days, selectedDate, onSelect }) {
     return (
         <div className="calendar-strip">
             {days.map((d, i) => {
-                const isSelected = selectedDate === d.key;
-                const hasData = d.cals > 0 || d.water > 0 || d.workouts > 0;
-                
+                // Mock activity visualization
+                // If activity > 0, show filled style. If 0 and past, show dot.
+                const hasData = d.activity > 0;
+                const isFuture = !d.isToday && new Date(d.key) > new Date();
+                const isSelected = d.key === selectedDate;
+
                 return (
-                    <div 
-                        key={i} 
-                        className={`cal-day ${isSelected ? 'cal-selected' : ''} ${d.isToday ? 'cal-today' : ''} ${hasData ? 'cal-data' : ''}`} 
-                        onClick={() => onSelect(d.key)}
+                    <div key={i}
+                        className={`cal-day ${d.isToday ? 'cal-today' : ''} ${isSelected ? 'cal-selected' : ''} ${isFuture ? 'cal-future' : ''} ${hasData ? 'cal-data' : ''}`}
+                        onClick={() => !isFuture && onSelect && onSelect(d.key)}
                     >
                         <span className="cal-label">{d.day}</span>
                         <div className="cal-indicator">
                             <span className="cal-num">{d.fullDate}</span>
-                            {isSelected && (
+                            {/* Ring/Dot overlay */}
+                            {hasData && (
                                 <svg className="cal-ring" viewBox="0 0 36 36">
-                                    <circle cx="18" cy="18" r="16" fill="var(--c-volt)" stroke="var(--c-black)" strokeWidth="2.5" />
-                                </svg>
-                            )}
-                            {!isSelected && hasData && (
-                                <svg className="cal-ring" viewBox="0 0 36 36">
-                                    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="2.5" />
-                                    <circle cx="18" cy="18" r="16" fill="none" stroke="var(--c-red)" strokeWidth="2.5" 
-                                        strokeDasharray="100.5" 
-                                        strokeDashoffset={100.5 - ((d.activity || 0) / 100) * 100.5} 
-                                        strokeLinecap="round" />
+                                    <circle cx="18" cy="18" r="16" fill="none" strokeWidth="3" stroke="#E5E7EB" />
+                                    <circle cx="18" cy="18" r="16" fill="none" strokeWidth="3" stroke={d.activity > 90 ? 'var(--c-volt)' : 'var(--c-blue)'}
+                                        strokeDasharray="100" strokeDashoffset={100 - d.activity} strokeLinecap="round" transform="rotate(-90 18 18)" />
                                 </svg>
                             )}
                         </div>
