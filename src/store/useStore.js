@@ -313,10 +313,18 @@ export function useStore() {
     }, [update, ensureToday, triggerVibe]);
 
     // ─── WORKOUT ACTIONS ───
-    const startWorkout = useCallback((title) => {
+    const startWorkout = useCallback((title, exercises) => {
         triggerVibe();
         update(s => {
-            s.activeWorkout = { title, exercises: [], startTime: timeNow() };
+            s.activeWorkout = {
+                title,
+                exercises: (exercises || []).map(ex => ({
+                    exerciseId: ex.exerciseId,
+                    name: ex.name,
+                    sets: Array.from({ length: ex.defaultSets || 3 }, () => ({ reps: '', weight: '' })),
+                })),
+                startTime: timeNow(),
+            };
             return s;
         });
     }, [update, triggerVibe]);
@@ -326,6 +334,20 @@ export function useStore() {
         update(s => {
             if (!s.activeWorkout) return s;
             s.activeWorkout.exercises.push({ exerciseId: exerciseId || name.toLowerCase().replace(/\s/g, '_'), name, sets: [{ reps: 10, weight: 20 }] });
+            return s;
+        });
+    }, [update, triggerVibe]);
+
+    // Swap an exercise inside the running session (ActiveWorkout's "swap" flow).
+    const replaceExerciseInActive = useCallback((exIdx, exerciseId, name) => {
+        triggerVibe();
+        update(s => {
+            if (!s.activeWorkout) return s;
+            s.activeWorkout.exercises[exIdx] = {
+                exerciseId: exerciseId || name.toLowerCase().replace(/\s/g, '_'),
+                name,
+                sets: [{ reps: '', weight: '' }],
+            };
             return s;
         });
     }, [update, triggerVibe]);
@@ -748,7 +770,7 @@ export function useStore() {
         state, update,
         addMeal, removeMeal,
         addWater,
-        startWorkout, addExerciseToActive, updateSet, addSet, removeSet, finishWorkout, cancelWorkout, logWorkoutSession,
+        startWorkout, addExerciseToActive, replaceExerciseInActive, updateSet, addSet, removeSet, finishWorkout, cancelWorkout, logWorkoutSession,
         logBodyWeight, updateProfile, recalculateTDEE, completeOnboarding, loginAsOwner, logCheckIn,
         updateWorkoutSchedule, claimQuestXP, toggleSocialCheer,
         toggleCoachRole, sendCoachAdvice, applyCoachAdvice,

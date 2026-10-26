@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import CalendarStrip from '../components/CalendarStrip';
+import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
 import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Scale, Camera, Flame } from 'lucide-react';
 import CheckInModal from '../components/CheckInModal';
 import './Dashboard.css';
@@ -19,8 +20,10 @@ function getCurrentSlot() {
     return 'snacks';
 }
 
-export default function Dashboard({ today, totals, user, streak, xp, xpProg, hasCheckedIn, getLast7Days, onWaterClick, onMealSlotClick, onStartWorkout, selectedDate, onSelectDate, onOpenStats, onLogCheckIn }) {
+export default function Dashboard({ today, totals, user, streak, xp, xpProg, hasCheckedIn, getLast7Days, onWaterClick, onMealSlotClick, onStartWorkout, selectedDate, onSelectDate, onOpenStats, onOpenProfile, onLogCheckIn }) {
     const days = getLast7Days();
+    // Today's suggested session — same rotation the TRAIN tab uses.
+    const recommended = WORKOUT_TEMPLATES[new Date().getDay() % WORKOUT_TEMPLATES.length];
     const calPct = Math.min(totals.cals / user.calorieTarget, 1);
     const calCirc = 2 * Math.PI * 38; // Slightly larger ring
     const waterPct = Math.min(today.water / user.waterGoal, 1);
@@ -133,7 +136,7 @@ export default function Dashboard({ today, totals, user, streak, xp, xpProg, has
                     <div className="d-vital-bg-bar" style={{ height: `${waterPct * 100}%` }} />
                 </div>
 
-                <div className="d-vital-card weight">
+                <div className="d-vital-card weight" onClick={onOpenProfile} role="button" title="Log today's weight">
                     <div className="d-vital-icon">
                         <Scale size={20} fill="currentColor" />
                     </div>
@@ -163,15 +166,15 @@ export default function Dashboard({ today, totals, user, streak, xp, xpProg, has
 
 
 
-            {/* Full Width Action Hero: Start Workout */}
-            <button className="d-action-hero" onClick={onStartWorkout}>
+            {/* Start today's session */}
+            <button className="d-action-hero" onClick={() => onStartWorkout(recommended.name, recommended.exercises)}>
                 <div className="d-ah-content">
                     <div className="d-ah-icon">
                         <Dumbbell size={24} strokeWidth={3} />
                     </div>
                     <div className="d-ah-text">
-                        <div className="d-ah-title">Start Workout</div>
-                        <div className="d-ah-sub">Chest & Triceps • 45m</div>
+                        <div className="d-ah-title">Start {recommended.name}</div>
+                        <div className="d-ah-sub">{recommended.desc} • {recommended.exercises.length} moves</div>
                     </div>
                 </div>
                 <div className="d-ah-arrow">GO</div>

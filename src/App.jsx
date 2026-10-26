@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useStore } from './store/useStore';
-import { getLevel } from './store/xpEngine';
+import { getLevel, getXPProgress } from './store/xpEngine';
 import Header from './components/Header';
 import Dock from './components/Dock';
 import AjwaChat from './components/AjwaChat';
@@ -9,6 +9,7 @@ import LogWorkoutModal from './components/LogWorkoutModal';
 import SecretLogin from './components/SecretLogin';
 import Dashboard from './views/Dashboard';
 import Workouts from './views/Workouts';
+import ActiveWorkout from './views/ActiveWorkout';
 import Stats from './views/Stats';
 import Profile from './views/Profile';
 import Social from './views/Social';
@@ -190,8 +191,29 @@ export default function App() {
   const streak = currentStreak;
   const today = store.getToday();
   const totals = store.getTodayTotals();
+  const xpProg = getXPProgress(state.xp);
 
   function renderView() {
+    // A running session takes over the whole screen.
+    if (state.activeWorkout) {
+      return (
+        <ActiveWorkout
+          workout={state.activeWorkout}
+          onAddExercise={store.addExerciseToActive}
+          onReplaceExercise={store.replaceExerciseInActive}
+          onUpdateSet={store.updateSet}
+          onAddSet={store.addSet}
+          onRemoveSet={store.removeSet}
+          onFinish={() => { store.finishWorkout(); showToast('Workout saved! 💪'); }}
+          onCancel={store.cancelWorkout}
+          getLastWeight={store.getLastWeight}
+          streak={streak}
+          xp={state.xp}
+          onCelebrate={() => setConfettiActive(true)}
+        />
+      );
+    }
+
     switch (activeView) {
       case 'dashboard':
         return (
@@ -207,32 +229,20 @@ export default function App() {
             onWaterClick={handleLogWater}
             onMealSlotClick={handleLogFood}
             onRemoveMeal={store.removeMeal}
-            onStartWorkout={(title) => {
-              store.startWorkout(title || 'Chest & Triceps');
+            onStartWorkout={(title, exercises) => {
+              store.startWorkout(title, exercises);
               setActiveView('workouts');
             }}
+            onOpenProfile={() => setActiveView('profile')}
           />
         );
       case 'workouts':
         return (
           <Workouts
-            today={today}
-            user={state.user}
-            activeWorkout={state.activeWorkout}
-            onStartWorkout={(title) => {
-              store.startWorkout(title || 'Workout Session');
-            }}
-            onAddExercise={store.addExerciseToActive}
-            onUpdateSet={store.updateSet}
-            onAddSet={store.addSet}
-            onRemoveSet={store.removeSet}
-            onFinishWorkout={() => {
-              store.finishWorkout();
-              showToast('Workout saved! 💪');
-            }}
-            onCancelWorkout={store.cancelWorkout}
-            onLogWorkout={() => setWorkoutOpen(true)}
-            getExerciseHistory={store.getExerciseHistory}
+            onStartWorkout={(title, exercises) => store.startWorkout(title, exercises)}
+            streak={streak}
+            xp={state.xp}
+            xpProg={xpProg}
           />
         );
       case 'stats':
