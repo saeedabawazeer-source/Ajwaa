@@ -138,6 +138,7 @@ const INITIAL_STATE = {
     claimedQuests: {}, // { 'YYYY-MM-DD': ['quest_id_1'] }
     socialReactions: {}, // { 'item_id': { cheers: 5, userCheered: false } }
     ownerMode: false, // secret owner login — see src/data/secretPlan.js
+    supplementChecks: {}, // { [dateKey]: { 'Creatine': true } } — owner checklist
     saeedProtocol: {
         dayNumber: 1,
         logs: {
@@ -238,6 +239,7 @@ function loadState() {
             if (!parsed.saeedProtocol.logs) parsed.saeedProtocol.logs = {};
             if (!parsed.saeedProtocol.notificationSettings) parsed.saeedProtocol.notificationSettings = INITIAL_STATE.saeedProtocol.notificationSettings;
             if (parsed.ownerMode === undefined) parsed.ownerMode = false;
+            if (!parsed.supplementChecks) parsed.supplementChecks = {};
             return parsed;
         }
     } catch { /* localStorage unavailable */ }
@@ -306,8 +308,8 @@ export function useStore() {
         update(s => {
             const key = dateKey || ensureToday(s);
             if (!s.days[key]) s.days[key] = emptyDay();
-            s.days[key].water += amount;
-            if (s.days[key].water > 5) s.days[key].water = 0;
+            const next = Number((s.days[key].water + amount).toFixed(2));
+            s.days[key].water = Math.max(0, next);
             return s;
         });
     }, [update, ensureToday, triggerVibe]);
@@ -504,6 +506,19 @@ export function useStore() {
             return s;
         });
     }, [update, triggerVibe]);
+
+    // ─── SUPPLEMENTS (owner checklist) ───
+    const toggleSupplement = useCallback((name, dateKey) => {
+        triggerVibe();
+        update(s => {
+            const key = dateKey || ensureToday(s);
+            if (!s.supplementChecks) s.supplementChecks = {};
+            const day = { ...(s.supplementChecks[key] || {}) };
+            day[name] = !day[name];
+            s.supplementChecks[key] = day;
+            return s;
+        });
+    }, [update, ensureToday, triggerVibe]);
 
     // ─── CHECK INS ───
     const logCheckIn = useCallback((photoDataUrl) => {
@@ -771,7 +786,7 @@ export function useStore() {
         addMeal, removeMeal,
         addWater,
         startWorkout, addExerciseToActive, replaceExerciseInActive, updateSet, addSet, removeSet, finishWorkout, cancelWorkout, logWorkoutSession,
-        logBodyWeight, updateProfile, recalculateTDEE, completeOnboarding, loginAsOwner, logCheckIn,
+        logBodyWeight, updateProfile, recalculateTDEE, completeOnboarding, loginAsOwner, toggleSupplement, logCheckIn,
         updateWorkoutSchedule, claimQuestXP, toggleSocialCheer,
         toggleCoachRole, sendCoachAdvice, applyCoachAdvice,
         getSaeedTodayLog, logSaeedBend, logSaeedMorningVacuums, logSaeedAccumulation, toggleSaeedGrowthExercise, setSaeedDayNumber, updateSaeedNotificationSettings,

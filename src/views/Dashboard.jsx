@@ -1,195 +1,165 @@
-import { useState } from 'react';
-import CalendarStrip from '../components/CalendarStrip';
+import { Coffee, Sun, Moon, Utensils, Plus, X, Droplets, Play, Flame } from 'lucide-react';
 import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
-import { Coffee, Sun, Moon, Utensils, Droplets, Dumbbell, Zap, Plus, Scale, Camera, Flame } from 'lucide-react';
-import CheckInModal from '../components/CheckInModal';
+import { OWNER_PLAN } from '../data/secretPlan';
 import './Dashboard.css';
 
-const SLOT_META = {
-    breakfast: { icon: Coffee, color: '#FF9800', bg: '#FFF3E0', label: 'Breakfast' },
-    lunch: { icon: Sun, color: '#4CAF50', bg: '#E8F5E9', label: 'Lunch' },
-    dinner: { icon: Moon, color: '#5C6BC0', bg: '#E8EAF6', label: 'Dinner' },
-    snacks: { icon: Utensils, color: '#E91E63', bg: '#FCE4EC', label: 'Snacks' },
-};
+const SLOTS = [
+    { id: 'breakfast', label: 'Breakfast', icon: Coffee },
+    { id: 'lunch', label: 'Lunch', icon: Sun },
+    { id: 'dinner', label: 'Dinner', icon: Moon },
+    { id: 'snacks', label: 'Snacks', icon: Utensils },
+];
 
-function getCurrentSlot() {
-    const h = new Date().getHours();
-    if (h < 11) return 'breakfast';
-    if (h < 16) return 'lunch';
-    if (h < 22) return 'dinner';
-    return 'snacks';
+function todayLabel() {
+    return new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'short' });
 }
 
-export default function Dashboard({ today, totals, user, streak, xp, xpProg, hasCheckedIn, getLast7Days, onWaterClick, onMealSlotClick, onStartWorkout, selectedDate, onSelectDate, onOpenStats, onOpenProfile, onLogCheckIn }) {
-    const days = getLast7Days();
-    // Today's suggested session — same rotation the TRAIN tab uses.
+export default function Dashboard({
+    user, today, totals, streak, dateLabel,
+    onAddMeal, onRemoveMeal, onAddWater, onStartWorkout,
+    ownerMode, supplementChecks, onToggleSupplement, onOpenPlan,
+}) {
     const recommended = WORKOUT_TEMPLATES[new Date().getDay() % WORKOUT_TEMPLATES.length];
-    const calPct = Math.min(totals.cals / user.calorieTarget, 1);
-    const calCirc = 2 * Math.PI * 38; // Slightly larger ring
-    const waterPct = Math.min(today.water / user.waterGoal, 1);
-    const [tapped, setTapped] = useState(false);
-    const [showCheckIn, setShowCheckIn] = useState(false);
+    const target = user.calorieTarget || 0;
+    const eaten = Math.round(totals.cals);
+    const remaining = Math.max(0, target - eaten);
+    const pct = target ? Math.min(100, Math.round((eaten / target) * 100)) : 0;
 
-    // Check if already checked in today
-    const currentSlot = getCurrentSlot();
+    const macros = [
+        { label: 'Protein', got: totals.p, goal: user.macros?.p || 0 },
+        { label: 'Carbs', got: totals.c, goal: user.macros?.c || 0 },
+        { label: 'Fat', got: totals.f, goal: user.macros?.f || 0 },
+    ];
 
-    function tapWater() {
-        setTapped(true); onWaterClick();
-        setTimeout(() => setTapped(false), 300);
-    }
-
-    // Calculate XP Progress
-    
     return (
-        <div className="dash">
-            <CalendarStrip days={days} selectedDate={selectedDate} onSelect={onSelectDate} />
-
-            {/* Progress card --- merged level + XP + streak */}
-            <div className="d-prog-card" onClick={onOpenStats} style={{ cursor: 'pointer' }}>
-                <div className="d-prog-top">
-                    <div className="d-prog-level">
-                        <span className="d-prog-lbl">LEVEL</span>
-                        <span className="d-prog-num">{xpProg.level}</span>
-                    </div>
-                    <div className="d-prog-streak">
-                        <Flame size={14} fill="currentColor" /> {streak} day streak
-                    </div>
+        <div className="db-page">
+            <div className="db-head">
+                <div>
+                    <div className="db-eyebrow">{dateLabel || todayLabel()}</div>
+                    <h1 className="db-title">Today</h1>
                 </div>
-                <div className="d-prog-bar-bg">
-                    <div className="d-prog-bar-fill" style={{ width: `${xpProg.percentage}%` }} />
-                </div>
-                <div className="d-prog-vals">
-                    <span>{xp} XP</span>
-                    <span>{xpProg.needed} XP to next level</span>
+                <div className="db-head-right">
+                    {ownerMode && onOpenPlan && (
+                        <button className="db-plan-chip" onClick={onOpenPlan}>My plan</button>
+                    )}
+                    {streak > 0 && (
+                        <div className="db-streak"><Flame size={13} fill="currentColor" /> {streak}d</div>
+                    )}
                 </div>
             </div>
 
-            {/* Stats Card */}
-            <div className="d-hero-wrapper" style={{ position: 'relative', marginTop: 12, marginBottom: 4 }}>
-                <div className="d-stats-card" style={{ position: 'relative', zIndex: 5 }}>
-
-                    {/* Left: Interactive Calorie Ring */}
-                    <div className="d-sc-left" onClick={() => onMealSlotClick(currentSlot)}>
-                        <div className="d-sc-ring-wrap">
-                            <svg viewBox="0 0 96 96" className="d-sc-svg">
-                                <circle cx="48" cy="48" r="38" stroke="rgba(255,255,255,0.1)" strokeWidth="8" fill="none" />
-                                <circle cx="48" cy="48" r="38" stroke="var(--c-red)" strokeWidth="8" fill="none"
-                                    strokeLinecap="round" strokeDasharray={calCirc} strokeDashoffset={calCirc - calPct * calCirc}
-                                    transform="rotate(-90 48 48)" className="d-anim" />
-                            </svg>
-                            <div className="d-sc-ring-inner">
-                                {/* Plus removed - redundant with right button */}
+            {/* Calories + macros */}
+            <section className="db-card">
+                <div className="db-cal-row">
+                    <div className="db-cal-num">
+                        <strong>{remaining}</strong>
+                        <span>kcal left</span>
+                    </div>
+                    <div className="db-cal-side">
+                        <span>{eaten} eaten</span>
+                        <span>{target} target</span>
+                    </div>
+                </div>
+                <div className="db-bar"><div className="db-bar-fill" style={{ width: `${pct}%` }} /></div>
+                <div className="db-macros">
+                    {macros.map(m => {
+                        const mpct = m.goal ? Math.min(100, Math.round((m.got / m.goal) * 100)) : 0;
+                        return (
+                            <div className="db-macro" key={m.label}>
+                                <div className="db-macro-top">
+                                    <span>{m.label}</span>
+                                    <strong>{Math.round(m.got)}<i>/{m.goal}</i></strong>
+                                </div>
+                                <div className="db-bar sm"><div className="db-bar-fill" style={{ width: `${mpct}%` }} /></div>
                             </div>
-                        </div>
-                        <div className="d-sc-cal-text">
-                            <span className="d-sc-val">{totals.cals}</span>
-                            <span className="d-sc-label">KCAL</span>
-                        </div>
-                    </div>
-
-                    {/* Center: Macro Progress Bars */}
-                    <div className="d-sc-center">
-                        <div className="d-macro-row">
-                            <div className="d-mr-labels">
-                                <span>Protein</span>
-                                <span className={totals.p > user.macros.p ? 'over' : ''}>{totals.p} / {user.macros.p}g</span>
-                            </div>
-                            <div className="d-mr-bar"><div className={'d-mr-fill p' + (totals.p > user.macros.p ? ' over' : '')} style={{ width: `${Math.min(totals.p / user.macros.p, 1) * 100}%` }} /></div>
-                        </div>
-                        <div className="d-macro-row">
-                            <div className="d-mr-labels">
-                                <span>Carbs</span>
-                                <span className={totals.c > user.macros.c ? 'over' : ''}>{totals.c} / {user.macros.c}g</span>
-                            </div>
-                            <div className="d-mr-bar"><div className={'d-mr-fill c' + (totals.c > user.macros.c ? ' over' : '')} style={{ width: `${Math.min(totals.c / user.macros.c, 1) * 100}%` }} /></div>
-                        </div>
-                        <div className="d-macro-row">
-                            <div className="d-mr-labels">
-                                <span>Fats</span>
-                                <span className={totals.f > user.macros.f ? 'over' : ''}>{totals.f} / {user.macros.f}g</span>
-                            </div>
-                            <div className="d-mr-bar"><div className={'d-mr-fill f' + (totals.f > user.macros.f ? ' over' : '')} style={{ width: `${Math.min(totals.f / user.macros.f, 1) * 100}%` }} /></div>
-                        </div>
-                    </div>
-
-                    {/* Right: Log Meal Action */}
-                    <div className="d-sc-right" onClick={() => onMealSlotClick(currentSlot)}>
-                        <div className="d-sc-log-icon">
-                            <Plus size={20} strokeWidth={3} />
-                        </div>
-                        <span className="d-sc-log-lbl">Log Meal</span>
-                    </div>
+                        );
+                    })}
                 </div>
-            </div>
+            </section>
 
-            {/* Vitals Row: Water + Steps (New Fuller Widget) */}
-            <div className="d-vitals-row">
-                <div className={`d-vital-card water ${tapped ? 'pop' : ''}`} onClick={tapWater}>
-                    <div className="d-vital-icon">
-                        <Droplets size={20} fill="currentColor" />
-                    </div>
-                    <div className="d-vital-info">
-                        <span className="d-vital-val">{today.water}L</span>
-                        <span className="d-vital-lbl">Water</span>
-                    </div>
-                    <div className="d-vital-add">+</div>
-                    <div className="d-vital-bg-bar" style={{ height: `${waterPct * 100}%` }} />
+            {/* Meals — add straight from here */}
+            <section className="db-card">
+                <div className="db-card-head">
+                    <h2>Meals</h2>
+                    <span className="db-card-meta">{eaten} kcal logged</span>
                 </div>
+                <ul className="db-slots">
+                    {SLOTS.map(slot => {
+                        const items = today?.meals?.[slot.id] || [];
+                        const slotCals = items.reduce((a, m) => a + (Number(m.cals) || 0), 0);
+                        const Icon = slot.icon;
+                        return (
+                            <li className="db-slot" key={slot.id}>
+                                <div className="db-slot-main">
+                                    <div className="db-slot-name"><Icon size={15} /> {slot.label}</div>
+                                    <div className="db-slot-items">
+                                        {items.length === 0 ? 'nothing yet' : items.map(m => m.food).join(', ')}
+                                    </div>
+                                </div>
+                                <span className="db-slot-cals">{slotCals > 0 ? slotCals : ''}</span>
+                                <button className="db-slot-add" onClick={() => onAddMeal(slot.id)} aria-label={`Add to ${slot.label}`}>
+                                    <Plus size={15} />
+                                </button>
+                                {items.length > 0 && (
+                                    <button className="db-slot-del" onClick={() => onRemoveMeal(slot.id, items.length - 1)} aria-label={`Undo last ${slot.label} item`}>
+                                        <X size={13} />
+                                    </button>
+                                )}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </section>
 
-                <div className="d-vital-card weight" onClick={onOpenProfile} role="button" title="Log today's weight">
-                    <div className="d-vital-icon">
-                        <Scale size={20} fill="currentColor" />
-                    </div>
-                    <div className="d-vital-info">
-                        <span className="d-vital-val">{user.weight} kg</span>
-                        <span className="d-vital-lbl">Weight</span>
-                    </div>
-                    <div className="d-vital-add">+</div>
-                </div>
-            </div>
+            {/* Water */}
+            <section className="db-card db-inline">
+                <Droplets size={16} />
+                <span className="db-inline-val">{today?.water ?? 0}L</span>
+                <span className="db-inline-lbl">of {user.waterGoal}L</span>
+                <button className="db-btn ghost" onClick={() => onAddWater(-0.25)}>−</button>
+                <button className="db-btn" onClick={() => onAddWater(0.25)}>+0.25L</button>
+            </section>
 
-            {/* Daily Check In (BeReal Style) */}
-            <div className={`d-checkin-card ${hasCheckedIn ? 'done' : ''}`} onClick={() => !hasCheckedIn && setShowCheckIn(true)}>
-                <div className="d-checkin-icon">
-                    <Camera size={24} color={hasCheckedIn ? "var(--c-sand)" : "var(--c-volt)"} />
-                </div>
-                <div className="d-checkin-text">
-                    <div className="d-checkin-title">
-                        {hasCheckedIn ? 'Checked in for today! 🔥' : 'Time to be real.'}
+            {/* Supplements — owner checklist */}
+            {ownerMode && (
+                <section className="db-card">
+                    <div className="db-card-head">
+                        <h2>Supplements</h2>
+                        <span className="db-card-meta">
+                            {OWNER_PLAN.supplements.filter(s => supplementChecks?.[s.name]).length}/{OWNER_PLAN.supplements.length} taken
+                        </span>
                     </div>
-                    <div className="d-checkin-sub">
-                        {hasCheckedIn ? '+50 XP Earned' : 'Snap your daily gym pic for XP'}
-                    </div>
-                </div>
-                {!hasCheckedIn && <div className="d-checkin-arrow">GO</div>}
-            </div>
-
-
-
-            {/* Start today's session */}
-            <button className="d-action-hero" onClick={() => onStartWorkout(recommended.name, recommended.exercises)}>
-                <div className="d-ah-content">
-                    <div className="d-ah-icon">
-                        <Dumbbell size={24} strokeWidth={3} />
-                    </div>
-                    <div className="d-ah-text">
-                        <div className="d-ah-title">Start {recommended.name}</div>
-                        <div className="d-ah-sub">{recommended.desc} • {recommended.exercises.length} moves</div>
-                    </div>
-                </div>
-                <div className="d-ah-arrow">GO</div>
-            </button>
-
-            {/* Check In Modal */}
-            {showCheckIn && (
-                <CheckInModal 
-                    onClose={() => setShowCheckIn(false)}
-                    onConfirm={(photo) => {
-                        onLogCheckIn(photo);
-                        setShowCheckIn(false);
-                    }}
-                />
+                    <ul className="db-sup">
+                        {OWNER_PLAN.supplements.map(s => {
+                            const done = Boolean(supplementChecks?.[s.name]);
+                            return (
+                                <li key={s.name}>
+                                    <button className={`db-sup-row ${done ? 'done' : ''}`} onClick={() => onToggleSupplement(s.name)}>
+                                        <span className="db-sup-check">{done ? '✓' : ''}</span>
+                                        <span className="db-sup-name">{s.name}</span>
+                                        <span className="db-sup-time">{s.dose}</span>
+                                    </button>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </section>
             )}
+
+            {/* Training */}
+            <section className="db-card">
+                <div className="db-card-head">
+                    <h2>Training</h2>
+                    <span className="db-card-meta">{recommended.exercises.length} moves</span>
+                </div>
+                <div className="db-train-name">{recommended.name}</div>
+                <div className="db-train-desc">{recommended.desc}</div>
+                <button className="db-start" onClick={() => onStartWorkout(recommended.name, recommended.exercises)}>
+                    <Play size={15} fill="currentColor" /> Start session
+                </button>
+            </section>
         </div>
     );
 }
+
+

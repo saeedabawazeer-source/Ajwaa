@@ -1,63 +1,43 @@
 .dock {
     position: fixed;
-    /* Fixed instead of absolute to stay on screen */
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 40px);
-    max-width: 400px;
-    /* Prevent it from getting too wide on desktop */
-    height: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--dock-h) + var(--safe-b));
+    padding-bottom: var(--safe-b);
     background: var(--c-black);
-    border: 4px solid var(--c-black);
-    border-radius: 999px;
+    border-top: 3px solid var(--c-black);
     display: flex;
+    align-items: stretch;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 16px;
-    /* Reduced padding for smaller screens */
-    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.15);
     z-index: 1000;
-    /* Higher z-index */
     box-sizing: border-box;
-    /* Ensure padding doesn't add to width */
 }
 
 .nav-item {
-    color: rgba(255, 255, 255, 1.0);
-    /* Solid white, no faint grey */
+    flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: color 0.15s;
+    gap: 3px;
+    min-width: 0;
     background: none;
     border: none;
+    padding: 6px 2px;
+    color: rgba(255, 255, 255, 0.62);
     cursor: pointer;
-    padding: 8px;
-    flex: 1;
-    /* Distribute space evenly */
+    transition: color 0.15s;
 }
 
 .nav-item.active {
     color: var(--c-volt);
 }
 
-.nav-fab {
-    width: 72px;
-    height: 72px;
-    background: var(--c-volt);
-    border: 4px solid var(--c-black);
-    border-radius: 50%;
-    margin-top: -44px;
-    display: grid;
-    place-items: center;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
-    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
-    cursor: pointer;
-    flex-shrink: 0;
-    overflow: hidden;
-    padding: 2px;
-}
-.nav-fab:active {
-    transform: scale(0.92);
+.nav-label {
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    line-height: 1;
 }

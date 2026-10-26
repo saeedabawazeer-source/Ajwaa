@@ -20,6 +20,7 @@ import LevelUpModal from './components/LevelUpModal';
 import Onboarding from './views/Onboarding';
 import Landing from './views/Landing';
 import OwnerPlan from './views/OwnerPlan';
+import Meals from './views/Meals';
 import CoachView from './views/CoachView';
 import SaeedProtocolView from './views/SaeedProtocolView';
 import './App.css';
@@ -34,7 +35,7 @@ export default function App() {
     window.location.pathname.includes('/saeed') || window.location.hash === '#saeed'
   );
 
-  const VIEWS = ['dashboard', 'workouts', 'stats', 'profile', 'social', 'coach', 'saeed', 'plan'];
+  const VIEWS = ['dashboard', 'meals', 'workouts', 'stats', 'profile', 'social', 'coach', 'saeed', 'plan'];
 
   const [activeView, setActiveView] = useState(() => {
     if (typeof window === 'undefined') return 'dashboard';
@@ -53,7 +54,6 @@ export default function App() {
   const [mealSlot, setMealSlot] = useState('snacks');
   const [workoutOpen, setWorkoutOpen] = useState(false);
   const [toast, setToast] = useState(null);
-  const [viewDate, setViewDate] = useState(null); // null means today
 
   // Celebration state
   const [xpPopup, setXpPopup] = useState(null);
@@ -150,11 +150,6 @@ export default function App() {
     setMealOpen(true);
   }
 
-  function handleLogWater() {
-    store.addWater(0.25, currentViewDate);
-    showToast('+250ml water');
-  }
-
   function handleSaveMeal(food, cals, p, c, f) {
     store.addMeal(mealSlot, food, cals, p, c, f, currentViewDate);
     setMealOpen(false);
@@ -172,7 +167,7 @@ export default function App() {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   };
 
-  const currentViewDate = viewDate || todayKey();
+  const currentViewDate = todayKey();
 
   const currentDayData = state.days[currentViewDate] || {
     meals: { breakfast: [], lunch: [], dinner: [], snacks: [] },
@@ -192,7 +187,6 @@ export default function App() {
   const today = store.getToday();
   const totals = store.getTodayTotals();
   const xpProg = getXPProgress(state.xp);
-  const hasCheckedIn = Boolean(state.checkIns?.some(c => c.date === new Date().toISOString().split('T')[0]));
 
   function renderView() {
     // A running session takes over the whole screen.
@@ -219,25 +213,33 @@ export default function App() {
       case 'dashboard':
         return (
           <Dashboard
+            user={state.user}
             today={currentDayData}
             totals={currentTotals}
-            user={state.user}
             streak={currentStreak}
-            xp={state.xp}
-            xpProg={xpProg}
-            hasCheckedIn={hasCheckedIn}
-            onLogCheckIn={store.logCheckIn}
-            getLast7Days={store.getLast7Days}
-            selectedDate={currentViewDate}
-            onSelectDate={setViewDate}
-            onWaterClick={handleLogWater}
-            onMealSlotClick={handleLogFood}
+            onAddMeal={handleLogFood}
             onRemoveMeal={store.removeMeal}
+            onAddWater={(amount) => store.addWater(amount, currentViewDate)}
             onStartWorkout={(title, exercises) => {
               store.startWorkout(title, exercises);
               setActiveView('workouts');
             }}
-            onOpenProfile={() => setActiveView('profile')}
+            ownerMode={state.ownerMode}
+            supplementChecks={state.supplementChecks?.[currentViewDate] || {}}
+            onToggleSupplement={(name) => store.toggleSupplement(name, currentViewDate)}
+            onOpenPlan={() => setActiveView('plan')}
+          />
+        );
+      case 'meals':
+        return (
+          <Meals
+            user={state.user}
+            today={currentDayData}
+            totals={currentTotals}
+            onAddMeal={handleLogFood}
+            onRemoveMeal={store.removeMeal}
+            onAddWater={(amount) => store.addWater(amount, currentViewDate)}
+            onLogWeight={store.logBodyWeight}
           />
         );
       case 'workouts':
@@ -306,13 +308,13 @@ export default function App() {
 
   return (
     <div className="app">
-      {activeView !== 'saeed' && <Header userName={state.user.name} streak={streak} />}
+      {activeView !== 'saeed' && <Header userName={state.user.name} streak={streak} onOpenCoach={() => setChatOpen(true)} />}
       <div className="view-section">
         {renderView()}
       </div>
       {activeView !== 'saeed' && (
         <>
-          <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} ownerMode={state.ownerMode} />
+          <Dock activeView={activeView} onNavigate={setActiveView} />
           <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} state={state} />
         </>
       )}
