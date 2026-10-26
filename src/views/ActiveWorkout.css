@@ -275,9 +275,9 @@
 .aw-frame-inner .ex-ill-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 14px;
-  transform: scale(1.15);
+  transform: none;
 }
 
 .aw-frame-badge {
@@ -840,3 +840,53 @@
     letter-spacing: 0.4px;
     cursor: pointer;
 }
+
+/* ─── WORK AREA: GIF beside the reps table ─── */
+.aw-work {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+}
+
+.aw-work .aw-frame {
+    flex: none;
+    max-height: none;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 6px;
+    border-radius: 16px;
+    box-shadow: 3px 3px 0 var(--c-black);
+}
+
+.aw-work-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.aw-work-col .aw-sets {
+    margin-top: 0;
+}
+
+.aw-work-col .aw-ex-name {
+    font-size: 15px;
+    line-height: 1.2;
+}
+
+.aw-work-col .aw-set-in {
+    padding: 8px 6px;
+    font-size: 15px;
+}
+
+@media (max-width: 380px) {
+    .aw-work {
+        grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
+        gap: 8px;
+    }
+}
+

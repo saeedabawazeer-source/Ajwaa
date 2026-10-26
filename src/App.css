@@ -46,11 +46,15 @@ body {
 /* Global viewport container - No double padding, height-locked for zero scrolling */
 .view-section {
   flex: 1;
-  padding: 4px 10px calc(var(--dock-h) + var(--safe-b) + 20px) 10px;
+  min-height: 0;
+  padding: 4px 10px calc(var(--dock-h) + var(--safe-b) + 8px) 10px;
   animation: fadeIn 0.25s ease;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Lock viewport scrolling by default */
+  /* The shell is fixed; only this area scrolls, so nothing gets clipped. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
 }
 

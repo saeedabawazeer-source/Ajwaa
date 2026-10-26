@@ -136,17 +136,19 @@ export default function ActiveWorkout({
             </button>
           </div>
 
-          <div className="aw-frame">
-            <div className="aw-frame-inner">
-              <ExerciseIllustration exerciseId={ex.exerciseId} size={260} />
+          <div className="aw-work">
+            <div className="aw-frame">
+              <div className="aw-frame-inner">
+                <ExerciseIllustration exerciseId={ex.exerciseId} size={200} />
+              </div>
+              <div className="aw-frame-badge"><Dumbbell size={12} /></div>
             </div>
-            <div className="aw-frame-badge"><Dumbbell size={12} /></div>
-          </div>
 
-          <div className="aw-ex-info">
-            <div className="aw-ex-name">{ex.name}</div>
-            {lastWt && <div className="aw-last"><TrendingUp size={12} /> LAST {lastWt} KG</div>}
-          </div>
+            <div className="aw-work-col">
+              <div className="aw-ex-info">
+                <div className="aw-ex-name">{ex.name}</div>
+                {lastWt && <div className="aw-last"><TrendingUp size={12} /> LAST {lastWt} KG</div>}
+              </div>
 
           {/* Every set visible and editable at once */}
           <div className="aw-sets">
@@ -188,6 +190,8 @@ export default function ActiveWorkout({
             <button className="aw-set-add" onClick={addSetHere}>
               <Plus size={15} /> Add set
             </button>
+          </div>
+            </div>
           </div>
         </div>
       )}

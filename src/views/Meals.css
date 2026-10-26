@@ -2,11 +2,8 @@
 .ml-page {
     display: flex;
     flex-direction: column;
-    gap: var(--s-3);
-    padding: var(--s-4);
-    padding-bottom: calc(var(--dock-h) + var(--safe-b) + var(--s-6));
-    max-width: 480px;
-    margin: 0 auto;
+    gap: var(--s-2);
+    padding: var(--s-3) 0 var(--s-2);
     width: 100%;
     box-sizing: border-box;
 }
