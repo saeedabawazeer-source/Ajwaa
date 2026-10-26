@@ -14,7 +14,8 @@ export const XP_AWARDS = {
 
 // Level = floor(sqrt(totalXP / 100))
 export function getLevel(xp) {
-    return Math.floor(Math.sqrt(xp / 100));
+    const safe = Number(xp) || 0;
+    return Math.floor(Math.sqrt(safe / 100));
 }
 
 export function getXPForLevel(level) {
@@ -22,12 +23,14 @@ export function getXPForLevel(level) {
 }
 
 export function getXPProgress(xp) {
-    const level = getLevel(xp);
+    const safe = Number(xp) || 0;
+    const level = getLevel(safe);
     const currentLevelXP = getXPForLevel(level);
     const nextLevelXP = getXPForLevel(level + 1);
-    const progress = xp - currentLevelXP;
+    const progress = safe - currentLevelXP;
     const needed = nextLevelXP - currentLevelXP;
-    return { level, progress, needed, percentage: Math.min((progress / needed) * 100, 100) };
+    const percentage = needed > 0 ? Math.min((progress / needed) * 100, 100) : 0;
+    return { level, progress: Math.max(progress, 0), needed: Math.max(needed, 1), percentage };
 }
 
 const LEVEL_TITLES = [
@@ -68,13 +71,13 @@ export function calcDayXP(day, user, streak) {
     }
 
     // Calorie target
-    const totalCals = allMeals.reduce((s, m) => s + m.cals, 0);
+    const totalCals = allMeals.reduce((s, m) => s + (Number(m.cals) || 0), 0);
     if (totalCals > 0 && Math.abs(totalCals - user.calorieTarget) <= 100) {
         breakdown.push({ label: 'Calorie target hit', xp: XP_AWARDS.CALORIE_TARGET_HIT });
     }
 
     // Protein goal
-    const totalProtein = allMeals.reduce((s, m) => s + m.p, 0);
+    const totalProtein = allMeals.reduce((s, m) => s + (Number(m.p) || 0), 0);
     if (totalProtein >= user.macros.p) {
         breakdown.push({ label: 'Protein goal hit', xp: XP_AWARDS.PROTEIN_GOAL_HIT });
     }

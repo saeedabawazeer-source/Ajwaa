@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
+import './styles/tokens.css'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 
 // Register Service Worker for PWA Notifications

@@ -9,8 +9,8 @@
   --c-green: #22C55E;
   --c-blue: #3B82F6;
   --c-white: #FFFFFF;
-  --font: 'Plus Jakarta Sans', sans-serif;
-  --font-display: 'Fredoka', sans-serif;
+  --font: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Archivo', system-ui, sans-serif;
   --shadow: 3px 3px 0 var(--c-black);
   --shadow-active: 1px 1px 0 var(--c-black);
   --border: 2px solid var(--c-black);
@@ -46,7 +46,7 @@ body {
 /* Global viewport container - No double padding, height-locked for zero scrolling */
 .view-section {
   flex: 1;
-  padding: 4px 10px 84px 10px;
+  padding: 4px 10px calc(var(--dock-h) + var(--safe-b) + 20px) 10px;
   animation: fadeIn 0.25s ease;
   display: flex;
   flex-direction: column;

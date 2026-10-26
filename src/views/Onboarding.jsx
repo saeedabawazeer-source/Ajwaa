@@ -1,17 +1,18 @@
-import { useState, useMemo } from 'react';
-import { ChevronRight, Target, Dumbbell, Zap, Trophy, Crown, Check, Ruler, Weight, Calendar } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronRight, Target, Dumbbell, Zap, Trophy, Crown, Check, Ruler, Weight, Calendar, User, Activity, Coffee, Flame } from 'lucide-react';
 import { calculatePlan } from '../utils/helpers';
+import KenneyIcon from '../components/KenneyIcon';
 import './Onboarding.css';
 
 const STEPS = [
-    { id: 'intro', progress: 10 },
-    { id: 'name', progress: 20 },
-    { id: 'gender', progress: 30 },
-    { id: 'stats', progress: 40 },
-    { id: 'goal', progress: 60 },
-    { id: 'activity', progress: 75 },
-    { id: 'plan', progress: 90 },
-    { id: 'commit', progress: 100 },
+    { id: 'intro', progress: 10, label: 'WELCOME' },
+    { id: 'name', progress: 20, label: 'IDENTITY' },
+    { id: 'gender', progress: 30, label: 'BIOLOGY' },
+    { id: 'stats', progress: 40, label: 'BASELINE' },
+    { id: 'goal', progress: 60, label: 'MISSION' },
+    { id: 'activity', progress: 75, label: 'LIFESTYLE' },
+    { id: 'plan', progress: 90, label: 'YOUR PLAN' },
+    { id: 'commit', progress: 100, label: 'THE PACT' },
 ];
 
 export default function Onboarding({ onComplete }) {
@@ -29,21 +30,6 @@ export default function Onboarding({ onComplete }) {
     });
 
     const step = STEPS[stepIndex];
-
-    // Compute mascot emoji based on step (no side effects)
-    const stepEmoji = useMemo(() => {
-        switch (step.id) {
-            case 'intro': return '💪';
-            case 'name': return '👋';
-            case 'gender': return '🧬';
-            case 'stats': return '📊';
-            case 'goal': return '🎯';
-            case 'activity': return '🏃';
-            case 'plan': return '⚡';
-            case 'commit': return '🔥';
-            default: return '💪';
-        }
-    }, [step.id]);
 
     function next() {
         if (stepIndex < STEPS.length - 1) {
@@ -88,15 +74,21 @@ export default function Onboarding({ onComplete }) {
 
     return (
         <div className="onboarding-screen">
+            {/* Gamified branded top bar */}
+            <div className="ob-topbar">
+                <div className="ob-brand">AJWAA</div>
+                <div className="ob-step-pill">
+                    <KenneyIcon name="star" size={12} />
+                    STEP {stepIndex + 1}/{STEPS.length}
+                </div>
+            </div>
             <div className="ob-progress">
                 <div className="ob-bar" style={{ width: `${step.progress}%` }} />
             </div>
 
             <div className="ob-content">
-                {/* Step Icon Header */}
-                <div className="mascot-header" style={{ fontSize: 56, textAlign: 'center' }}>
-                    {stepEmoji}
-                </div>
+                {/* Branded header */}
+                <div className="ob-step-label">{step.label}</div>
 
                 {/* 1. INTRO */}
                 {step.id === 'intro' && (
@@ -134,11 +126,11 @@ export default function Onboarding({ onComplete }) {
                         </div>
                         <div className="ob-grid ob-input-area">
                             <Card
-                                icon="👨" label="Male" sub=""
+                                icon={<User size={22} strokeWidth={2.5} />} label="Male" sub=""
                                 selected={data.gender === 'male'} onClick={() => setData({ ...data, gender: 'male' })}
                             />
                             <Card
-                                icon="👩" label="Female" sub=""
+                                icon={<User size={22} strokeWidth={2.5} />} label="Female" sub=""
                                 selected={data.gender === 'female'} onClick={() => setData({ ...data, gender: 'female' })}
                             />
                             <button className="ob-btn" onClick={next} disabled={!isStepValid()}>NEXT</button>
@@ -213,19 +205,19 @@ export default function Onboarding({ onComplete }) {
                         </div>
                         <div className="ob-grid ob-input-area">
                             <Card
-                                icon="🛋️" label="Sedentary" sub="Desk job, little movement"
+                                icon={<Coffee size={22} strokeWidth={2.5} />} label="Sedentary" sub="Desk job, little movement"
                                 selected={data.activity === 'sedentary'} onClick={() => setData({ ...data, activity: 'sedentary' })}
                             />
                             <Card
-                                icon="🚶" label="Lightly Active" sub="Walking, occasional activity"
+                                icon={<Activity size={22} strokeWidth={2.5} />} label="Lightly Active" sub="Walking, occasional activity"
                                 selected={data.activity === 'light'} onClick={() => setData({ ...data, activity: 'light' })}
                             />
                             <Card
-                                icon="🏃" label="Active" sub="Active job or daily movement"
+                                icon={<Flame size={22} strokeWidth={2.5} />} label="Active" sub="Active job or daily movement"
                                 selected={data.activity === 'active'} onClick={() => setData({ ...data, activity: 'active' })}
                             />
                             <Card
-                                icon="🔥" label="Athlete" sub="Physical job or heavy training"
+                                icon={<Trophy size={22} strokeWidth={2.5} />} label="Athlete" sub="Physical job or heavy training"
                                 selected={data.activity === 'athlete'} onClick={() => setData({ ...data, activity: 'athlete' })}
                             />
                             <button className="ob-btn" onClick={next} disabled={!isStepValid()}>CALCULATE PLAN</button>
@@ -243,13 +235,26 @@ export default function Onboarding({ onComplete }) {
                             {(() => {
                                 const plan = calculatePlan(data.gender, Number(data.age), Number(data.weight), Number(data.height), data.activity, data.goal);
                                 return (
-                                    <div className="card" style={{ padding: 20, textAlign: 'center', border: '2px solid black', background: 'white', marginBottom: 20 }}>
-                                        <div style={{ fontSize: 14, fontWeight: 800, opacity: 0.5 }}>DAILY CALORIES</div>
-                                        <div style={{ fontSize: 42, fontWeight: 900, color: 'var(--c-green)' }}>{plan.cals}</div>
-                                        <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 10 }}>
-                                            <div className="chip">Protein: {plan.macros.p}g</div>
-                                            <div className="chip">Carbs: {plan.macros.c}g</div>
-                                            <div className="chip">Fats: {plan.macros.f}g</div>
+                                    <div className="ob-plan-card">
+                                        <div className="ob-plan-badge">
+                                            <KenneyIcon name="star" size={14} />
+                                            PLAN UNLOCKED
+                                        </div>
+                                        <div className="ob-plan-cal-label">DAILY CALORIES</div>
+                                        <div className="ob-plan-cal">{plan.cals}</div>
+                                        <div className="ob-plan-macros">
+                                            <div className="ob-plan-macro">
+                                                <span className="ob-plan-macro-val">{plan.macros.p}g</span>
+                                                <span className="ob-plan-macro-lbl">PROTEIN</span>
+                                            </div>
+                                            <div className="ob-plan-macro">
+                                                <span className="ob-plan-macro-val">{plan.macros.c}g</span>
+                                                <span className="ob-plan-macro-lbl">CARBS</span>
+                                            </div>
+                                            <div className="ob-plan-macro">
+                                                <span className="ob-plan-macro-val">{plan.macros.f}g</span>
+                                                <span className="ob-plan-macro-lbl">FATS</span>
+                                            </div>
                                         </div>
                                     </div>
                                 );
@@ -267,12 +272,12 @@ export default function Onboarding({ onComplete }) {
                         </div>
                         <div className="ob-input-area">
                             <div className={`ob-card ${data.commit ? 'selected' : ''}`} onClick={() => setData({ ...data, commit: true })}>
-                                <div className="ob-card-icon" style={{ background: data.commit ? '#22C55E' : '#e5e5e5', color: 'white' }}>
+                                <div className="ob-card-icon" style={{ background: data.commit ? 'var(--c-black)' : '#e5e5e5', color: data.commit ? 'var(--c-volt)' : '#999' }}>
                                     <Check size={24} strokeWidth={4} />
                                 </div>
                                 <div style={{ textAlign: 'left' }}>
                                     <div style={{ fontWeight: 800 }}>I COMMIT</div>
-                                    <div style={{ fontSize: 12, opacity: 0.6 }}>I will do the work.</div>
+                                    <div style={{ fontSize: 12, opacity: 0.6 }}>No excuses. I show up.</div>
                                 </div>
                             </div>
                             <button className="ob-btn" onClick={next} disabled={!isStepValid()}>START AJWAA</button>
@@ -293,7 +298,7 @@ function Card({ icon, label, sub, selected, onClick }) {
                 <div style={{ fontWeight: 800, fontSize: 16 }}>{label}</div>
                 {sub && <div style={{ fontSize: 12, opacity: 0.6 }}>{sub}</div>}
             </div>
-            {selected && <div style={{ color: 'var(--c-green)' }}><Check size={20} strokeWidth={3} /></div>}
+            {selected && <div style={{ color: 'var(--c-black)' }}><Check size={20} strokeWidth={3} /></div>}
         </div>
     );
 }

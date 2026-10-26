@@ -1,140 +1,70 @@
-import { useState } from 'react';
 import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
-import { Dumbbell, Play, Zap, Check, ChevronRight, Minus } from 'lucide-react';
-import BodyMap from '../components/BodyMap';
-import { useStore } from '../store/useStore';
+import { Play, Zap, Dumbbell, Clock, Trophy, Target, Flame, Star } from 'lucide-react';
 import './Workouts.css';
 
-const SPLIT_COLORS = {
-    push: 'var(--c-red)',
-    pull: '#3B82F6',
-    legs: 'var(--c-volt)',
-    upper: '#FF9800',
-    full_body: 'var(--c-green)',
-};
-
-const SPLIT_OPTIONS = [
-    { id: null, label: 'REST' },
-    { id: 'push', label: 'PUSH' },
-    { id: 'pull', label: 'PULL' },
-    { id: 'legs', label: 'LEGS' },
-    { id: 'upper', label: 'UPPER' },
-    { id: 'full_body', label: 'FULL' },
-];
-
-export default function Workouts({ onStartWorkout }) {
-    const store = useStore();
-    const { state, updateWorkoutSchedule } = store;
-    const schedule = state.workoutSchedule || {};
-
-    const todayIndex = new Date().getDay();
-    const [selectedDay, setSelectedDay] = useState(todayIndex);
-    const [showPicker, setShowPicker] = useState(false);
-
-    const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-    const fullDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const activeTemplateId = schedule[selectedDay] || null;
-    const activeTemplate = WORKOUT_TEMPLATES.find(t => t.id === activeTemplateId);
-    const todayTemplateId = schedule[todayIndex] || null;
-    const todayTemplate = WORKOUT_TEMPLATES.find(t => t.id === todayTemplateId);
-
-    function assignSplit(splitId) {
-        updateWorkoutSchedule(selectedDay, splitId);
-        setShowPicker(false);
-    }
-
-    function handleStartTemplate(template) {
-        onStartWorkout(template.name);
-    }
+export default function Workouts({ onStartWorkout, streak = 0, xp = 0, xpProg }) {
+    const today = new Date().getDay();
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const recommended = WORKOUT_TEMPLATES[today % WORKOUT_TEMPLATES.length];
 
     return (
-        <div className="wo-page">
-            {/* Week Strip */}
-            <div className="wo-week-strip">
-                {days.map((d, i) => {
-                    const isSelected = i === selectedDay;
-                    const isToday = i === todayIndex;
-                    const splitId = schedule[i];
-                    const color = splitId ? SPLIT_COLORS[splitId] : null;
-                    return (
-                        <button key={i}
-                            className={`wo-day ${isSelected ? 'sel' : ''} ${isToday ? 'today' : ''}`}
-                            onClick={() => { setSelectedDay(i); setShowPicker(false); }}>
-                            <span className="wo-day-letter">{d}</span>
-                            {color ? <span className="wo-day-dot" style={{ background: color }} /> : <Minus size={10} opacity={0.2} />}
-                        </button>
-                    );
-                })}
-            </div>
-
-            {/* Body Map */}
-            <BodyMap highlight={activeTemplateId} />
-
-            {/* Assign Split */}
-            <button className="wo-assign-btn" onClick={() => setShowPicker(!showPicker)}>
-                <span>{fullDays[selectedDay]}: {activeTemplate?.name || 'Rest Day'}</span>
-                <span className="wo-assign-edit">TAP TO CHANGE</span>
-            </button>
-
-            {/* Split Picker */}
-            {showPicker && (
-                <div className="wo-split-picker">
-                    {SPLIT_OPTIONS.map(s => (
-                        <button key={s.label}
-                            className={`wo-split-opt ${activeTemplateId === s.id ? 'active' : ''}`}
-                            onClick={() => assignSplit(s.id)}>
-                            {s.id && <span className="wo-split-dot" style={{ background: SPLIT_COLORS[s.id] }} />}
-                            <span>{s.label}</span>
-                            {activeTemplateId === s.id && <Check size={12} strokeWidth={4} />}
-                        </button>
-                    ))}
-                </div>
-            )}
-
-            {/* Today CTA */}
-            {todayTemplate && (
-                <button className="wo-today-hero" onClick={() => handleStartTemplate(todayTemplate)}>
-                    <div className="wo-hero-left">
-                        <div className="wo-hero-icon"><Dumbbell size={22} strokeWidth={3} /></div>
-                        <div>
-                            <div className="wo-hero-title">TODAY: {todayTemplate.name}</div>
-                            <div className="wo-hero-sub">{todayTemplate.exercises.length} exercises</div>
-                        </div>
+        <div className="wk-page">
+            {/* Gamification strip */}
+            <div className="wk-gamify">
+                <div className="wk-gm-left">
+                    <div className="wk-gm-lvl">
+                        <span className="wk-gm-lvl-tag">LVL</span>
+                        <span className="wk-gm-lvl-num">{xpProg?.level ?? 0}</span>
                     </div>
-                    <div className="wo-hero-go">GO</div>
-                </button>
-            )}
-
-            {/* Library */}
-            <div className="wo-section-title">
-                <Zap size={14} />
-                <span>WORKOUT LIBRARY</span>
+                    <div className="wk-gm-xp">
+                        <div className="wk-gm-bar"><div className="wk-gm-fill" style={{ width: `${xpProg?.percentage ?? 0}%` }} /></div>
+                        <div className="wk-gm-xp-text"><Zap size={10} fill="currentColor" /> {xp} XP · {xpProg?.needed ?? 100} to next</div>
+                    </div>
+                </div>
+                <div className="wk-gm-streak"><Flame size={14} fill="currentColor" /> {streak}</div>
             </div>
 
-            <div className="wo-templates">
-                {WORKOUT_TEMPLATES.map(t => (
-                    <button key={t.id} className="wo-tpl-card" onClick={() => handleStartTemplate(t)}>
-                        <div className="wo-tpl-dot" style={{ background: SPLIT_COLORS[t.id] || 'var(--c-black)' }} />
-                        <div className="wo-tpl-info">
-                            <div className="wo-tpl-name">{t.name}</div>
-                            <div className="wo-tpl-desc">{t.desc}</div>
-                            <div className="wo-tpl-chips">
-                                {t.exercises.slice(0, 3).map((ex, i) => (
-                                    <span key={i} className="wo-tpl-chip">{ex.name}</span>
-                                ))}
-                                {t.exercises.length > 3 && <span className="wo-tpl-chip more">+{t.exercises.length - 3}</span>}
-                            </div>
-                        </div>
-                        <ChevronRight size={18} opacity={0.3} />
+            {/* Daily quest */}
+            <div className="wk-quest">
+                <div className="wk-quest-icon"><Trophy size={16} /></div>
+                <div className="wk-quest-text">
+                    <div className="wk-quest-title">DAILY QUEST</div>
+                    <div className="wk-quest-sub">Complete {recommended.name}</div>
+                </div>
+                <div className="wk-quest-xp">+100 XP</div>
+            </div>
+
+            {/* Featured hero */}
+            <div className="wk-hero">
+                <div className="wk-hero-top">
+                    <span className="wk-day">{dayNames[today].toUpperCase()}</span>
+                    <span className="wk-hero-xp"><Star size={12} fill="currentColor" /> +100 XP</span>
+                </div>
+                <div className="wk-hero-name">{recommended.name}</div>
+                <div className="wk-hero-desc">{recommended.desc}</div>
+                <div className="wk-hero-meta">
+                    <span><Dumbbell size={13} /> {recommended.exercises.length} moves</span>
+                    <span><Clock size={13} /> ~45 min</span>
+                    <span><Target size={13} /> {recommended.difficulty || 'Medium'}</span>
+                </div>
+                <button className="wk-start" onClick={() => onStartWorkout(recommended.name, recommended.exercises)}>
+                    <Play size={16} fill="currentColor" /> START CHALLENGE
+                </button>
+            </div>
+
+            {/* All challenges */}
+            <div className="wk-label">ALL CHALLENGES</div>
+            <div className="wk-grid">
+                {WORKOUT_TEMPLATES.map((t, i) => (
+                    <button key={t.id} className={`wk-card ${t.id === recommended.id ? 'rec' : ''}`}
+                        onClick={() => onStartWorkout(t.name, t.exercises)}>
+                        <div className="wk-card-num">{String(i + 1).padStart(2, '0')}</div>
+                        <div className="wk-card-name">{t.name}</div>
+                        <div className="wk-card-meta">{t.exercises.length} moves</div>
+                        <div className="wk-card-go"><Play size={14} fill="currentColor" /></div>
                     </button>
                 ))}
             </div>
-
-            {/* Freestyle */}
-            <button className="wo-freestyle" onClick={() => onStartWorkout('Freestyle Session')}>
-                <Play size={16} fill="currentColor" />
-                <span>FREESTYLE SESSION</span>
-            </button>
         </div>
     );
 }

@@ -4,10 +4,10 @@ import { Flame, Bell } from 'lucide-react';
 export default function Header({ userName, streak }) {
     return (
         <header className="header">
-            <div className="user-chip">
-                {/* Replaced generic avatar div with user initial or icon if preferred, keeps layout clean */}
-                <div className="user-avatar" />
-                {userName}
+            <div className="header-left">
+                <div className="header-meta">
+                    <div className="header-name">{userName}</div>
+                </div>
             </div>
             <div className="header-right">
                 <div className="streak-badge">

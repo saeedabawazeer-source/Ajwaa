@@ -1,0 +1,267 @@
+.exl-page {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 8px;
+}
+
+.exl-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    flex-shrink: 0;
+}
+
+.exl-head-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.exl-head-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--c-black);
+    color: var(--c-volt);
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--c-black);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.exl-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+}
+
+.exl-sub {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    opacity: 0.45;
+}
+
+.exl-count-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--c-volt);
+    border: 2px solid var(--c-black);
+    color: var(--c-black);
+    font-size: 12px;
+    font-weight: 900;
+    padding: 5px 10px;
+    border-radius: 999px;
+    box-shadow: 2px 2px 0 var(--c-black);
+}
+
+.exl-search {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.exl-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.exl-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    border: 2px solid var(--c-black);
+    border-radius: 12px;
+    padding: 12px 12px 12px 40px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.exl-search-input:focus {
+    outline: none;
+    border-color: var(--c-red);
+}
+
+.exl-chips {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    flex-shrink: 0;
+    scrollbar-width: none;
+}
+
+.exl-chips::-webkit-scrollbar {
+    display: none;
+}
+
+.exl-chip {
+    flex-shrink: 0;
+    background: #fff;
+    border: 2px solid var(--c-black);
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.1s;
+}
+
+.exl-chip.active {
+    background: var(--c-black);
+    color: var(--c-volt);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.exl-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    opacity: 0.5;
+    flex-shrink: 0;
+}
+
+.exl-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.exl-card {
+    overflow: hidden;
+}
+
+.exl-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font);
+}
+
+.exl-muscle-bar {
+    width: 5px;
+    align-self: stretch;
+    border-radius: 3px;
+    flex-shrink: 0;
+    min-height: 30px;
+}
+
+.exl-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.exl-name {
+    font-weight: 800;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.exl-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.exl-tag {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    background: var(--c-sand);
+    border: 1px solid var(--c-black);
+    padding: 2px 7px;
+    border-radius: 6px;
+}
+
+.exl-tag.ghost {
+    background: transparent;
+    border-color: rgba(0, 0, 0, 0.2);
+    opacity: 0.6;
+}
+
+.exl-chev {
+    flex-shrink: 0;
+    opacity: 0.4;
+    transition: transform 0.2s;
+}
+
+.exl-chev.rot {
+    transform: rotate(180deg);
+}
+
+.exl-card-body {
+    padding: 0 14px 14px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.15);
+    margin-top: 2px;
+    padding-top: 10px;
+    animation: fadeIn 0.2s ease;
+}
+
+.exl-info {
+    font-size: 12px;
+    line-height: 1.5;
+    opacity: 0.75;
+    margin-bottom: 10px;
+}
+
+.exl-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--c-red);
+    color: #fff;
+    border: 2px solid var(--c-black);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--c-black);
+}
+
+.exl-add-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--c-black);
+}
+
+.exl-empty {
+    text-align: center;
+    padding: 40px 20px;
+    font-weight: 800;
+    opacity: 0.7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.exl-empty-sub {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.5;
+}

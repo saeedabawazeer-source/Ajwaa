@@ -1,61 +1,43 @@
 import { useState, useRef, useEffect } from 'react';
-import { Camera, X, Check, Scan, Image as ImageIcon } from 'lucide-react';
+import { Camera, X, Check, Image as ImageIcon, Scan } from 'lucide-react';
 import './CheckInModal.css';
 
 export default function CheckInModal({ onClose, onConfirm }) {
-    const [stream, setStream] = useState(null);
     const [photo, setPhoto] = useState(null);
     const [facingMode, setFacingMode] = useState('user');
     const [error, setError] = useState('');
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
+    const streamRef = useRef(null);
 
-    // Initialize camera
     useEffect(() => {
         async function startCamera() {
             try {
-                if (stream) {
-                    stream.getTracks().forEach(track => track.stop());
-                }
-                const newStream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode }
-                });
-                setStream(newStream);
-                if (videoRef.current) {
-                    videoRef.current.srcObject = newStream;
-                }
+                if (streamRef.current) streamRef.current.getTracks().forEach(t => t.stop());
+                const newStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode } });
+                streamRef.current = newStream;
+                if (videoRef.current) videoRef.current.srcObject = newStream;
                 setError('');
-            } catch (err) {
-                console.error("Camera error:", err);
-                setError('Camera access denied or unavailable. Tap to use a mocked photo instead.');
+            } catch {
+                setError('Camera access denied. Tap to use a placeholder photo instead.');
             }
         }
-        
         if (!photo) startCamera();
-
-        return () => {
-            if (stream) stream.getTracks().forEach(track => track.stop());
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        return () => { if (streamRef.current) streamRef.current.getTracks().forEach(t => t.stop()); };
     }, [facingMode, photo]);
 
     function takePhoto() {
-        if (!stream) {
-            // Mock photo fallback
+        if (!streamRef.current) {
             setPhoto('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&auto=format&fit=crop');
             return;
         }
         const video = videoRef.current;
         const canvas = canvasRef.current;
         if (!video || !canvas) return;
-
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const ctx = canvas.getContext('2d');
-        if (facingMode === 'user') {
-            ctx.translate(canvas.width, 0);
-            ctx.scale(-1, 1);
-        }
+        if (facingMode === 'user') { ctx.translate(canvas.width, 0); ctx.scale(-1, 1); }
         ctx.drawImage(video, 0, 0);
         setPhoto(canvas.toDataURL('image/jpeg', 0.8));
     }

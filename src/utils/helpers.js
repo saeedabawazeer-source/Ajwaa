@@ -58,10 +58,11 @@ export function calculatePlan(gender, age, weight, height, activity, goal) {
 }
 
 export function calculateTDEE(user) {
-    if (!user) return { calorieTarget: 2200, p: 160, c: 230, f: 70 };
+    if (!user) return { calorieTarget: 2200, macros: { p: 160, c: 230, f: 70 }, p: 160, c: 230, f: 70 };
     const plan = calculatePlan(user.gender || 'male', user.age || 25, user.weight || 70, user.height || 175, user.activityLevel || 'active', user.goal || 'muscle_gain');
     return {
         calorieTarget: plan.cals,
+        macros: { p: plan.macros.p, c: plan.macros.c, f: plan.macros.f },
         p: plan.macros.p,
         c: plan.macros.c,
         f: plan.macros.f

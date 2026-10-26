@@ -1,41 +1,41 @@
 .header {
-    height: 48px;
+    height: 52px;
     width: 100%;
     box-sizing: border-box;
-    /* Crucial for padding */
     flex-shrink: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px;
-    /* border-bottom: 2px solid rgba(0, 0, 0, 0.05); */
+    padding: 0 12px;
     background: var(--c-sand);
-    /* Ensure background is opaque */
     position: sticky;
     top: 0;
     z-index: 900;
 }
 
-.user-chip {
+.header-left {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--c-paper);
-    padding: 6px 12px;
-    border: 2px solid var(--c-black);
-    border-radius: 999px;
-    font-weight: 800;
-    font-size: 13px;
-    box-shadow: 2px 2px 0 var(--c-black);
 }
 
-.user-avatar {
-    width: 24px;
-    height: 24px;
-    background: var(--c-red);
-    border: 2px solid var(--c-black);
-    border-radius: 50%;
-    flex-shrink: 0;
+.header-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.header-name {
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.header-level {
+    font-size: 10px;
+    font-weight: 900;
+    color: var(--c-red);
+    letter-spacing: 0.5px;
 }
 
 .header-right {
@@ -48,26 +48,28 @@
     background: var(--c-volt);
     border: 2px solid var(--c-black);
     border-radius: 999px;
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 800;
+    padding: 5px 11px;
+    font-size: 13px;
+    font-weight: 900;
     box-shadow: 2px 2px 0 var(--c-black);
     white-space: nowrap;
-    /* Prevent wrap */
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .icon-btn-round {
     padding: 8px;
-    border: 2px solid var(--c-black);
     border-radius: 50%;
-    background: var(--c-paper);
+    border: 2px solid var(--c-black);
+    background: #fff;
     display: grid;
     place-items: center;
-    box-shadow: 2px 2px 0 var(--c-black);
     cursor: pointer;
+    box-shadow: 2px 2px 0 var(--c-black);
 }
 
 .icon-btn-round:active {
-    transform: translate(2px, 2px);
-    box-shadow: none;
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 var(--c-black);
 }

@@ -1,0 +1,30 @@
+/* ─── AJWAA DESIGN TOKENS ─── */
+/* Import in main.jsx before any other CSS */
+
+:root {
+  /* Spacing (4px scale) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --gutter: 16px;
+  --dock-h: 64px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+
+  /* Type scale */
+  --t-hero: 28px;
+  --t-title: 20px;
+  --t-body: 15px;
+  --t-label: 11px;
+  --t-micro: 10px;
+
+  /* Semantic colors (additions to existing vars) */
+  --c-over: #FF7A00;
+  --c-danger: #D62828;
+  --c-disabled-bg: #E5E1D8;
+  --c-disabled-text: rgba(26, 26, 26, 0.35);
+  --c-ring-track: rgba(255, 255, 255, 0.12);
+}

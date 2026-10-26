@@ -1,4 +1,7 @@
-# React + Vite
+# Ajwaa — Your AI Fitness Companion
+
+Character sprite: Eris Esra's free pixel-art character template.
+https://erisesra.itch.io/character-templates-pack
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
