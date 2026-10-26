@@ -1,19 +1,20 @@
 import './Dock.css';
 import KenneyIcon from './KenneyIcon';
-import AjwaMascot from './AjwaMascot';
+import { Sparkles } from 'lucide-react';
 
-export default function Dock({ activeView, onNavigate, onFab, isCoach, ownerMode = false }) {
-    const isSaeedMode = activeView === 'saeed';
+// Bottom navigation: HOME / TRAIN / STATS / PROFILE for everyone, plus PLAN in
+// owner mode. The centre button opens the AI coach (it used to be the mascot).
+export default function Dock({ activeView, onNavigate, onFab, ownerMode = false }) {
 
     const left = [
         { id: 'dashboard', label: 'HOME', icon: <KenneyIcon name="home" size={22} tint="white" /> },
-        { id: 'saeed', label: 'SAEED', icon: <KenneyIcon name="power" size={22} tint="white" /> },
-        // Owner-only: the plan loaded by the secret login (#owner).
+        { id: 'workouts', label: 'TRAIN', icon: <KenneyIcon name="fist" size={22} tint="white" /> },
+        // Owner-only: the plan loaded by the secret login.
         ...(ownerMode ? [{ id: 'plan', label: 'PLAN', icon: <KenneyIcon name="star" size={22} tint="white" /> }] : []),
     ];
-    
+
     const right = [
-        { id: isCoach ? 'coach' : 'workouts', label: isCoach ? 'COACH' : 'WORKOUT', icon: isCoach ? <KenneyIcon name="star" size={22} tint="white" /> : <KenneyIcon name="fist" size={22} tint="white" /> },
+        { id: 'stats', label: 'STATS', icon: <KenneyIcon name="target" size={22} tint="white" /> },
         { id: 'profile', label: 'PROFILE', icon: <KenneyIcon name="gear" size={22} tint="white" /> },
     ];
 
@@ -25,18 +26,10 @@ export default function Dock({ activeView, onNavigate, onFab, isCoach, ownerMode
                 </button>
             ))}
             
-            {/* Middle Button - Mascot hidden if in Saeed personal mode */}
-            {isSaeedMode ? (
-                <button className="nav-fab" style={{ background: 'var(--c-volt)', color: 'var(--c-black)', border: '2.5px solid var(--c-black)', borderRadius: '50%', width: 48, height: 48, marginTop: -18, display: 'grid', placeItems: 'center', boxShadow: '2.5px 2.5px 0 var(--c-black)', flexShrink: 0, cursor: 'pointer' }} onClick={() => onNavigate('saeed')} title="Saeed Protocol Active">
-                    <KenneyIcon name="star" size={22} />
-                </button>
-            ) : (
-                <button className="nav-fab mascot-fab" onClick={onFab} title="Ask Ajwaa AI Coach">
-                    <div className="dock-mascot-wrap">
-                        <AjwaMascot mood="neutral" />
-                    </div>
-                </button>
-            )}
+            {/* Centre button — the AI coach (replaced the mascot sprite) */}
+            <button className="nav-fab" onClick={onFab} title="Ask Ajwaa — your AI coach" aria-label="Ask Ajwaa">
+                <Sparkles size={24} color="var(--c-black)" />
+            </button>
 
             {right.map(it => (
                 <button key={it.id} className={`nav-item ${activeView === it.id ? 'active' : ''}`} onClick={() => onNavigate(it.id)}>

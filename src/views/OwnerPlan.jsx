@@ -4,7 +4,7 @@ import './OwnerPlan.css';
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-export default function OwnerPlan({ onStartWorkout }) {
+export default function OwnerPlan({ onStartWorkout, onOpenProtocol }) {
     const { targets, week, timeline, supplements, rules, profile } = OWNER_PLAN;
     const routine = WORKOUT_TEMPLATES.find(t => t.id === 'pull_a');
     const core = WORKOUT_TEMPLATES.find(t => t.id === 'core_finisher');
@@ -101,6 +101,12 @@ export default function OwnerPlan({ onStartWorkout }) {
             <ul className="op-rules">
                 {rules.map(r => <li key={r}>{r}</li>)}
             </ul>
+
+            {onOpenProtocol && (
+                <button className="op-protocol" onClick={onOpenProtocol}>
+                    OPEN MY PROTOCOL
+                </button>
+            )}
         </div>
     );
 }

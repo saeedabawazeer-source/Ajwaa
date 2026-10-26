@@ -252,3 +252,24 @@
     margin-bottom: 8px;
     color: rgba(26, 26, 26, 0.78);
 }
+
+.op-protocol {
+    width: 100%;
+    margin-top: 18px;
+    padding: 13px;
+    background: var(--c-sand);
+    color: var(--c-black);
+    border: var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.op-protocol:active {
+    box-shadow: var(--shadow-active);
+    transform: translate(2px, 2px);
+}

@@ -27,23 +27,20 @@ export default function App() {
   const store = useStore();
   const { state } = store;
 
-  const isStandalone = typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches;
-
-  const isSaeedRoute = typeof window !== 'undefined' && (
-    window.location.pathname.includes('/saeed') || 
-    window.location.hash === '#saeed' ||
-    isStandalone
+  // Deep links (deliberately not in the nav): /saeed or #saeed opens the
+  // personal protocol view, #owner or /owner opens the secret owner login.
+  const wantsSaeedView = typeof window !== 'undefined' && (
+    window.location.pathname.includes('/saeed') || window.location.hash === '#saeed'
   );
 
+  const VIEWS = ['dashboard', 'workouts', 'stats', 'profile', 'social', 'coach', 'saeed', 'plan'];
+
   const [activeView, setActiveView] = useState(() => {
-    if (typeof window !== 'undefined') {
-      if (window.location.pathname.includes('/saeed') || window.location.hash === '#saeed' || isStandalone) {
-        localStorage.setItem('ajwaa_last_view', 'saeed');
-        return 'saeed';
-      }
-      return localStorage.getItem('ajwaa_last_view') || 'dashboard';
-    }
-    return 'dashboard';
+    if (typeof window === 'undefined') return 'dashboard';
+    if (wantsSaeedView) return 'saeed';
+    const saved = localStorage.getItem('ajwaa_last_view');
+    // 'saeed' is URL-only, so a stale saved value can't trap a normal user there.
+    return VIEWS.includes(saved) && saved !== 'saeed' ? saved : 'dashboard';
   });
 
   useEffect(() => {
@@ -81,7 +78,6 @@ export default function App() {
   }, [state.xp]);
 
   const [showLanding, setShowLanding] = useState(() => {
-    if (isSaeedRoute || (typeof window !== 'undefined' && localStorage.getItem('ajwaa_last_view') === 'saeed')) return false;
     return typeof window !== 'undefined' && localStorage.getItem('ajwaa_preset_unlocked') !== 'true';
   });
 
@@ -126,7 +122,7 @@ export default function App() {
     );
   }
 
-  if (!state.onboardingComplete && !isSaeedRoute && activeView !== 'saeed') {
+  if (!state.onboardingComplete) {
     return (
       <>
         <Onboarding onComplete={store.completeOnboarding} />
@@ -286,6 +282,7 @@ export default function App() {
               exercises.forEach(ex => store.addExerciseToActive(ex.exerciseId, ex.name));
               setActiveView('workouts');
             }}
+            onOpenProtocol={() => setActiveView('saeed')}
           />
         );
       default:
@@ -301,7 +298,7 @@ export default function App() {
       </div>
       {activeView !== 'saeed' && (
         <>
-          <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} isCoach={state.user.role === 'coach'} ownerMode={state.ownerMode} />
+          <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} ownerMode={state.ownerMode} />
           <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} state={state} />
         </>
       )}
