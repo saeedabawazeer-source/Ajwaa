@@ -130,6 +130,14 @@ export default function App() {
     return (
       <>
         <Onboarding onComplete={store.completeOnboarding} />
+        {/* Hidden owner hot-spot: 5 quick taps in the top-left corner open the
+            secret login, so it is reachable on a phone without typing a URL.
+            That corner holds only the progress bar, nothing interactive. */}
+        <div
+          onPointerDown={handleSecretTap}
+          aria-hidden="true"
+          style={{ position: 'fixed', top: 0, left: 0, width: 132, height: 60, zIndex: 9999, background: 'transparent' }}
+        />
         <SecretLogin open={secretOpen} onClose={closeSecret} onSuccess={handleOwnerLogin} />
       </>
     );
