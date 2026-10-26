@@ -275,3 +275,12 @@
     opacity: 0.3;
     cursor: default;
 }
+
+.ajwa-note {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(26, 26, 26, 0.3);
+    font-size: 11px;
+    font-weight: 700;
+    opacity: 0.7;
+}

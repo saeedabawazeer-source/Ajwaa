@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, Sparkles, Bot } from 'lucide-react';
-import { generateAjwaResponse, getWelcomeMessage } from '../utils/ajwaChat';
+import { getWelcomeMessage } from '../utils/ajwaChat';
+import { askCoach } from '../utils/coachBrain';
+import { isConfigured, providerLabel } from '../utils/aiProvider';
 import './AjwaChat.css';
 
-export default function AjwaChat({ open, onClose, totals, user, streak, today, xp }) {
+export default function AjwaChat({ open, onClose, totals, user, streak, today, xp, state }) {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [typing, setTyping] = useState(false);
@@ -24,21 +26,30 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
         scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }, [messages]);
 
+    // The coach reads the data App already has; useStore() is a plain hook, so
+    // a second call inside this component would return a different state.
+    const context = { totals, user, streak, today, xp };
+
+    async function reply(text, history) {
+        const res = await askCoach({
+            message: text,
+            history,
+            state,
+            derived: context,
+            ownerMode: Boolean(state?.ownerMode),
+        });
+        setMessages(prev => [...prev, { role: 'ajwa', text: res.text, note: res.note }]);
+        setTyping(false);
+    }
+
     function handleSend() {
         const text = input.trim();
         if (!text) return;
 
-        const userMsg = { role: 'user', text };
-        setMessages(prev => [...prev, userMsg]);
+        setMessages(prev => [...prev, { role: 'user', text }]);
         setInput('');
         setTyping(true);
-
-        // Simulate typing delay
-        setTimeout(() => {
-            const response = generateAjwaResponse(text, { totals, user, streak, today, xp });
-            setMessages(prev => [...prev, { role: 'ajwa', text: response }]);
-            setTyping(false);
-        }, 800 + Math.random() * 800);
+        reply(text, messages);
     }
 
     function handleKeyDown(e) {
@@ -64,7 +75,9 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                         </div>
                         <div>
                             <div className="ajwa-title">Ajwa</div>
-                            <div className="ajwa-sub">Your fitness AI</div>
+                            <div className="ajwa-sub">
+                                {isConfigured() ? `AI coach · ${providerLabel()}` : 'Your fitness AI'}
+                            </div>
                         </div>
                     </div>
                     <button className="ajwa-close" onClick={onClose}><X size={18} /></button>
@@ -79,7 +92,10 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                                     <Bot size={14} color="var(--c-black)" />
                                 </div>
                             )}
-                            <div className="ajwa-bubble-text">{msg.text}</div>
+                            <div className="ajwa-bubble-text">
+                                {msg.text}
+                                {msg.note && <div className="ajwa-note">{msg.note}</div>}
+                            </div>
                         </div>
                     ))}
                     {typing && (
@@ -100,11 +116,7 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                                 setMessages(prev => [...prev, { role: 'user', text: c }]);
                                 setInput('');
                                 setTyping(true);
-                                setTimeout(() => {
-                                    const r = generateAjwaResponse(c, { totals, user, streak, today, xp });
-                                    setMessages(prev => [...prev, { role: 'ajwa', text: r }]);
-                                    setTyping(false);
-                                }, 1000);
+                                reply(c, messages);
                             }}>{c}</button>
                         ))}
                     </div>

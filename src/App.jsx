@@ -6,6 +6,7 @@ import Dock from './components/Dock';
 import AjwaChat from './components/AjwaChat';
 import LogMealModal from './components/LogMealModal';
 import LogWorkoutModal from './components/LogWorkoutModal';
+import SecretLogin from './components/SecretLogin';
 import Dashboard from './views/Dashboard';
 import Workouts from './views/Workouts';
 import Stats from './views/Stats';
@@ -17,6 +18,7 @@ import Confetti from './components/Confetti';
 import LevelUpModal from './components/LevelUpModal';
 import Onboarding from './views/Onboarding';
 import Landing from './views/Landing';
+import OwnerPlan from './views/OwnerPlan';
 import CoachView from './views/CoachView';
 import SaeedProtocolView from './views/SaeedProtocolView';
 import './App.css';
@@ -83,12 +85,54 @@ export default function App() {
     return typeof window !== 'undefined' && localStorage.getItem('ajwaa_preset_unlocked') !== 'true';
   });
 
+  // ─── SECRET OWNER LOGIN ───
+  // Opens by loading the app with #owner (or /owner). 5 quick taps on the AJWAA
+  // logo also work whenever the logo has no click handler of its own.
+  const [secretOpen, setSecretOpen] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.location.hash === '#owner' || window.location.pathname.includes('/owner');
+  });
+  const secretTapRef = useRef({ count: 0, last: 0 });
+
+  function handleSecretTap() {
+    const now = Date.now();
+    secretTapRef.current = now - secretTapRef.current.last < 1200
+      ? { count: secretTapRef.current.count + 1, last: now }
+      : { count: 1, last: now };
+    if (secretTapRef.current.count >= 5) {
+      secretTapRef.current = { count: 0, last: 0 };
+      setSecretOpen(true);
+    }
+  }
+
+  function handleOwnerLogin() {
+    store.loginAsOwner();
+    localStorage.setItem('ajwaa_preset_unlocked', 'true');
+    setActiveView('plan');
+  }
+
+  function closeSecret() {
+    setSecretOpen(false);
+    // Owner login drops straight into the app — no landing page, no onboarding.
+    if (state.ownerMode) setShowLanding(false);
+  }
+
   if (showLanding) {
-    return <Landing onStart={() => setShowLanding(false)} />;
+    return (
+      <>
+        <Landing onStart={() => setShowLanding(false)} onSecretTap={handleSecretTap} />
+        <SecretLogin open={secretOpen} onClose={closeSecret} onSuccess={handleOwnerLogin} />
+      </>
+    );
   }
 
   if (!state.onboardingComplete && !isSaeedRoute && activeView !== 'saeed') {
-    return <Onboarding onComplete={store.completeOnboarding} />;
+    return (
+      <>
+        <Onboarding onComplete={store.completeOnboarding} />
+        <SecretLogin open={secretOpen} onClose={closeSecret} onSuccess={handleOwnerLogin} />
+      </>
+    );
   }
 
   function showToast(msg, type = 'success') {
@@ -226,6 +270,16 @@ export default function App() {
         return <CoachView />;
       case 'saeed':
         return <SaeedProtocolView />;
+      case 'plan':
+        return (
+          <OwnerPlan
+            onStartWorkout={(title, exercises) => {
+              store.startWorkout(title);
+              exercises.forEach(ex => store.addExerciseToActive(ex.exerciseId, ex.name));
+              setActiveView('workouts');
+            }}
+          />
+        );
       default:
         return null;
     }
@@ -239,8 +293,8 @@ export default function App() {
       </div>
       {activeView !== 'saeed' && (
         <>
-          <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} isCoach={state.user.role === 'coach'} />
-          <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} />
+          <Dock activeView={activeView} onNavigate={setActiveView} onFab={() => setChatOpen(true)} isCoach={state.user.role === 'coach'} ownerMode={state.ownerMode} />
+          <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} state={state} />
         </>
       )}
 
@@ -259,6 +313,8 @@ export default function App() {
       {xpPopup && <XPPopup xp={xpPopup} onDone={() => setXpPopup(null)} />}
       <Confetti active={confettiActive} onDone={() => setConfettiActive(false)} />
       {levelUpLevel !== null && <LevelUpModal level={levelUpLevel} xp={state.xp} onClose={() => setLevelUpLevel(null)} />}
+
+      <SecretLogin open={secretOpen} onClose={closeSecret} onSuccess={handleOwnerLogin} />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { calcDayXP, getLevel } from './xpEngine';
 import { calcAchievementStats, getUnlockedAchievements } from '../data/achievements';
 import { calculateTDEE } from '../utils/helpers';
+import { OWNER_PLAN } from '../data/secretPlan';
 
 // Helpers
 function todayKey() {
@@ -136,6 +137,7 @@ const INITIAL_STATE = {
     ],
     claimedQuests: {}, // { 'YYYY-MM-DD': ['quest_id_1'] }
     socialReactions: {}, // { 'item_id': { cheers: 5, userCheered: false } }
+    ownerMode: false, // secret owner login — see src/data/secretPlan.js
     saeedProtocol: {
         dayNumber: 1,
         logs: {
@@ -235,6 +237,7 @@ function loadState() {
             if (!parsed.saeedProtocol) parsed.saeedProtocol = INITIAL_STATE.saeedProtocol;
             if (!parsed.saeedProtocol.logs) parsed.saeedProtocol.logs = {};
             if (!parsed.saeedProtocol.notificationSettings) parsed.saeedProtocol.notificationSettings = INITIAL_STATE.saeedProtocol.notificationSettings;
+            if (parsed.ownerMode === undefined) parsed.ownerMode = false;
             return parsed;
         }
     } catch { /* localStorage unavailable */ }
@@ -460,6 +463,22 @@ export function useStore() {
             s.user.calorieTarget = calculated.calorieTarget;
             s.user.macros = calculated.macros;
             s.onboardingComplete = true;
+            return s;
+        });
+    }, [update, triggerVibe]);
+
+    // ─── OWNER LOGIN (secret) ───
+    // Seeds the plan built from the Gemini conversation and skips onboarding.
+    const loginAsOwner = useCallback(() => {
+        triggerVibe();
+        update(s => {
+            Object.assign(s.user, OWNER_PLAN.profile);
+            s.user.calorieTarget = OWNER_PLAN.targets.calories;
+            s.user.macros = { ...OWNER_PLAN.targets.macros };
+            s.user.waterGoal = OWNER_PLAN.targets.water;
+            s.workoutSchedule = { ...OWNER_PLAN.week };
+            s.onboardingComplete = true;
+            s.ownerMode = true;
             return s;
         });
     }, [update, triggerVibe]);
@@ -730,7 +749,7 @@ export function useStore() {
         addMeal, removeMeal,
         addWater,
         startWorkout, addExerciseToActive, updateSet, addSet, removeSet, finishWorkout, cancelWorkout, logWorkoutSession,
-        logBodyWeight, updateProfile, recalculateTDEE, completeOnboarding, logCheckIn,
+        logBodyWeight, updateProfile, recalculateTDEE, completeOnboarding, loginAsOwner, logCheckIn,
         updateWorkoutSchedule, claimQuestXP, toggleSocialCheer,
         toggleCoachRole, sendCoachAdvice, applyCoachAdvice,
         getSaeedTodayLog, logSaeedBend, logSaeedMorningVacuums, logSaeedAccumulation, toggleSaeedGrowthExercise, setSaeedDayNumber, updateSaeedNotificationSettings,

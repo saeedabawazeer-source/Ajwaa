@@ -2,12 +2,14 @@ import './Dock.css';
 import KenneyIcon from './KenneyIcon';
 import AjwaMascot from './AjwaMascot';
 
-export default function Dock({ activeView, onNavigate, onFab, isCoach }) {
+export default function Dock({ activeView, onNavigate, onFab, isCoach, ownerMode = false }) {
     const isSaeedMode = activeView === 'saeed';
 
     const left = [
         { id: 'dashboard', label: 'HOME', icon: <KenneyIcon name="home" size={22} tint="white" /> },
         { id: 'saeed', label: 'SAEED', icon: <KenneyIcon name="power" size={22} tint="white" /> },
+        // Owner-only: the plan loaded by the secret login (#owner).
+        ...(ownerMode ? [{ id: 'plan', label: 'PLAN', icon: <KenneyIcon name="star" size={22} tint="white" /> }] : []),
     ];
     
     const right = [
