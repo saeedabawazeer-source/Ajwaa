@@ -23,14 +23,15 @@ const PROXY_PATH = '/api/ai';
 const USE_PROXY = import.meta.env.VITE_AI_PROXY !== 'off';
 
 const PROVIDERS = {
-    // Cline gateway (OpenAI-compatible). Free models keep it running with a $0
-    // balance; the paid ones are one env override away.
+    // Cline gateway (OpenAI-compatible). ClinePass models bill against the
+    // $9.99/month subscription instead of pay-as-you-go credits; the :free
+    // models need no balance at all.
     cline: {
         base: 'https://api.cline.bot/api/v1', style: 'openai',
         models: {
-            chat: 'nvidia/nemotron-3-ultra-550b-a55b:free',
+            chat: 'cline-pass/glm-5.3-flash',
             vision: 'google/gemini-3.8-flash',
-            plan: 'anthropic/claude-sonnet-5.5',
+            plan: 'cline-pass/kimi-k3',
         },
     },
     openai: {

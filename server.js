@@ -80,9 +80,9 @@ setInterval(() => {
 // Railway env vars: AI_API_KEY (required), AI_BASE_URL / AI_MODEL_* (optional).
 const AI_BASE = (process.env.AI_BASE_URL || 'https://api.cline.bot/api/v1').replace(/\/+$/, '');
 const AI_MODELS = {
-  chat: process.env.AI_MODEL_CHAT || 'nvidia/nemotron-3-ultra-550b-a55b:free',
+  chat: process.env.AI_MODEL_CHAT || 'cline-pass/glm-5.3-flash',
   vision: process.env.AI_MODEL_VISION || 'google/gemini-3.8-flash',
-  plan: process.env.AI_MODEL_PLAN || 'anthropic/claude-sonnet-5.5',
+  plan: process.env.AI_MODEL_PLAN || 'cline-pass/kimi-k3',
 };
 
 app.post('/api/ai', async (req, res) => {
