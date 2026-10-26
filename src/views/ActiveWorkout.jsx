@@ -1,8 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { searchExercises, getMuscleGroups } from '../data/exerciseDB';
 import ExerciseIllustration from '../components/ExerciseIllustration';
 import { Dumbbell, X, Plus, Check, TrendingUp, ChevronLeft, ChevronRight, RotateCcw, Trophy, Zap, Search } from 'lucide-react';
-import { getXPProgress } from '../store/xpEngine';
 import './ActiveWorkout.css';
 
 export default function ActiveWorkout({
@@ -15,20 +14,15 @@ export default function ActiveWorkout({
   onFinish,
   onCancel,
   getLastWeight,
-  streak = 0,
-  xp = 0,
   onCelebrate,
 }) {
   const [activeEx, setActiveEx] = useState(0);
-  const [activeSet, setActiveSet] = useState(0);
   const [picking, setPicking] = useState(false);
   const [swapping, setSwapping] = useState(false);
   const [search, setSearch] = useState('');
   const [completed, setCompleted] = useState(false);
   const [cheer, setCheer] = useState(false);
-  const inputRef = useRef(null);
 
-  const xpProg = getXPProgress(xp);
   const totalEx = workout.exercises.length;
 
   const ex = workout.exercises[activeEx] || null;
@@ -38,45 +32,19 @@ export default function ActiveWorkout({
   const muscles = getMuscleGroups();
 
   const totalSets = ex ? ex.sets.length : 0;
-  const safeSetIndex = ex ? Math.min(activeSet, ex.sets.length - 1) : 0;
-  const currentSet = ex ? ex.sets[safeSetIndex] : null;
   const setsDone = ex ? ex.sets.filter(s => s.reps && Number(s.reps) > 0).length : 0;
   const allSetsDone = totalSets > 0 && setsDone === totalSets;
   const allExercisesDone = totalEx > 0 && workout.exercises.every(e => e.sets.length > 0 && e.sets.every(s => s.reps && Number(s.reps) > 0));
 
-  function updateCurrent(field, value) {
-    if (!ex) return;
-    const val = value === '' ? '' : Number(value);
-    if (field === 'reps') onUpdateSet(exIndex, activeSet, val, currentSet?.weight || '');
-    else onUpdateSet(exIndex, activeSet, currentSet?.reps || '', val);
-  }
-
-  function addSetHere() { onAddSet(exIndex); setActiveSet(ex.sets.length); }
-  function removeSetHere() { if (ex.sets.length <= 1) return; onRemoveSet(exIndex, activeSet); setActiveSet(Math.max(0, activeSet - 1)); }
-  function nextExercise() { if (activeEx < totalEx - 1) { setActiveEx(activeEx + 1); setActiveSet(0); setCheer(true); setTimeout(() => setCheer(false), 700); } else { setCompleted(true); } }
-  function prevExercise() { if (activeEx > 0) { setActiveEx(activeEx - 1); setActiveSet(0); } }
+  function addSetHere() { onAddSet(exIndex); }
+  function nextExercise() { if (activeEx < totalEx - 1) { setActiveEx(activeEx + 1); setCheer(true); setTimeout(() => setCheer(false), 700); } else { setCompleted(true); } }
+  function prevExercise() { if (activeEx > 0) { setActiveEx(activeEx - 1); } }
 
   function pickExercise(e) {
     if (swapping) { onReplaceExercise(exIndex, e.id, e.name); setSwapping(false); }
-    else { onAddExercise(e.id, e.name); setActiveEx(totalEx); setActiveSet(0); }
+    else { onAddExercise(e.id, e.name); setActiveEx(totalEx); }
     setPicking(false); setSearch('');
   }
-  function logAndAdvance() {
-    setCheer(true);
-    setTimeout(() => setCheer(false), 400);
-    if (!ex || !currentSet) return;
-    // If reps empty, just flash. Otherwise advance to next set/exercise.
-    if (!currentSet.reps || Number(currentSet.reps) <= 0) return;
-    if (activeSet < totalSets - 1) {
-      setActiveSet(activeSet + 1);
-    } else if (activeEx < totalEx - 1) {
-      setActiveEx(activeEx + 1);
-      setActiveSet(0);
-    } else {
-      setCompleted(true);
-    }
-  }
-
   function startSwap() { setSwapping(true); setPicking(true); setSearch(''); }
   function finishWorkout() { if (allExercisesDone) onFinish(); }
 
@@ -113,8 +81,7 @@ export default function ActiveWorkout({
     <div className="aw-page aw-done-page">
       <div className="aw-done-stars">✦ ✦ ✦</div>
       <Trophy size={80} strokeWidth={1.5} color="var(--c-gold)" />
-      <div className="aw-done-title">WORKOUT CRUSHED!</div>
-      <div className="aw-done-sub">+{Math.min(40 + totalEx * 15, 200)} XP earned</div>
+      <div className="aw-done-title">SESSION COMPLETE</div>
       <div className="aw-done-stats">
         <span><Trophy size={16} /> {totalEx} exercises</span>
         <span><Zap size={16} fill="currentColor" /> {workout.exercises.reduce((acc, e) => acc + e.sets.length, 0)} sets</span>
@@ -149,27 +116,12 @@ export default function ActiveWorkout({
         </button>
       </div>
 
-      <div className="aw-game-bar">
-        <div className="aw-level-badge">
-          <span className="aw-lvl-tag">LVL</span>
-          <span className="aw-lvl-num">{xpProg.level}</span>
-        </div>
-        <div className="aw-xp-mini">
-          <div className="aw-xp-track"><div className="aw-xp-fill" style={{ width: `${Math.min(xpProg.percentage, 100)}%` }} /></div>
-          <span className="aw-xp-tag"><Zap size={10} fill="currentColor" /> {xp} XP</span>
-        </div>
-        <div className="aw-streak-mini">
-          <span className="aw-fire">🔥</span>
-          <span>{streak}</span>
-        </div>
-      </div>
-
       <div className="aw-progress-chips">
         {workout.exercises.map((e, i) => (
           <button
             key={e.exerciseId + i}
             className={`aw-chip ${i === activeEx ? 'on' : ''} ${e.sets.every(s => s.reps && Number(s.reps) > 0) ? 'done' : ''}`}
-            onClick={() => { setActiveEx(i); setActiveSet(0); }}
+            onClick={() => { setActiveEx(i); }}
           >
             {i + 1}
           </button>
@@ -196,55 +148,46 @@ export default function ActiveWorkout({
             {lastWt && <div className="aw-last"><TrendingUp size={12} /> LAST {lastWt} KG</div>}
           </div>
 
-          <div className="aw-set-stage">
-            <div className="aw-set-tabs">
-              {ex.sets.map((s, i) => (
-                <button
-                  key={i}
-                  className={`aw-set-tab ${i === activeSet ? 'on' : ''} ${s.reps && Number(s.reps) > 0 ? 'done' : ''}`}
-                  onClick={() => setActiveSet(i)}
-                >
-                  SET {i + 1}
-                </button>
-              ))}
-              <button className="aw-set-tab add" onClick={addSetHere}><Plus size={14} /></button>
+          {/* Every set visible and editable at once */}
+          <div className="aw-sets">
+            <div className="aw-set-head">
+              <span>SET</span>
+              <span>REPS</span>
+              <span>KG</span>
+              <span />
             </div>
-
-            {currentSet && (
-              <div className="aw-set-card">
-                <div className="aw-set-labels">
-                  <span>REPS</span>
-                  <span>KG</span>
-                </div>
-                <div className="aw-set-inputs">
-                  <input
-                    ref={inputRef}
-                    type="number"
-                    inputMode="numeric"
-                    placeholder="0"
-                    value={currentSet.reps || ''}
-                    onChange={e => updateCurrent('reps', e.target.value)}
-                    className="aw-big-input"
-                  />
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    placeholder={lastWt ? String(lastWt) : '0'}
-                    value={currentSet.weight || ''}
-                    onChange={e => updateCurrent('weight', e.target.value)}
-                    className="aw-big-input"
-                  />
-                </div>
-                <div className="aw-set-actions">
-                  <button className="aw-set-act del" onClick={removeSetHere} disabled={ex.sets.length <= 1}>
-                    <X size={14} /> REMOVE
-                  </button>
-                  <button className="aw-set-act log" onClick={logAndAdvance}>
-                    <Check size={14} /> LOG
-                  </button>
-                </div>
+            {ex.sets.map((s, i) => (
+              <div className="aw-set-row" key={i}>
+                <span className="aw-set-no">{i + 1}</span>
+                <input
+                  className="aw-set-in"
+                  type="number"
+                  inputMode="numeric"
+                  placeholder="0"
+                  value={s.reps ?? ''}
+                  onChange={e => onUpdateSet(exIndex, i, e.target.value === '' ? '' : Number(e.target.value), s.weight ?? '')}
+                />
+                <input
+                  className="aw-set-in"
+                  type="number"
+                  inputMode="decimal"
+                  placeholder={lastWt ? String(lastWt) : '0'}
+                  value={s.weight ?? ''}
+                  onChange={e => onUpdateSet(exIndex, i, s.reps ?? '', e.target.value === '' ? '' : Number(e.target.value))}
+                />
+                <button
+                  className="aw-set-x"
+                  onClick={() => onRemoveSet(exIndex, i)}
+                  disabled={ex.sets.length <= 1}
+                  aria-label={`Remove set ${i + 1}`}
+                >
+                  <X size={14} />
+                </button>
               </div>
-            )}
+            ))}
+            <button className="aw-set-add" onClick={addSetHere}>
+              <Plus size={15} /> Add set
+            </button>
           </div>
         </div>
       )}

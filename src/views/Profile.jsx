@@ -1,19 +1,16 @@
 import { useState } from 'react';
 import { Flame, Droplets, Beef, Wheat, Droplet, Pencil, Zap, Trophy, Star, Crown, Shield, Award, Heart, Sunrise, Target, Dumbbell, Lock, Scale, TrendingUp } from 'lucide-react';
-import { getXPProgress, getLevelTitle } from '../store/xpEngine';
 import { ACHIEVEMENTS } from '../data/achievements';
 import './Profile.css';
 
 const ICON_MAP = { Flame, Droplets, Trophy, Star, Crown, Shield, Award, Heart, Sunrise, Target, Dumbbell, Zap };
 
-export default function Profile({ user, today, totals, streak, xp, unlockedAchievements, onUpdate, onLogWeight, getWeightHistory, getLast7Days }) {
+export default function Profile({ user, today, totals, streak, unlockedAchievements, onUpdate, onLogWeight, getWeightHistory, getLast7Days }) {
     const bmi = (user.weight / ((user.height / 100) ** 2)).toFixed(1);
     const [tab, setTab] = useState('overview');
     const [wt, setWt] = useState('');
     const [editing, setEditing] = useState(false);
     const [editVals, setEditVals] = useState({});
-    const xpProgress = getXPProgress(xp || 0);
-    const levelTitle = getLevelTitle(xpProgress.level);
     const unlocked = unlockedAchievements || [];
     const weightHist = getWeightHistory ? getWeightHistory() : [];
     const last7 = getLast7Days ? getLast7Days() : [];
@@ -44,13 +41,6 @@ export default function Profile({ user, today, totals, streak, xp, unlockedAchie
 
             {/* Level + Body Stats row */}
             <div className="profile-top-grid">
-                <div className="card level-card-sm">
-                    <div className="level-badge-circle-sm"><Zap size={16} fill="var(--c-gold)" color="var(--c-gold)" /></div>
-                    <div style={{ fontWeight: 900, fontSize: 16 }}>Level {xpProgress.level}</div>
-                    <div className="text-label">{levelTitle}</div>
-                    <div className="xp-bar-container" style={{ marginTop: 6 }}><div className="xp-bar-fill" style={{ width: `${xpProgress.percentage}%` }} /></div>
-                    <div style={{ fontSize: 9, fontWeight: 700, opacity: 0.4, marginTop: 3 }}>{xp?.toLocaleString()} XP</div>
-                </div>
                 <div className="body-stats-col">
                     <div className="card p-stat"><div className="p-stat-num">{user.weight}</div><div className="text-label">KG</div></div>
                     <div className="card p-stat"><div className="p-stat-num">{user.height}</div><div className="text-label">CM</div></div>

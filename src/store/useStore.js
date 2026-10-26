@@ -357,7 +357,8 @@ export function useStore() {
     const updateSet = useCallback((exIdx, setIdx, reps, weight) => {
         update(s => {
             if (!s.activeWorkout) return s;
-            s.activeWorkout.exercises[exIdx].sets[setIdx] = { reps: Number(reps), weight: Number(weight) };
+            const toNum = v => (v === '' || v === null || v === undefined ? '' : Number(v));
+            s.activeWorkout.exercises[exIdx].sets[setIdx] = { reps: toNum(reps), weight: toNum(weight) };
             return s;
         });
     }, [update]);

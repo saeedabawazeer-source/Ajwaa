@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { useStore } from './store/useStore';
-import { getLevel, getXPProgress } from './store/xpEngine';
 import Header from './components/Header';
 import Dock from './components/Dock';
 import AjwaChat from './components/AjwaChat';
@@ -14,9 +13,7 @@ import Stats from './views/Stats';
 import Profile from './views/Profile';
 import Social from './views/Social';
 import Toast from './components/Toast';
-import XPPopup from './components/XPPopup';
 import Confetti from './components/Confetti';
-import LevelUpModal from './components/LevelUpModal';
 import Onboarding from './views/Onboarding';
 import Landing from './views/Landing';
 import OwnerPlan from './views/OwnerPlan';
@@ -56,27 +53,7 @@ export default function App() {
   const [toast, setToast] = useState(null);
 
   // Celebration state
-  const [xpPopup, setXpPopup] = useState(null);
   const [confettiActive, setConfettiActive] = useState(false);
-  const [levelUpLevel, setLevelUpLevel] = useState(null);
-  const prevLevelRef = useRef(getLevel(state.xp));
-  const prevXPRef = useRef(state.xp);
-
-  useEffect(() => {
-    const currentLevel = getLevel(state.xp);
-    if (currentLevel > prevLevelRef.current && prevLevelRef.current >= 0) {
-      setTimeout(() => {
-        setLevelUpLevel(currentLevel);
-        setConfettiActive(true);
-      }, 0);
-    }
-    const xpGain = state.xp - prevXPRef.current;
-    if (xpGain > 0 && prevXPRef.current >= 0) {
-      setTimeout(() => setXpPopup(xpGain), 0);
-    }
-    prevLevelRef.current = currentLevel;
-    prevXPRef.current = state.xp;
-  }, [state.xp]);
 
   const [showLanding, setShowLanding] = useState(() => {
     return typeof window !== 'undefined' && localStorage.getItem('ajwaa_preset_unlocked') !== 'true';
@@ -186,7 +163,6 @@ export default function App() {
   const streak = currentStreak;
   const today = store.getToday();
   const totals = store.getTodayTotals();
-  const xpProg = getXPProgress(state.xp);
 
   function renderView() {
     // A running session takes over the whole screen.
@@ -202,8 +178,6 @@ export default function App() {
           onFinish={() => { store.finishWorkout(); showToast('Workout saved! 💪'); }}
           onCancel={store.cancelWorkout}
           getLastWeight={store.getLastWeight}
-          streak={streak}
-          xp={state.xp}
           onCelebrate={() => setConfettiActive(true)}
         />
       );
@@ -247,8 +221,7 @@ export default function App() {
           <Workouts
             onStartWorkout={(title, exercises) => store.startWorkout(title, exercises)}
             streak={streak}
-            xp={state.xp}
-            xpProg={xpProg}
+            today={currentDayData}
           />
         );
       case 'stats':
@@ -331,9 +304,7 @@ export default function App() {
       {toast && <Toast msg={toast.msg} type={toast.type} />}
 
       {/* Celebrations */}
-      {xpPopup && <XPPopup xp={xpPopup} onDone={() => setXpPopup(null)} />}
       <Confetti active={confettiActive} onDone={() => setConfettiActive(false)} />
-      {levelUpLevel !== null && <LevelUpModal level={levelUpLevel} xp={state.xp} onClose={() => setLevelUpLevel(null)} />}
 
       <SecretLogin open={secretOpen} onClose={closeSecret} onSuccess={handleOwnerLogin} />
     </div>
