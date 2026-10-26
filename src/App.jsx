@@ -192,6 +192,7 @@ export default function App() {
   const today = store.getToday();
   const totals = store.getTodayTotals();
   const xpProg = getXPProgress(state.xp);
+  const hasCheckedIn = Boolean(state.checkIns?.some(c => c.date === new Date().toISOString().split('T')[0]));
 
   function renderView() {
     // A running session takes over the whole screen.
@@ -223,6 +224,9 @@ export default function App() {
             user={state.user}
             streak={currentStreak}
             xp={state.xp}
+            xpProg={xpProg}
+            hasCheckedIn={hasCheckedIn}
+            onLogCheckIn={store.logCheckIn}
             getLast7Days={store.getLast7Days}
             selectedDate={currentViewDate}
             onSelectDate={setViewDate}
