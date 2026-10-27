@@ -1,4 +1,4 @@
-import { Coffee, Sun, Moon, Utensils, Plus, X, Droplets, Play, Flame } from 'lucide-react';
+import { Coffee, Sun, Moon, Utensils, Plus, X, Droplets, Play } from 'lucide-react';
 import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
 import { OWNER_PLAN } from '../data/secretPlan';
 import './Dashboard.css';
@@ -15,9 +15,9 @@ function todayLabel() {
 }
 
 export default function Dashboard({
-    user, today, totals, streak, dateLabel,
+    user, today, totals, dateLabel,
     onAddMeal, onRemoveMeal, onAddWater, onStartWorkout,
-    ownerMode, supplementChecks, onToggleSupplement, onOpenPlan,
+    ownerMode, supplementChecks, onToggleSupplement,
 }) {
     const recommended = WORKOUT_TEMPLATES[new Date().getDay() % WORKOUT_TEMPLATES.length];
     const target = user.calorieTarget || 0;
@@ -38,14 +38,6 @@ export default function Dashboard({
                 <div>
                     <div className="db-eyebrow">{dateLabel || todayLabel()}</div>
                     <h1 className="db-title">Today</h1>
-                </div>
-                <div className="db-head-right">
-                    {ownerMode && onOpenPlan && (
-                        <button className="db-plan-chip" onClick={onOpenPlan}>My plan</button>
-                    )}
-                    {streak > 0 && (
-                        <div className="db-streak"><Flame size={13} fill="currentColor" /> {streak}d</div>
-                    )}
                 </div>
             </div>
 
@@ -113,12 +105,11 @@ export default function Dashboard({
                 </section>
 
                 <div className="db-water-v">
-                    <button className="db-water-v-btn" onClick={() => onAddWater(0.25)} aria-label="Add 250ml water">+</button>
-                    <div className="db-water-v-track">
-                        <div className="db-water-v-fill" style={{ height: `${waterPct}%` }} />
-                    </div>
-                    <div className="db-water-v-val"><Droplets size={13} /> {today?.water ?? 0}L</div>
-                    <button className="db-water-v-btn ghost" onClick={() => onAddWater(-0.25)} aria-label="Remove 250ml water">−</button>
+                    <button className="db-water-v-tap" onClick={() => onAddWater(0.25)} aria-label="Add 250ml water">
+                        <span className="db-water-v-fill" style={{ height: `${waterPct}%` }} />
+                        <span className="db-water-v-val"><Droplets size={13} /> {today?.water ?? 0}L</span>
+                    </button>
+                    <button className="db-water-v-minus" onClick={() => onAddWater(-0.25)} aria-label="Remove 250ml water">−</button>
                 </div>
             </div>
 

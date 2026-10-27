@@ -168,65 +168,103 @@
     min-width: 0;
 }
 
+/* The whole widget is water blue; the deeper blue rises as you log */
 .db-water-v {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    padding: 8px 6px;
-    background: var(--c-paper);
+    padding: 0;
+    background: #38BDF8;
     border: var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     box-sizing: border-box;
-}
-
-.db-water-v-btn {
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    border: 2px solid var(--c-black);
-    border-radius: 999px;
-    background: #38BDF8;
-    color: var(--c-black);
-    font-weight: 900;
-    font-size: 15px;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.db-water-v-btn.ghost {
-    background: var(--c-paper);
-}
-
-.db-water-v-track {
-    flex: 1;
-    width: 22px;
-    min-height: 56px;
-    background: rgba(26, 26, 26, 0.1);
-    border-radius: 999px;
     overflow: hidden;
+}
+
+.db-water-v-tap {
+    flex: 1;
+    width: 100%;
+    min-height: 86px;
+    position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 6px 4px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    box-sizing: border-box;
 }
 
 .db-water-v-fill {
+    position: absolute;
+    left: 0;
+    bottom: 0;
     width: 100%;
-    background: #38BDF8;
-    border-radius: 999px;
+    background: #0EA5E9;
     transition: height 0.2s ease;
 }
 
 .db-water-v-val {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 2px;
     font-family: var(--font-display);
     font-size: 11px;
+    color: var(--c-black);
     white-space: nowrap;
+}
+
+.db-water-v-minus {
+    width: 100%;
+    padding: 2px 0 4px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--c-black);
+    cursor: pointer;
+}
+
+/* ─── TIGHTEN (fit Home without scrolling) ─── */
+.db-page {
+    gap: 6px;
+}
+
+.db-card {
+    padding: 10px;
+}
+
+.db-cal-num strong {
+    font-size: 30px;
+}
+
+.db-bar {
+    height: 8px;
+    margin-top: 8px;
+}
+
+.db-macros {
+    margin-top: 8px;
+}
+
+.db-slot {
+    padding: 5px 0;
+}
+
+.db-sup-chip {
+    padding: 6px 7px;
+}
+
+.db-train-desc {
+    margin-bottom: 8px;
+}
+
+.db-start {
+    padding: 10px;
 }
 
 /* ─── SUPPLEMENTS 3×3 GRID ─── */

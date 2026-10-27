@@ -190,7 +190,6 @@ export default function App() {
             user={state.user}
             today={currentDayData}
             totals={currentTotals}
-            streak={currentStreak}
             onAddMeal={handleLogFood}
             onRemoveMeal={store.removeMeal}
             onAddWater={(amount) => store.addWater(amount, currentViewDate)}
@@ -201,7 +200,6 @@ export default function App() {
             ownerMode={state.ownerMode}
             supplementChecks={state.supplementChecks?.[currentViewDate] || {}}
             onToggleSupplement={(name) => store.toggleSupplement(name, currentViewDate)}
-            onOpenPlan={() => setActiveView('plan')}
           />
         );
       case 'meals':

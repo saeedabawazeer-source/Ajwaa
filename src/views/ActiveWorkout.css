@@ -983,4 +983,177 @@
     cursor: default;
 }
 
+/* ─── ONE NAV BAR: a section per exercise, Done at the end ─── */
+.aw-sections {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+
+.aw-section {
+    flex: 1;
+    height: 26px;
+    min-width: 0;
+    position: relative;
+    padding: 0;
+    border: 2px solid var(--c-black);
+    border-radius: 8px;
+    background: var(--c-paper);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.aw-section.on {
+    box-shadow: 0 0 0 2px var(--c-black);
+}
+
+.aw-section-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--c-black);
+    transition: width 0.2s ease;
+}
+
+.aw-done-pill {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border: 2px solid var(--c-black);
+    border-radius: 999px;
+    background: var(--c-volt);
+    box-shadow: 2px 2px 0 var(--c-black);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+}
+
+.aw-done-pill:disabled {
+    opacity: 0.4;
+    box-shadow: none;
+    cursor: default;
+}
+
+/* ─── EXERCISE HEADER + BIG ANIMATION ─── */
+.aw-ex-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.aw-ex-info {
+    min-width: 0;
+}
+
+.aw-ex-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.aw-ex-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.aw-mini-btn {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 9px;
+    border: 2px solid var(--c-black);
+    border-radius: 8px;
+    background: var(--c-paper);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* The animation is the biggest element on the screen */
+.aw-stage > .aw-frame {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    width: 100%;
+    padding: 6px;
+    border-radius: 16px;
+    box-shadow: 3px 3px 0 var(--c-black);
+}
+
+/* ─── SETS 2×2 UNDER THE ANIMATION ─── */
+.aw-sets-2x2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.aw-set-tile {
+    padding: 7px 8px;
+    border: 2px solid var(--c-black);
+    border-radius: 12px;
+    background: var(--c-paper);
+    box-shadow: 2px 2px 0 var(--c-black);
+    box-sizing: border-box;
+}
+
+.aw-set-tile-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    margin-bottom: 5px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.aw-set-tile-x {
+    display: grid;
+    place-items: center;
+    padding: 3px;
+    border: 2px solid var(--c-black);
+    border-radius: 6px;
+    background: var(--c-paper);
+    cursor: pointer;
+}
+
+.aw-set-tile-x:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.aw-set-tile-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.aw-set-add-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    border: 2px dashed var(--c-black);
+    border-radius: 12px;
+    background: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+
 
