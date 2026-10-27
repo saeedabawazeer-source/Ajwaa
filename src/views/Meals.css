@@ -162,7 +162,7 @@
 .ml-item-del {
     flex-shrink: 0;
     padding: 6px;
-    border: 2px solid var(--c-black);
+    border: var(--border);
     border-radius: 8px;
     background: var(--c-paper);
     cursor: pointer;

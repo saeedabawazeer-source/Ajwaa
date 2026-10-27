@@ -35,12 +35,12 @@
     align-items: center;
     gap: 4px;
     background: var(--c-volt);
-    border: 2px solid var(--c-black);
+    border: var(--border);
     border-radius: 999px;
     padding: 4px 10px;
     font-size: 12px;
     font-weight: 900;
-    box-shadow: 2px 2px 0 var(--c-black);
+    box-shadow: var(--shadow);
 }
 
 .db-head-right {
@@ -51,14 +51,14 @@
 
 .db-plan-chip {
     padding: 5px 11px;
-    border: 2px solid var(--c-black);
+    border: var(--border);
     border-radius: 999px;
     background: var(--c-paper);
     font-family: var(--font-display);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.4px;
-    box-shadow: 2px 2px 0 var(--c-black);
+    box-shadow: var(--shadow);
     cursor: pointer;
 }
 
@@ -284,7 +284,7 @@
     align-items: flex-start;
     gap: 1px;
     padding: 7px 8px;
-    border: 2px solid var(--c-black);
+    border: var(--border);
     border-radius: 10px;
     background: var(--c-paper);
     text-align: left;
@@ -415,7 +415,7 @@
     flex-shrink: 0;
     display: grid;
     place-items: center;
-    border: 2px solid var(--c-black);
+    border: var(--border);
     border-radius: 8px;
     background: var(--c-volt);
     padding: 5px;
@@ -489,7 +489,7 @@
     flex-shrink: 0;
     display: grid;
     place-items: center;
-    border: 2px solid var(--c-black);
+    border: var(--border);
     border-radius: 6px;
     font-size: 12px;
     font-weight: 900;

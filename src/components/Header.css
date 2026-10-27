@@ -46,12 +46,12 @@
 
 .streak-badge {
     background: var(--c-volt);
-    border: 2px solid var(--c-black);
+    border: var(--border);
     border-radius: 999px;
     padding: 5px 11px;
     font-size: 13px;
     font-weight: 900;
-    box-shadow: 2px 2px 0 var(--c-black);
+    box-shadow: var(--shadow);
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -61,12 +61,12 @@
 .icon-btn-round {
     padding: 8px;
     border-radius: 50%;
-    border: 2px solid var(--c-black);
+    border: var(--border);
     background: #fff;
     display: grid;
     place-items: center;
     cursor: pointer;
-    box-shadow: 2px 2px 0 var(--c-black);
+    box-shadow: var(--shadow);
 }
 
 .icon-btn-round:active {

@@ -5,8 +5,10 @@
     right: 0;
     height: calc(var(--dock-h) + var(--safe-b));
     padding-bottom: var(--safe-b);
-    background: var(--c-black);
-    border-top: 3px solid var(--c-black);
+    background: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-top: 1px solid rgba(26, 26, 26, 0.08);
     display: flex;
     align-items: stretch;
     justify-content: space-between;
@@ -25,13 +27,13 @@
     background: none;
     border: none;
     padding: 6px 2px;
-    color: #ffffff;
+    color: rgba(26, 26, 26, 0.42);
     cursor: pointer;
     transition: color 0.15s;
 }
 
 .nav-item.active {
-    color: var(--c-volt);
+    color: #1A1A1A;
 }
 
 .nav-label {

@@ -11,11 +11,17 @@
   --c-white: #FFFFFF;
   --font: 'Space Grotesk', system-ui, sans-serif;
   --font-display: 'Archivo', system-ui, sans-serif;
-  --shadow: 3px 3px 0 var(--c-black);
-  --shadow-active: 1px 1px 0 var(--c-black);
-  --border: 2px solid var(--c-black);
-  --radius: 14px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 20px rgba(0, 0, 0, 0.06);
+  --shadow-active: 0 1px 2px rgba(0, 0, 0, 0.10);
+  --border: 1px solid rgba(26, 26, 26, 0.08);
+  --radius: 18px;
 }
+/* Apple-like press feedback: no 2px shift, just a soft dim */
+.app button:active {
+    transform: none;
+    opacity: 0.82;
+}
+
 
 *, *::before, *::after {
   box-sizing: border-box;
