@@ -90,6 +90,7 @@ export const OWNER_PLAN = {
         { name: 'Collagen peptides', dose: '1 serving', timing: '30-60 min before training (~9:15 AM) together with vitamin C, so it is in the blood when tendons load.' },
         { name: 'Vitamin C', dose: '1 serving', timing: 'With the collagen pre-workout, or with a meal. Cofactor for collagen synthesis.' },
         { name: 'Omega-3', dose: '1 serving', timing: 'With a fat-containing meal — breakfast. Helps absorption, avoids reflux mid-session.' },
+        { name: 'Zinc', dose: '15mg', timing: 'With dinner, away from the coffee. Supports recovery and testosterone; do not take it on an empty stomach.' },
     ],
 
     rules: [

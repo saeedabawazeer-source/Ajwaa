@@ -4,10 +4,10 @@ import { OWNER_PLAN } from '../data/secretPlan';
 import './Dashboard.css';
 
 const SLOTS = [
-    { id: 'breakfast', label: 'Breakfast', icon: Coffee },
-    { id: 'lunch', label: 'Lunch', icon: Sun },
-    { id: 'dinner', label: 'Dinner', icon: Moon },
-    { id: 'snacks', label: 'Snacks', icon: Utensils },
+    { id: 'breakfast', label: 'Breakfast', icon: <Coffee size={15} /> },
+    { id: 'lunch', label: 'Lunch', icon: <Sun size={15} /> },
+    { id: 'dinner', label: 'Dinner', icon: <Moon size={15} /> },
+    { id: 'snacks', label: 'Snacks', icon: <Utensils size={15} /> },
 ];
 
 function todayLabel() {
@@ -78,51 +78,47 @@ export default function Dashboard({
                 </div>
             </section>
 
-            {/* Meals — add straight from here */}
-            <section className="db-card">
-                <div className="db-card-head">
-                    <h2>Meals</h2>
-                    <span className="db-card-meta">{eaten} kcal logged</span>
-                </div>
-                <ul className="db-slots">
-                    {SLOTS.map(slot => {
-                        const items = today?.meals?.[slot.id] || [];
-                        const slotCals = items.reduce((a, m) => a + (Number(m.cals) || 0), 0);
-                        const Icon = slot.icon;
-                        return (
-                            <li className="db-slot" key={slot.id}>
-                                <div className="db-slot-main">
-                                    <div className="db-slot-name"><Icon size={15} /> {slot.label}</div>
-                                    <div className="db-slot-items">
-                                        {items.length === 0 ? 'nothing yet' : items.map(m => m.food).join(', ')}
+            {/* Meals on the left, vertical water widget on the right */}
+            <div className="db-mid">
+                <section className="db-card">
+                    <div className="db-card-head">
+                        <h2>Meals</h2>
+                        <span className="db-card-meta">{eaten} kcal</span>
+                    </div>
+                    <ul className="db-slots">
+                        {SLOTS.map(slot => {
+                            const items = today?.meals?.[slot.id] || [];
+                            const slotCals = items.reduce((a, m) => a + (Number(m.cals) || 0), 0);
+                            return (
+                                <li className="db-slot" key={slot.id}>
+                                    <div className="db-slot-main">
+                                        <div className="db-slot-name">{slot.icon} {slot.label}</div>
+                                        <div className="db-slot-items">
+                                            {items.length === 0 ? 'nothing yet' : items.map(m => m.food).join(', ')}
+                                        </div>
                                     </div>
-                                </div>
-                                <span className="db-slot-cals">{slotCals > 0 ? slotCals : ''}</span>
-                                <button className="db-slot-add" onClick={() => onAddMeal(slot.id)} aria-label={`Add to ${slot.label}`}>
-                                    <Plus size={15} />
-                                </button>
-                                {items.length > 0 && (
-                                    <button className="db-slot-del" onClick={() => onRemoveMeal(slot.id, items.length - 1)} aria-label={`Undo last ${slot.label} item`}>
-                                        <X size={13} />
+                                    <span className="db-slot-cals">{slotCals > 0 ? slotCals : ''}</span>
+                                    <button className="db-slot-add" onClick={() => onAddMeal(slot.id)} aria-label={`Add to ${slot.label}`}>
+                                        <Plus size={15} />
                                     </button>
-                                )}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </section>
+                                    {items.length > 0 && (
+                                        <button className="db-slot-del" onClick={() => onRemoveMeal(slot.id, items.length - 1)} aria-label={`Undo last ${slot.label} item`}>
+                                            <X size={13} />
+                                        </button>
+                                    )}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </section>
 
-            {/* Water */}
-            <section className="db-card db-inline">
-                <Droplets size={16} />
-                <span className="db-inline-val">{today?.water ?? 0}L</span>
-                <span className="db-inline-lbl">of {user.waterGoal}L</span>
-                <button className="db-btn ghost" onClick={() => onAddWater(-0.25)}>−</button>
-                <button className="db-btn" onClick={() => onAddWater(0.25)}>+0.25L</button>
-            </section>
-            <div className="db-card db-water-card">
-                <div className="db-water-bar">
-                    <div className="db-water-fill" style={{ width: `${waterPct}%` }} />
+                <div className="db-water-v">
+                    <button className="db-water-v-btn" onClick={() => onAddWater(0.25)} aria-label="Add 250ml water">+</button>
+                    <div className="db-water-v-track">
+                        <div className="db-water-v-fill" style={{ height: `${waterPct}%` }} />
+                    </div>
+                    <div className="db-water-v-val"><Droplets size={13} /> {today?.water ?? 0}L</div>
+                    <button className="db-water-v-btn ghost" onClick={() => onAddWater(-0.25)} aria-label="Remove 250ml water">−</button>
                 </div>
             </div>
 
@@ -135,15 +131,14 @@ export default function Dashboard({
                             {OWNER_PLAN.supplements.filter(s => supplementChecks?.[s.name]).length}/{OWNER_PLAN.supplements.length} taken
                         </span>
                     </div>
-                    <ul className="db-sup">
+                    <ul className="db-sup-grid">
                         {OWNER_PLAN.supplements.map(s => {
                             const done = Boolean(supplementChecks?.[s.name]);
                             return (
                                 <li key={s.name}>
-                                    <button className={`db-sup-row ${done ? 'done' : ''}`} onClick={() => onToggleSupplement(s.name)}>
-                                        <span className="db-sup-check">{done ? '✓' : ''}</span>
-                                        <span className="db-sup-name">{s.name}</span>
-                                        <span className="db-sup-time">{s.dose}</span>
+                                    <button className={`db-sup-chip ${done ? 'done' : ''}`} onClick={() => onToggleSupplement(s.name)}>
+                                        <span className="db-sup-chip-name">{s.name}</span>
+                                        <span className="db-sup-chip-dose">{s.dose}</span>
                                     </button>
                                 </li>
                             );

@@ -1,3 +1,48 @@
+/* ─── LOG MEAL: no horizontal scroll, clean grid ─── */
+.lm-modal {
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+}
+
+.lm-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    width: 100%;
+    overflow: visible;
+}
+
+.lm-cals-in {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* P / C / F sit three-across instead of overflowing */
+.lm-macro-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    overflow: visible;
+}
+
+.lm-macro-inputs input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.lm-save {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.lm-slot {
+    white-space: nowrap;
+}
+
 .modal-overlay {
     position: fixed;
     inset: 0;

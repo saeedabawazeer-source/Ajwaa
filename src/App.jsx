@@ -82,7 +82,7 @@ export default function App() {
   function handleOwnerLogin() {
     store.loginAsOwner();
     localStorage.setItem('ajwaa_preset_unlocked', 'true');
-    setActiveView('plan');
+    setActiveView('dashboard');
   }
 
   function closeSecret() {
