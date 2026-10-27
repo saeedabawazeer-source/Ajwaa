@@ -27,4 +27,21 @@
   --c-disabled-bg: #E5E1D8;
   --c-disabled-text: rgba(26, 26, 26, 0.35);
   --c-ring-track: rgba(255, 255, 255, 0.12);
+
+  /* Form controls: black, not the OS blue */
+  color-scheme: light;
+  accent-color: #1A1A1A;
+}
+
+/* The OS focus ring is blue and clashes with the palette — force black. */
+:where(input, select, textarea, button, a, [tabindex]):focus-visible {
+  outline: 2px solid #1A1A1A;
+  outline-offset: 2px;
+}
+
+input,
+select,
+textarea {
+  color: #1A1A1A;
+  caret-color: #1A1A1A;
 }

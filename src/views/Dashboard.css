@@ -143,7 +143,33 @@
 
 .db-bar-fill {
     height: 100%;
-    background: var(--c-volt);
+    background: var(--c-black);
+    border-radius: 999px;
+    transition: width 0.2s ease;
+}
+
+/* Water fills from the right */
+.db-water-card {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: none;
+}
+
+.db-water-bar {
+    width: 100%;
+    height: 8px;
+    margin-top: var(--s-2);
+    background: rgba(26, 26, 26, 0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.db-water-fill {
+    height: 100%;
+    background: var(--c-black);
     border-radius: 999px;
     transition: width 0.2s ease;
 }

@@ -5,7 +5,7 @@ import { askCoach } from '../utils/coachBrain';
 import { isConfigured, providerLabel } from '../utils/aiProvider';
 import './AjwaChat.css';
 
-export default function AjwaChat({ open, onClose, totals, user, streak, today, xp, state }) {
+export default function AjwaChat({ open, onClose, totals, user, streak, today, xp, state, onLogMeal }) {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [typing, setTyping] = useState(false);
@@ -16,6 +16,7 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
     useEffect(() => {
         if (open) {
             const welcome = getWelcomeMessage(user, totals, streak);
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setMessages([{ role: 'ajwa', text: welcome }]);
             setTimeout(() => inputRef.current?.focus(), 300);
         }
@@ -38,8 +39,15 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
             derived: context,
             ownerMode: Boolean(state?.ownerMode),
         });
-        setMessages(prev => [...prev, { role: 'ajwa', text: res.text, note: res.note }]);
+        setMessages(prev => [...prev, {
+            role: 'ajwa',
+            text: res.text,
+            note: res.note,
+            logged: res.action ? res.action.food : null,
+        }]);
         setTyping(false);
+        // The coach can log food for you: it returns an action alongside the reply.
+        if (res.action && onLogMeal) onLogMeal(res.action);
     }
 
     function handleSend() {
@@ -94,7 +102,9 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                             )}
                             <div className="ajwa-bubble-text">
                                 {msg.text}
-                                {msg.note && <div className="ajwa-note">{msg.note}</div>}
+                                {(msg.note || msg.logged) && (
+                                    <div className="ajwa-note">{msg.note || `Logged: ${msg.logged}`}</div>
+                                )}
                             </div>
                         </div>
                     ))}

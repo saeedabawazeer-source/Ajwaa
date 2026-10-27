@@ -116,16 +116,35 @@ export default function ActiveWorkout({
         </button>
       </div>
 
-      <div className="aw-progress-chips">
-        {workout.exercises.map((e, i) => (
-          <button
-            key={e.exerciseId + i}
-            className={`aw-chip ${i === activeEx ? 'on' : ''} ${e.sets.every(s => s.reps && Number(s.reps) > 0) ? 'done' : ''}`}
-            onClick={() => { setActiveEx(i); }}
-          >
-            {i + 1}
-          </button>
-        ))}
+      {/* Exercise picker — bubbles with the movement name and set progress */}
+      <div className="aw-chips">
+        {workout.exercises.map((e, i) => {
+          const doneSets = e.sets.filter(s => s.reps && Number(s.reps) > 0).length;
+          const isDone = e.sets.length > 0 && doneSets === e.sets.length;
+          return (
+            <button
+              key={e.exerciseId + i}
+              className={`aw-chip ${i === activeEx ? 'on' : ''} ${isDone ? 'done' : ''}`}
+              onClick={() => setActiveEx(i)}
+            >
+              <span className="aw-chip-name">{e.name}</span>
+              <span className="aw-chip-sets">{doneSets}/{e.sets.length}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Prev / Add / Next live on top so the bottom stays free */}
+      <div className="aw-top-nav">
+        <button className="aw-nav-btn" onClick={prevExercise} disabled={activeEx === 0}>
+          <ChevronLeft size={18} /> Prev
+        </button>
+        <button className="aw-nav-btn add" onClick={() => setPicking(true)}>
+          <Plus size={16} /> Exercise
+        </button>
+        <button className="aw-nav-btn next" onClick={nextExercise} disabled={!allSetsDone}>
+          {activeEx === totalEx - 1 ? 'Finish' : 'Next'} <ChevronRight size={18} />
+        </button>
       </div>
 
       {ex && (
@@ -195,18 +214,6 @@ export default function ActiveWorkout({
           </div>
         </div>
       )}
-
-      <div className="aw-bottom-nav">
-        <button className="aw-nav-main" onClick={prevExercise} disabled={activeEx === 0}>
-          <ChevronLeft size={20} /> PREV
-        </button>
-        <button className="aw-add-ex-label" onClick={() => setPicking(true)}>
-          + ADD
-        </button>
-        <button className="aw-nav-main next" onClick={nextExercise} disabled={!allSetsDone}>
-          {activeEx === totalEx - 1 ? 'FINISH' : 'NEXT'} <ChevronRight size={20} />
-        </button>
-      </div>
     </div>
   );
 }

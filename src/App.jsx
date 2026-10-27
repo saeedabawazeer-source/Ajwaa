@@ -288,7 +288,10 @@ export default function App() {
       {activeView !== 'saeed' && (
         <>
           <Dock activeView={activeView} onNavigate={setActiveView} />
-          <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} state={state} />
+          <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} state={state} onLogMeal={(a) => {
+        store.addMeal(a.slot, a.food, a.cals, a.p, a.c, a.f, currentViewDate);
+        showToast(`Logged: ${a.food}`);
+      }} />
         </>
       )}
 

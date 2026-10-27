@@ -24,6 +24,7 @@ export default function Dashboard({
     const eaten = Math.round(totals.cals);
     const remaining = Math.max(0, target - eaten);
     const pct = target ? Math.min(100, Math.round((eaten / target) * 100)) : 0;
+    const waterPct = user.waterGoal ? Math.min(100, Math.round(((today?.water ?? 0) / user.waterGoal) * 100)) : 0;
 
     const macros = [
         { label: 'Protein', got: totals.p, goal: user.macros?.p || 0 },
@@ -119,6 +120,11 @@ export default function Dashboard({
                 <button className="db-btn ghost" onClick={() => onAddWater(-0.25)}>−</button>
                 <button className="db-btn" onClick={() => onAddWater(0.25)}>+0.25L</button>
             </section>
+            <div className="db-card db-water-card">
+                <div className="db-water-bar">
+                    <div className="db-water-fill" style={{ width: `${waterPct}%` }} />
+                </div>
+            </div>
 
             {/* Supplements — owner checklist */}
             {ownerMode && (

@@ -92,7 +92,7 @@
 
 .ml-bar-fill {
     height: 100%;
-    background: var(--c-volt);
+    background: var(--c-black);
     border-radius: 999px;
     transition: width 0.2s ease;
 }
