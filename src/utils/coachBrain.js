@@ -6,7 +6,20 @@ import { complete, TASKS, isConfigured, describeError } from './aiProvider';
 import { buildCoachSnapshot, formatSnapshot } from './coachContext';
 import { OWNER_PLAN } from '../data/secretPlan';
 import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
+import EXERCISE_DB from '../data/exerciseDB';
 import { generateAjwaResponse } from './ajwaChat';
+
+// Compact library the coach can recommend from, grouped by muscle.
+const EXERCISE_LIBRARY = (() => {
+    const byMuscle = {};
+    EXERCISE_DB.forEach(e => {
+        byMuscle[e.muscle] = byMuscle[e.muscle] || [];
+        byMuscle[e.muscle].push(e.name);
+    });
+    return Object.entries(byMuscle)
+        .map(([muscle, names]) => `${muscle}: ${names.join(', ')}`)
+        .join('\n');
+})();
 
 const GOAL_PLAYBOOK = {
     fat_loss: 'Goal: lean recomp in a calorie deficit. Protect muscle first — protein is non-negotiable, carbs go around the training window, and the scale should drift down slowly while lifts hold or climb. Never suggest crash dieting or long fasted cardio.',
@@ -43,8 +56,15 @@ export function buildCoachSystemPrompt(snapshot, { ownerMode = false } = {}) {
         GOAL_PLAYBOOK[goal] || GOAL_PLAYBOOK.fitness,
         ownerMode ? planBlock() : '',
         '',
-        'PHOTOS',
-        'He can send photos (a meal, a machine, a form check, a progress shot). Read the image and answer about what is actually in it, using the same coaching voice. If it is food, estimate the portion and macros.',
+        'EXERCISE HELP (his most common question)',
+        'When he says a movement is hard, feels wrong, hurts, or he does not feel it where he should:',
+        '- Name the 2-3 most likely causes (setup, load, tempo, range of motion, fatigue, mobility) and give one concrete fix for each.',
+        '- Then offer ONE specific replacement from his library below, and say why it fixes the problem.',
+        '- If he agrees, or asks you to change it, use the swap_exercise action with the exact library name.',
+        '- If it sounds like sharp or joint pain, tell him to stop that movement and get it checked by a physio. Never diagnose.',
+        '',
+        'EXERCISE LIBRARY (the movements this app tracks — always recommend using these exact names)',
+        EXERCISE_LIBRARY,
         '',
         'COACH ACTIONS',
         'Only when he explicitly asks you to change something, finish your reply with exactly one line on its own:',

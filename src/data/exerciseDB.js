@@ -110,6 +110,91 @@ const EXERCISE_DB = [
     { id: 'box_jump', name: 'Box Jump', muscle: 'Cardio', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Explode onto a box, land soft, step down.' },
     { id: 'assault_bike', name: 'Assault Bike', muscle: 'Cardio', equipment: 'Machine', mechanic: 'Cardio', info: 'Push-pull intervals on the fan bike for max effort.' },
     { id: 'farmer_carry', name: 'Farmer Carry', muscle: 'Cardio', equipment: 'Dumbbell', mechanic: 'Compound', info: 'Walk with heavy weights at your sides — grip, core, posture.' },
+
+    // ── CHEST (expanded) ─────────────────────────────────────────────
+    { id: 'incline_db_fly', name: 'Incline Dumbbell Fly', muscle: 'Chest', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Bench at 30°, soft elbows, hug the weight up and stretch wide at the bottom.' },
+    { id: 'decline_db_press', name: 'Decline Dumbbell Press', muscle: 'Chest', equipment: 'Dumbbell', mechanic: 'Compound', info: 'Decline bench, press dumbbells over the lower chest, keep wrists stacked.' },
+    { id: 'close_grip_bench', name: 'Close-Grip Bench Press', muscle: 'Chest', equipment: 'Barbell', mechanic: 'Compound', info: 'Hands inside shoulder width, elbows tucked — chest and triceps together.' },
+    { id: 'svend_press', name: 'Svend Press', muscle: 'Chest', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Squeeze a plate between your palms and press straight out from the chest.' },
+    { id: 'db_pullover', name: 'Dumbbell Pullover', muscle: 'Chest', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Lie across a bench, lower the dumbbell behind your head, ribs down.' },
+    { id: 'floor_press', name: 'Dumbbell Floor Press', muscle: 'Chest', equipment: 'Dumbbell', mechanic: 'Compound', info: 'Press from the floor; the floor stops the range so shoulders stay safe.' },
+    { id: 'archer_pushup', name: 'Archer Push-Up', muscle: 'Chest', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Shift your weight over one arm and let the other straighten.' },
+    { id: 'diamond_pushup', name: 'Diamond Push-Up', muscle: 'Chest', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Hands together under the sternum, elbows tight to the ribs.' },
+    { id: 'wide_pushup', name: 'Wide Push-Up', muscle: 'Chest', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Hands wider than the shoulders to bias the outer chest.' },
+    { id: 'low_cable_fly', name: 'Low-to-High Cable Fly', muscle: 'Chest', equipment: 'Cable', mechanic: 'Isolation', info: 'Pull from the low pulleys up and in to hit the upper chest.' },
+    { id: 'incline_machine_press', name: 'Incline Machine Press', muscle: 'Chest', equipment: 'Machine', mechanic: 'Compound', info: 'Fixed-path upper-chest press — good for pushing close to failure.' },
+
+    // ── BACK (expanded) ──────────────────────────────────────────────
+    { id: 'landmine_row', name: 'Landmine Row', muscle: 'Back', equipment: 'Barbell', mechanic: 'Compound', info: 'One end anchored, pull the bar to your hip with a flat back.' },
+    { id: 'meadows_row', name: 'Meadows Row', muscle: 'Back', equipment: 'Barbell', mechanic: 'Compound', info: 'Staggered stance, pull the landmine handle up and back, no torso twist.' },
+    { id: 'close_grip_pulldown', name: 'Close-Grip Lat Pulldown', muscle: 'Back', equipment: 'Cable', mechanic: 'Compound', info: 'Neutral close grip, drive the elbows down, lean back slightly.' },
+    { id: 'inverted_row', name: 'Inverted Row', muscle: 'Back', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Bar at hip height, body rigid, pull your chest to the bar.' },
+    { id: 'seal_row', name: 'Seal Row', muscle: 'Back', equipment: 'Barbell', mechanic: 'Compound', info: 'Chest supported on a bench, strict row — zero momentum.' },
+    { id: 'db_shrug', name: 'Dumbbell Shrug', muscle: 'Back', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Shrug straight up, pause at the top, lower slowly.' },
+    { id: 'good_morning', name: 'Good Morning', muscle: 'Back', equipment: 'Barbell', mechanic: 'Compound', info: 'Hinge with the bar on your back, stop when the hamstrings pull.' },
+    { id: 'back_hyper', name: 'Back Extension', muscle: 'Back', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Raise the torso to a straight line, squeeze the glutes at the top.' },
+    { id: 'pull_up_negative', name: 'Pull-Up Negative', muscle: 'Back', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Jump to the top and lower for 5 seconds — builds your first rep.' },
+    { id: 'scap_pull', name: 'Scapular Pull-Up', muscle: 'Back', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Hang and pull the shoulder blades down without bending the arms.' },
+
+    // ── SHOULDERS (expanded) ─────────────────────────────────────────
+    { id: 'arnold_press', name: 'Arnold Press', muscle: 'Shoulders', equipment: 'Dumbbell', mechanic: 'Compound', info: 'Start palms-in, rotate outward as you press overhead.' },
+    { id: 'cable_lateral_raise', name: 'Cable Lateral Raise', muscle: 'Shoulders', equipment: 'Cable', mechanic: 'Isolation', info: 'Constant-tension side raise — lead with the elbow, stop at shoulder height.' },
+    { id: 'machine_lateral_raise', name: 'Machine Lateral Raise', muscle: 'Shoulders', equipment: 'Machine', mechanic: 'Isolation', info: 'Pads against the arms, raise to shoulder height and control the way down.' },
+    { id: 'front_raise', name: 'Dumbbell Front Raise', muscle: 'Shoulders', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Raise to eye level with a straight arm, no swinging.' },
+    { id: 'upright_row', name: 'Cable Upright Row', muscle: 'Shoulders', equipment: 'Cable', mechanic: 'Compound', info: 'Pull to chest height with high elbows — stop if the shoulder pinches.' },
+    { id: 'y_raise', name: 'Y-Raise', muscle: 'Shoulders', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Thumbs up, raise into a Y to hit the lower traps.' },
+    { id: 'machine_shoulder_press', name: 'Machine Shoulder Press', muscle: 'Shoulders', equipment: 'Machine', mechanic: 'Compound', info: 'Fixed-path press — a safe way to train close to failure.' },
+    { id: 'rear_delt_cable', name: 'Cable Rear Delt Fly', muscle: 'Shoulders', equipment: 'Cable', mechanic: 'Isolation', info: 'Cross-body cable fly with a slight elbow bend, squeeze the rear delt.' },
+    { id: 'pike_pushup', name: 'Pike Push-Up', muscle: 'Shoulders', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Hips high, lower the crown of your head toward the floor, press back up.' },
+
+    // ── ARMS (expanded) ──────────────────────────────────────────────
+    { id: 'rope_pushdown', name: 'Rope Tricep Pushdown', muscle: 'Arms', equipment: 'Cable', mechanic: 'Isolation', info: 'Split the rope at the bottom, keep the elbows pinned to your sides.' },
+    { id: 'oh_db_ext', name: 'Overhead Dumbbell Extension', muscle: 'Arms', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Both hands on one dumbbell, lower behind the head, elbows narrow.' },
+    { id: 'jm_press', name: 'JM Press', muscle: 'Arms', equipment: 'Barbell', mechanic: 'Compound', info: 'Hybrid press/extension — bar to the chin, elbows forward.' },
+    { id: 'bench_dip', name: 'Bench Dip', muscle: 'Arms', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Hands behind you on a bench, lower until the elbows hit 90°.' },
+    { id: 'concentration_curl', name: 'Concentration Curl', muscle: 'Arms', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Elbow braced on the inner thigh, curl slowly and squeeze.' },
+    { id: 'spider_curl', name: 'Spider Curl', muscle: 'Arms', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Chest on an incline bench, arms hanging — pure bicep, no swing.' },
+    { id: 'reverse_curl', name: 'Reverse Curl', muscle: 'Arms', equipment: 'Barbell', mechanic: 'Isolation', info: 'Palms down curl for the brachialis and forearms.' },
+    { id: 'zottman_curl', name: 'Zottman Curl', muscle: 'Arms', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Curl up palms-up, rotate, lower palms-down slowly.' },
+    { id: 'wrist_curl', name: 'Wrist Curl', muscle: 'Arms', equipment: 'Dumbbell', mechanic: 'Isolation', info: 'Forearms on your thighs, curl the wrists up and lower slowly.' },
+    { id: 'cable_rope_hammer', name: 'Rope Hammer Curl', muscle: 'Arms', equipment: 'Cable', mechanic: 'Isolation', info: 'Neutral grip on a low pulley, curl without moving the elbows.' },
+    { id: 'overhead_cable_ext', name: 'Overhead Cable Extension', muscle: 'Arms', equipment: 'Cable', mechanic: 'Isolation', info: 'Face away from the stack, extend overhead — long head of the tricep.' },
+
+    // ── LEGS (expanded) ──────────────────────────────────────────────
+    { id: 'front_squat', name: 'Front Squat', muscle: 'Legs', equipment: 'Barbell', mechanic: 'Compound', info: 'Bar on the front delts, elbows high, torso upright, squat deep.' },
+    { id: 'hack_squat', name: 'Hack Squat', muscle: 'Legs', equipment: 'Machine', mechanic: 'Compound', info: 'Back flat on the pad, feet mid-platform, control the descent.' },
+    { id: 'goblet_squat', name: 'Goblet Squat', muscle: 'Legs', equipment: 'Dumbbell', mechanic: 'Compound', info: 'Hold one dumbbell at the chest, elbows inside the knees at the bottom.' },
+    { id: 'db_split_squat', name: 'Dumbbell Split Squat', muscle: 'Legs', equipment: 'Dumbbell', mechanic: 'Compound', info: 'Long stance, drop straight down, front shin near vertical.' },
+    { id: 'walking_lunge', name: 'Walking Lunge', muscle: 'Legs', equipment: 'Dumbbell', mechanic: 'Compound', info: 'Step through, both knees to 90°, drive off the front foot.' },
+    { id: 'step_up', name: 'Box Step-Up', muscle: 'Legs', equipment: 'Dumbbell', mechanic: 'Compound', info: 'Step up without pushing off the back foot, control the way down.' },
+    { id: 'sumo_deadlift', name: 'Sumo Deadlift', muscle: 'Legs', equipment: 'Barbell', mechanic: 'Compound', info: 'Wide stance, knees out, push the floor apart and stand tall.' },
+    { id: 'stiff_leg_dl', name: 'Stiff-Leg Deadlift', muscle: 'Legs', equipment: 'Barbell', mechanic: 'Compound', info: 'Almost straight legs, hinge back until the hamstrings load, then stand.' },
+    { id: 'leg_extension', name: 'Leg Extension', muscle: 'Legs', equipment: 'Machine', mechanic: 'Isolation', info: 'Squeeze the quads at the top, lower under control.' },
+    { id: 'glute_kickback', name: 'Cable Glute Kickback', muscle: 'Legs', equipment: 'Cable', mechanic: 'Isolation', info: 'Hinge forward, drive the heel back and up, squeeze the glute.' },
+    { id: 'nordic_curl', name: 'Nordic Curl', muscle: 'Legs', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Ankles anchored, lower the torso slowly — the best hamstring builder.' },
+    { id: 'sissy_squat', name: 'Sissy Squat', muscle: 'Legs', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Knees travel forward, lean back, keep hips extended.' },
+    { id: 'donkey_calf_raise', name: 'Donkey Calf Raise', muscle: 'Legs', equipment: 'Machine', mechanic: 'Isolation', info: 'Hinge forward, full stretch at the bottom, hard pause at the top.' },
+    { id: 'seated_calf_raise', name: 'Seated Calf Raise', muscle: 'Legs', equipment: 'Machine', mechanic: 'Isolation', info: 'Knees bent targets the soleus — slow reps, deep stretch.' },
+    { id: 'hip_abduction', name: 'Hip Abduction', muscle: 'Legs', equipment: 'Machine', mechanic: 'Isolation', info: 'Push the knees apart against the pads, pause, control back.' },
+
+    // ── CORE (expanded) ──────────────────────────────────────────────
+    { id: 'plank', name: 'Plank', muscle: 'Core', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Ribs down, glutes tight, squeeze everything — no sagging hips.' },
+    { id: 'side_plank', name: 'Side Plank', muscle: 'Core', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Stack the hips and shoulders, lift the bottom ribs away from the floor.' },
+    { id: 'hanging_knee_raise', name: 'Hanging Knee Raise', muscle: 'Core', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Curl the pelvis up with the knees — no swinging.' },
+    { id: 'toes_to_bar', name: 'Toes to Bar', muscle: 'Core', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Straight legs to the bar, control the descent, use the lats.' },
+    { id: 'bicycle_crunch', name: 'Bicycle Crunch', muscle: 'Core', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Opposite elbow to knee, slow and deliberate, no neck pulling.' },
+    { id: 'mountain_climber', name: 'Mountain Climber', muscle: 'Core', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Plank position, drive the knees in fast while the hips stay level.' },
+    { id: 'hollow_hold', name: 'Hollow Body Hold', muscle: 'Core', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Low back pressed down, arms and legs long, breathe shallow.' },
+    { id: 'v_up', name: 'V-Up', muscle: 'Core', equipment: 'Bodyweight', mechanic: 'Isolation', info: 'Fold hips and shoulders together, reach for the toes.' },
+    { id: 'suitcase_carry', name: 'Suitcase Carry', muscle: 'Core', equipment: 'Dumbbell', mechanic: 'Compound', info: 'One heavy dumbbell, stay perfectly upright, resist the lean.' },
+
+    // ── CARDIO (expanded) ────────────────────────────────────────────
+    { id: 'incline_walk', name: 'Incline Walk', muscle: 'Cardio', equipment: 'Machine', mechanic: 'Cardio', info: 'Steep incline, no holding the rails — great low-impact fat burn.' },
+    { id: 'sprint_intervals', name: 'Sprint Intervals', muscle: 'Cardio', equipment: 'Machine', mechanic: 'Cardio', info: '20-30s all out, 60-90s easy — repeat 6-10 rounds.' },
+    { id: 'elliptical', name: 'Elliptical', muscle: 'Cardio', equipment: 'Machine', mechanic: 'Cardio', info: 'Steady pace, push and pull the handles, keep the heels down.' },
+    { id: 'ski_erg', name: 'Ski Erg', muscle: 'Cardio', equipment: 'Machine', mechanic: 'Cardio', info: 'Hinge and pull down hard, let the hips drive the movement.' },
+    { id: 'sled_drag', name: 'Sled Drag', muscle: 'Cardio', equipment: 'Machine', mechanic: 'Compound', info: 'Lean into the straps and walk — quads, calves and engine.' },
+    { id: 'bear_crawl', name: 'Bear Crawl', muscle: 'Cardio', equipment: 'Bodyweight', mechanic: 'Compound', info: 'Knees hover off the floor, move opposite hand and foot together.' },
 ];
 
 export function getExercises() { return EXERCISE_DB; }
