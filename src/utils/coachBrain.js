@@ -5,6 +5,7 @@
 import { complete, TASKS, isConfigured, describeError } from './aiProvider';
 import { buildCoachSnapshot, formatSnapshot } from './coachContext';
 import { OWNER_PLAN } from '../data/secretPlan';
+import { WORKOUT_TEMPLATES } from '../data/workoutTemplates';
 import { generateAjwaResponse } from './ajwaChat';
 
 const GOAL_PLAYBOOK = {
@@ -42,31 +43,42 @@ export function buildCoachSystemPrompt(snapshot, { ownerMode = false } = {}) {
         GOAL_PLAYBOOK[goal] || GOAL_PLAYBOOK.fitness,
         ownerMode ? planBlock() : '',
         '',
-        'LOGGING FOOD',
-        'When the user tells you what they ate and asks for it to be logged, finish your reply with exactly one line, on its own:',
-        'ACTION:{"slot":"breakfast|lunch|dinner|snacks","food":"short name","cals":0,"p":0,"c":0,"f":0}',
-        'Estimate the macros for the portion they described. Only emit that line when they are asking you to log food, never otherwise.',
+        'PHOTOS',
+        'He can send photos (a meal, a machine, a form check, a progress shot). Read the image and answer about what is actually in it, using the same coaching voice. If it is food, estimate the portion and macros.',
+        '',
+        'COACH ACTIONS',
+        'Only when he explicitly asks you to change something, finish your reply with exactly one line on its own:',
+        '- log food: ACTION:{"type":"log_meal","slot":"breakfast|lunch|dinner|snacks","food":"short name","cals":0,"p":0,"c":0,"f":0}',
+        '- swap the exercise he is doing: ACTION:{"type":"swap_exercise","from":"Squat","to":"Leg Press"}',
+        `- change the weekly split: ACTION:{"type":"set_split","week":{"0":null,"1":"push","2":"pull_a","3":"legs","4":"push","5":"pull","6":"legs"}}`,
+        `Valid session ids: ${WORKOUT_TEMPLATES.map(t => t.id).join(', ')}. Days are 0=Sunday … 6=Saturday, null is a rest day.`,
+        'Never emit an ACTION line unless he asked for that change.',
         '',
         '=== DATA (his real logs, right now) ===',
         formatSnapshot(snapshot),
     ].filter(Boolean).join('\n');
 }
 
-/** Pull an ACTION line (food logging) out of the reply and keep it out of the chat text. */
+/** Pull an ACTION line out of the reply and keep it out of the chat text. */
 function extractAction(text) {
     const match = text.match(/ACTION:\s*(\{[\s\S]*?\})/);
     if (!match) return { text, action: null };
     let action = null;
     try {
-        const parsed = JSON.parse(match[1]);
-        if (parsed && parsed.food) {
+        const p = JSON.parse(match[1]);
+        if (p?.type === 'swap_exercise' && p.from && p.to) {
+            action = { type: 'swap_exercise', from: String(p.from), to: String(p.to) };
+        } else if (p?.type === 'set_split' && p.week) {
+            action = { type: 'set_split', week: p.week };
+        } else if (p?.food) {
             action = {
-                slot: ['breakfast', 'lunch', 'dinner', 'snacks'].includes(parsed.slot) ? parsed.slot : 'snacks',
-                food: String(parsed.food),
-                cals: Number(parsed.cals) || 0,
-                p: Number(parsed.p) || 0,
-                c: Number(parsed.c) || 0,
-                f: Number(parsed.f) || 0,
+                type: 'log_meal',
+                slot: ['breakfast', 'lunch', 'dinner', 'snacks'].includes(p.slot) ? p.slot : 'snacks',
+                food: String(p.food),
+                cals: Number(p.cals) || 0,
+                p: Number(p.p) || 0,
+                c: Number(p.c) || 0,
+                f: Number(p.f) || 0,
             };
         }
     } catch { action = null; }
@@ -78,7 +90,7 @@ function extractAction(text) {
  * rule engine answers so the chat never goes dead.
  * @returns {Promise<{text: string, source: 'ai'|'rules'|'error', note?: string, action?: object}>}
  */
-export async function askCoach({ message, history = [], state, derived = {}, ownerMode = false }) {
+export async function askCoach({ message, history = [], state, derived = {}, ownerMode = false, image = null }) {
     const rules = () => ({ text: generateAjwaResponse(message, derived), source: 'rules' });
 
     if (!isConfigured()) return rules();
@@ -89,13 +101,14 @@ export async function askCoach({ message, history = [], state, derived = {}, own
             ...history
                 .slice(-8)
                 .map(m => ({ role: m.role === 'ajwa' ? 'assistant' : 'user', content: m.text })),
-            { role: 'user', content: message },
+            { role: 'user', content: message || 'What do you think of this?' },
         ];
 
         const text = (await complete({
             task: TASKS.CHAT,
             system: buildCoachSystemPrompt(snapshot, { ownerMode }),
             messages,
+            image,
             maxTokens: 1500,
             temperature: 0.6,
         })).trim();

@@ -153,6 +153,54 @@ function unwrap(payload) {
     return payload?.data?.choices ? payload.data : payload;
 }
 
+// { dataUrl, mime, data } from a data: URL, for providers that want raw base64.
+function splitDataUrl(dataUrl) {
+    const match = /^data:([^;]+);base64,(.*)$/.exec(dataUrl || '');
+    if (!match) return null;
+    return { mime: match[1], data: match[2] };
+}
+
+/**
+ * Attach an image to the last user message in the OpenAI shape
+ * (text + image_url). The proxy forwards this straight through.
+ */
+function withImage(messages, image) {
+    if (!image) return messages;
+    const out = [...messages];
+    const last = out[out.length - 1];
+    out[out.length - 1] = {
+        role: 'user',
+        content: [
+            { type: 'text', text: typeof last?.content === 'string' ? last.content : '' },
+            { type: 'image_url', image_url: { url: image } },
+        ],
+    };
+    return out;
+}
+
+// Convert an OpenAI-shaped content array into Anthropic / Gemini parts.
+function toAnthropicContent(content) {
+    if (typeof content === 'string') return content;
+    return content.map(part => {
+        if (part.type === 'text') return { type: 'text', text: part.text };
+        const file = splitDataUrl(part.image_url?.url);
+        return file
+            ? { type: 'image', source: { type: 'base64', media_type: file.mime, data: file.data } }
+            : { type: 'text', text: '' };
+    });
+}
+
+function toGeminiParts(content) {
+    if (typeof content === 'string') return [{ text: content }];
+    return content.map(part => {
+        if (part.type === 'text') return { text: part.text };
+        const file = splitDataUrl(part.image_url?.url);
+        return file
+            ? { inline_data: { mime_type: file.mime, data: file.data } }
+            : { text: '' };
+    });
+}
+
 async function completeOpenAi(provider, key, { model, system, messages, maxTokens, temperature }) {
     const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` };
     if (provider.id === 'openrouter') {
@@ -184,7 +232,7 @@ async function completeAnthropic(provider, key, { model, system, messages, maxTo
             'anthropic-version': '2023-06-01',
             'anthropic-dangerous-direct-browser-access': 'true',
         },
-        body: JSON.stringify({ model, system, messages, max_tokens: maxTokens, temperature }),
+        body: JSON.stringify({ model, system, messages: messages.map(m => ({ role: m.role, content: toAnthropicContent(m.content) })), max_tokens: maxTokens, temperature }),
     });
     if (!res.ok) await readError(res);
     const data = await res.json();
@@ -199,7 +247,7 @@ async function completeGemini(provider, key, { model, system, messages, maxToken
             system_instruction: { parts: [{ text: system }] },
             contents: messages.map(m => ({
                 role: m.role === 'assistant' ? 'model' : 'user',
-                parts: [{ text: m.content }],
+                parts: toGeminiParts(m.content),
             })),
             generationConfig: { maxOutputTokens: maxTokens, temperature },
         }),
@@ -237,8 +285,9 @@ async function completeViaProxy({ task, system, messages, maxTokens, temperature
  * @param {{task?: string, system: string, messages: Array<{role:string,content:string}>, maxTokens?: number, temperature?: number}} opts
  * @returns {Promise<string>} the assistant text
  */
-export async function complete({ task = TASKS.CHAT, system, messages, maxTokens = 1500, temperature = 0.6 }) {
-    const args = { task, system, messages, maxTokens, temperature };
+export async function complete({ task = TASKS.CHAT, system, messages, maxTokens = 1500, temperature = 0.6, image }) {
+    const args = { task: image ? TASKS.VISION : task, system, messages, maxTokens, temperature };
+    if (image) args.messages = withImage(messages, image);
 
     // Prefer the proxy so the key stays server-side on Railway. GitHub Pages and
     // `vite dev` have no server, so fall through to a direct provider call.

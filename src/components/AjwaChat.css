@@ -284,3 +284,49 @@
     font-weight: 700;
     opacity: 0.7;
 }
+
+/* Photos in the chat */
+.ajwa-img {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+}
+
+.ajwa-attach {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px 0;
+}
+
+.ajwa-attach img {
+    width: 54px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(26, 26, 26, 0.1);
+}
+
+.ajwa-attach button {
+    display: grid;
+    place-items: center;
+    padding: 5px;
+    border: 1px solid rgba(26, 26, 26, 0.1);
+    border-radius: 999px;
+    background: var(--c-paper);
+    cursor: pointer;
+}
+
+.ajwa-attach-btn {
+    display: grid;
+    place-items: center;
+    padding: 9px;
+    border: 1px solid rgba(26, 26, 26, 0.1);
+    border-radius: 999px;
+    background: var(--c-paper);
+    color: var(--c-black);
+    cursor: pointer;
+    flex-shrink: 0;
+}

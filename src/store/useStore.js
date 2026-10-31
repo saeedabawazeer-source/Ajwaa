@@ -534,6 +534,15 @@ export function useStore() {
     }, [update, triggerVibe]);
 
     // ─── SCHEDULE ───
+    // Replace the whole week at once — used by the AI coach when asked to change split.
+    const setWorkoutSchedule = useCallback((week) => {
+        triggerVibe();
+        update(s => {
+            if (week && typeof week === 'object') s.workoutSchedule = { ...s.workoutSchedule, ...week };
+            return s;
+        });
+    }, [update, triggerVibe]);
+
     const updateWorkoutSchedule = useCallback((dayIndex, templateId) => {
         triggerVibe();
         update(s => {
@@ -788,7 +797,7 @@ export function useStore() {
         addWater,
         startWorkout, addExerciseToActive, replaceExerciseInActive, updateSet, addSet, removeSet, finishWorkout, cancelWorkout, logWorkoutSession,
         logBodyWeight, updateProfile, recalculateTDEE, completeOnboarding, loginAsOwner, toggleSupplement, logCheckIn,
-        updateWorkoutSchedule, claimQuestXP, toggleSocialCheer,
+        updateWorkoutSchedule, setWorkoutSchedule, claimQuestXP, toggleSocialCheer,
         toggleCoachRole, sendCoachAdvice, applyCoachAdvice,
         getSaeedTodayLog, logSaeedBend, logSaeedMorningVacuums, logSaeedAccumulation, toggleSaeedGrowthExercise, setSaeedDayNumber, updateSaeedNotificationSettings,
         getToday, getTodayTotals, getStreak, getLast7Days, getWeightHistory, getPersonalRecords,

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useStore } from './store/useStore';
+import { searchExercises } from './data/exerciseDB';
 import Header from './components/Header';
 import Dock from './components/Dock';
 import AjwaChat from './components/AjwaChat';
@@ -286,9 +287,24 @@ export default function App() {
       {activeView !== 'saeed' && (
         <>
           <Dock activeView={activeView} onNavigate={setActiveView} />
-          <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} state={state} onLogMeal={(a) => {
-        store.addMeal(a.slot, a.food, a.cals, a.p, a.c, a.f, currentViewDate);
-        showToast(`Logged: ${a.food}`);
+          <AjwaChat open={chatOpen} onClose={() => setChatOpen(false)} totals={totals} user={state.user} streak={streak} today={today} xp={state.xp} state={state} onCoachAction={(a) => {
+        if (a.type === 'log_meal') {
+          store.addMeal(a.slot, a.food, a.cals, a.p, a.c, a.f, currentViewDate);
+          showToast(`Logged: ${a.food}`);
+        } else if (a.type === 'swap_exercise') {
+          const exercises = state.activeWorkout?.exercises || [];
+          const idx = exercises.findIndex(ex => ex.name.toLowerCase().includes(a.from.toLowerCase()));
+          if (idx === -1) {
+            showToast('Start that session first, then I can swap it', 'error');
+          } else {
+            const hit = searchExercises(a.to)[0];
+            store.replaceExerciseInActive(idx, hit?.id, hit?.name || a.to);
+            showToast(`Swapped to ${hit?.name || a.to}`);
+          }
+        } else if (a.type === 'set_split') {
+          store.setWorkoutSchedule(a.week);
+          showToast('Split updated');
+        }
       }} />
         </>
       )}

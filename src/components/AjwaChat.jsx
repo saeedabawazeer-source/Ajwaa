@@ -1,16 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Send, Sparkles, Bot } from 'lucide-react';
+import { X, Send, Sparkles, Bot, ImagePlus } from 'lucide-react';
 import { getWelcomeMessage } from '../utils/ajwaChat';
 import { askCoach } from '../utils/coachBrain';
 import { isConfigured, providerLabel } from '../utils/aiProvider';
 import './AjwaChat.css';
 
-export default function AjwaChat({ open, onClose, totals, user, streak, today, xp, state, onLogMeal }) {
+export default function AjwaChat({ open, onClose, totals, user, streak, today, xp, state, onCoachAction }) {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [typing, setTyping] = useState(false);
+    const [image, setImage] = useState(null);
     const scrollRef = useRef(null);
     const inputRef = useRef(null);
+    const fileRef = useRef(null);
 
     // Reset chat + welcome message when opened
     useEffect(() => {
@@ -31,33 +33,53 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
     // a second call inside this component would return a different state.
     const context = { totals, user, streak, today, xp };
 
-    async function reply(text, history) {
+    function actionNote(a) {
+        if (!a) return null;
+        if (a.type === 'log_meal') return `Logged: ${a.food}`;
+        if (a.type === 'swap_exercise') return `Swapped ${a.from} → ${a.to}`;
+        if (a.type === 'set_split') return 'Split updated';
+        return null;
+    }
+
+    async function reply(text, history, img) {
         const res = await askCoach({
             message: text,
             history,
             state,
             derived: context,
             ownerMode: Boolean(state?.ownerMode),
+            image: img || null,
         });
         setMessages(prev => [...prev, {
             role: 'ajwa',
             text: res.text,
             note: res.note,
-            logged: res.action ? res.action.food : null,
+            action: res.action ? actionNote(res.action) : null,
         }]);
         setTyping(false);
-        // The coach can log food for you: it returns an action alongside the reply.
-        if (res.action && onLogMeal) onLogMeal(res.action);
+        // The coach can act: log food, swap an exercise, change the split.
+        if (res.action && onCoachAction) onCoachAction(res.action);
     }
 
     function handleSend() {
         const text = input.trim();
-        if (!text) return;
+        if (!text && !image) return;
 
-        setMessages(prev => [...prev, { role: 'user', text }]);
+        setMessages(prev => [...prev, { role: 'user', text, image }]);
         setInput('');
+        setImage(null);
         setTyping(true);
-        reply(text, messages);
+        reply(text, messages, image);
+    }
+
+    function pickFile(e) {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => setImage(String(reader.result));
+            reader.readAsDataURL(file);
+        }
+        e.target.value = '';
     }
 
     function handleKeyDown(e) {
@@ -101,9 +123,10 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                                 </div>
                             )}
                             <div className="ajwa-bubble-text">
+                                {msg.image && <img className="ajwa-img" src={msg.image} alt="attachment" />}
                                 {msg.text}
-                                {(msg.note || msg.logged) && (
-                                    <div className="ajwa-note">{msg.note || `Logged: ${msg.logged}`}</div>
+                                {(msg.note || msg.action) && (
+                                    <div className="ajwa-note">{msg.note || msg.action}</div>
                                 )}
                             </div>
                         </div>
@@ -132,8 +155,31 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                     </div>
                 )}
 
+                {/* Photo preview */}
+                {image && (
+                    <div className="ajwa-attach">
+                        <img src={image} alt="attachment preview" />
+                        <button onClick={() => setImage(null)} aria-label="Remove photo"><X size={13} /></button>
+                    </div>
+                )}
+
                 {/* Input */}
                 <div className="ajwa-input-row">
+                    <input
+                        ref={fileRef}
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={pickFile}
+                    />
+                    <button
+                        className="ajwa-attach-btn"
+                        onClick={() => fileRef.current?.click()}
+                        aria-label="Send a photo"
+                        title="Send a photo"
+                    >
+                        <ImagePlus size={19} />
+                    </button>
                     <input
                         ref={inputRef}
                         className="ajwa-input"
@@ -142,7 +188,7 @@ export default function AjwaChat({ open, onClose, totals, user, streak, today, x
                         onChange={e => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
                     />
-                    <button className="ajwa-send" onClick={handleSend} disabled={!input.trim()}>
+                    <button className="ajwa-send" onClick={handleSend} disabled={!input.trim() && !image}>
                         <Send size={16} />
                     </button>
                 </div>
